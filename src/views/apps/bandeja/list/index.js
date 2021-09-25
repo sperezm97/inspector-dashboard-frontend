@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Row, Col, Media } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import { kFormatter, selectThemeColors } from '@utils'
 
 import Select from 'react-select'
@@ -30,10 +30,6 @@ const Bandeja = ({ history }) => {
 
   let ticketsState = useSelector(state => state?.tickets?.tickets[0]?.Ticket)
   const tickets = ticketsState && Object.values(ticketsState)
-  // let ticketsAllData = useSelector(state => state?.tickets?.tickets[0])
-  // ticketsAllData = ticketsAllData && {...ticketsAllData, Ticket: tickets}
-
-  // console.log('asas', ticketsAllData)
 
   useEffect(() => {
   
