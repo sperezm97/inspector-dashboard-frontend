@@ -1,0 +1,36 @@
+// Component Input
+// ========================================================================
+
+label {
+  color: #5E5873;
+  font-weight: 400;
+}
+
+.form-control {
+  border-radius: 6px;
+  font-size: 12px;
+  border-color: #D8D6DE;
+  color: #B9B9C3;
+}
+
+.form-control[readonly] {
+  opacity: .8;
+  color: #606060;
+}
+
+select.form-control[multiple] {
+  background-image: none !important;
+}
+
+.input-group {
+  .form-control.is-invalid ~ .input-group-append .input-group-text {
+    border-color: $danger;
+  }
+  &.is-invalid {
+    .form-control,
+    .input-group-append .input-group-text,
+    .input-group-prepend .input-group-text {
+      border-color: $danger !important;
+    }
+  }
+}
