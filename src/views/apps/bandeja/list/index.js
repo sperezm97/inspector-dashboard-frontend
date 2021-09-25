@@ -15,12 +15,12 @@ import Url from '../../../../constants/Url'
 
 import { useDispatch, useSelector } from 'react-redux'
 
+import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
+import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
+
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-
-import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
-import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 
 const Bandeja = ({ history }) => {
   
