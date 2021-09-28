@@ -21,15 +21,26 @@ import { getAllRegionsActions } from '../../../../redux/actions/territories/regi
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { territoriesLabel } from '../../../../constants/label/territories'
+import { noOptionsMessageSelect, optionsValueSelect } from '../../../../utility/Utils'
+import { getProvincesByRegion } from '../../../../redux/actions/territories/provinces'
+import { getMunicipalitiesByprovincesByRegions } from '../../../../redux/actions/territories/municipalities'
 
 const Bandeja = ({ history }) => {
   
-  const infoChart = dataInfoChart()
-
   const dispatch = useDispatch()
 
   let ticketsState = useSelector(state => state?.tickets?.tickets[0]?.Ticket)
   const tickets = ticketsState && Object.values(ticketsState)
+
+  let usersState = useSelector(state => state?.tickets?.tickets[0]?.User)
+  const newUsersState = ticketsState && Object.values(usersState)
+  
+  const regionsState = useSelector(state => state?.regions?.regions[0])
+  const provincesState = useSelector(state => state?.provinces?.provinces[0])
+  const municipalitiesState = useSelector(state => state?.municipalities?.municipalities[0])
+
+  const infoChart = dataInfoChart(tickets, newUsersState?.length)
 
   useEffect(() => {
   
@@ -38,35 +49,32 @@ const Bandeja = ({ history }) => {
   
   },[dispatch])
 
-  const [currentPlan, setCurrentPlan] = useState({
+  const [regionState, setRegionState] = useState({
     value: '',
     label: 'Seleccionar Región',
   })
-  const [currentStatus, setCurrentStatus] = useState({
+  const [provinciaState, setProvinciaState] = useState({
     value: '',
     label: 'Seleccionar Provincia',
-    number: 0,
   })
-  const [currentRole, setCurrentRole] = useState({
+  const [municipioState, setMunicipioState] = useState({
     value: '',
     label: 'Seleccionar Municipio',
   })
 
-  const roleOptions = [
-    { value: 'Seleccionar Región', label: 'Seleccionar Región' },
-  ]
+  const handleChangeRegions = ({value, label}) =>{
+    setRegionState({value, label})
+    dispatch(getProvincesByRegion(value))
+  }
 
-  const planOptions = [
-    { value: 'Seleccionar Provincia', label: 'Seleccionar Provincia' },
-  ]
-
-  const statusOptions = [
-    {
-      value: 'Seleccionar Municipio',
-      label: 'Seleccionar Municipio',
-      number: 0,
-    },
-  ]
+  const handleChangeProvinces = ({value, label}) =>{
+    setProvinciaState({value, label})
+    dispatch(getMunicipalitiesByprovincesByRegions(regionState.value, value))
+  }
+  
+  const handleChangeMunicipalities = ({value, label}) =>{
+    setMunicipioState({value, label})
+  }
 
   return (
     <>
@@ -89,8 +97,10 @@ const Bandeja = ({ history }) => {
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
-              options={planOptions}
-              value={currentPlan}
+              options={optionsValueSelect(regionsState)}
+              value={regionState}
+              onChange={handleChangeRegions}
+              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoRegionsFound)} 
             />
           </Col>
           <Col md="4">
@@ -99,8 +109,10 @@ const Bandeja = ({ history }) => {
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
-              options={statusOptions}
-              value={currentStatus}
+              options={optionsValueSelect(provincesState)}
+              value={provinciaState}
+              onChange={handleChangeProvinces}
+              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoProvincesFound)} 
             />
           </Col>
           <Col md="4">
@@ -109,8 +121,10 @@ const Bandeja = ({ history }) => {
               theme={selectThemeColors}
               className="react-select"
               classNamePrefix="select"
-              options={roleOptions}
-              value={currentRole}
+              options={optionsValueSelect(municipalitiesState)}
+              value={municipioState}
+              onChange={handleChangeMunicipalities}
+              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoMunicipalitiesFound)}
             />
           </Col>
         </Row>

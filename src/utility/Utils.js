@@ -29,7 +29,7 @@ const isToday = (date) => {
  */
 export const formatDate = (
   value,
-  formatting = { month: 'short', day: 'numeric', year: 'numeric' },
+  formatting = { day: 'numeric', month: 'numeric', year: 'numeric' },
 ) => {
   if (!value) return value
   return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
@@ -81,3 +81,15 @@ export const selectThemeColors = (theme) => ({
     neutral30: '#ededed', // for input hover border-color
   },
 })
+
+export const optionsValueSelect = (dataSelect = null) =>(
+  dataSelect ? dataSelect.map(dataMap => {
+    return{
+      value: dataMap.code, label: dataMap.name
+    }
+  }) : []
+)
+
+export const noOptionsMessageSelect = (inputValue, label) => !inputValue && label
+
+export const filterByStatusTickets = (tickets = [], id = 0) => tickets.filter(ticket => ticket.state_id === id)

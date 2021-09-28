@@ -15,6 +15,8 @@ import navbar from './navbar'
 import auth from './auth'
 import tickets from './zammad/tickets'
 import regions from './territories/regions'
+import provinces from './territories/provinces'
+import municipalities from './territories/municipalities'
 
 const rootReducer = combineReducers({
   auth,
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
   dataTables,
   tickets,
   regions,
+  provinces,
+  municipalities,
 })
 
 export default rootReducer

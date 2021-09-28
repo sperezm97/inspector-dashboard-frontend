@@ -1,5 +1,5 @@
 export const territoriesApi = {
-    region: 'regions',
-    provincia: 'provinces',
-    municipio: 'municipalities'
+    regions: 'regions',
+    provincesByRegion: (id) => `regions/${id}/provinces`,
+    municipalitiesByprovincesByRegions: (idRegions, idProvinces) => `regions/${idRegions}/provinces/${idProvinces}/municipalities`,
 }

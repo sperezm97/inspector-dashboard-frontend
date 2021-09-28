@@ -1,6 +1,3 @@
-// ** React Imports
-import { Link } from 'react-router-dom'
-
 // ** Custom Components
 import { statusTickets } from '@components/status'
 import {
@@ -10,13 +7,14 @@ import {
 } from '../../../../@core/components/table/commonColumns'
 import { getCustomerById, getOrganizationById, getStateById } from '../../../../utility/zammad/filterData'
 import { statusPriority } from '../../../../@core/components/status'
+import { formatDate } from '../../../../utility/Utils'
 
 // ** Third Party Components
 
 export const columns = [
   {
     name: 'TÍTULO',
-    minWidth: '220px',
+    minWidth: '260px',
     selector: 'title',
     sortable: true,
     cell: (row) => row.title,
@@ -30,7 +28,7 @@ export const columns = [
   },
   {
     name: 'DIRECCIÓN',
-    minWidth: '200px',
+    minWidth: '260px',
     selector: 'address',
     sortable: true,
     cell: (row) => row.address,
@@ -40,32 +38,32 @@ export const columns = [
     minWidth: '150px',
     selector: 'created_at',
     sortable: true,
-    cell: (row) => row.created_at,
+    cell: (row) => formatDate(row.created_at),
   },
   {
     name: 'REPORTERO',
-    minWidth: '250px',
+    minWidth: '400px',
     selector: 'customer_id',
     sortable: true,
     cell: (row) => rowClient(getCustomerById(row.customer_id)),
   },
   {
     name: 'INSTITUCIÓN',
-    minWidth: '320px',
+    minWidth: '400px',
     selector: 'organization_id',
     sortable: true,
     cell: (row) => rowInstitution(getOrganizationById(row.organization_id)),
   },
   {
     name: 'Oficial',
-    minWidth: '250px',
+    minWidth: '400px',
     selector: 'customer_id',
     sortable: true,
     cell: (row) => rowClient(getCustomerById(row.customer_id)),
   },
   {
     name: 'PRIORIDAD',
-    minWidth: '172px',
+    minWidth: '150px',
     selector: 'priority_id',
     sortable: true,
     cell: (row) => statusPriority(row.priority_id),

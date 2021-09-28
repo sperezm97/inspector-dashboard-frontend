@@ -1,23 +1,35 @@
-import { Abierto, EnProgreso, Finalizado } from "../../../constants/Status/statusTickets"
+import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 import {
   Badge,
 } from 'reactstrap'
 
 export const statusTickets = (status) => {
 
-    const changeColor = () => {
+    const changeColorLabel = () => {
         switch (status) {
-            case EnProgreso:
-                return "#3498DB"
+            case statusTicketsObj.new.id:
+                return statusTicketsObj.new
 
-            case Abierto:
-                return "#5ECB08"
+            case statusTicketsObj.open.id:
+                return statusTicketsObj.open
 
-            case Finalizado:
-                return "#CFCFCF"
+            case statusTicketsObj.pendingReminder.id:
+                return statusTicketsObj.pendingReminder
 
+            case statusTicketsObj.closed.id:
+                return statusTicketsObj.closed
+
+            case statusTicketsObj.merged.id:
+                return statusTicketsObj.merged
+
+            case statusTicketsObj.inProgress.id:
+                return statusTicketsObj.inProgress
+
+            case statusTicketsObj.pendingClose.id:
+                return statusTicketsObj.pendingClose
+            
             default: 
-                return "#000"
+                return statusTicketsObj.undefined
         }
     }
 
@@ -27,7 +39,7 @@ export const statusTickets = (status) => {
         borderRadius: '2px',
         display: 'inline-block',
         marginRight: '7px',
-        background: changeColor()
+        background: changeColorLabel().color
     }
 
     return (
@@ -35,27 +47,23 @@ export const statusTickets = (status) => {
             <span 
                 style={sytleStatus}    
             />
-            <span className="text-truncate">{status}</span>
+            <span className="text-truncate">{changeColorLabel().label}</span>
         </>
     )
 }
 
 export const statusPriority = (statusId) => {
-    if(statusId === 1){
-        return (
-            <Badge color="light-success">Baja</Badge>
-        )
-    }else if(statusId === 2){
-        return (
-            <Badge color="light-warning">Normal</Badge>
-        )
-    }else if(statusId === 3){
-        return (
-            <Badge color="light-danger">Alta</Badge>
-        )
-    }else {
-        return (
-            <Badge color="light-primary">Desconocida</Badge>
-        )
+    switch (statusId) {
+        case 1:
+            return <Badge color="light-success">Baja</Badge>
+
+        case 2:
+            return <Badge color="light-warning">Normal</Badge>
+
+        case 3:
+            return <Badge color="light-danger">Alta</Badge>
+
+        default:
+            return <Badge color="light-primary">Desconocida</Badge>
     }
 }

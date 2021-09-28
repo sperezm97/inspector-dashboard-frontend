@@ -50,10 +50,10 @@ export const rowInstitution = row => (
                     to={`${Url.institution}/${row.id}`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.acronimo ? row.acronimo : 'MOPC'}</span>
+                    <span className='font-weight-bold'>{row.acronimo ? row.acronimo : 'No definido'}</span>
                 </Link>
                 <small className='text-muted mb-0' style={{marginTop: '4px'}}>
-                    {row.name ? row.name : 'Ministerio de Obras Públicas y Comunicaciones'}
+                    {row.name ? row.name : 'No definido'}
                 </small>
             </div>
         </div>
