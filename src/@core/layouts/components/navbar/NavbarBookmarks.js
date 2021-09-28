@@ -145,9 +145,9 @@ const NavbarBookmarks = props => {
         </NavItem>
       </ul>
       <ul className='nav navbar-nav bookmark-icons'>
-        {renderBookmarks()}
-        {renderExtraBookmarksDropdown()}
-        <NavItem className='nav-item d-none d-lg-block'>
+        {/* {renderBookmarks()} */}
+        {/* {renderExtraBookmarksDropdown()} */}
+        {/* <NavItem className='nav-item d-none d-lg-block'>
           <NavLink className='bookmark-star' onClick={handleBookmarkVisibility}>
             <Icon.Star className='ficon text-warning' />
           </NavLink>
@@ -218,7 +218,7 @@ const NavbarBookmarks = props => {
               />
             ) : null}
           </div>
-        </NavItem>
+        </NavItem> */}
       </ul>
     </Fragment>
   )

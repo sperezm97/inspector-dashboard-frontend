@@ -1,22 +1,26 @@
-import { useSelector } from 'react-redux'
+export const ticketNewObjectFiltered = (tickets = [], objs = []) => {
 
-export const getStateById = (id) => {
+  let data = []
 
-  const stateId = useSelector(state => state?.tickets?.tickets[0].TicketState)
+  data = tickets ? tickets.map(ticket => {
+    return {
+      id: ticket.id,
+      idTicket: ticket.number,
+      title: ticket.title,
+      status: objs?.TicketState[ticket.state_id].name,
+      address: ticket.address,
+      createDate: ticket.created_at,
+      reporterId: objs?.User[ticket.customer_id]?.id,
+      reporterFirstName: objs?.User[ticket.customer_id]?.firstname,
+      reporterLastName: objs?.User[ticket.customer_id]?.lastname,
+      reporterCedula: objs?.User[ticket.customer_id]?.cedula,
+      institutionId: objs?.Organization[ticket.organization_id]?.id,
+      institutionName: objs?.Organization[ticket.organization_id]?.name,
+      institutionAcronym: objs?.Organization[ticket.organization_id]?.acronimo,
+      priority: ticket.priority_id,
+      zone: ticket.zone,
+    }
+  }) : []
 
-  return stateId[id].name
-}
-
-export const getCustomerById = (id) => {
-
-    const stateId = useSelector(state => state?.tickets?.tickets[0].User)
-  
-    return stateId[id]
-}
-
-export const getOrganizationById = (id) => {
-
-    const stateId = useSelector(state => state?.tickets?.tickets[0].Organization)
-  
-    return stateId[id] 
+  return data
 }

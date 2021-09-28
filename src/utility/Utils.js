@@ -32,7 +32,7 @@ export const formatDate = (
   formatting = { day: 'numeric', month: 'numeric', year: 'numeric' },
 ) => {
   if (!value) return value
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
+  return new Intl.DateTimeFormat('en-GB', formatting).format(new Date(value))
 }
 
 // ** Returns short month of passed date
@@ -92,4 +92,4 @@ export const optionsValueSelect = (dataSelect = null) =>(
 
 export const noOptionsMessageSelect = (inputValue, label) => !inputValue && label
 
-export const filterByStatusTickets = (tickets = [], id = 0) => tickets.filter(ticket => ticket.state_id === id)
+export const filterByStatusTickets = (tickets = [], label = '') => tickets.filter(ticket => ticket.status === label)

@@ -1,7 +1,9 @@
+import { ticketNewObjectFiltered } from "../../../../utility/zammad/filterData"
 import { ticketsTypes } from "../../../types/zammad/ticketsTypes"
 
 const initialState = {
-    tickets: []
+    tickets: [],
+    listTickets: [],
 }
 
 const ticketsReducer = (state = initialState, action) => {
@@ -10,7 +12,8 @@ const ticketsReducer = (state = initialState, action) => {
         case ticketsTypes.GET_TICKETS:
             return {
                 ...state,
-                tickets: [...state.tickets, action.payload]
+                tickets: action.payload,
+                listTickets: ticketNewObjectFiltered(Object.values(action.payload.Ticket), action.payload),
             }
 
         default:

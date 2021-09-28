@@ -5,7 +5,6 @@ import {
   rowClient,
   rowInstitution,
 } from '../../../../@core/components/table/commonColumns'
-import { getCustomerById, getOrganizationById, getStateById } from '../../../../utility/zammad/filterData'
 import { statusPriority } from '../../../../@core/components/status'
 import { formatDate } from '../../../../utility/Utils'
 
@@ -22,9 +21,9 @@ export const columns = [
   {
     name: 'ESTADO',
     minWidth: '160px',
-    selector: 'state_id',
+    selector: 'status',
     sortable: true,
-    cell: (row) => statusTickets(getStateById(row.state_id)),
+    cell: (row) => statusTickets(row.status),
   },
   {
     name: 'DIRECCIÓN',
@@ -36,37 +35,37 @@ export const columns = [
   {
     name: 'FECHA SLA',
     minWidth: '150px',
-    selector: 'created_at',
+    selector: 'createDate',
     sortable: true,
-    cell: (row) => formatDate(row.created_at),
+    cell: (row) => formatDate(row.createDate),
   },
   {
     name: 'REPORTERO',
     minWidth: '400px',
-    selector: 'customer_id',
+    selector: 'reporterFirstName',
     sortable: true,
-    cell: (row) => rowClient(getCustomerById(row.customer_id)),
+    cell: (row) => rowClient(row),
   },
   {
     name: 'INSTITUCIÓN',
     minWidth: '400px',
-    selector: 'organization_id',
+    selector: 'institutionName',
     sortable: true,
-    cell: (row) => rowInstitution(getOrganizationById(row.organization_id)),
+    cell: (row) => rowInstitution(row),
   },
   {
     name: 'Oficial',
     minWidth: '400px',
-    selector: 'customer_id',
+    selector: 'reporterFirstName',
     sortable: true,
-    cell: (row) => rowClient(getCustomerById(row.customer_id)),
+    cell: (row) => rowClient(row),
   },
   {
     name: 'PRIORIDAD',
     minWidth: '150px',
-    selector: 'priority_id',
+    selector: 'priority',
     sortable: true,
-    cell: (row) => statusPriority(row.priority_id),
+    cell: (row) => statusPriority(row.priority),
   },
   {
     name: 'Acciones',

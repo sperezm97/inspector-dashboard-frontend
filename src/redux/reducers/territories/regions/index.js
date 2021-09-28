@@ -10,7 +10,7 @@ const regionsReducer = (state = initialState, action) => {
         case territoriesTypes.GET_REGIONS:
             return {
                 ...state,
-                regions: [...state.regions, action.payload]
+                regions: action.payload
             }
 
         default:

@@ -23,23 +23,24 @@ const renderClient = row => {
     if (row?.avatar?.length) {
     return <Avatar className='mr-1' img={row.avatar} width='32' height='32' />
     } else {
-    return <Avatar color={color || 'primary'} className='mr-1' content={row.firstname ? row.firstname : 'X'} initials />
+    return <Avatar color={color || 'primary'} className='mr-1' content={row.reporterFirstName ? row.reporterFirstName : 'X'} initials />
     }
 }
 
-export const rowClient = row => (
-    <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
-        <div className='d-flex flex-column'>
-            <Link
-                to={`${Url.user}/${row.id}`}
-                className='user-name text-truncate mb-0'
-            >
-                <span className='font-weight-bold'>{row.firstname ? `${row.firstname} ${row.lastname}` : ''}</span>
-            </Link>
-            <small className='text-truncate text-muted mb-0' style={{marginTop: '4px'}}>{row.cedula && row.cedula}</small>
+export const rowClient = (row) => (
+    row &&
+        <div className='d-flex justify-content-left align-items-center'>
+            {renderClient(row)}
+            <div className='d-flex flex-column'>
+                <Link
+                    to={`${Url.user}/${row.reporterId}`}
+                    className='user-name text-truncate mb-0'
+                >
+                    <span className='font-weight-bold'>{row.reporterFirstName ? `${row.reporterFirstName} ${row.reporterLastName}` : ''}</span>
+                </Link>
+                <small className='text-truncate text-muted mb-0' style={{marginTop: '4px'}}>{row.reporterCedula && row.reporterCedula}</small>
+            </div>
         </div>
-    </div>
 )
 
 export const rowInstitution = row => (
@@ -47,13 +48,13 @@ export const rowInstitution = row => (
         <div className='d-flex justify-content-left align-items-center'>
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.institution}/${row.id}`}
+                    to={`${Url.institution}/${row.institutionId}`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.acronimo ? row.acronimo : 'No definido'}</span>
+                    <span className='font-weight-bold'>{row.institutionAcronym ? row.institutionAcronym : 'No definido'}</span>
                 </Link>
                 <small className='text-muted mb-0' style={{marginTop: '4px'}}>
-                    {row.name ? row.name : 'No definido'}
+                    {row.institutionName ? row.institutionName : 'No definido'}
                 </small>
             </div>
         </div>

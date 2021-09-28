@@ -9,7 +9,7 @@ const provincesReducer = (state = initialState, action) => {
     switch (action.type) {
         case territoriesTypes.GET_PROVINCES_BY_REGION:
             return {
-                provinces: [action.payload]
+                provinces: action.payload
             }
 
         default:

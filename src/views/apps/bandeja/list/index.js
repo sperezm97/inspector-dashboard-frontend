@@ -1,46 +1,31 @@
 import { useEffect, useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'reactstrap'
+import Select from 'react-select'
+
 import { kFormatter, selectThemeColors } from '@utils'
 
-import Select from 'react-select'
 import SubscribersGained from './SubscribersGained'
 import { dataInfoChart } from './dataInfoChart'
 import { columns } from './columns'
-
 import DataTableList from './table'
 import CardGrid from '../../../../@core/components/card-grid'
 import { ButtonRipple } from '../../../../@core/components/button'
 import Url from '../../../../constants/Url'
-
-import { useDispatch, useSelector } from 'react-redux'
-
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
-
-// ** Styles
-import '@styles/react/libs/react-select/_react-select.scss'
-import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { territoriesLabel } from '../../../../constants/label/territories'
 import { noOptionsMessageSelect, optionsValueSelect } from '../../../../utility/Utils'
 import { getProvincesByRegion } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegions } from '../../../../redux/actions/territories/municipalities'
 
+// ** Styles
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/tables/react-dataTable-component.scss'
+
 const Bandeja = ({ history }) => {
   
   const dispatch = useDispatch()
-
-  let ticketsState = useSelector(state => state?.tickets?.tickets[0]?.Ticket)
-  const tickets = ticketsState && Object.values(ticketsState)
-
-  let usersState = useSelector(state => state?.tickets?.tickets[0]?.User)
-  const newUsersState = ticketsState && Object.values(usersState)
-  
-  const regionsState = useSelector(state => state?.regions?.regions[0])
-  const provincesState = useSelector(state => state?.provinces?.provinces[0])
-  const municipalitiesState = useSelector(state => state?.municipalities?.municipalities[0])
-
-  const infoChart = dataInfoChart(tickets, newUsersState?.length)
 
   useEffect(() => {
   
@@ -48,6 +33,17 @@ const Bandeja = ({ history }) => {
     dispatch(getAllRegionsActions())
   
   },[dispatch])
+
+  const dataTable = useSelector(state => state?.tickets?.listTickets)
+
+  let usersState = useSelector(state => state?.tickets?.tickets?.User)
+  const newUsersState = usersState && Object.values(usersState)
+  
+  const regionsState = useSelector(state => state?.regions?.regions)
+  const provincesState = useSelector(state => state?.provinces?.provinces)
+  const municipalitiesState = useSelector(state => state?.municipalities?.municipalities)
+
+  const infoChart = dataInfoChart(dataTable, newUsersState?.length)
 
   const [regionState, setRegionState] = useState({
     value: '',
@@ -130,10 +126,10 @@ const Bandeja = ({ history }) => {
         </Row>
       </CardGrid>
 
-      {tickets &&
+      {dataTable &&
         <DataTableList
           columnsTable={columns}
-          dataTable={tickets}
+          dataTable={dataTable}
           componentButton={
             <ButtonRipple
               label="Nuevo Reporte"
