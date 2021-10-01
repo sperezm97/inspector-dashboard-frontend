@@ -6,11 +6,9 @@ import { useHistory } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
 import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { Label, Input, CustomInput, Row, Col, Card, CardHeader, CardTitle } from 'reactstrap'
+import { Label, Input, Row, Col, Card, CardHeader, CardTitle } from 'reactstrap'
 
-// ** Store & Actions
-import { useDispatch } from 'react-redux'
-
+import { ExportButtons } from '../../../../@core/components/export-buttons'
 import { ButtonRipple } from '../../../../@core/components/button'
 import Url from '../../../../constants/Url'
 
@@ -53,6 +51,7 @@ const CustomHeader = ({
               <option value='100'>100</option>
             </CustomInput>
           </div> */}
+          <ExportButtons />
         </Col>
         <Col
           lg='6'

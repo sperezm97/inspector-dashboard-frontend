@@ -14,7 +14,6 @@ const StatsWithAreaChart = props => {
   // ** Props
   const { icon, color, stats, statTitle, series, options, type, height, className, ...rest } = props
 
-  console.log(series)
   return (
     <Card {...rest}>
       <CardBody

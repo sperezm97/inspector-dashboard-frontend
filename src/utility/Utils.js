@@ -82,12 +82,15 @@ export const selectThemeColors = (theme) => ({
   },
 })
 
-export const optionsValueSelect = (dataSelect = null) => (
-  dataSelect ? dataSelect.map(dataMap => {
-    return{
-      value: dataMap.code, label: dataMap.name
-    }
-  }) : [])
+export const optionsValueSelect = (dataSelect = null) => {
+  const data = dataSelect ? dataSelect.map(dataMap => {
+      return{
+        value: dataMap.code, label: dataMap.name
+      }
+    }) : []
+
+    return data
+}
 
 export const noOptionsMessageSelect = (inputValue, label) => !inputValue && label
 
