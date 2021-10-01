@@ -15,7 +15,10 @@ import Url from '../../../../constants/Url'
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { territoriesLabel } from '../../../../constants/label/territories'
-import { noOptionsMessageSelect, optionsValueSelect } from '../../../../utility/Utils'
+import {
+  noOptionsMessageSelect,
+  optionsValueSelect,
+} from '../../../../utility/Utils'
 import { getProvincesByRegion } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegions } from '../../../../redux/actions/territories/municipalities'
 
@@ -24,24 +27,23 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 const Bandeja = ({ history }) => {
-  
   const dispatch = useDispatch()
 
   useEffect(() => {
-  
     dispatch(getAllTicketsActions())
     dispatch(getAllRegionsActions())
-  
-  },[dispatch])
+  }, [dispatch])
 
-  const dataTable = useSelector(state => state?.tickets?.listTickets)
+  const dataTable = useSelector((state) => state?.tickets?.listTickets)
 
-  let usersState = useSelector(state => state?.tickets?.tickets?.User)
+  const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
-  
-  const regionsState = useSelector(state => state?.regions?.regions)
-  const provincesState = useSelector(state => state?.provinces?.provinces)
-  const municipalitiesState = useSelector(state => state?.municipalities?.municipalities)
+
+  const regionsState = useSelector((state) => state?.regions?.regions)
+  const provincesState = useSelector((state) => state?.provinces?.provinces)
+  const municipalitiesState = useSelector(
+    (state) => state?.municipalities?.municipalities,
+  )
 
   const infoChart = dataInfoChart(dataTable, newUsersState?.length)
 
@@ -58,18 +60,18 @@ const Bandeja = ({ history }) => {
     label: 'Seleccionar Municipio',
   })
 
-  const handleChangeRegions = ({value, label}) =>{
-    setRegionState({value, label})
+  const handleChangeRegions = ({ value, label }) => {
+    setRegionState({ value, label })
     dispatch(getProvincesByRegion(value))
   }
 
-  const handleChangeProvinces = ({value, label}) =>{
-    setProvinciaState({value, label})
+  const handleChangeProvinces = ({ value, label }) => {
+    setProvinciaState({ value, label })
     dispatch(getMunicipalitiesByprovincesByRegions(regionState.value, value))
   }
-  
-  const handleChangeMunicipalities = ({value, label}) =>{
-    setMunicipioState({value, label})
+
+  const handleChangeMunicipalities = ({ value, label }) => {
+    setMunicipioState({ value, label })
   }
 
   return (
@@ -96,7 +98,12 @@ const Bandeja = ({ history }) => {
               options={optionsValueSelect(regionsState)}
               value={regionState}
               onChange={handleChangeRegions}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoRegionsFound)} 
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoRegionsFound,
+                )
+              }
             />
           </Col>
           <Col md="4">
@@ -108,7 +115,12 @@ const Bandeja = ({ history }) => {
               options={optionsValueSelect(provincesState)}
               value={provinciaState}
               onChange={handleChangeProvinces}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoProvincesFound)} 
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoProvincesFound,
+                )
+              }
             />
           </Col>
           <Col md="4">
@@ -120,13 +132,18 @@ const Bandeja = ({ history }) => {
               options={optionsValueSelect(municipalitiesState)}
               value={municipioState}
               onChange={handleChangeMunicipalities}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoMunicipalitiesFound)}
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoMunicipalitiesFound,
+                )
+              }
             />
           </Col>
         </Row>
       </CardGrid>
 
-      {dataTable &&
+      {dataTable && (
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
@@ -137,7 +154,7 @@ const Bandeja = ({ history }) => {
             />
           }
         />
-      }
+      )}
     </>
   )
 }

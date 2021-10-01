@@ -16,25 +16,24 @@ import Url from '../../../../constants/Url'
 import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const CustomHeader = ({ 
-  handleFilter, 
-  value, 
-  handleStatusValue, 
-  statusValue, 
-  handlePerPage, 
-  rowsPerPage, 
-  showSelectStatus, 
+const CustomHeader = ({
+  handleFilter,
+  value,
+  handleStatusValue,
+  statusValue,
+  handlePerPage,
+  rowsPerPage,
+  showSelectStatus,
   showButtonAdd,
   showButtonAddInstitution,
-  componentButton
+  componentButton,
 }) => {
-
   const history = useHistory()
 
   return (
-    <div className='invoice-list-table-header w-100 py-2'>
+    <div className="invoice-list-table-header w-100 py-2">
       <Row>
-        <Col lg='6' className='d-flex align-items-center px-0 px-lg-1'>
+        <Col lg="6" className="d-flex align-items-center px-0 px-lg-1">
           {/* <div className='d-flex align-items-center mr-2'>
             <Label for='rows-per-page'>Mostrar</Label>
             <CustomInput
@@ -54,62 +53,59 @@ const CustomHeader = ({
           <ExportButtons />
         </Col>
         <Col
-          lg='6'
-          className='actions-right d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap mt-lg-0 mt-1 pr-lg-1 p-0'
+          lg="6"
+          className="actions-right d-flex align-items-center justify-content-lg-end flex-lg-nowrap flex-wrap mt-lg-0 mt-1 pr-lg-1 p-0"
         >
-          <div className='d-flex align-items-center'>
-            <Label for='search-invoice'>Buscar</Label>
+          <div className="d-flex align-items-center">
+            <Label for="search-invoice">Buscar</Label>
             <Input
-              id='search-invoice'
-              className='ml-50 mr-2 w-100'
-              type='text'
+              id="search-invoice"
+              className="ml-50 mr-2 w-100"
+              type="text"
               value={value}
-              onChange={e => handleFilter(e.target.value)}
-              placeholder='Escribe...'
+              onChange={(e) => handleFilter(e.target.value)}
+              placeholder="Escribe..."
             />
           </div>
-            {showSelectStatus &&
-                <Input 
-                    className='w-auto pr-4' 
-                    type='select' 
-                    value={statusValue} 
-                    onChange={handleStatusValue}
-                    style={{border: 'none'}}
-                >
-                    <option value=''>Seleccionar Estado</option>
-                </Input>
-            }
-            {showButtonAdd &&
-              <ButtonRipple 
-                onClick={() => history.push(Url.userCreate)}
-                label= 'Añadir Nuevo Usuario'
-              />
-            }
-            {showButtonAddInstitution &&
-              <ButtonRipple 
-                onClick= {() => history.push(Url.institutionCreate)}
-                label= 'Añadir Nueva Institución'
-              />
-            }
-            {componentButton &&
-              componentButton
-            }
+          {showSelectStatus && (
+            <Input
+              className="w-auto pr-4"
+              type="select"
+              value={statusValue}
+              onChange={handleStatusValue}
+              style={{ border: 'none' }}
+            >
+              <option value="">Seleccionar Estado</option>
+            </Input>
+          )}
+          {showButtonAdd && (
+            <ButtonRipple
+              onClick={() => history.push(Url.userCreate)}
+              label="Añadir Nuevo Usuario"
+            />
+          )}
+          {showButtonAddInstitution && (
+            <ButtonRipple
+              onClick={() => history.push(Url.institutionCreate)}
+              label="Añadir Nueva Institución"
+            />
+          )}
+          {componentButton && componentButton}
         </Col>
       </Row>
     </div>
   )
 }
 
-const DataTableList = ({ 
-  columnsTable, 
-  dataTable, 
-  showSelectStatus = false, 
-  showButtonAdd = false, 
-  showButtonAddInstitution = false, 
-  dataTableTitle = "",
-  componentButton = false
+const DataTableList = ({
+  columnsTable,
+  dataTable,
+  showSelectStatus = false,
+  showButtonAdd = false,
+  showButtonAddInstitution = false,
+  dataTableTitle = '',
+  componentButton = false,
 }) => {
-
   const [newDataTable, setNewDataTable] = useState([])
   const [value, setValue] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -117,32 +113,31 @@ const DataTableList = ({
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
   useEffect(() => {
-  
-    
     setNewDataTable(dataTable)
-    
   }, [dataTable])
-  
-  const paginateArray = (array) => array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
-  
-  const handleFilter = val => {
+
+  const paginateArray = (array) =>
+    array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+
+  const handleFilter = (val) => {
     setValue(val)
 
     const queryLowered = val.toLowerCase()
-    const filteredData = dataTable.filter(ticket => (
-      (ticket.title || '').toLowerCase().includes(queryLowered) ||
-      (ticket.address || '').toLowerCase().includes(queryLowered) ||
-      (ticket.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
-      (ticket.reporterLastName || '').toLowerCase().includes(queryLowered) ||
-      (ticket.reporterCedula || '').toLowerCase().includes(queryLowered) ||
-      (ticket.institutionName || '').toLowerCase().includes(queryLowered) ||
-      (ticket.institutionAcronym || '').toLowerCase().includes(queryLowered)
-    ))
+    const filteredData = dataTable.filter(
+      (ticket) =>
+        (ticket.title || '').toLowerCase().includes(queryLowered) ||
+        (ticket.address || '').toLowerCase().includes(queryLowered) ||
+        (ticket.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
+        (ticket.reporterLastName || '').toLowerCase().includes(queryLowered) ||
+        (ticket.reporterCedula || '').toLowerCase().includes(queryLowered) ||
+        (ticket.institutionName || '').toLowerCase().includes(queryLowered) ||
+        (ticket.institutionAcronym || '').toLowerCase().includes(queryLowered),
+    )
 
     setNewDataTable(filteredData)
   }
 
-  const handlePerPage = e => {
+  const handlePerPage = (e) => {
     // dispatch(
     //   getTicketsFilterActions({
     //     page: currentPage,
@@ -155,7 +150,7 @@ const DataTableList = ({
     setRowsPerPage(parseInt(e.target.value))
   }
 
-  const handleStatusValue = e => {
+  const handleStatusValue = (e) => {
     setStatusValue(e.target.value)
     // dispatch(
     //   getTicketsFilterActions({
@@ -167,7 +162,7 @@ const DataTableList = ({
     // )
   }
 
-  const handlePagination = page => {
+  const handlePagination = (page) => {
     // dispatch(
     //   getTicketsFilterActions({
     //     page: page.selected + 1,
@@ -186,21 +181,21 @@ const DataTableList = ({
     return (
       <ReactPaginate
         pageCount={count || 1}
-        nextLabel=''
-        breakLabel='...'
-        previousLabel=''
-        activeClassName='active'
-        breakClassName='page-item'
-        breakLinkClassName='page-link'
+        nextLabel=""
+        breakLabel="..."
+        previousLabel=""
+        activeClassName="active"
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
         forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end p-1'}
+        onPageChange={(page) => handlePagination(page)}
+        pageClassName="page-item"
+        nextLinkClassName="page-link"
+        nextClassName="page-item next"
+        previousClassName="page-item prev"
+        previousLinkClassName="page-link"
+        pageLinkClassName="page-link"
+        containerClassName="pagination react-paginate justify-content-end p-1"
       />
     )
   }
@@ -210,34 +205,34 @@ const DataTableList = ({
     rangeSeparatorText: 'de',
     // selectAllRowsItem: true,
     // selectAllRowsItemText: 'Todos',
-  };
+  }
 
   return (
-    <div className='invoice-list-wrapper'>
+    <div className="invoice-list-wrapper">
       <Card>
-        {dataTableTitle &&
+        {dataTableTitle && (
           <CardHeader>
-            <CardTitle tag='h4'>{dataTableTitle}</CardTitle>
+            <CardTitle tag="h4">{dataTableTitle}</CardTitle>
           </CardHeader>
-        }
-        <div className='invoice-list-dataTable'>
+        )}
+        <div className="invoice-list-dataTable">
           <DataTable
             noHeader
             pagination
             // paginationServer
-            subHeader={true}
+            subHeader
             columns={columnsTable}
-            responsive={true}
+            responsive
             sortIcon={<ChevronDown />}
-            className='react-dataTable'
-            defaultSortField='invoiceId'
+            className="react-dataTable"
+            defaultSortField="invoiceId"
             // paginationDefaultPage={currentPage}
             // paginationComponent={CustomPagination}
             // data={paginateArray(newDataTable)}
             paginationComponentOptions={paginationComponentOptions}
-            paginationRowsPerPageOptions={[10,25,50,100]}
+            paginationRowsPerPageOptions={[10, 25, 50, 100]}
             data={newDataTable}
-            noDataComponent='No hay registros para mostrar'
+            noDataComponent="No hay registros para mostrar"
             subHeaderComponent={
               <CustomHeader
                 value={value}

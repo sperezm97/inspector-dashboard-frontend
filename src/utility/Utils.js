@@ -83,15 +83,18 @@ export const selectThemeColors = (theme) => ({
 })
 
 export const optionsValueSelect = (dataSelect = null) => {
-  const data = dataSelect ? dataSelect.map(dataMap => {
-      return{
-        value: dataMap.code, label: dataMap.name
-      }
-    }) : []
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.code,
+        label: dataMap.name,
+      }))
+    : []
 
-    return data
+  return data
 }
 
-export const noOptionsMessageSelect = (inputValue, label) => !inputValue && label
+export const noOptionsMessageSelect = (inputValue, label) =>
+  !inputValue && label
 
-export const filterByStatusTickets = (tickets = [], label = '') => tickets.filter(ticket => ticket.status === label)
+export const filterByStatusTickets = (tickets = [], label = '') =>
+  tickets.filter((ticket) => ticket.status === label)
