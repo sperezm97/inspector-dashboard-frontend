@@ -27,7 +27,6 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 const Bandeja = () => {
-  
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const Bandeja = () => {
     dispatch(getAllRegionsActions())
   }, [dispatch])
 
-  const dataTableTickets = useSelector(state => state?.tickets?.listTickets)
+  const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 
   const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
@@ -73,12 +72,11 @@ const Bandeja = () => {
     setDataTable(dataTableTickets)
   }, [dataTableTickets])
 
-  const handleChangeRegions = ({value, label}) => {
-
-    if(value) {
-      setRegionState({value, label}) 
+  const handleChangeRegions = ({ value, label }) => {
+    if (value) {
+      setRegionState({ value, label })
       filterTickets(value, 2)
-    }else {
+    } else {
       setRegionState(regionRef.current)
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
@@ -89,12 +87,11 @@ const Bandeja = () => {
     console.log('region', value)
   }
 
-  const handleChangeProvinces = ({value, label}) => {
-
-    if(value) {
-      setProvinciaState({value, label})
+  const handleChangeProvinces = ({ value, label }) => {
+    if (value) {
+      setProvinciaState({ value, label })
       filterTickets(regionState.value + value, 4)
-    }else {
+    } else {
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
       filterTickets(regionState.value, 2)
@@ -104,13 +101,12 @@ const Bandeja = () => {
 
     console.log('provincia', regionState.value + value)
   }
-  
-  const handleChangeMunicipalities = ({value, label}) => {
 
-    if(value) {
-      setMunicipioState({value, label})
+  const handleChangeMunicipalities = ({ value, label }) => {
+    if (value) {
+      setMunicipioState({ value, label })
       filterTickets(regionState.value + provinciaState.value + value, 6)
-    }else {
+    } else {
       setMunicipioState(municipioRef.current)
       filterTickets(regionState.value + provinciaState.value, 4)
     }
@@ -119,8 +115,9 @@ const Bandeja = () => {
   }
 
   const filterTickets = (value, positionToFind = 0) => {
-
-    let data = dataTableTickets.filter(tickets => tickets.zone.substr(0, positionToFind) === value)
+    const data = dataTableTickets.filter(
+      (tickets) => tickets.zone.substr(0, positionToFind) === value,
+    )
     setDataTable(data)
     console.log(data)
   }
@@ -198,7 +195,7 @@ const Bandeja = () => {
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
-          showButtonAddReport={true}
+          showButtonAddReport
         />
       )}
     </>
