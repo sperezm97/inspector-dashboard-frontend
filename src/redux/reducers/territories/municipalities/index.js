@@ -12,6 +12,11 @@ const municipalitiesReducer = (state = initialState, action) => {
                 municipalities: action.payload
             }
 
+        case territoriesTypes.CLEAN_SELECT_MUNICIPALITIES:
+            return {
+                municipalities: []
+            }
+
         default:
             return state
     }

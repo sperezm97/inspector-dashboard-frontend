@@ -89,7 +89,7 @@ export const optionsValueSelect = (dataSelect = null) => {
       }
     }) : []
 
-    return data
+  return [{value: '', label: 'Sin Seleccionar'}, ...data]
 }
 
 export const noOptionsMessageSelect = (inputValue, label) => !inputValue && label

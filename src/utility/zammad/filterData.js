@@ -18,7 +18,7 @@ export const ticketNewObjectFiltered = (tickets = [], objs = []) => {
       institutionName: objs?.Organization[ticket.organization_id]?.name,
       institutionAcronym: objs?.Organization[ticket.organization_id]?.acronimo,
       priority: ticket.priority_id,
-      zone: ticket.zone,
+      zone: ticket.zone || '',
     }
   }) : []
 

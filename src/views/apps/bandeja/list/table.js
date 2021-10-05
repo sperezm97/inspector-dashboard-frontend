@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // ** Third Party Components
-import ReactPaginate from 'react-paginate'
+// import ReactPaginate from 'react-paginate'
 import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { Label, Input, Row, Col, Card, CardHeader, CardTitle } from 'reactstrap'
@@ -19,14 +19,15 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 const CustomHeader = ({ 
   handleFilter, 
   value, 
-  handleStatusValue, 
-  statusValue, 
-  handlePerPage, 
-  rowsPerPage, 
-  showSelectStatus, 
-  showButtonAdd,
+  // handleStatusValue, 
+  // statusValue, 
+  // handlePerPage, 
+  // rowsPerPage, 
+  // showSelectStatus, 
+  showButtonAddUser,
   showButtonAddInstitution,
-  componentButton
+  showButtonAddReport,
+  // componentButton
 }) => {
 
   const history = useHistory()
@@ -68,7 +69,7 @@ const CustomHeader = ({
               placeholder='Escribe...'
             />
           </div>
-            {showSelectStatus &&
+            {/* {showSelectStatus &&
                 <Input 
                     className='w-auto pr-4' 
                     type='select' 
@@ -78,22 +79,28 @@ const CustomHeader = ({
                 >
                     <option value=''>Seleccionar Estado</option>
                 </Input>
-            }
-            {showButtonAdd &&
+            } */}
+            {showButtonAddUser &&
               <ButtonRipple 
-                onClick={() => history.push(Url.userCreate)}
                 label= 'Añadir Nuevo Usuario'
+                onClick={() => history.push(Url.userCreate)}
               />
             }
             {showButtonAddInstitution &&
               <ButtonRipple 
-                onClick= {() => history.push(Url.institutionCreate)}
                 label= 'Añadir Nueva Institución'
+                onClick= {() => history.push(Url.institutionCreate)}
               />
             }
-            {componentButton &&
-              componentButton
+            {showButtonAddReport &&
+              <ButtonRipple 
+                label= 'Añadir Nuevo Reporte'
+                onClick= {() => history.push(Url.dashboardInboxCreate)}
+              />
             }
+            {/* {componentButton &&
+              componentButton
+            } */}
         </Col>
       </Row>
     </div>
@@ -103,27 +110,25 @@ const CustomHeader = ({
 const DataTableList = ({ 
   columnsTable, 
   dataTable, 
-  showSelectStatus = false, 
-  showButtonAdd = false, 
-  showButtonAddInstitution = false, 
+  // showSelectStatus = false, 
+  showButtonAddUser = false, 
+  showButtonAddInstitution = false,
+  showButtonAddReport = false, 
   dataTableTitle = "",
-  componentButton = false
+  // componentButton = false
 }) => {
 
   const [newDataTable, setNewDataTable] = useState([])
   const [value, setValue] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [statusValue, setStatusValue] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const [statusValue, setStatusValue] = useState('')
+  // const [rowsPerPage, setRowsPerPage] = useState(10)
 
   useEffect(() => {
-  
-    
     setNewDataTable(dataTable)
-    
   }, [dataTable])
   
-  const paginateArray = (array) => array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+  // const paginateArray = (array) => array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
   
   const handleFilter = val => {
     setValue(val)
@@ -142,7 +147,7 @@ const DataTableList = ({
     setNewDataTable(filteredData)
   }
 
-  const handlePerPage = e => {
+  // const handlePerPage = e => {
     // dispatch(
     //   getTicketsFilterActions({
     //     page: currentPage,
@@ -151,12 +156,12 @@ const DataTableList = ({
     //     q: value
     //   })
     // )
-    setCurrentPage(1)
-    setRowsPerPage(parseInt(e.target.value))
-  }
+  //   setCurrentPage(1)
+  //   setRowsPerPage(parseInt(e.target.value))
+  // }
 
-  const handleStatusValue = e => {
-    setStatusValue(e.target.value)
+  // const handleStatusValue = e => {
+  //   setStatusValue(e.target.value)
     // dispatch(
     //   getTicketsFilterActions({
     //     page: currentPage,
@@ -165,9 +170,9 @@ const DataTableList = ({
     //     q: value
     //   })
     // )
-  }
+  // }
 
-  const handlePagination = page => {
+  // const handlePagination = page => {
     // dispatch(
     //   getTicketsFilterActions({
     //     page: page.selected + 1,
@@ -176,34 +181,34 @@ const DataTableList = ({
     //     q: value
     //   })
     // )
-    console.log('page ===>', page)
-    setCurrentPage(page.selected + 1)
-  }
+  //   console.log('page ===>', page)
+  //   setCurrentPage(page.selected + 1)
+  // }
 
-  const CustomPagination = () => {
-    const count = Number((newDataTable.length / rowsPerPage).toFixed(0))
+  // const CustomPagination = () => {
+  //   const count = Number((newDataTable.length / rowsPerPage).toFixed(0))
 
-    return (
-      <ReactPaginate
-        pageCount={count || 1}
-        nextLabel=''
-        breakLabel='...'
-        previousLabel=''
-        activeClassName='active'
-        breakClassName='page-item'
-        breakLinkClassName='page-link'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end p-1'}
-      />
-    )
-  }
+  //   return (
+  //     <ReactPaginate
+  //       pageCount={count || 1}
+  //       nextLabel=''
+  //       breakLabel='...'
+  //       previousLabel=''
+  //       activeClassName='active'
+  //       breakClassName='page-item'
+  //       breakLinkClassName='page-link'
+  //       forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+  //       onPageChange={page => handlePagination(page)}
+  //       pageClassName={'page-item'}
+  //       nextLinkClassName={'page-link'}
+  //       nextClassName={'page-item next'}
+  //       previousClassName={'page-item prev'}
+  //       previousLinkClassName={'page-link'}
+  //       pageLinkClassName={'page-link'}
+  //       containerClassName={'pagination react-paginate justify-content-end p-1'}
+  //     />
+  //   )
+  // }
 
   const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -241,15 +246,16 @@ const DataTableList = ({
             subHeaderComponent={
               <CustomHeader
                 value={value}
-                statusValue={statusValue}
-                rowsPerPage={rowsPerPage}
+                // statusValue={statusValue}
+                // rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
-                handlePerPage={handlePerPage}
-                handleStatusValue={handleStatusValue}
-                showSelectStatus={showSelectStatus}
-                showButtonAdd={showButtonAdd}
+                // handlePerPage={handlePerPage}
+                // handleStatusValue={handleStatusValue}
+                // showSelectStatus={showSelectStatus}
+                showButtonAddUser={showButtonAddUser}
                 showButtonAddInstitution={showButtonAddInstitution}
-                componentButton={componentButton}
+                showButtonAddReport={showButtonAddReport}
+                // componentButton={componentButton}
               />
             }
           />
