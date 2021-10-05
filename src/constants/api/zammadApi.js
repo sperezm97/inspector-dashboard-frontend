@@ -1,3 +1,3 @@
 export const zammadApi = {
-    allTickets: 'ticket_overviews?view=all_open'
+  allTickets: 'ticket_overviews?view=all_open',
 }

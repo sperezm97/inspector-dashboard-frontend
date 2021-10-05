@@ -70,6 +70,6 @@ export const columns = [
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => rowActions(row.id)
+    cell: (row) => rowActions(row.id),
   },
 ]

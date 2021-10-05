@@ -15,7 +15,10 @@ import CardGrid from '../../../../@core/components/card-grid'
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { territoriesLabel } from '../../../../constants/label/territories'
-import { noOptionsMessageSelect, optionsValueSelect } from '../../../../utility/Utils'
+import {
+  noOptionsMessageSelect,
+  optionsValueSelect,
+} from '../../../../utility/Utils'
 import { getProvincesByRegion } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegions } from '../../../../redux/actions/territories/municipalities'
 
@@ -28,20 +31,20 @@ const Bandeja = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-  
     dispatch(getAllTicketsActions())
     dispatch(getAllRegionsActions())
-  
-  },[dispatch])
+  }, [dispatch])
 
   const dataTableTickets = useSelector(state => state?.tickets?.listTickets)
 
-  let usersState = useSelector(state => state?.tickets?.tickets?.User)
+  const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
-  
-  const regionsState = useSelector(state => state?.regions?.regions)
-  const provincesState = useSelector(state => state?.provinces?.provinces)
-  const municipalitiesState = useSelector(state => state?.municipalities?.municipalities)
+
+  const regionsState = useSelector((state) => state?.regions?.regions)
+  const provincesState = useSelector((state) => state?.provinces?.provinces)
+  const municipalitiesState = useSelector(
+    (state) => state?.municipalities?.municipalities,
+  )
 
   const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
@@ -146,7 +149,12 @@ const Bandeja = () => {
               value={regionState}
               options={optionsValueSelect(regionsState)}
               onChange={handleChangeRegions}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoRegionsFound)} 
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoRegionsFound,
+                )
+              }
             />
           </Col>
           <Col md="4">
@@ -158,7 +166,12 @@ const Bandeja = () => {
               value={provinciaState}
               options={optionsValueSelect(provincesState)}
               onChange={handleChangeProvinces}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoProvincesFound)} 
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoProvincesFound,
+                )
+              }
             />
           </Col>
           <Col md="4">
@@ -170,19 +183,24 @@ const Bandeja = () => {
               value={municipioState}
               options={optionsValueSelect(municipalitiesState)}
               onChange={handleChangeMunicipalities}
-              noOptionsMessage={({inputValue}) => noOptionsMessageSelect(inputValue, territoriesLabel.selectNoMunicipalitiesFound)}
+              noOptionsMessage={({ inputValue }) =>
+                noOptionsMessageSelect(
+                  inputValue,
+                  territoriesLabel.selectNoMunicipalitiesFound,
+                )
+              }
             />
           </Col>
         </Row>
       </CardGrid>
 
-      {dataTable &&
+      {dataTable && (
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
           showButtonAddReport={true}
         />
-      }
+      )}
     </>
   )
 }

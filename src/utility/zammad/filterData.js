@@ -1,5 +1,4 @@
 export const ticketNewObjectFiltered = (tickets = [], objs = []) => {
-
   let data = []
 
   data = tickets ? tickets.map(ticket => {

@@ -1,6 +1,6 @@
-import { territoriesAxios } from "../../../../configs/axios";
-import { territoriesApi } from "../../../../constants/api/territoriesApi";
-import { territoriesTypes } from "../../../types/territories";
+import { territoriesAxios } from '../../../../configs/axios'
+import { territoriesApi } from '../../../../constants/api/territoriesApi'
+import { territoriesTypes } from '../../../types/territories'
 
 export const getMunicipalitiesByprovincesByRegions = (idRegions = null, idProvinces = null) => (dispatch) => {
 

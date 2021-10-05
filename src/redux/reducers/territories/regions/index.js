@@ -1,21 +1,20 @@
-import { territoriesTypes } from "../../../types/territories"
+import { territoriesTypes } from '../../../types/territories'
 
 const initialState = {
-    regions: []
+  regions: [],
 }
 
 const regionsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case territoriesTypes.GET_REGIONS:
+      return {
+        ...state,
+        regions: action.payload,
+      }
 
-    switch (action.type) {
-        case territoriesTypes.GET_REGIONS:
-            return {
-                ...state,
-                regions: action.payload
-            }
-
-        default:
-            return state
-    }
+    default:
+      return state
+  }
 }
 
 export default regionsReducer

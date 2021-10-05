@@ -19,14 +19,17 @@ export const dataInfoChart = (tickets, reporteros) => {
       icon: <BookOpen size={21} />,
       color: 'warning',
       colorHEX: colors.warning.main,
-      quantity: filterByStatusTickets(tickets, statusTicketsObj.open.id).length || '0',
+      quantity:
+        filterByStatusTickets(tickets, statusTicketsObj.open.id).length || '0',
       title: 'Casos Abiertos',
     },
     {
       icon: <CheckCircle size={21} />,
       color: 'secondary',
       colorHEX: colors.secondary.main,
-      quantity: filterByStatusTickets(tickets, statusTicketsObj.closed.id).length || '0',
+      quantity:
+        filterByStatusTickets(tickets, statusTicketsObj.closed.id).length ||
+        '0',
       title: 'Casos Finalizados',
     },
     {
