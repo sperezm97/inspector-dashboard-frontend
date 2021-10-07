@@ -10,19 +10,19 @@ const municipalitiesReducer = (state = initialState, action) => {
     case territoriesTypes.GET_MUNICIPALITIES:
       return {
         ...state,
-        allMunicipalities: action.payload
+        allMunicipalities: action.payload,
       }
-    
+
     case territoriesTypes.GET_MUNICIPALITIES_BY_PROVINCES_BY_REGIONS:
       return {
         ...state,
-        municipalities: action.payload
+        municipalities: action.payload,
       }
 
     case territoriesTypes.CLEAN_SELECT_MUNICIPALITIES:
       return {
         ...state,
-        municipalities: []
+        municipalities: [],
       }
 
     default:

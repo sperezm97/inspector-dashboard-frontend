@@ -41,7 +41,9 @@ const Bandeja = () => {
 
   const regionsSelector = useSelector((state) => state?.regions?.regions)
   const provincesSelector = useSelector((state) => state?.provinces?.provinces)
-  const municipalitiesSelector = useSelector((state) => state?.municipalities?.municipalities)
+  const municipalitiesSelector = useSelector(
+    (state) => state?.municipalities?.municipalities,
+  )
 
   const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
@@ -94,7 +96,9 @@ const Bandeja = () => {
       filterTickets(regionState.value, 2)
     }
 
-    dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, value))
+    dispatch(
+      getMunicipalitiesByprovincesByRegionsActions(regionState.value, value),
+    )
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {

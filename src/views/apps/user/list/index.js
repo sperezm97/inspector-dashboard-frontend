@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-
 // ** Columns
 
 // ** Third Party Components
@@ -18,14 +17,12 @@ import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
 import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces'
 import { getAllMunicipalitiesActions } from '../../../../redux/actions/territories/municipalities'
 
-
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { optionsValueSelect } from '../../../../utility/Utils'
 
 const UsersList = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -34,13 +31,17 @@ const UsersList = () => {
     dispatch(getAllMunicipalitiesActions())
   }, [dispatch])
 
-  const dataTableUsers = useSelector(state => state?.users?.users)
+  const dataTableUsers = useSelector((state) => state?.users?.users)
   console.log(dataTableUsers)
 
-  const provincesSelector = useSelector((state) => state?.provinces?.allProvinces)
-  const municipalitiesSelector = useSelector((state) => state?.municipalities?.allMunicipalities)
+  const provincesSelector = useSelector(
+    (state) => state?.provinces?.allProvinces,
+  )
+  const municipalitiesSelector = useSelector(
+    (state) => state?.municipalities?.allMunicipalities,
+  )
   // const rolSelector = useSelector((state) => state?.regions?.regions)
-  
+
   const regionRef = useRef({
     value: '',
     label: 'Seleccionar Rol',
@@ -59,19 +60,18 @@ const UsersList = () => {
   const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
   const [municipioState, setMunicipioState] = useState(municipioRef.current)
   const [rolState, setRegionState] = useState(regionRef.current)
-  
+
   const [dataTable, setDataTable] = useState([])
 
   useEffect(() => {
     setDataTable(dataTableUsers)
   }, [dataTableUsers])
 
-  const handleChangeProvinces = ({value, label}) => {
-
-    if(value) {
-      setProvinciaState({value, label})
+  const handleChangeProvinces = ({ value, label }) => {
+    if (value) {
+      setProvinciaState({ value, label })
       // filterTickets(regionState.value + value, 4)
-    }else {
+    } else {
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
       // filterTickets(regionState.value, 2)
@@ -79,13 +79,12 @@ const UsersList = () => {
 
     // dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, value))
   }
-  
-  const handleChangeMunicipalities = ({value, label}) => {
 
-    if(value) {
-      setMunicipioState({value, label})
+  const handleChangeMunicipalities = ({ value, label }) => {
+    if (value) {
+      setMunicipioState({ value, label })
       filterTickets(regionState.value + provinciaState.value + value, 6)
-    }else {
+    } else {
       setMunicipioState(municipioRef.current)
       filterTickets(regionState.value + provinciaState.value, 4)
     }
@@ -144,7 +143,12 @@ const UsersList = () => {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(municipalitiesSelector.filter(municipality => municipality.provinceCode === provinciaState.value))}
+              options={optionsValueSelect(
+                municipalitiesSelector.filter(
+                  (municipality) =>
+                    municipality.provinceCode === provinciaState.value,
+                ),
+              )}
             />
           </Col>
           <Col md="4">
@@ -161,9 +165,9 @@ const UsersList = () => {
       </CardGrid>
 
       {dataTable && (
-        <DataTableList 
-          columnsTable={columns} 
-          dataTable={dataTable} 
+        <DataTableList
+          columnsTable={columns}
+          dataTable={dataTable}
           showButtonAddUser
         />
       )}

@@ -19,7 +19,7 @@ export const columns = [
       }
 
       return rowClient(userInfo)
-    }
+    },
   },
   {
     name: 'Teléfono',
