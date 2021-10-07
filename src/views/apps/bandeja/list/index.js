@@ -19,8 +19,8 @@ import {
   noOptionsMessageSelect,
   optionsValueSelect,
 } from '../../../../utility/Utils'
-import { getProvincesByRegion } from '../../../../redux/actions/territories/provinces'
-import { getMunicipalitiesByprovincesByRegions } from '../../../../redux/actions/territories/municipalities'
+import { getProvincesByRegionActions } from '../../../../redux/actions/territories/provinces'
+import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/actions/territories/municipalities'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -40,11 +40,9 @@ const Bandeja = () => {
   const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
 
-  const regionsState = useSelector((state) => state?.regions?.regions)
-  const provincesState = useSelector((state) => state?.provinces?.provinces)
-  const municipalitiesState = useSelector(
-    (state) => state?.municipalities?.municipalities,
-  )
+  const regionsSelector = useSelector((state) => state?.regions?.regions)
+  const provincesSelector = useSelector((state) => state?.provinces?.provinces)
+  const municipalitiesSelector = useSelector((state) => state?.municipalities?.municipalities)
 
   const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
@@ -85,8 +83,7 @@ const Bandeja = () => {
       setDataTable(dataTableTickets)
     }
 
-    dispatch(getProvincesByRegion(value))
-    console.log('region', value)
+    dispatch(getProvincesByRegionActions(value))
   }
 
   const handleChangeProvinces = ({value, label}) => {
@@ -100,9 +97,7 @@ const Bandeja = () => {
       filterTickets(regionState.value, 2)
     }
 
-    dispatch(getMunicipalitiesByprovincesByRegions(regionState.value, value))
-
-    console.log('provincia', regionState.value + value)
+    dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, value))
   }
   
   const handleChangeMunicipalities = ({value, label}) => {
@@ -114,15 +109,12 @@ const Bandeja = () => {
       setMunicipioState(municipioRef.current)
       filterTickets(regionState.value + provinciaState.value, 4)
     }
-
-    console.log('Municipio', regionState.value + provinciaState.value + value)
   }
 
   const filterTickets = (value, positionToFind = 0) => {
 
     let data = dataTableTickets.filter(tickets => tickets.zone.substr(0, positionToFind) === value)
     setDataTable(data)
-    console.log(data)
   }
 
   return (
@@ -147,7 +139,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={regionState}
-              options={optionsValueSelect(regionsState)}
+              options={optionsValueSelect(regionsSelector)}
               onChange={handleChangeRegions}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -164,7 +156,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsValueSelect(provincesState)}
+              options={optionsValueSelect(provincesSelector)}
               onChange={handleChangeProvinces}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -181,7 +173,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(municipalitiesState)}
+              options={optionsValueSelect(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -198,7 +190,7 @@ const Bandeja = () => {
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
-          showButtonAddReport={true}
+          showButtonAddReport
         />
       )}
     </>

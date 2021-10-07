@@ -1,35 +1,32 @@
-// ** React Imports
-import { Link } from 'react-router-dom'
-
-// ** Third Party Components
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap'
-import { MoreVertical, FileText, Trash2, Archive } from 'react-feather'
-
 import {
   rowClient,
   iconRoleTable,
+  rowActions,
 } from '../../../../@core/components/table/commonColumns'
 
 export const columns = [
   {
     name: 'Nombre',
-    minWidth: '320px',
-    selector: 'fullName',
+    minWidth: '400px',
+    selector: 'firstname',
     sortable: true,
-    cell: (row) => rowClient(row),
+    cell: (row) => {
+      const userInfo = {
+        reporterId: row.id,
+        reporterFirstName: row.firstname,
+        reporterLastName: row.lastname,
+        reporterCedula: row.cedula,
+      }
+
+      return rowClient(userInfo)
+    }
   },
   {
     name: 'Teléfono',
     minWidth: '160px',
-    selector: 'telephone',
+    selector: 'phone',
     sortable: true,
-    // cell: row => row.telephone
-    cell: (row) => '809-220-1111',
+    cell: (row) => row.phone,
   },
   {
     name: 'Provincia',
@@ -57,34 +54,6 @@ export const columns = [
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag="div" className="btn btn-sm">
-          <MoreVertical size={14} className="cursor-pointer" />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/apps/user/view/${row.id}`}
-            className="w-100"
-          >
-            <FileText size={14} className="mr-50" />
-            <span className="align-middle">Detalles</span>
-          </DropdownItem>
-          <DropdownItem
-            tag={Link}
-            to={`/apps/user/edit/${row.id}`}
-            className="w-100"
-          >
-            <Archive size={14} className="mr-50" />
-            <span className="align-middle">Editar</span>
-          </DropdownItem>
-          <DropdownItem className="w-100">
-            <Trash2 size={14} className="mr-50" />
-            <span className="align-middle">Borrar</span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    ),
+    cell: (row) => rowActions(row.id),
   },
 ]

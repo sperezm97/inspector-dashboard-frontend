@@ -3,7 +3,15 @@ import { territoriesApi } from "../../../../constants/api/territoriesApi";
 import { territoriesTypes } from "../../../types/territories";
 import { cleanSelectMunicipalities } from "../municipalities";
 
-export const getProvincesByRegion = (id = null) => (dispatch) => {
+export const getAllProvincesActions = () => (dispatch) =>
+  territoriesAxios.get(territoriesApi.provinces).then((response) => {
+    dispatch({
+      type: territoriesTypes.GET_PROVINCES,
+      payload: response.data.data,
+    })
+  })
+
+export const getProvincesByRegionActions = (id = null) => (dispatch) => {
 
   if(id) {
     return (
