@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const provincesReducer = (state = initialState, action) => {
-
   switch (action.type) {
     case territoriesTypes.GET_PROVINCES:
       return {

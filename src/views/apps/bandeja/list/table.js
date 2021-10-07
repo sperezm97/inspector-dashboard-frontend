@@ -16,14 +16,14 @@ import Url from '../../../../constants/Url'
 import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const CustomHeader = ({ 
-  handleFilter, 
-  value, 
-  // handleStatusValue, 
-  // statusValue, 
-  // handlePerPage, 
-  // rowsPerPage, 
-  // showSelectStatus, 
+const CustomHeader = ({
+  handleFilter,
+  value,
+  // handleStatusValue,
+  // statusValue,
+  // handlePerPage,
+  // rowsPerPage,
+  // showSelectStatus,
   showButtonAddUser,
   showButtonAddInstitution,
   showButtonAddReport,
@@ -68,7 +68,7 @@ const CustomHeader = ({
               placeholder="Escribe..."
             />
           </div>
-            {/* {showSelectStatus &&
+          {/* {showSelectStatus &&
                 <Input 
                     className='w-auto pr-4' 
                     type='select' 
@@ -79,25 +79,25 @@ const CustomHeader = ({
                     <option value=''>Seleccionar Estado</option>
                 </Input>
             } */}
-            {showButtonAddUser &&
-              <ButtonRipple 
-                label= 'Añadir Nuevo Usuario'
-                onClick={() => history.push(Url.userCreate)}
-              />
-            }
-            {showButtonAddInstitution &&
-              <ButtonRipple 
-                label= 'Añadir Nueva Institución'
-                onClick= {() => history.push(Url.institutionCreate)}
-              />
-            }
-            {showButtonAddReport &&
-              <ButtonRipple 
-                label= 'Añadir Nuevo Reporte'
-                onClick= {() => history.push(Url.dashboardInboxCreate)}
-              />
-            }
-            {/* {componentButton &&
+          {showButtonAddUser && (
+            <ButtonRipple
+              label="Añadir Nuevo Usuario"
+              onClick={() => history.push(Url.userCreate)}
+            />
+          )}
+          {showButtonAddInstitution && (
+            <ButtonRipple
+              label="Añadir Nueva Institución"
+              onClick={() => history.push(Url.institutionCreate)}
+            />
+          )}
+          {showButtonAddReport && (
+            <ButtonRipple
+              label="Añadir Nuevo Reporte"
+              onClick={() => history.push(Url.dashboardInboxCreate)}
+            />
+          )}
+          {/* {componentButton &&
               componentButton
             } */}
         </Col>
@@ -106,14 +106,14 @@ const CustomHeader = ({
   )
 }
 
-const DataTableList = ({ 
-  columnsTable, 
-  dataTable, 
-  // showSelectStatus = false, 
-  showButtonAddUser = false, 
+const DataTableList = ({
+  columnsTable,
+  dataTable,
+  // showSelectStatus = false,
+  showButtonAddUser = false,
   showButtonAddInstitution = false,
-  showButtonAddReport = false, 
-  dataTableTitle = "",
+  showButtonAddReport = false,
+  dataTableTitle = '',
   // componentButton = false
 }) => {
   const [newDataTable, setNewDataTable] = useState([])
@@ -125,10 +125,10 @@ const DataTableList = ({
   useEffect(() => {
     setNewDataTable(dataTable)
   }, [dataTable])
-  
+
   // const paginateArray = (array) => array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
-  
-  const handleFilter = val => {
+
+  const handleFilter = (val) => {
     setValue(val)
 
     const queryLowered = val.toLowerCase()
@@ -147,39 +147,39 @@ const DataTableList = ({
   }
 
   // const handlePerPage = e => {
-    // dispatch(
-    //   getTicketsFilterActions({
-    //     page: currentPage,
-    //     perPage: parseInt(e.target.value),
-    //     status: statusValue,
-    //     q: value
-    //   })
-    // )
+  // dispatch(
+  //   getTicketsFilterActions({
+  //     page: currentPage,
+  //     perPage: parseInt(e.target.value),
+  //     status: statusValue,
+  //     q: value
+  //   })
+  // )
   //   setCurrentPage(1)
   //   setRowsPerPage(parseInt(e.target.value))
   // }
 
   // const handleStatusValue = e => {
   //   setStatusValue(e.target.value)
-    // dispatch(
-    //   getTicketsFilterActions({
-    //     page: currentPage,
-    //     perPage: rowsPerPage,
-    //     status: e.target.value,
-    //     q: value
-    //   })
-    // )
+  // dispatch(
+  //   getTicketsFilterActions({
+  //     page: currentPage,
+  //     perPage: rowsPerPage,
+  //     status: e.target.value,
+  //     q: value
+  //   })
+  // )
   // }
 
   // const handlePagination = page => {
-    // dispatch(
-    //   getTicketsFilterActions({
-    //     page: page.selected + 1,
-    //     perPage: rowsPerPage,
-    //     status: statusValue,
-    //     q: value
-    //   })
-    // )
+  // dispatch(
+  //   getTicketsFilterActions({
+  //     page: page.selected + 1,
+  //     perPage: rowsPerPage,
+  //     status: statusValue,
+  //     q: value
+  //   })
+  // )
   //   console.log('page ===>', page)
   //   setCurrentPage(page.selected + 1)
   // }
