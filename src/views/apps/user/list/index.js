@@ -70,7 +70,6 @@ const UsersList = () => {
   }, [dataTableUsers])
 
   const handleChangeProvinces = ({ value, label }) => {
-
     if (value) {
       setProvinciaState({ value, label })
       setMunicipioState(municipioRef.current)
@@ -79,11 +78,10 @@ const UsersList = () => {
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
       setDataTable(dataTableUsers)
-    } 
+    }
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {
-
     if (value) {
       setMunicipioState({ value, label })
       filterTickets(provinciaState.value + value, 4)
@@ -95,16 +93,17 @@ const UsersList = () => {
 
   const handleChangeRols = ({ value, label }) => {
     if (value) {
-      setRolState({value, label})
+      setRolState({ value, label })
     } else {
       setRolState(rolRef.current)
     }
   }
 
   const filterTickets = (value, positionToFind = 0) => {
-
-    let data = dataTableUsers.filter(users => users.zone !== null)
-    let data2 = data.filter(users => users.zone.substr(2, positionToFind) === value)
+    const data = dataTableUsers.filter((users) => users.zone !== null)
+    const data2 = data.filter(
+      (users) => users.zone.substr(2, positionToFind) === value,
+    )
     setDataTable(data2)
   }
 
@@ -146,9 +145,9 @@ const UsersList = () => {
               className="react-select"
               classNamePrefix="select"
               value={rolState}
-              options={rolSelector.map(rols => ({
+              options={rolSelector.map((rols) => ({
                 value: rols.id,
-                label: rols.name
+                label: rols.name,
               }))}
               onChange={handleChangeRols}
             />

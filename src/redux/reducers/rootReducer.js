@@ -38,7 +38,7 @@ const rootReducer = combineReducers({
   tickets,
   users,
   rols,
-  
+
   regions,
   provinces,
   municipalities,
