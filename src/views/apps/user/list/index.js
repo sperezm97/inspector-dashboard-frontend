@@ -14,6 +14,7 @@ import { columns } from './columns'
 import DataTableList from '../../bandeja/list/table'
 import CardGrid from '../../../../@core/components/card-grid'
 import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
+import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
 import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces'
 import { getAllMunicipalitiesActions } from '../../../../redux/actions/territories/municipalities'
 
@@ -27,12 +28,12 @@ const UsersList = () => {
 
   useEffect(() => {
     dispatch(getAllUsersActions())
+    dispatch(getAllRolsActions())
     dispatch(getAllProvincesActions())
     dispatch(getAllMunicipalitiesActions())
   }, [dispatch])
 
   const dataTableUsers = useSelector((state) => state?.users?.users)
-  console.log(dataTableUsers)
 
   const provincesSelector = useSelector(
     (state) => state?.provinces?.allProvinces,
@@ -40,9 +41,9 @@ const UsersList = () => {
   const municipalitiesSelector = useSelector(
     (state) => state?.municipalities?.allMunicipalities,
   )
-  // const rolSelector = useSelector((state) => state?.regions?.regions)
+  const rolSelector = useSelector((state) => state?.rols?.rols)
 
-  const regionRef = useRef({
+  const rolRef = useRef({
     value: '',
     label: 'Seleccionar Rol',
   })
@@ -59,67 +60,53 @@ const UsersList = () => {
 
   const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
   const [municipioState, setMunicipioState] = useState(municipioRef.current)
-  const [rolState, setRegionState] = useState(regionRef.current)
+  const [rolState, setRolState] = useState(rolRef.current)
 
   const [dataTable, setDataTable] = useState([])
+  console.log(dataTable)
 
   useEffect(() => {
     setDataTable(dataTableUsers)
   }, [dataTableUsers])
 
   const handleChangeProvinces = ({ value, label }) => {
+
     if (value) {
       setProvinciaState({ value, label })
-      // filterTickets(regionState.value + value, 4)
+      setMunicipioState(municipioRef.current)
+      filterTickets(value, 2)
     } else {
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
-      // filterTickets(regionState.value, 2)
-    }
-
-    // dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, value))
+      setDataTable(dataTableUsers)
+    } 
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {
+
     if (value) {
       setMunicipioState({ value, label })
-      filterTickets(regionState.value + provinciaState.value + value, 6)
+      filterTickets(provinciaState.value + value, 4)
     } else {
       setMunicipioState(municipioRef.current)
-      filterTickets(regionState.value + provinciaState.value, 4)
+      filterTickets(provinciaState.value, 2)
     }
   }
 
-  // const filterTickets = (value, positionToFind = 0) => {
+  const handleChangeRols = ({ value, label }) => {
+    if (value) {
+      setRolState({value, label})
+    } else {
+      setRolState(rolRef.current)
+    }
+  }
 
-  //   let data = dataTableUsers.filter(tickets => tickets.zone.substr(0, positionToFind) === value)
-  //   setDataTable(data)
-  // }
+  const filterTickets = (value, positionToFind = 0) => {
 
-  // // ** User filter options
-  // const planOptions = [
-  //   { value: '', label: 'Seleccionar Provincia' },
-  //   { value: 'basic', label: 'Basic' },
-  //   { value: 'company', label: 'Company' },
-  //   { value: 'enterprise', label: 'Enterprise' },
-  //   { value: 'team', label: 'Team' },
-  // ]
-
-  const statusOptions = [
-    { value: '', label: 'Seleccionar Municipio', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 },
-  ]
-
-  const roleOptions = [
-    { value: '', label: 'Seleccionar Rol' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' },
-  ]
+    let data = dataTableUsers.filter(users => users.zone !== null)
+    let data2 = data.filter(users => users.zone.substr(2, positionToFind) === value)
+    setDataTable(data2)
+  }
 
   return (
     <>
@@ -149,6 +136,7 @@ const UsersList = () => {
                     municipality.provinceCode === provinciaState.value,
                 ),
               )}
+              onChange={handleChangeMunicipalities}
             />
           </Col>
           <Col md="4">
@@ -157,8 +145,12 @@ const UsersList = () => {
               theme={selectThemeColors}
               className="react-select"
               classNamePrefix="select"
-              options={roleOptions}
               value={rolState}
+              options={rolSelector.map(rols => ({
+                value: rols.id,
+                label: rols.name
+              }))}
+              onChange={handleChangeRols}
             />
           </Col>
         </Row>
