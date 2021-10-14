@@ -17,7 +17,7 @@ import { getAllRegionsActions } from '../../../../redux/actions/territories/regi
 import { territoriesLabel } from '../../../../constants/label/territories'
 import {
   noOptionsMessageSelect,
-  optionsValueSelect,
+  optionsCodeValueSelect,
 } from '../../../../utility/Utils'
 import { getProvincesByRegionActions } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/actions/territories/municipalities'
@@ -118,6 +118,18 @@ const Bandeja = () => {
     setDataTable(data)
   }
 
+  const searchTable = (data, queryLowered) => (
+    data.filter(data => 
+      (data.title || '').toLowerCase().includes(queryLowered) ||
+      (data.address || '').toLowerCase().includes(queryLowered) ||
+      (data.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
+      (data.reporterLastName || '').toLowerCase().includes(queryLowered) ||
+      (data.reporterCedula || '').toLowerCase().includes(queryLowered) ||
+      (data.institutionName || '').toLowerCase().includes(queryLowered) ||
+      (data.institutionAcronym || '').toLowerCase().includes(queryLowered)
+    )
+  )
+
   return (
     <>
       <Row className="match-height">
@@ -140,7 +152,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={regionState}
-              options={optionsValueSelect(regionsSelector)}
+              options={optionsCodeValueSelect(regionsSelector)}
               onChange={handleChangeRegions}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -157,7 +169,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsValueSelect(provincesSelector)}
+              options={optionsCodeValueSelect(provincesSelector)}
               onChange={handleChangeProvinces}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -174,7 +186,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(municipalitiesSelector)}
+              options={optionsCodeValueSelect(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -191,6 +203,7 @@ const Bandeja = () => {
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
+          searchTable={searchTable}
           showButtonAddReport
         />
       )}

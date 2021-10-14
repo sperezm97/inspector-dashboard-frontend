@@ -109,6 +109,7 @@ const CustomHeader = ({
 const DataTableList = ({
   columnsTable,
   dataTable,
+  searchTable,
   // showSelectStatus = false,
   showButtonAddUser = false,
   showButtonAddInstitution = false,
@@ -132,16 +133,8 @@ const DataTableList = ({
     setValue(val)
 
     const queryLowered = val.toLowerCase()
-    const filteredData = dataTable.filter(
-      (ticket) =>
-        (ticket.title || '').toLowerCase().includes(queryLowered) ||
-        (ticket.address || '').toLowerCase().includes(queryLowered) ||
-        (ticket.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
-        (ticket.reporterLastName || '').toLowerCase().includes(queryLowered) ||
-        (ticket.reporterCedula || '').toLowerCase().includes(queryLowered) ||
-        (ticket.institutionName || '').toLowerCase().includes(queryLowered) ||
-        (ticket.institutionAcronym || '').toLowerCase().includes(queryLowered),
-    )
+
+    const filteredData = searchTable(dataTable, queryLowered)
 
     setNewDataTable(filteredData)
   }

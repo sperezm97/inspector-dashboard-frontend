@@ -1,5 +1,6 @@
 import { useState, useContext, Fragment } from 'react'
 import classnames from 'classnames'
+import axios from 'axios'
 import Avatar from '@components/avatar'
 import useJwt from '@src/auth/jwt/useJwt'
 import { useDispatch } from 'react-redux'
@@ -28,18 +29,17 @@ import LogoAuth from '../../../@core/components/logo-auth'
 
 import '@styles/base/pages/page-auth.scss'
 
-const ToastContent = ({ name, role }) => (
+const ToastContent = ({ name }) => (
   <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Coffee size={12} />} />
-        <h6 className="toast-title font-weight-bold">Welcome, {name}</h6>
+        <h6 className="toast-title font-weight-bold">Bienvenido, {name}</h6>
       </div>
     </div>
     <div className="toastify-body">
       <span>
-        You have successfully logged in as an {role} user to Vuexy. Now you can
-        start to explore. Enjoy!
+        Has iniciado sesión con éxito en Reportero de la Gestión Gubernamental.
       </span>
     </div>
   </>
@@ -49,33 +49,57 @@ const Login = (props) => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()
-  const [email, setEmail] = useState('admin@demo.com')
-  const [password, setPassword] = useState('admin')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = (data) => {
     if (isObjEmpty(errors)) {
-      useJwt
-        .login({ email, password })
-        .then((res) => {
-          const data = {
-            ...res.data.userData,
-            accessToken: res.data.accessToken,
-            refreshToken: res.data.refreshToken,
-          }
-          dispatch(handleLogin(data))
-          ability.update(res.data.userData.ability)
-          history.push(getHomeRouteForLoggedInUser(data.role))
-          toast.success(
-            <ToastContent
-              name={data.fullName || data.username || 'John Doe'}
-              role={data.role || 'admin'}
-            />,
-            { transition: Slide, hideProgressBar: true, autoClose: 2000 },
-          )
-        })
-        .catch((err) => console.log(err))
+
+      let parseToBase = window.btoa(unescape(encodeURIComponent(`${data.loginEmail}:${data.loginPassword}`)))
+      const request = axios.get('https://zammad.rgg.digital.gob.do/api/v1/users/me',
+      {headers: {
+        // "Access-Control-Allow-Origin" : "*",
+        "Authorization": `Basic ${parseToBase}`
+      }   
+    }
+      ).then((res) => {
+        const data = {
+          id: 1,
+          fullName: `${res.data.firstname} ${res.data.lastname}`,
+          username: res.data.firstname,
+          password: 'admin',
+          cedula: res.data.cedula,
+          avatar: require('@src/assets/images/portrait/small/avatar-s-11.jpg')
+            .default,
+          email: res.data.email,
+          role: 'admin',
+          ability: [
+            {
+              action: 'manage',
+              subject: 'all',
+            },
+          ],
+          extras: {
+            eCommerceCartItemsCount: 5,
+          },
+          zammadUser: res.data,
+          accessToken: parseToBase,
+          refreshToken: parseToBase
+        }
+        dispatch(handleLogin(data))
+        ability.update(data.ability)
+        history.push(getHomeRouteForLoggedInUser(data.role))
+        toast.success(
+          <ToastContent
+            name={data.fullName || data.username || ''}
+            role={data.role || 'admin'}
+          />,
+          { transition: Slide, hideProgressBar: true, autoClose: 10000 },
+        )
+      }).catch((err) => console.log(err))
+
     }
   }
 
@@ -96,19 +120,19 @@ const Login = (props) => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <FormGroup>
-                <Label className="form-label" for="login-email">
+                <Label className="form-label" for="loginEmail">
                   Correo Electrónico
                 </Label>
                 <Input
                   autoFocus
                   type="email"
                   value={email}
-                  id="login-email"
-                  name="login-email"
+                  id="loginEmail"
+                  name="loginEmail"
                   placeholder="john@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   className={classnames({
-                    'is-invalid': errors['login-email'],
+                    'is-invalid': errors['loginEmail'],
                   })}
                   innerRef={register({
                     required: true,
@@ -118,7 +142,7 @@ const Login = (props) => {
               </FormGroup>
               <FormGroup>
                 <div className="d-flex justify-content-between">
-                  <Label className="form-label" for="login-password">
+                  <Label className="form-label" for="loginPassword">
                     Contraseña
                   </Label>
                   <Link to="/pages/forgot-password-v1">
@@ -127,12 +151,12 @@ const Login = (props) => {
                 </div>
                 <InputPasswordToggle
                   value={password}
-                  id="login-password"
-                  name="login-password"
+                  id="loginPassword"
+                  name="loginPassword"
                   className="input-group-merge"
                   onChange={(e) => setPassword(e.target.value)}
                   className={classnames({
-                    'is-invalid': errors['login-password'],
+                    'is-invalid': errors['loginPassword'],
                   })}
                   innerRef={register({
                     required: true,

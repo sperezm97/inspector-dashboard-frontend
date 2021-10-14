@@ -1,9 +1,11 @@
 import axios from 'axios'
 
+const { accessToken } = JSON.parse(localStorage.getItem('userData'))
+
 export const zammadAxios = axios.create({
   baseURL: 'https://zammad.rgg.digital.gob.do/api/v1/',
   headers: {
-    authorization: 'Bearer 0CAPNDKVEUD22bu7nZI6B53NdnA1jukugqcLf3N-L-o',
+    authorization: `Basic ${accessToken}`,
   },
 })
 

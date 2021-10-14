@@ -17,9 +17,6 @@ export const Url = {
   userMunicipalDistrict: '/usuario/distrito-municipal',
   userZonal: '/usuario/zonales',
 
-  userReporter: '/usuario/reportero',
-  userOfficial: '/usuario/oficial',
-
   institution: '/institucion',
   institutionCreate: '/institucion/crear',
 

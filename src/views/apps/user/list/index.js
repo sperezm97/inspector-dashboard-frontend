@@ -21,7 +21,7 @@ import { getAllMunicipalitiesActions } from '../../../../redux/actions/territori
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import { optionsValueSelect } from '../../../../utility/Utils'
+import { optionsIdValueSelect, optionsCodeValueSelect } from '../../../../utility/Utils'
 
 const UsersList = () => {
   const dispatch = useDispatch()
@@ -63,7 +63,6 @@ const UsersList = () => {
   const [rolState, setRolState] = useState(rolRef.current)
 
   const [dataTable, setDataTable] = useState([])
-  console.log(dataTable)
 
   useEffect(() => {
     setDataTable(dataTableUsers)
@@ -73,39 +72,61 @@ const UsersList = () => {
     if (value) {
       setProvinciaState({ value, label })
       setMunicipioState(municipioRef.current)
-      filterTickets(value, 2)
+      filterZone(value, 2)
     } else {
       setProvinciaState(provinciaRef.current)
       setMunicipioState(municipioRef.current)
       setDataTable(dataTableUsers)
     }
+    setRolState(rolRef.current)
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {
     if (value) {
       setMunicipioState({ value, label })
-      filterTickets(provinciaState.value + value, 4)
+      filterZone(provinciaState.value + value, 4)
     } else {
       setMunicipioState(municipioRef.current)
-      filterTickets(provinciaState.value, 2)
+      filterZone(provinciaState.value, 2)
     }
+    setRolState(rolRef.current)
   }
 
   const handleChangeRols = ({ value, label }) => {
     if (value) {
       setRolState({ value, label })
+      filterRols(value)
     } else {
       setRolState(rolRef.current)
+      setDataTable(dataTableUsers)
     }
+    setProvinciaState(provinciaRef.current)
+    setMunicipioState(municipioRef.current)
   }
 
-  const filterTickets = (value, positionToFind = 0) => {
+  const filterZone = (value, positionToFind = 0) => {
     const data = dataTableUsers.filter((users) => users.zone !== null)
-    const data2 = data.filter(
+    const dataValidated = data.filter(
       (users) => users.zone.substr(2, positionToFind) === value,
     )
-    setDataTable(data2)
+    setDataTable(dataValidated)
   }
+
+  const filterRols = (value) => {
+    console.log(value)
+    const data = dataTableUsers.filter((rols) => rols.role_ids[0] === value)
+    console.log(data)
+    setDataTable(data)
+  }
+
+  const searchTable = (data, queryLowered) => (
+    data.filter(data => 
+      (data.firstname || '').toLowerCase().includes(queryLowered) ||
+      (data.lastname || '').toLowerCase().includes(queryLowered) ||
+      (data.phone || '').toLowerCase().includes(queryLowered) ||
+      (data.cedula || '').toLowerCase().includes(queryLowered)
+    )
+  )
 
   return (
     <>
@@ -118,7 +139,7 @@ const UsersList = () => {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsValueSelect(provincesSelector)}
+              options={optionsCodeValueSelect(provincesSelector)}
               onChange={handleChangeProvinces}
             />
           </Col>
@@ -129,7 +150,7 @@ const UsersList = () => {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(
+              options={optionsCodeValueSelect(
                 municipalitiesSelector.filter(
                   (municipality) =>
                     municipality.provinceCode === provinciaState.value,
@@ -145,10 +166,7 @@ const UsersList = () => {
               className="react-select"
               classNamePrefix="select"
               value={rolState}
-              options={rolSelector.map((rols) => ({
-                value: rols.id,
-                label: rols.name,
-              }))}
+              options={optionsIdValueSelect(rolSelector)}
               onChange={handleChangeRols}
             />
           </Col>
@@ -159,6 +177,7 @@ const UsersList = () => {
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
+          searchTable={searchTable}
           showButtonAddUser
         />
       )}

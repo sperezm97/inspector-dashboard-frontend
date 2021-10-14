@@ -84,9 +84,6 @@ const AnalyticsDashboard = () => {
         <Col lg="8" xs="12">
           <AvgSessions colors={colors} />
         </Col>
-        <Col xs="12">
-          <DataTableList columnsTable={columnsTable} showButtonAdd />
-        </Col>
       </Row>
     </div>
   )
