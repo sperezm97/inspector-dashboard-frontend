@@ -56,50 +56,54 @@ const Login = (props) => {
 
   const onSubmit = (data) => {
     if (isObjEmpty(errors)) {
-
-      let parseToBase = window.btoa(unescape(encodeURIComponent(`${data.loginEmail}:${data.loginPassword}`)))
-      const request = axios.get('https://zammad.rgg.digital.gob.do/api/v1/users/me',
-      {headers: {
-        // "Access-Control-Allow-Origin" : "*",
-        "Authorization": `Basic ${parseToBase}`
-      }   
-    }
-      ).then((res) => {
-        const data = {
-          id: 1,
-          fullName: `${res.data.firstname} ${res.data.lastname}`,
-          username: res.data.firstname,
-          password: 'admin',
-          cedula: res.data.cedula,
-          avatar: require('@src/assets/images/portrait/small/avatar-s-11.jpg')
-            .default,
-          email: res.data.email,
-          role: 'admin',
-          ability: [
-            {
-              action: 'manage',
-              subject: 'all',
-            },
-          ],
-          extras: {
-            eCommerceCartItemsCount: 5,
+      const parseToBase = window.btoa(
+        unescape(
+          encodeURIComponent(`${data.loginEmail}:${data.loginPassword}`),
+        ),
+      )
+      const request = axios
+        .get('https://zammad.rgg.digital.gob.do/api/v1/users/me', {
+          headers: {
+            // "Access-Control-Allow-Origin" : "*",
+            Authorization: `Basic ${parseToBase}`,
           },
-          zammadUser: res.data,
-          accessToken: parseToBase,
-          refreshToken: parseToBase
-        }
-        dispatch(handleLogin(data))
-        ability.update(data.ability)
-        history.push(getHomeRouteForLoggedInUser(data.role))
-        toast.success(
-          <ToastContent
-            name={data.fullName || data.username || ''}
-            role={data.role || 'admin'}
-          />,
-          { transition: Slide, hideProgressBar: true, autoClose: 10000 },
-        )
-      }).catch((err) => console.log(err))
-
+        })
+        .then((res) => {
+          const data = {
+            id: 1,
+            fullName: `${res.data.firstname} ${res.data.lastname}`,
+            username: res.data.firstname,
+            password: 'admin',
+            cedula: res.data.cedula,
+            avatar: require('@src/assets/images/portrait/small/avatar-s-11.jpg')
+              .default,
+            email: res.data.email,
+            role: 'admin',
+            ability: [
+              {
+                action: 'manage',
+                subject: 'all',
+              },
+            ],
+            extras: {
+              eCommerceCartItemsCount: 5,
+            },
+            zammadUser: res.data,
+            accessToken: parseToBase,
+            refreshToken: parseToBase,
+          }
+          dispatch(handleLogin(data))
+          ability.update(data.ability)
+          history.push(getHomeRouteForLoggedInUser(data.role))
+          toast.success(
+            <ToastContent
+              name={data.fullName || data.username || ''}
+              role={data.role || 'admin'}
+            />,
+            { transition: Slide, hideProgressBar: true, autoClose: 10000 },
+          )
+        })
+        .catch((err) => console.log(err))
     }
   }
 
@@ -132,7 +136,7 @@ const Login = (props) => {
                   placeholder="john@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   className={classnames({
-                    'is-invalid': errors['loginEmail'],
+                    'is-invalid': errors.loginEmail,
                   })}
                   innerRef={register({
                     required: true,
@@ -156,7 +160,7 @@ const Login = (props) => {
                   className="input-group-merge"
                   onChange={(e) => setPassword(e.target.value)}
                   className={classnames({
-                    'is-invalid': errors['loginPassword'],
+                    'is-invalid': errors.loginPassword,
                   })}
                   innerRef={register({
                     required: true,

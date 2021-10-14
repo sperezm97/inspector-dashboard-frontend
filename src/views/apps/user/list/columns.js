@@ -1,37 +1,40 @@
 import { useSelector } from 'react-redux'
+import { Badge } from 'reactstrap'
 import {
   rowClient,
   rowActions,
 } from '../../../../@core/components/table/commonColumns'
 
-import {
-  Badge,
-} from 'reactstrap'
-
 export const getRol = (id) => {
   const rolSelector = useSelector((state) => state?.rols?.rols)
 
-  return ( 
-    <span style={{marginRight: '5px'}}>
-      <Badge color="light-primary">
-        {rolSelector[id - 1]?.name}
-      </Badge>
+  return (
+    <span style={{ marginRight: '5px' }}>
+      <Badge color="light-primary">{rolSelector[id - 1]?.name}</Badge>
     </span>
   )
 }
 
 export const getProvinces = (id) => {
-  const provincesSelector = useSelector((state) => state?.provinces?.allProvinces)
-  let validatedId = id || ''
+  const provincesSelector = useSelector(
+    (state) => state?.provinces?.allProvinces,
+  )
+  const validatedId = id || ''
 
-  return provincesSelector.find((obj) => obj.identifier.substr(2, 2) === validatedId.substr(2, 2))?.name
+  return provincesSelector.find(
+    (obj) => obj.identifier.substr(2, 2) === validatedId.substr(2, 2),
+  )?.name
 }
 
 export const getMunicipality = (id) => {
-  const municipalitiesSelector = useSelector((state) => state?.municipalities?.allMunicipalities)
-  let validatedId = id || ''
+  const municipalitiesSelector = useSelector(
+    (state) => state?.municipalities?.allMunicipalities,
+  )
+  const validatedId = id || ''
 
-  return municipalitiesSelector.find((obj) => obj.identifier === validatedId.substr(0, 6))?.name
+  return municipalitiesSelector.find(
+    (obj) => obj.identifier === validatedId.substr(0, 6),
+  )?.name
 }
 
 export const columns = [
@@ -77,7 +80,7 @@ export const columns = [
     minWidth: '172px',
     selector: 'role_ids',
     sortable: true,
-    cell: (row) => row.role_ids.map(rol => getRol(rol)),
+    cell: (row) => row.role_ids.map((rol) => getRol(rol)),
   },
   {
     name: 'Acciones',

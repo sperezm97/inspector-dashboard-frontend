@@ -118,17 +118,17 @@ const Bandeja = () => {
     setDataTable(data)
   }
 
-  const searchTable = (data, queryLowered) => (
-    data.filter(data => 
-      (data.title || '').toLowerCase().includes(queryLowered) ||
-      (data.address || '').toLowerCase().includes(queryLowered) ||
-      (data.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
-      (data.reporterLastName || '').toLowerCase().includes(queryLowered) ||
-      (data.reporterCedula || '').toLowerCase().includes(queryLowered) ||
-      (data.institutionName || '').toLowerCase().includes(queryLowered) ||
-      (data.institutionAcronym || '').toLowerCase().includes(queryLowered)
+  const searchTable = (data, queryLowered) =>
+    data.filter(
+      (data) =>
+        (data.title || '').toLowerCase().includes(queryLowered) ||
+        (data.address || '').toLowerCase().includes(queryLowered) ||
+        (data.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
+        (data.reporterLastName || '').toLowerCase().includes(queryLowered) ||
+        (data.reporterCedula || '').toLowerCase().includes(queryLowered) ||
+        (data.institutionName || '').toLowerCase().includes(queryLowered) ||
+        (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
     )
-  )
 
   return (
     <>

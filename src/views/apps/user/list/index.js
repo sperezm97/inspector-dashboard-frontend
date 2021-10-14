@@ -21,7 +21,10 @@ import { getAllMunicipalitiesActions } from '../../../../redux/actions/territori
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import { optionsIdValueSelect, optionsCodeValueSelect } from '../../../../utility/Utils'
+import {
+  optionsIdValueSelect,
+  optionsCodeValueSelect,
+} from '../../../../utility/Utils'
 
 const UsersList = () => {
   const dispatch = useDispatch()
@@ -119,14 +122,14 @@ const UsersList = () => {
     setDataTable(data)
   }
 
-  const searchTable = (data, queryLowered) => (
-    data.filter(data => 
-      (data.firstname || '').toLowerCase().includes(queryLowered) ||
-      (data.lastname || '').toLowerCase().includes(queryLowered) ||
-      (data.phone || '').toLowerCase().includes(queryLowered) ||
-      (data.cedula || '').toLowerCase().includes(queryLowered)
+  const searchTable = (data, queryLowered) =>
+    data.filter(
+      (data) =>
+        (data.firstname || '').toLowerCase().includes(queryLowered) ||
+        (data.lastname || '').toLowerCase().includes(queryLowered) ||
+        (data.phone || '').toLowerCase().includes(queryLowered) ||
+        (data.cedula || '').toLowerCase().includes(queryLowered),
     )
-  )
 
   return (
     <>
