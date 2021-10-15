@@ -66,7 +66,7 @@ const Login = (props) => {
       const request = axios
         .get('https://zammad.rgg.digital.gob.do/api/v1/users/me', {
           headers: {
-            "Access-Control-Allow-Origin" : '*',
+            'Access-Control-Allow-Origin': '*',
             Authorization: `Basic ${parseToBase}`,
           },
         })
@@ -109,7 +109,7 @@ const Login = (props) => {
           setErrorLogin(true)
           console.log(err.message)
         })
-      }
+    }
   }
 
   return (
@@ -181,7 +181,10 @@ const Login = (props) => {
                   label="Recuerdame"
                 />
               </FormGroup>
-              <p style={{marginBottom: '10px', color: 'red'}}>{errorLogin && 'Error al autenticar, por favor verifique sus datos.'}</p>
+              <p style={{ marginBottom: '10px', color: 'red' }}>
+                {errorLogin &&
+                  'Error al autenticar, por favor verifique sus datos.'}
+              </p>
               <Button.Ripple type="submit" color="primary" block>
                 Login
               </Button.Ripple>

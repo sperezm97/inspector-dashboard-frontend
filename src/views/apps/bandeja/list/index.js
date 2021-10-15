@@ -131,8 +131,7 @@ const Bandeja = () => {
         (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
     )
 
-  return (
-    dataTableTickets[0] ?
+  return dataTableTickets[0] ? (
     <>
       <Row className="match-height">
         {infoChart.map((dataInfoChart, index) => (
@@ -211,8 +210,7 @@ const Bandeja = () => {
         />
       )}
     </>
-    : null
-  )
+  ) : null
 }
 
 export default Bandeja

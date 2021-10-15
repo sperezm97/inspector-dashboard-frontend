@@ -14,8 +14,7 @@ import {
 import { filterByStatusTickets } from '../../../utility/Utils'
 import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 
-const GoalOverview = ({success, dataTableTickets}) => {
-
+const GoalOverview = ({ success, dataTableTickets }) => {
   const options = {
     chart: {
       sparkline: {
@@ -78,9 +77,14 @@ const GoalOverview = ({success, dataTableTickets}) => {
     },
   }
 
-  const ticketsClosed = filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.id).length || '0'
-  const ticketsNoClosed = dataTableTickets.filter(tickets => tickets.status !== statusTicketsObj.closed.id).length || '0'
-  const series = parseInt(ticketsClosed * 100 / ticketsNoClosed) || '0'
+  const ticketsClosed =
+    filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.id)
+      .length || '0'
+  const ticketsNoClosed =
+    dataTableTickets.filter(
+      (tickets) => tickets.status !== statusTicketsObj.closed.id,
+    ).length || '0'
+  const series = parseInt((ticketsClosed * 100) / ticketsNoClosed) || '0'
 
   return (
     <Card>

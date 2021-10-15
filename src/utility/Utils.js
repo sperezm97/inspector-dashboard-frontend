@@ -10,8 +10,11 @@ export const kFormatter = (num) =>
 // ** Converts HTML to string
 export const htmlToString = (html) => html.replace(/<\/?[^>]+(>|$)/g, '')
 
-export const dateToday = (f) => moment().format(f ? f : 'DD/MM/YYYY')
-export const dateBeforeDay = (day = 1, dayMonths = 'days', f) => moment().subtract(day, dayMonths).format(f ? f : 'DD/MM/YYYY')
+export const dateToday = (f) => moment().format(f || 'DD/MM/YYYY')
+export const dateBeforeDay = (day = 1, dayMonths = 'days', f) =>
+  moment()
+    .subtract(day, dayMonths)
+    .format(f || 'DD/MM/YYYY')
 
 // ** Checks if the passed date is today
 const isToday = (date) => {
@@ -24,7 +27,6 @@ const isToday = (date) => {
     /* eslint-enable */
   )
 }
-
 
 /**
  ** Format and return date in Humanize format

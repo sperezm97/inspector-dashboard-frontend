@@ -3,11 +3,10 @@ import Chart from 'react-apexcharts'
 import { Card, CardTitle, CardText, CardBody, Row, Col } from 'reactstrap'
 
 const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
-
-  const [ valuePercent, setValuePercent ] = useState('')
+  const [valuePercent, setValuePercent] = useState('')
 
   useEffect(() => {
-    setValuePercent(thisMonth - beforeMonth / beforeMonth * 100)
+    setValuePercent(thisMonth - (beforeMonth / beforeMonth) * 100)
   }, [thisMonth, beforeMonth])
 
   const options = {
@@ -98,7 +97,7 @@ const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
     <Card className="earnings-card">
       <CardBody>
         <Row>
-          {valuePercent ?
+          {valuePercent ? (
             <>
               <Col xs="6">
                 <CardTitle className="mb-1">Casos Completados</CardTitle>
@@ -117,8 +116,8 @@ const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
                   height={120}
                 />
               </Col>
-            </> : null
-          }
+            </>
+          ) : null}
         </Row>
       </CardBody>
     </Card>
