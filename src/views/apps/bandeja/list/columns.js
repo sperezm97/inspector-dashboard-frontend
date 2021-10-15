@@ -40,11 +40,20 @@ export const columns = [
     cell: (row) => formatDate(row.createDate),
   },
   {
-    name: 'REPORTERO',
+    name: 'Oficial',
     minWidth: '400px',
-    selector: 'reporterFirstName',
+    selector: 'ownerFirstName',
     sortable: true,
-    cell: (row) => rowClient(row),
+    cell: (row) => {
+      const userInfo = {
+        id: row.ownerId,
+        firstName: row.ownerFirstName,
+        lastName: row.ownerLastName,
+        cedula: row.ownerCedula,
+      }
+
+      return rowClient(userInfo)
+    },
   },
   {
     name: 'INSTITUCIÓN',
@@ -54,11 +63,20 @@ export const columns = [
     cell: (row) => rowInstitution(row),
   },
   {
-    name: 'Oficial',
+    name: 'Cliente',
     minWidth: '400px',
-    selector: 'reporterFirstName',
+    selector: 'customerFirstName',
     sortable: true,
-    cell: (row) => rowClient(row),
+    cell: (row) => {
+      const userInfo = {
+        id: row.customerId,
+        firstName: row.customerFirstName,
+        lastName: row.customerLastName,
+        cedula: row.customerCedula,
+      }
+
+      return rowClient(userInfo)
+    },
   },
   {
     name: 'PRIORIDAD',

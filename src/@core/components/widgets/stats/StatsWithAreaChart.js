@@ -1,29 +1,75 @@
 // ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Third Party Components
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Chart from 'react-apexcharts'
 import { Card, CardBody } from 'reactstrap'
 
 // ** Default Options
-import { areaChartOptions } from './ChartOptions'
 
 const StatsWithAreaChart = props => {
   // ** Props
-  const { icon, color, stats, statTitle, series, options, type, height, className, ...rest } = props
+  const { kFormatter, dataInfoChart, series, type = 'area', height, className, ...rest } = props
+
+  const options = {
+    chart: {
+      id: 'revenue',
+      toolbar: {
+        show: false,
+      },
+      sparkline: {
+        enabled: true,
+      },
+    },
+    grid: {
+      show: false,
+    },
+    colors: [dataInfoChart.colorHEX],
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2.5,
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 0.9,
+        opacityFrom: 0.7,
+        opacityTo: 0.5,
+        stops: [0, 80, 100],
+      },
+    },
+
+    xaxis: {
+      labels: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+    },
+    yaxis: {
+      labels: {
+        show: false,
+      },
+    },
+    tooltip: {
+      x: { show: false },
+    },
+  }
 
   return (
-    <Card {...rest}>
+    <Card>
       <CardBody
         className={classnames('pb-0', {
           [className]: className
         })}
       >
-        <Avatar className='avatar-stats p-50 m-0' color={`light-${color}`} icon={icon} />
-        <h2 className='font-weight-bolder mt-1'>{stats}</h2>
-        <p className='card-text mb-1'>{statTitle}</p>
+        <Avatar className='avatar-stats p-50 m-0' color={`light-${dataInfoChart.color}`} icon={dataInfoChart.icon} />
+        <h2 className='font-weight-bolder mt-1'>{kFormatter(dataInfoChart.quantity)}</h2>
+        <p className='card-text mb-1'>{dataInfoChart.title}</p>
       </CardBody>
       {series[0].data &&
         <Chart options={options} series={series} type={type} height={height ? height : 100} />
@@ -33,22 +79,3 @@ const StatsWithAreaChart = props => {
 }
 
 export default StatsWithAreaChart
-
-// ** PropTypes
-StatsWithAreaChart.propTypes = {
-  icon: PropTypes.element.isRequired,
-  color: PropTypes.string.isRequired,
-  stats: PropTypes.any.isRequired,
-  statTitle: PropTypes.string.isRequired,
-  options: PropTypes.object,
-  series: PropTypes.array.isRequired,
-  type: PropTypes.string,
-  height: PropTypes.string,
-  className: PropTypes.string
-}
-
-// ** Default Props
-StatsWithAreaChart.defaultProps = {
-  options: areaChartOptions,
-  color: 'primary'
-}

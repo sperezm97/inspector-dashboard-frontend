@@ -5,11 +5,11 @@ import {
   rowActions,
 } from '../../../../@core/components/table/commonColumns'
 
-export const getRol = (id) => {
+export const getRol = (id, index) => {
   const rolSelector = useSelector((state) => state?.rols?.rols)
 
   return (
-    <span style={{ marginRight: '5px' }}>
+    <span key={index} style={{ marginRight: '5px' }}>
       <Badge color="light-primary">{rolSelector[id - 1]?.name}</Badge>
     </span>
   )
@@ -45,10 +45,10 @@ export const columns = [
     sortable: true,
     cell: (row) => {
       const userInfo = {
-        reporterId: row.id,
-        reporterFirstName: row.firstname,
-        reporterLastName: row.lastname,
-        reporterCedula: row.cedula,
+        id: row.id,
+        firstName: row.firstname,
+        lastName: row.lastname,
+        cedula: row.cedula,
       }
 
       return rowClient(userInfo)
@@ -80,7 +80,7 @@ export const columns = [
     minWidth: '172px',
     selector: 'role_ids',
     sortable: true,
-    cell: (row) => row.role_ids.map((rol) => getRol(rol)),
+    cell: (row) => row.role_ids.map((rol, index) => getRol(rol, index)),
   },
   {
     name: 'Acciones',

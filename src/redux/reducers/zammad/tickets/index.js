@@ -12,10 +12,7 @@ const ticketsReducer = (state = initialState, action) => {
       return {
         ...state,
         tickets: action.payload,
-        listTickets: ticketNewObjectFiltered(
-          Object.values(action.payload.Ticket),
-          action.payload,
-        ),
+        listTickets: ticketNewObjectFiltered(action.payload.Ticket, action.payload,),
       }
 
     default:

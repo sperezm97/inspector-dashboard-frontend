@@ -11,15 +11,10 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import { filterByStatusTickets } from '../../../utility/Utils'
+import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 
-const GoalOverview = (props) => {
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    axios
-      .get('/card/card-analytics/goal-overview')
-      .then((res) => setData(res.data))
-  }, [])
+const GoalOverview = ({success, dataTableTickets}) => {
 
   const options = {
     chart: {
@@ -66,7 +61,7 @@ const GoalOverview = (props) => {
         shade: 'dark',
         type: 'horizontal',
         shadeIntensity: 0.5,
-        gradientToColors: [props.success],
+        gradientToColors: [success],
         inverseColors: true,
         opacityFrom: 1,
         opacityTo: 1,
@@ -82,9 +77,12 @@ const GoalOverview = (props) => {
       },
     },
   }
-  const series = [83]
 
-  return data !== null ? (
+  const ticketsClosed = filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.id).length || '0'
+  const ticketsNoClosed = dataTableTickets.filter(tickets => tickets.status !== statusTicketsObj.closed.id).length || '0'
+  const series = parseInt(ticketsClosed * 100 / ticketsNoClosed) || '0'
+
+  return (
     <Card>
       <CardHeader>
         <CardTitle tag="h4">Resumen de Objetivos</CardTitle>
@@ -93,7 +91,7 @@ const GoalOverview = (props) => {
       <CardBody className="p-0">
         <Chart
           options={options}
-          series={series}
+          series={[series]}
           type="radialBar"
           height={245}
         />
@@ -101,14 +99,14 @@ const GoalOverview = (props) => {
       <Row className="border-top text-center mx-0">
         <Col xs="6" className="border-right py-1">
           <CardText className="text-muted mb-0">Completados</CardText>
-          <h3 className="font-weight-bolder mb-0">{data.completed}</h3>
+          <h3 className="font-weight-bolder mb-0">{ticketsClosed}</h3>
         </Col>
         <Col xs="6" className="py-1">
           <CardText className="text-muted mb-0">En Progreso</CardText>
-          <h3 className="font-weight-bolder mb-0">{data.inProgress}</h3>
+          <h3 className="font-weight-bolder mb-0">{ticketsNoClosed}</h3>
         </Col>
       </Row>
     </Card>
-  ) : null
+  )
 }
 export default GoalOverview

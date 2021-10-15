@@ -1,7 +1,15 @@
+import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { Card, CardTitle, CardText, CardBody, Row, Col } from 'reactstrap'
 
-const Earnings = ({ success }) => {
+const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
+
+  const [ valuePercent, setValuePercent ] = useState('')
+
+  useEffect(() => {
+    setValuePercent(thisMonth - beforeMonth / beforeMonth * 100)
+  }, [thisMonth, beforeMonth])
+
   const options = {
     chart: {
       toolbar: {
@@ -12,10 +20,10 @@ const Earnings = ({ success }) => {
       enabled: false,
     },
     legend: { show: false },
-    comparedResult: [2, -3, 8],
-    labels: ['App', 'Service', 'Product'],
+    // comparedResult: [2, 13, 8],
+    labels: ['Mes anterior', 'Este mes'],
     stroke: { width: 0 },
-    colors: ['#28c76f66', '#28c76f33', success],
+    colors: ['#28c76f66', success],
     grid: {
       padding: {
         right: -20,
@@ -35,7 +43,7 @@ const Earnings = ({ success }) => {
             value: {
               offsetY: -15,
               formatter(val) {
-                return `${parseInt(val)} %`
+                return `${parseInt(val)}`
               },
             },
             total: {
@@ -43,7 +51,7 @@ const Earnings = ({ success }) => {
               offsetY: 15,
               label: 'Casos',
               formatter(w) {
-                return '53%'
+                return `${valuePercent}%`
               },
             },
           },
@@ -90,23 +98,27 @@ const Earnings = ({ success }) => {
     <Card className="earnings-card">
       <CardBody>
         <Row>
-          <Col xs="6">
-            <CardTitle className="mb-1">Casos Completados</CardTitle>
-            <div className="font-small-2">Este mes</div>
-            <h5 className="mb-1">4055.56</h5>
-            <CardText className="text-muted font-small-2">
-              <span className="font-weight-bolder">68.2%</span>
-              <span> más que el mes anterior</span>
-            </CardText>
-          </Col>
-          <Col xs="6">
-            <Chart
-              options={options}
-              series={[53, 16, 31]}
-              type="donut"
-              height={120}
-            />
-          </Col>
+          {valuePercent ?
+            <>
+              <Col xs="6">
+                <CardTitle className="mb-1">Casos Completados</CardTitle>
+                <div className="font-small-2">Este mes</div>
+                <h5 className="mb-1">{thisMonth}</h5>
+                <CardText className="text-muted font-small-2">
+                  <span className="font-weight-bolder">{valuePercent}%</span>
+                  <span> de el mes anterior</span>
+                </CardText>
+              </Col>
+              <Col xs="6">
+                <Chart
+                  options={options}
+                  series={[beforeMonth, thisMonth]}
+                  type="donut"
+                  height={120}
+                />
+              </Col>
+            </> : null
+          }
         </Row>
       </CardBody>
     </Card>

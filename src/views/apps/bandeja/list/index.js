@@ -5,13 +5,11 @@ import Select from 'react-select'
 
 import { kFormatter, selectThemeColors } from '@utils'
 
-import SubscribersGained from './SubscribersGained'
+import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 import { dataInfoChart } from './dataInfoChart'
 import { columns } from './columns'
 import DataTableList from './table'
 import CardGrid from '../../../../@core/components/card-grid'
-// import { ButtonRipple } from '../../../../@core/components/button'
-// import Url from '../../../../constants/Url'
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { territoriesLabel } from '../../../../constants/label/territories'
@@ -123,21 +121,26 @@ const Bandeja = () => {
       (data) =>
         (data.title || '').toLowerCase().includes(queryLowered) ||
         (data.address || '').toLowerCase().includes(queryLowered) ||
-        (data.reporterFirstName || '').toLowerCase().includes(queryLowered) ||
-        (data.reporterLastName || '').toLowerCase().includes(queryLowered) ||
-        (data.reporterCedula || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerFirstName || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerLastName || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerCedula || '').toLowerCase().includes(queryLowered) ||
+        (data.customerFirstName || '').toLowerCase().includes(queryLowered) ||
+        (data.customerLastName || '').toLowerCase().includes(queryLowered) ||
+        (data.customerCedula || '').toLowerCase().includes(queryLowered) ||
         (data.institutionName || '').toLowerCase().includes(queryLowered) ||
         (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
     )
 
   return (
+    dataTableTickets[0] ?
     <>
       <Row className="match-height">
         {infoChart.map((dataInfoChart, index) => (
           <Col lg="3" sm="6" key={index}>
-            <SubscribersGained
+            <StatsWithAreaChart
               kFormatter={kFormatter}
               dataInfoChart={dataInfoChart}
+              series={[{ name: dataInfoChart.title, data: null }]}
             />
           </Col>
         ))}
@@ -208,6 +211,7 @@ const Bandeja = () => {
         />
       )}
     </>
+    : null
   )
 }
 

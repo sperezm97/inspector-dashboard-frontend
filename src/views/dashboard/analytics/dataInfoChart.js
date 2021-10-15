@@ -1,8 +1,10 @@
 import { useContext } from 'react'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import { CheckCircle, Users, FileText, BookOpen } from 'react-feather'
+import { filterByStatusTickets } from '../../../utility/Utils'
+import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 
-export const dataInfoChart = () => {
+export const dataInfoChart = (tickets, reporteros) => {
   const { colors } = useContext(ThemeColors)
 
   return [
@@ -10,33 +12,32 @@ export const dataInfoChart = () => {
       icon: <FileText size={21} />,
       color: 'danger',
       colorHEX: colors.danger.main,
-      quantity: 9876,
+      quantity: tickets?.length || '0',
       title: 'Total de Casos',
-      data: [28, 40, 36, 52, 38, 60, 55],
     },
     {
       icon: <BookOpen size={21} />,
       color: 'warning',
       colorHEX: colors.warning.main,
-      quantity: 9876,
+      quantity:
+        filterByStatusTickets(tickets, statusTicketsObj.open.id).length || '0',
       title: 'Casos Abiertos',
-      data: [28, 40, 36, 52, 38, 60, 55],
     },
     {
       icon: <CheckCircle size={21} />,
       color: 'secondary',
       colorHEX: colors.secondary.main,
-      quantity: 9876,
+      quantity:
+        filterByStatusTickets(tickets, statusTicketsObj.closed.id).length ||
+        '0',
       title: 'Casos Finalizados',
-      data: [28, 40, 36, 52, 38, 60, 55],
     },
     {
       icon: <Users size={21} />,
       color: 'primary',
       colorHEX: colors.primary.main,
-      quantity: 9876,
+      quantity: reporteros || '0',
       title: 'Reporteros Activos',
-      data: [28, 40, 36, 52, 38, 60, 55],
     },
   ]
 }
