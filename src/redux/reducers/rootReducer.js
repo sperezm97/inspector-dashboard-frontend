@@ -17,6 +17,7 @@ import auth from './auth'
 import tickets from './zammad/tickets'
 import users from './zammad/users'
 import rols from './zammad/rols'
+import organizations from './zammad/organizations'
 
 import regions from './territories/regions'
 import provinces from './territories/provinces'
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   tickets,
   users,
   rols,
+  organizations,
 
   regions,
   provinces,

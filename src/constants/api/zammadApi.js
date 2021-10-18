@@ -4,4 +4,6 @@ export const zammadApi = {
   allUsers: 'users',
 
   allRols: 'roles',
+
+  allOrganizations: 'organizations'
 }

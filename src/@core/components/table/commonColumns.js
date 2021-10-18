@@ -48,13 +48,13 @@ export const rowInstitution = row => (
         <div className='d-flex justify-content-left align-items-center'>
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.institution}/${row.institutionId}`}
+                    to={`${Url.institution}/${row.id}`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.institutionAcronym ? row.institutionAcronym : 'No definido'}</span>
+                    <span className='font-weight-bold'>{row.acronym ? row.acronym : 'No definido'}</span>
                 </Link>
                 <small className='text-muted mb-0' style={{marginTop: '4px'}}>
-                    {row.institutionName ? row.institutionName : 'No definido'}
+                    {row.name ? row.name : 'No definido'}
                 </small>
             </div>
         </div>

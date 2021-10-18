@@ -4,4 +4,6 @@ export const ticketsTypes = {
   GET_USERS: 'GET_USERS',
 
   GET_ROLS: 'GET_ROLS',
+
+  GET_ORGANIZATIONS: 'GET_ORGANIZATIONS',
 }

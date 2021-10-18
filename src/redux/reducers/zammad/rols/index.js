@@ -4,7 +4,7 @@ const initialState = {
   rols: [],
 }
 
-const usersReducer = (state = initialState, action) => {
+const rolsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ticketsTypes.GET_ROLS:
       return {
@@ -17,4 +17,4 @@ const usersReducer = (state = initialState, action) => {
   }
 }
 
-export default usersReducer
+export default rolsReducer
