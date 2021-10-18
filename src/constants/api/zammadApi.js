@@ -5,5 +5,5 @@ export const zammadApi = {
 
   allRols: 'roles',
 
-  allOrganizations: 'organizations'
+  allOrganizations: 'organizations',
 }

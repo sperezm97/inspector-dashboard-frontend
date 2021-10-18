@@ -1,4 +1,7 @@
-import { rowActions, rowInstitution } from '../../../../../@core/components/table/commonColumns'
+import {
+  rowActions,
+  rowInstitution,
+} from '../../../../../@core/components/table/commonColumns'
 
 export const columns = [
   {
@@ -10,7 +13,7 @@ export const columns = [
       const data = {
         id: row.id,
         name: row.name,
-        acronym: row.acronimo
+        acronym: row.acronimo,
       }
       return rowInstitution(data)
     },
