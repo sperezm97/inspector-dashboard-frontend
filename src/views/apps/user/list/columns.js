@@ -5,14 +5,11 @@ import {
   rowActions,
 } from '../../../../@core/components/table/commonColumns'
 
-export const getRol = (rol, index) => {
-
-  return (
-    <span key={index} style={{ marginRight: '5px' }}>
-      <Badge color="light-primary">{rol}</Badge>
-    </span>
-  )
-}
+export const getRol = (rol, index) => (
+  <span key={index} style={{ marginRight: '5px' }}>
+    <Badge color="light-primary">{rol}</Badge>
+  </span>
+)
 
 export const getProvinces = (id) => {
   const provincesSelector = useSelector(
