@@ -124,7 +124,7 @@ const DataTableList = ({
   // const [rowsPerPage, setRowsPerPage] = useState(10)
 
   useEffect(() => {
-    setNewDataTable(dataTable)
+    setNewDataTable(dataTable.reverse())
   }, [dataTable])
 
   // const paginateArray = (array) => array.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)

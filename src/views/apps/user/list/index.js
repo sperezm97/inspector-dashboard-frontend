@@ -176,14 +176,12 @@ const UsersList = () => {
         </Row>
       </CardGrid>
 
-      {dataTable && (
-        <DataTableList
-          columnsTable={columns}
-          dataTable={dataTable}
-          searchTable={searchTable}
-          showButtonAddUser
-        />
-      )}
+      <DataTableList
+        columnsTable={columns}
+        dataTable={dataTable}
+        searchTable={searchTable}
+        showButtonAddUser
+      />
     </>
   )
 }
