@@ -6,6 +6,12 @@
 
 Back-office de la aplicación del reportero, donde se gestionan los tickets, información de las instituciones y administración de los diferentes usuarios. Utilizando la API de **[ZAMMAD](https://zammad.rgg.digital.gob.do/#login)** y **[TERRITORIOS](https://api.digital.gob.do/v1/territories/api/)**.
 
+## Tecnologías
+
+- [ReactJS](https://reactjs.org/)
+- [Redux](https://redux.js.org/introduction/getting-started)
+- [Tema de VUEXY](https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/)
+
 ## Guía de instalación
 
 > *Se recomienda utilizar yarn*

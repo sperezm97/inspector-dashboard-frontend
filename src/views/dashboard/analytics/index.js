@@ -16,7 +16,7 @@ import Earnings from './Earnings'
 import GoalOverview from './GoalOverview'
 import AvgSessions from './AvgSessions'
 
-import { getAllTicketsActions } from '../../../redux/actions/zammad/tickets'
+import { getAllTicketsActions, getTicketsByTwoDateActions } from '../../../redux/actions/zammad/tickets'
 
 import { dataInfoChart } from './dataInfoChart'
 
@@ -30,9 +30,13 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
     dispatch(getAllTicketsActions())
+    dispatch(getTicketsByTwoDateActions(dateBeforeDay(28, 'days', 'YYYY-MM-DD'), dateToday('YYYY-MM-DD')))
   }, [dispatch])
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
+  const dataTableTicketsTwo = useSelector((state) => state?.tickets?.ticketsTwoDate?.Ticket)
+  const newDataTableTicketsTwo = dataTableTicketsTwo && Object.values(dataTableTicketsTwo) || []
+  console.log(newDataTableTicketsTwo)
 
   const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
@@ -48,14 +52,14 @@ const AnalyticsDashboard = () => {
   const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
   useEffect(() => {
-    const date = dataTableTickets.filter(
-      (cases) => formatDate(cases.createDate) === dateToday(),
+    const date = newDataTableTicketsTwo.filter(
+      (cases) => formatDate(cases.created_at) === dateToday(),
     ).length
-    const dateDayOne = dataTableTickets.filter(
-      (cases) => formatDate(cases.createDate) === dateBeforeDay(1),
+    const dateDayOne = newDataTableTicketsTwo.filter(
+      (cases) => formatDate(cases.created_at) === dateBeforeDay(1),
     ).length
-    const dateDayTwo = dataTableTickets.filter(
-      (cases) => formatDate(cases.createDate) === dateBeforeDay(2),
+    const dateDayTwo = newDataTableTicketsTwo.filter(
+      (cases) => formatDate(cases.created_at) === dateBeforeDay(2),
     ).length
 
     const dateMonth = dataTableTickets.filter(

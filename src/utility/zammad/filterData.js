@@ -6,7 +6,7 @@ export const ticketNewObjectFiltered = (tickets = [], objs = []) => {
         id: ticket.id,
         idTicket: ticket.number,
         title: ticket.title,
-        status: objs?.TicketState[ticket.state_id].name,
+        status: objs?.TicketState[ticket.state_id]?.name,
         address: ticket.address,
         createDate: ticket.created_at,
 

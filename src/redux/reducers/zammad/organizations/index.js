@@ -1,4 +1,4 @@
-import { ticketsTypes } from '../../../types/zammad/ticketsTypes'
+import { zammadTypes } from '../../../types/zammad'
 
 const initialState = {
   organizations: [],
@@ -6,7 +6,7 @@ const initialState = {
 
 const organizationsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ticketsTypes.GET_ORGANIZATIONS:
+    case zammadTypes.GET_ORGANIZATIONS:
       return {
         ...state,
         organizations: action.payload,

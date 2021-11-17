@@ -1,11 +1,11 @@
 import { zammadAxios } from '../../../../configs/axios'
 import { zammadApi } from '../../../../constants/api/zammadApi'
-import { ticketsTypes } from '../../../types/zammad/ticketsTypes'
+import { zammadTypes } from '../../../types/zammad'
 
 export const getAllRolsActions = () => (dispatch) =>
   zammadAxios.get(zammadApi.allRols).then((response) => {
     dispatch({
-      type: ticketsTypes.GET_ROLS,
+      type: zammadTypes.GET_ROLS,
       payload: response.data,
     })
   })
