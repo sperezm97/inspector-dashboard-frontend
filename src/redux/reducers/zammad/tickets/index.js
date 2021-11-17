@@ -19,11 +19,11 @@ const ticketsReducer = (state = initialState, action) => {
         ),
       }
 
-      case zammadTypes.GET_TICKETS_TWO_DATE:
-        return {
-          ...state,
-          ticketsTwoDate: action.payload
-        }
+    case zammadTypes.GET_TICKETS_TWO_DATE:
+      return {
+        ...state,
+        ticketsTwoDate: action.payload,
+      }
 
     default:
       return state

@@ -16,7 +16,10 @@ import Earnings from './Earnings'
 import GoalOverview from './GoalOverview'
 import AvgSessions from './AvgSessions'
 
-import { getAllTicketsActions, getTicketsByTwoDateActions } from '../../../redux/actions/zammad/tickets'
+import {
+  getAllTicketsActions,
+  getTicketsByTwoDateActions,
+} from '../../../redux/actions/zammad/tickets'
 
 import { dataInfoChart } from './dataInfoChart'
 
@@ -30,12 +33,20 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
     dispatch(getAllTicketsActions())
-    dispatch(getTicketsByTwoDateActions(dateBeforeDay(28, 'days', 'YYYY-MM-DD'), dateToday('YYYY-MM-DD')))
+    dispatch(
+      getTicketsByTwoDateActions(
+        dateBeforeDay(28, 'days', 'YYYY-MM-DD'),
+        dateToday('YYYY-MM-DD'),
+      ),
+    )
   }, [dispatch])
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
-  const dataTableTicketsTwo = useSelector((state) => state?.tickets?.ticketsTwoDate?.Ticket)
-  const newDataTableTicketsTwo = dataTableTicketsTwo && Object.values(dataTableTicketsTwo) || []
+  const dataTableTicketsTwo = useSelector(
+    (state) => state?.tickets?.ticketsTwoDate?.Ticket,
+  )
+  const newDataTableTicketsTwo =
+    (dataTableTicketsTwo && Object.values(dataTableTicketsTwo)) || []
   console.log(newDataTableTicketsTwo)
 
   const usersState = useSelector((state) => state?.tickets?.tickets?.User)

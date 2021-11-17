@@ -19,12 +19,14 @@ export const getTicketsByDateActions = (date) => (dispatch) =>
   })
 
 export const getTicketsByTwoDateActions = (date1, date2) => (dispatch) =>
-  zammadAxios.get(`${zammadApi.ticketsByDate}[${date1} TO ${date2}]`).then((response) => {
-    dispatch({
-      type: zammadTypes.GET_TICKETS_TWO_DATE,
-      payload: response.data.assets,
+  zammadAxios
+    .get(`${zammadApi.ticketsByDate}[${date1} TO ${date2}]`)
+    .then((response) => {
+      dispatch({
+        type: zammadTypes.GET_TICKETS_TWO_DATE,
+        payload: response.data.assets,
+      })
     })
-  })
 
 export const getTicketsByStateActions = (idState) => (dispatch) =>
   zammadAxios.get(`${zammadApi.ticketsByState}${idState}`).then((response) => {
