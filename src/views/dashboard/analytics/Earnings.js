@@ -20,7 +20,7 @@ const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
     },
     legend: { show: false },
     // comparedResult: [2, 13, 8],
-    labels: ['Mes anterior', 'Este mes'],
+    labels: ['Semana anterior', 'Esta Semana'],
     stroke: { width: 0 },
     colors: ['#28c76f66', success],
     grid: {
@@ -101,11 +101,11 @@ const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
             <>
               <Col xs="6">
                 <CardTitle className="mb-1">Casos Completados</CardTitle>
-                <div className="font-small-2">Este mes</div>
+                <div className="font-small-2">Esta Semana</div>
                 <h5 className="mb-1">{thisMonth}</h5>
                 <CardText className="text-muted font-small-2">
                   <span className="font-weight-bolder">{valuePercent}%</span>
-                  <span> de el mes anterior</span>
+                  <span> de la Semana anterior</span>
                 </CardText>
               </Col>
               <Col xs="6">

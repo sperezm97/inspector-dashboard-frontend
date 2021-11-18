@@ -11,10 +11,15 @@ export const kFormatter = (num) =>
 export const htmlToString = (html) => html.replace(/<\/?[^>]+(>|$)/g, '')
 
 export const dateToday = (f) => moment().format(f || 'DD/MM/YYYY')
-export const dateBeforeDay = (day = 1, dayMonths = 'days', f) =>
+export const dateBeforeDay = ({day = 1, dayMonthsAgo = 'days', f}) =>
   moment()
-    .subtract(day, dayMonths)
+    .subtract(day, dayMonthsAgo)
     .format(f || 'DD/MM/YYYY')
+
+export const toMs = (dateStr) => {
+  let parts = dateStr.split("/")
+  return new Date(parts[2], parts[1] - 1, parts[0]).getTime()
+}
 
 // ** Checks if the passed date is today
 const isToday = (date) => {

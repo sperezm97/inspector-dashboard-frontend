@@ -16,15 +16,13 @@ import Earnings from './Earnings'
 import GoalOverview from './GoalOverview'
 import AvgSessions from './AvgSessions'
 
-import {
-  getAllTicketsActions,
-  getTicketsByTwoDateActions,
-} from '../../../redux/actions/zammad/tickets'
+import { getAllTicketsActions, getTicketsByTwoDateActions } from '../../../redux/actions/zammad/tickets'
 
 import { dataInfoChart } from './dataInfoChart'
 
 import '@styles/react/libs/charts/apex-charts.scss'
-import { dateToday, dateBeforeDay, formatDate } from '../../../utility/Utils'
+import { dateToday, dateBeforeDay, formatDate, toMs } from '../../../utility/Utils'
+import { getAllOrganizationsActions } from '../../../redux/actions/zammad/organizations'
 
 const AnalyticsDashboard = () => {
   const dispatch = useDispatch()
@@ -33,69 +31,77 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
     dispatch(getAllTicketsActions())
-    dispatch(
-      getTicketsByTwoDateActions(
-        dateBeforeDay(28, 'days', 'YYYY-MM-DD'),
-        dateToday('YYYY-MM-DD'),
-      ),
-    )
+    dispatch(getTicketsByTwoDateActions(dateBeforeDay({day: 28, f: 'YYYY-MM-DD'}), dateToday('YYYY-MM-DD')))
+    dispatch(getAllOrganizationsActions())
   }, [dispatch])
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
-  const dataTableTicketsTwo = useSelector(
-    (state) => state?.tickets?.ticketsTwoDate?.Ticket,
-  )
-  const newDataTableTicketsTwo =
-    (dataTableTicketsTwo && Object.values(dataTableTicketsTwo)) || []
-  console.log(newDataTableTicketsTwo)
-
+  const dataTableTicketsTwo = useSelector((state) => state?.tickets?.ticketsTwoDate?.Ticket)
+  const newDataTableTicketsTwo = dataTableTicketsTwo && Object.values(dataTableTicketsTwo) || []
+  
   const usersState = useSelector((state) => state?.tickets?.tickets?.User)
   const newUsersState = usersState && Object.values(usersState)
 
-  const [casesTodayState, setCasesTodayState] = useState(0)
-  const [casesDayOneBefore, setCasesDayOneBefore] = useState(0)
-  const [casesDayTwoBefore, setCasesDayTwoBefore] = useState(0)
+  const organizationsState = useSelector((state) => state?.organizations?.organizations)
+  
+  const [casesDayState, setCasesDayState] = useState({
+    firstDay: 0, secondDay: 0, thirdDay: 0,
+  })
 
-  const [casesMonthState, setCasesMonthState] = useState(0)
-  const [casesMonthBeforeState, setCasesMonthBeforeState] = useState(0)
-  const [casesTwoMonthBeforeState, setCasesTwoMonthBeforeState] = useState(0)
+  const [casesWeekState, setCasesWeekState] = useState({
+    firstWeek: 0, secondWeek: 0, thirdWeek: 0, fourthWeek: 0
+  })
 
   const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
   useEffect(() => {
-    const date = newDataTableTicketsTwo.filter(
+    const dateDay = newDataTableTicketsTwo.filter(
       (cases) => formatDate(cases.created_at) === dateToday(),
     ).length
-    const dateDayOne = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.created_at) === dateBeforeDay(1),
+    const dateDayOneAgo = newDataTableTicketsTwo.filter(
+      (cases) => formatDate(cases.created_at) === dateBeforeDay({day: 1}),
     ).length
-    const dateDayTwo = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.created_at) === dateBeforeDay(2),
-    ).length
-
-    const dateMonth = dataTableTickets.filter(
-      (cases) =>
-        formatDate(cases.createDate).substr(3) === dateToday('MM/YYYY'),
-    ).length
-    const dateMonthBefore = dataTableTickets.filter(
-      (cases) =>
-        formatDate(cases.createDate).substr(3) ===
-        dateBeforeDay(1, 'months', 'MM/YYYY'),
-    ).length
-    const dateTwoMonthBefore = dataTableTickets.filter(
-      (cases) =>
-        formatDate(cases.createDate).substr(3) ===
-        dateBeforeDay(2, 'months', 'MM/YYYY'),
+    const dateDayTwoAgo = newDataTableTicketsTwo.filter(
+      (cases) => formatDate(cases.created_at) === dateBeforeDay({day: 2}),
     ).length
 
-    setCasesTodayState(date)
-    setCasesDayOneBefore(dateDayOne)
-    setCasesDayTwoBefore(dateDayTwo)
+    const dateWeek = newDataTableTicketsTwo.filter(
+      (cases) =>
+        toMs(formatDate(cases.created_at)) >= toMs(dateBeforeDay({day: 7})) && toMs(formatDate(cases.created_at)) <= toMs(dateToday()),
+    ).length
 
-    setCasesMonthState(dateMonth)
-    setCasesMonthBeforeState(dateMonthBefore)
-    setCasesTwoMonthBeforeState(dateTwoMonthBefore)
-  }, [dataTableTickets])
+    const dateWeekTwoAgo = newDataTableTicketsTwo.filter(
+      (cases) =>
+        toMs(formatDate(cases.created_at)) >= toMs(dateBeforeDay({day: 14})) && toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({day: 8})),
+    ).length
+
+    const dateWeekThreeAgo = newDataTableTicketsTwo.filter(
+      (cases) =>
+        toMs(formatDate(cases.created_at)) >= toMs(dateBeforeDay({day: 21})) && toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({day: 15})),
+    ).length
+
+    const dateWeekFourAgo = newDataTableTicketsTwo.filter(
+      (cases) =>
+        toMs(formatDate(cases.created_at)) >= toMs(dateBeforeDay({day: 28})) && toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({day: 22})),
+    ).length
+
+    const objDay = {
+      firstDay: dateDay, 
+      secondDay: dateDayOneAgo, 
+      thirdDay: dateDayTwoAgo,
+    }
+
+    const objWeek = {
+      firstWeek: dateWeek, 
+      secondWeek: dateWeekTwoAgo, 
+      thirdWeek: dateWeekThreeAgo, 
+      fourthWeek: dateWeekFourAgo,
+    }
+
+    setCasesDayState(objDay)
+    setCasesWeekState(objWeek)
+
+  }, [newDataTableTicketsTwo[0]])
 
   return dataTableTickets[0] ? (
     <div id="dashboard-analytics">
@@ -110,50 +116,51 @@ const AnalyticsDashboard = () => {
           </Col>
         ))}
 
-        <Col lg="4" md="12">
+        <Col lg="2" md="6">
           <Row className="match-height">
-            <Col lg="6" md="6" xs="6">
+            <Col xs="12">
               <TinyChartStats
                 height={70}
                 type="bar"
                 title="Casos por Día"
-                total={casesTodayState}
+                total={casesDayState.firstDay}
                 series={[
                   {
                     name: 'Casos',
                     data: [
-                      casesDayTwoBefore,
-                      casesDayOneBefore,
-                      casesTodayState,
+                      casesDayState.thirdDay,
+                      casesDayState.secondDay,
+                      casesDayState.firstDay,
                     ],
                   },
                 ]}
               />
             </Col>
-            <Col xs="6">
+            <Col xs="12">
               <TinyChartStats
                 height={70}
                 type="line"
-                title="Casos por Mes"
-                total={casesMonthState}
+                title="Casos por Semana"
+                total={casesWeekState.firstWeek}
                 series={[
                   {
                     name: 'Casos',
                     data: [
-                      casesTwoMonthBeforeState,
-                      casesMonthBeforeState,
-                      casesMonthState,
+                      casesWeekState.fourthWeek,
+                      casesWeekState.thirdWeek,
+                      casesWeekState.secondWeek,
+                      casesWeekState.firstWeek,
                     ],
                   },
                 ]}
               />
             </Col>
             <Col lg="12" md="6" xs="12">
-              <Earnings
-                beforeMonth={casesMonthBeforeState}
-                thisMonth={casesMonthState}
+              {/* <Earnings
+                beforeMonth={casesWeekState.secondWeek}
+                thisMonth={casesWeekState.firstWeek}
                 success={colors.success.main}
-              />
+              /> */}
             </Col>
           </Row>
         </Col>
@@ -164,8 +171,11 @@ const AnalyticsDashboard = () => {
             success={colors.success.main}
           />
         </Col>
-        <Col lg="4" md="6" xs="12">
-          <CardBrowserStates colors={colors} trackBgColor="#e9ecef" />
+        <Col lg="6" md="6" xs="12">
+          <CardBrowserStates 
+            organizations={organizationsState} 
+            listTickets={newDataTableTicketsTwo}
+          />
         </Col>
         <Col lg="4" md="6" xs="12">
           <CardTransactions />
