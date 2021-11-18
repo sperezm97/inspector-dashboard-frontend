@@ -11,18 +11,15 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const CardBrowserState = ({organizations, listTickets}) => {
-
+const CardBrowserState = ({ organizations, listTickets }) => {
   const renderStates = () =>
     organizations.map((state) => {
-      
-      const ticketLength = listTickets.filter(ticket => ticket.organization_id === state.id).length || 0
-      
+      const ticketLength =
+        listTickets.filter((ticket) => ticket.organization_id === state.id)
+          .length || 0
+
       return (
-        <div 
-          key={state.id} 
-          className="browser-states"
-        >
+        <div key={state.id} className="browser-states">
           <div className="flex-grow-1">
             <Media>
               <img
@@ -31,11 +28,15 @@ const CardBrowserState = ({organizations, listTickets}) => {
                 height="30"
                 alt={state.acronimo}
               />
-              <h6 className="align-self-center mb-0">{state.acronimo} - {state.name}</h6>
+              <h6 className="align-self-center mb-0">
+                {state.acronimo} - {state.name}
+              </h6>
             </Media>
           </div>
           <div>
-            <div className="font-weight-bold text-body-heading mx-1">{ticketLength}</div>
+            <div className="font-weight-bold text-body-heading mx-1">
+              {ticketLength}
+            </div>
           </div>
         </div>
       )
@@ -45,7 +46,9 @@ const CardBrowserState = ({organizations, listTickets}) => {
     <Card className="card-browser-states">
       <CardHeader className="pb-0">
         <div className="flex-grow-1">
-          <CardTitle tag="h4" className="mb-1">Instituciones</CardTitle>
+          <CardTitle tag="h4" className="mb-1">
+            Instituciones
+          </CardTitle>
         </div>
         <div>
           <p className="text-muted">Últimos 28 días</p>
@@ -63,10 +66,7 @@ const CardBrowserState = ({organizations, listTickets}) => {
         </UncontrolledDropdown> */}
       </CardHeader>
       <CardBody>
-        <div 
-          className="overflow-auto"
-          style={{height: '300px'}}
-        >
+        <div className="overflow-auto" style={{ height: '300px' }}>
           {renderStates()}
         </div>
       </CardBody>
