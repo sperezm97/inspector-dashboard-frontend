@@ -64,9 +64,7 @@ const AnalyticsDashboard = () => {
     (state) => state?.organizations?.organizations,
   )
 
-  const provincesState = useSelector(
-    (state) => state?.provinces?.allProvinces,
-  )
+  const provincesState = useSelector((state) => state?.provinces?.allProvinces)
 
   const [casesDayState, setCasesDayState] = useState({
     firstDay: 0,
@@ -213,7 +211,7 @@ const AnalyticsDashboard = () => {
           />
         </Col>
         <Col lg="4" md="6" xs="12">
-          <CardTransactions 
+          <CardTransactions
             provinces={provincesState}
             listTickets={newDataTableTicketsTwo}
           />
