@@ -53,20 +53,9 @@ const CardBrowserState = ({ organizations, listTickets }) => {
         <div>
           <p className="text-muted">Últimos 28 días</p>
         </div>
-        {/* <UncontrolledDropdown className="chart-dropdown">
-          <DropdownToggle
-            color=""
-            className="bg-transparent btn-sm border-0 p-50"
-          >
-            <MoreVertical size={18} className="cursor-pointer" />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem className="w-100">Last 28 Days</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown> */}
       </CardHeader>
       <CardBody>
-        <div className="overflow-auto" style={{ height: '300px' }}>
+        <div className="overflow-auto" style={{ height: '310px' }}>
           {renderStates()}
         </div>
       </CardBody>

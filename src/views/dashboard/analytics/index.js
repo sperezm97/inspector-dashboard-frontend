@@ -31,6 +31,7 @@ import {
   toMs,
 } from '../../../utility/Utils'
 import { getAllOrganizationsActions } from '../../../redux/actions/zammad/organizations'
+import { getAllProvincesActions } from '../../../redux/actions/territories/provinces'
 
 const AnalyticsDashboard = () => {
   const dispatch = useDispatch()
@@ -46,6 +47,7 @@ const AnalyticsDashboard = () => {
       ),
     )
     dispatch(getAllOrganizationsActions())
+    dispatch(getAllProvincesActions())
   }, [dispatch])
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
@@ -60,6 +62,10 @@ const AnalyticsDashboard = () => {
 
   const organizationsState = useSelector(
     (state) => state?.organizations?.organizations,
+  )
+
+  const provincesState = useSelector(
+    (state) => state?.provinces?.allProvinces,
   )
 
   const [casesDayState, setCasesDayState] = useState({
@@ -132,7 +138,7 @@ const AnalyticsDashboard = () => {
     setCasesWeekState(objWeek)
   }, [newDataTableTicketsTwo[0]])
 
-  return dataTableTickets[0] ? (
+  return newDataTableTicketsTwo[0] ? (
     <div id="dashboard-analytics">
       <Row className="match-height">
         {infoChart.map((dataInfoChart, index) => (
@@ -207,7 +213,10 @@ const AnalyticsDashboard = () => {
           />
         </Col>
         <Col lg="4" md="6" xs="12">
-          <CardTransactions />
+          <CardTransactions 
+            provinces={provincesState}
+            listTickets={newDataTableTicketsTwo}
+          />
         </Col>
         <Col lg="8" xs="12">
           <AvgSessions colors={colors} />
