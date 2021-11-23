@@ -12,3 +12,7 @@ export const zammadAxios = axios.create({
 export const territoriesAxios = axios.create({
   baseURL: 'https://api.digital.gob.do/v1/territories/',
 })
+
+export const incidentsAxios = axios.create({
+  baseURL: 'https://api.digital.gob.do/v2/incidents/',
+})
