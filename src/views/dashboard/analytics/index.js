@@ -39,7 +39,7 @@ const AnalyticsDashboard = () => {
   const { colors } = useContext(ThemeColors)
 
   useEffect(() => {
-    dispatch(getAllTicketsActions())
+    // dispatch(getAllTicketsActions())
     dispatch(
       getTicketsByTwoDateActions(
         dateBeforeDay({ day: 28, f: 'YYYY-MM-DD' }),
@@ -50,7 +50,7 @@ const AnalyticsDashboard = () => {
     dispatch(getAllProvincesActions())
   }, [dispatch])
 
-  const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
+  // const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
   const dataTableTicketsTwo = useSelector(
     (state) => state?.tickets?.ticketsTwoDate?.Ticket,
   )

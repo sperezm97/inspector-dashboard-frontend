@@ -90,7 +90,7 @@ const GoalOverview = ({ success, dataTableTickets }) => {
     <Card>
       <CardHeader>
         <CardTitle tag="h4">Resumen de Objetivos</CardTitle>
-        <HelpCircle size={18} className="text-muted cursor-pointer" />
+        {/* <HelpCircle size={18} className="text-muted cursor-pointer" /> */}
       </CardHeader>
       <CardBody className="p-0">
         <Chart

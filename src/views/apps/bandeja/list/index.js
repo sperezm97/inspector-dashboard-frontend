@@ -34,8 +34,8 @@ const Bandeja = () => {
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 
-  const usersState = useSelector((state) => state?.tickets?.tickets?.User)
-  const newUsersState = usersState && Object.values(usersState)
+  // const usersState = useSelector((state) => state?.tickets?.tickets?.User)
+  // const newUsersState = usersState && Object.values(usersState)
 
   const regionsSelector = useSelector((state) => state?.regions?.regions)
   const provincesSelector = useSelector((state) => state?.provinces?.provinces)
@@ -43,7 +43,7 @@ const Bandeja = () => {
     (state) => state?.municipalities?.municipalities,
   )
 
-  const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
+  // const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
   const regionRef = useRef({
     value: '',
@@ -133,7 +133,7 @@ const Bandeja = () => {
 
   return dataTableTickets[0] ? (
     <>
-      <Row className="match-height">
+      {/* <Row className="match-height">
         {infoChart.map((dataInfoChart, index) => (
           <Col lg="3" sm="6" key={index}>
             <StatsWithAreaChart
@@ -143,7 +143,7 @@ const Bandeja = () => {
             />
           </Col>
         ))}
-      </Row>
+      </Row> */}
 
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
