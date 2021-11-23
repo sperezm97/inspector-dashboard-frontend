@@ -19,6 +19,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 const CustomHeader = ({
   handleFilter,
   value,
+  newDataTable,
   // handleStatusValue,
   // statusValue,
   // handlePerPage,
@@ -51,7 +52,9 @@ const CustomHeader = ({
               <option value='100'>100</option>
             </CustomInput>
           </div> */}
-          <ExportButtons />
+          <ExportButtons
+            newDataTable={newDataTable}
+          />
         </Col>
         <Col
           lg="6"
@@ -238,6 +241,7 @@ const DataTableList = ({
             subHeaderComponent={
               <CustomHeader
                 value={value}
+                newDataTable={newDataTable}
                 // statusValue={statusValue}
                 // rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
