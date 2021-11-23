@@ -28,8 +28,7 @@ export const dataInfoChart = (tickets, reporteros) => {
       color: 'secondary',
       colorHEX: colors.secondary.main,
       quantity:
-        filterByStatusTickets(tickets, statusTicketsObj.closed.id).length ||
-        '0',
+        filterByStatusTickets(tickets, statusTicketsObj.closed.id).length || '0',
       title: 'Casos Finalizados',
     },
     {

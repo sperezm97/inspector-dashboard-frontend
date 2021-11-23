@@ -79,7 +79,7 @@ const AnalyticsDashboard = () => {
     fourthWeek: 0,
   })
 
-  const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
+  const infoChart = dataInfoChart(newDataTableTicketsTwo, newUsersState?.length)
 
   useEffect(() => {
     const dateDay = newDataTableTicketsTwo.filter(
@@ -200,7 +200,7 @@ const AnalyticsDashboard = () => {
 
         <Col lg="4" md="6" xs="12">
           <GoalOverview
-            dataTableTickets={dataTableTickets}
+            dataTableTickets={newDataTableTicketsTwo}
             success={colors.success.main}
           />
         </Col>
