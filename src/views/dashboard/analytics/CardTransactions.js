@@ -3,21 +3,23 @@ import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 
 const CardTransactions = ({ provinces, listTickets }) => {
-  const renderTransactions = () =>
-    provinces.map((state) => {
-      const ticketLength =
-        listTickets.filter(
-          (ticket) => ticket.zone.substr(0, 4) === state.identifier,
-        ).length || 0
 
+  
+  const renderTransactions = () =>
+  provinces.map((state) => {
+    const ticketLength =
+    listTickets.filter(
+      (ticket) => ticket.zone.substr(0, 4) === state.identifier,
+      ).length || 0
+      
+      const stateNum = Math.floor(Math.random() * 6),
+      states = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'],
+      color = states[stateNum]
+      
       return (
         <div key={state.identifier} className="transaction-item">
           <Media>
-            <Avatar
-              className="rounded"
-              color={state.color}
-              // icon={<item.Icon size={18} />}
-            />
+            <Avatar color={color || 'primary'} className='mr-1' content={state.name ? state.name : 'X'} initials />
             <h6 className="align-self-center mb-0">{state.name}</h6>
             {/* <small>{item.subtitle}</small> */}
           </Media>

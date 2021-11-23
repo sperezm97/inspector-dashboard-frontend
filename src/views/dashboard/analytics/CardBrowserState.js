@@ -22,12 +22,12 @@ const CardBrowserState = ({ organizations, listTickets }) => {
         <div key={state.id} className="browser-states">
           <div className="flex-grow-1">
             <Media>
-              <img
+              {/* <img
                 className="rounded mr-1"
                 src={require('@src/assets/images/icons/1.png').default}
                 height="30"
                 alt={state.acronimo}
-              />
+              /> */}
               <h6 className="align-self-center mb-0">
                 {state.acronimo} - {state.name}
               </h6>

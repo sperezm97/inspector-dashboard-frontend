@@ -217,7 +217,10 @@ const AnalyticsDashboard = () => {
           />
         </Col>
         <Col lg="8" xs="12">
-          <AvgSessions colors={colors} />
+          <AvgSessions 
+            colors={colors} 
+            listTickets={newDataTableTicketsTwo}
+          />
         </Col>
       </Row>
     </div>

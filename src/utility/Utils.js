@@ -122,3 +122,6 @@ export const noOptionsMessageSelect = (inputValue, label) =>
 
 export const filterByStatusTickets = (tickets = [], label = '') =>
   tickets.filter((ticket) => ticket.status === label)
+
+export const filterByPriorityTickets = (tickets = [], label = '') =>
+  tickets.filter((ticket) => ticket.priority_id === label)
