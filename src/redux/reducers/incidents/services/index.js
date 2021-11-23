@@ -1,7 +1,7 @@
 import { incidentsTypes } from '../../../types/incidents'
 
 const initialState = {
-    services: [],
+  services: [],
 }
 
 const servicesReducer = (state = initialState, action) => {

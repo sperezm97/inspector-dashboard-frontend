@@ -16,8 +16,7 @@ import {
 import Chart from 'react-apexcharts'
 import { filterByPriorityTickets } from '../../../utility/Utils'
 
-const AvgSessions = ({colors, listTickets}) => {
-
+const AvgSessions = ({ colors, listTickets }) => {
   const lowPriority = filterByPriorityTickets(listTickets, 1).length || 0
   const normalPriority = filterByPriorityTickets(listTickets, 2).length || 0
   const highPriority = filterByPriorityTickets(listTickets, 3).length || 0
@@ -41,11 +40,7 @@ const AvgSessions = ({colors, listTickets}) => {
         filter: 'none',
       },
     },
-    colors: [
-      colors.success.main,
-      colors.warning.main,
-      colors.danger.main,
-    ],
+    colors: [colors.success.main, colors.warning.main, colors.danger.main],
     plotOptions: {
       bar: {
         columnWidth: '45%',
@@ -63,7 +58,7 @@ const AvgSessions = ({colors, listTickets}) => {
   const series = [
     {
       name: 'Sessions',
-      data: [ lowPriority, normalPriority, highPriority ],
+      data: [lowPriority, normalPriority, highPriority],
     },
   ]
 

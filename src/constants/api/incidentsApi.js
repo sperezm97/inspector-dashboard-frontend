@@ -1,3 +1,3 @@
 export const incidentsApi = {
-    services: 'services',
+  services: 'services',
 }

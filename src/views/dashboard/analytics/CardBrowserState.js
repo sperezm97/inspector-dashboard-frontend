@@ -28,7 +28,9 @@ const CardBrowserState = ({ organizations, listTickets }) => {
                 height="30"
                 alt={state.acronimo}
               /> */}
-              <h6 className="align-self-center text-primary mb-0">{state.acronimo}</h6>
+              <h6 className="align-self-center text-primary mb-0">
+                {state.acronimo}
+              </h6>
             </Media>
             <small>{state.name}</small>
           </div>
