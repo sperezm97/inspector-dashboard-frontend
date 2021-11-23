@@ -2,8 +2,8 @@ export const Url = {
   home: '/dashboard/reporte',
 
   dashboardReport: '/dashboard/reporte',
-  dashboardInbox: '/dashboard/bandeja',
-  dashboardInboxCreate: '/dashboard/bandeja/crear',
+  dashboardInbox: '/tickets/lista',
+  dashboardInboxCreate: '/tickets/crear',
 
   user: '/usuario',
   userCreate: '/usuario/crear',
