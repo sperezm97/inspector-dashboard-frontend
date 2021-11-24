@@ -8,13 +8,13 @@ export default [
     icon: <List size={20} />,
     children: [
       {
-        id: 'ticket',
+        id: 'ticketList',
         title: 'Lista',
         icon: <Circle size={12} />,
         navLink: Url.dashboardInbox,
       },
       {
-        id: 'ticket',
+        id: 'ticketCreate',
         title: 'Crear',
         icon: <Circle size={12} />,
         navLink: Url.dashboardInboxCreate,
