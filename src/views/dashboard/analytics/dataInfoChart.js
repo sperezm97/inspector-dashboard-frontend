@@ -19,7 +19,9 @@ export const dataInfoChart = (tickets, reporteros) => {
       icon: <BookOpen size={21} />,
       color: 'warning',
       colorHEX: colors.warning.main,
-      quantity: tickets.filter((ticket) => ticket.status !== statusTicketsObj.closed.id).length || '0',
+      quantity:
+        tickets.filter((ticket) => ticket.status !== statusTicketsObj.closed.id)
+          .length || '0',
       title: 'Casos Abiertos',
     },
     {

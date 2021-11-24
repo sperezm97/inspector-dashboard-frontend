@@ -3,19 +3,11 @@ import { useState } from 'react'
 
 // ** Third Party Components
 import 'cleave.js/dist/addons/cleave-phone.us'
-import { useForm } from "react-hook-form"
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-import {
-  Row,
-  Col,
-  Button,
-  Label,
-  FormGroup,
-  Form,
-  Input,
-} from 'reactstrap'
+import { Row, Col, Button, Label, FormGroup, Form, Input } from 'reactstrap'
 
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
@@ -31,15 +23,17 @@ const schema = yup.object().shape({
   acronimo: yup.string().required().trim(),
   phonenumber: yup.number().positive().integer().required(),
   address: yup.string().required().trim(),
-});
+})
 
 const institutionCreate = () => {
   // ** State
   const [img, setImg] = useState(null)
 
   // ** React hook form vars
-  const { register, handleSubmit, errors } = useForm({resolver: yupResolver(schema)});
-  const onSubmit = data => console.log(data);
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(schema),
+  })
+  const onSubmit = (data) => console.log(data)
 
   const renderUserAvatar = () => {
     if (img === null) {
@@ -85,10 +79,7 @@ const institutionCreate = () => {
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Institución">
-      <FormApp
-        handleSubmit={handleSubmit} 
-        onSubmit={onSubmit}
-      >
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Col sm="12">
           <h4 className="mb-1">
             <IconInstitution size={20} className="mr-50" />
@@ -96,7 +87,7 @@ const institutionCreate = () => {
           </h4>
         </Col>
 
-        <InputApp 
+        <InputApp
           label="Nombre de la Institución"
           name="name"
           register={register}
@@ -104,21 +95,26 @@ const institutionCreate = () => {
           messageError={errors.name?.message && 'La Institución es obligatoria'}
         />
 
-        <InputApp 
+        <InputApp
           label="Acrónimo"
           name="acronimo"
           register={register}
           placeholder="Escribe el Acrónimo"
-          messageError={errors.acronimo?.message && 'El Acrónimo es obligatorio'}
+          messageError={
+            errors.acronimo?.message && 'El Acrónimo es obligatorio'
+          }
         />
 
-        <InputApp 
+        <InputApp
           label="Teléfono"
           type="number"
           name="phonenumber"
           register={register}
           placeholder="Escribe el Teléfono"
-          messageError={errors.phonenumber?.message && 'El Teléfono es obligatorio y sólo números'}
+          messageError={
+            errors.phonenumber?.message &&
+            'El Teléfono es obligatorio y sólo números'
+          }
         />
 
         <InputApp
@@ -126,7 +122,9 @@ const institutionCreate = () => {
           name="address"
           register={register}
           placeholder="Escribe la Dirección"
-          messageError={errors.address?.message && 'La Dirección es obligatoria'}
+          messageError={
+            errors.address?.message && 'La Dirección es obligatoria'
+          }
         />
       </FormApp>
     </CardGrid>

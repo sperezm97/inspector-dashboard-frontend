@@ -52,9 +52,7 @@ const CustomHeader = ({
               <option value='100'>100</option>
             </CustomInput>
           </div> */}
-          <ExportButtons
-            newDataTable={newDataTable}
-          />
+          <ExportButtons newDataTable={newDataTable} />
         </Col>
         <Col
           lg="6"
