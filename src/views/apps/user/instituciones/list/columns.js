@@ -2,6 +2,7 @@ import {
   rowActions,
   rowInstitution,
 } from '../../../../../@core/components/table/commonColumns'
+import Url from '../../../../../constants/Url'
 
 export const columns = [
   {
@@ -21,20 +22,26 @@ export const columns = [
   {
     name: 'Teléfono',
     minWidth: '160px',
-    selector: 'telephone',
+    selector: 'phonenumber',
     sortable: true,
-    cell: (row) => '',
+    cell: (row) => row.phonenumber,
   },
   {
     name: 'DIRECCIÓN',
     minWidth: '172px',
-    selector: 'direccion',
+    selector: 'address',
     sortable: true,
-    cell: (row) => '',
+    cell: (row) => row.address,
   },
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => rowActions(row.id),
+    cell: (row) => {
+      const url = {
+        details: Url.institution,
+        edit: Url.institutionEdit,
+      }
+      return rowActions(row.id, url)
+    } 
   },
 ]

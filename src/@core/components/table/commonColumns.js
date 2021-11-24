@@ -60,7 +60,7 @@ export const rowInstitution = row => (
         </div>
 )
 
-export const rowActions = rowId => (
+export const rowActions = (rowId=0, url) => (
     <UncontrolledDropdown>
         <DropdownToggle tag="div" className="btn btn-sm">
             <MoreVertical size={14} className="cursor-pointer" />
@@ -68,7 +68,7 @@ export const rowActions = rowId => (
         <DropdownMenu right>
             <DropdownItem
                 tag={Link}
-                to={`${Url.dashboardInbox}/${rowId}`}
+                to={`${url?.details}/${rowId}`}
                 className="w-100"
                 >
                 <FileText size={14} className="mr-50" />
@@ -76,7 +76,7 @@ export const rowActions = rowId => (
             </DropdownItem>
             <DropdownItem
                 tag={Link}
-                to={`/apps/user/edit/${rowId}`}
+                to={`${url?.edit}/${rowId}`}
                 className="w-100"
                 >
                 <Archive size={14} className="mr-50" />
