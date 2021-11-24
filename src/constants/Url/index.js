@@ -19,6 +19,7 @@ export const Url = {
 
   institution: '/institucion',
   institutionCreate: '/institucion/crear',
+  institutionEdit: '/institucion/editar',
 
   reportCreate: '/reporte/crear',
 }

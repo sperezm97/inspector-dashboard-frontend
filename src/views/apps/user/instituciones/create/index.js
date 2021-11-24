@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { Row, Col, Button, Label, FormGroup, Form, Input } from 'reactstrap'
+import { Col} from 'reactstrap'
 
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
@@ -17,6 +17,9 @@ import { IconInstitution } from '../../../../../@core/components/icons'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { zammadAxios } from '../../../../../configs/axios'
+import { zammadApi } from '../../../../../constants/api/zammadApi'
+import Url from '../../../../../constants/Url'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -25,61 +28,77 @@ const schema = yup.object().shape({
   address: yup.string().required().trim(),
 })
 
-const institutionCreate = () => {
+const institutionCreate = ({history}) => {
   // ** State
-  const [img, setImg] = useState(null)
+  // const [img, setImg] = useState(null)
+  const [loadingState, setLoadingState] = useState(false)
 
   // ** React hook form vars
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   })
-  const onSubmit = (data) => console.log(data)
-
-  const renderUserAvatar = () => {
-    if (img === null) {
-      const stateNum = Math.floor(Math.random() * 6)
-      const states = [
-        'light-success',
-        'light-danger',
-        'light-warning',
-        'light-info',
-        'light-primary',
-        'light-secondary',
-      ]
-      const color = states[stateNum]
-      return (
-        <Avatar
-          initials
-          color={color}
-          className="rounded mr-2 my-25"
-          content="Subir Logotipo"
-          contentStyles={{
-            borderRadius: 0,
-            fontSize: 'calc(36px)',
-            width: '100%',
-            height: '100%',
-          }}
-          style={{
-            height: '90px',
-            width: '90px',
-          }}
-        />
-      )
+  
+  const onSubmit = async (data) => {
+    try {
+      setLoadingState(true)
+      const response = await zammadAxios.post(zammadApi.organizations, data)
+      if(response.status === 201){
+        history.push(Url.institution)
+      }
+      console.log(response)
+      
+    } catch (error) {
+      console.log(error)
+      alert('Se produjo un error al procesar la solicitud')
+      setLoadingState(false)
     }
-    return (
-      <img
-        className="user-avatar rounded mr-2 my-25 cursor-pointer"
-        src={img}
-        alt="user profile avatar"
-        height="90"
-        width="90"
-      />
-    )
   }
+
+  // const renderUserAvatar = () => {
+  //   if (img === null) {
+  //     const stateNum = Math.floor(Math.random() * 6)
+  //     const states = [
+  //       'light-success',
+  //       'light-danger',
+  //       'light-warning',
+  //       'light-info',
+  //       'light-primary',
+  //       'light-secondary',
+  //     ]
+  //     const color = states[stateNum]
+  //     return (
+  //       <Avatar
+  //         initials
+  //         color={color}
+  //         className="rounded mr-2 my-25"
+  //         content="Subir Logotipo"
+  //         contentStyles={{
+  //           borderRadius: 0,
+  //           fontSize: 'calc(36px)',
+  //           width: '100%',
+  //           height: '100%',
+  //         }}
+  //         style={{
+  //           height: '90px',
+  //           width: '90px',
+  //         }}
+  //       />
+  //     )
+  //   }
+  //   return (
+  //     <img
+  //       className="user-avatar rounded mr-2 my-25 cursor-pointer"
+  //       src={img}
+  //       alt="user profile avatar"
+  //       height="90"
+  //       width="90"
+  //     />
+  //   )
+  // }
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Institución">
-      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loadingState}>
         <Col sm="12">
           <h4 className="mb-1">
             <IconInstitution size={20} className="mr-50" />

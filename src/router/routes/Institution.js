@@ -16,6 +16,16 @@ const InstitutionRoutes = [
     },
   },
   {
+    path: `${Url.institutionEdit}/:id`,
+    component: lazy(() =>
+      import('../../views/apps/user/instituciones/edit'),
+    ),
+    exact: true,
+    meta: {
+      navLink: Url.institution,
+    },
+  },
+  {
     path: `${Url.institution}/:id`,
     component: lazy(() =>
       import('../../views/apps/user/instituciones/details'),
