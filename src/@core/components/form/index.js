@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import {
     Row,
@@ -7,7 +7,7 @@ import {
     Button,
   } from 'reactstrap'
 
-const FormApp = ({ handleSubmit, onSubmit, children }) => (
+const FormApp = ({ handleSubmit, onSubmit, children, loading, edit }) => (
     <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
 
@@ -18,19 +18,25 @@ const FormApp = ({ handleSubmit, onSubmit, children }) => (
                     type="submit"
                     color="primary"
                     className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+                    disabled={loading}
                 >
-                    Crear
+                    {edit 
+                        ? loading ? 'Modificando...' : 'Modificar' 
+                        : loading ? 'Creando...' : 'Crear'
+                    }
                 </Button>
-                <Button 
-                    type="reset" 
-                    color="primary" 
-                    outline
-                >
-                    Limpiar
-                </Button>
+                {!edit &&
+                    <Button 
+                        type="reset" 
+                        color="primary" 
+                        outline
+                    >
+                        Limpiar
+                    </Button>
+                }
             </Col>
         </Row>
     </Form>
 )
 
-export default memo(FormApp)
+export default FormApp
