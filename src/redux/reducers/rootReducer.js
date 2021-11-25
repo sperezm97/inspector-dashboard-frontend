@@ -24,6 +24,8 @@ import provinces from './territories/provinces'
 import municipalities from './territories/municipalities'
 
 import services from './incidents/services'
+import categories from './incidents/categories'
+import subCategories from './incidents/subCategories'
 
 const rootReducer = combineReducers({
   auth,
@@ -48,6 +50,8 @@ const rootReducer = combineReducers({
   municipalities,
 
   services,
+  categories,
+  subCategories,
 })
 
 export default rootReducer

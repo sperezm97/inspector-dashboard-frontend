@@ -5,6 +5,8 @@ export const Url = {
   dashboardInbox: '/tickets/lista',
   dashboardInboxCreate: '/tickets/crear',
 
+  reportCreate: '/reporte/crear',
+
   user: '/usuario',
   userCreate: '/usuario/crear',
   userEdit: '/usuario/editar',
@@ -21,7 +23,17 @@ export const Url = {
   institutionCreate: '/institucion/crear',
   institutionEdit: '/institucion/editar',
 
-  reportCreate: '/reporte/crear',
+  services: '/servicio',
+  servicesCreate: '/servicio/crear',
+  servicesEdit: '/servicio/editar',
+
+  category: '/categoria',
+  categoryCreate: '/categoria/crear',
+  categoryEdit: '/categoria/editar',
+
+  subCategory: '/sub-categoria',
+  subCategoryCreate: '/sub-categoria/crear',
+  subCategoryEdit: '/sub-categoria/editar',
 }
 
 export default Url
