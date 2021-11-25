@@ -6,4 +6,10 @@ import tickets from './tickets'
 import incidents from './incidents'
 
 // ** Merge & Export
-export default [...dashboards, ...tickets, ...apps, ...institution, ...incidents]
+export default [
+  ...dashboards,
+  ...tickets,
+  ...apps,
+  ...institution,
+  ...incidents,
+]

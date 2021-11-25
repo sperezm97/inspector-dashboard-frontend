@@ -9,4 +9,3 @@ export const getAllOrganizationsActions = () => (dispatch) =>
       payload: response.data,
     })
   })
-

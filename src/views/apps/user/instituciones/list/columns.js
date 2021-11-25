@@ -42,6 +42,6 @@ export const columns = [
         edit: Url.institutionEdit,
       }
       return rowActions(row.id, url)
-    } 
+    },
   },
 ]

@@ -18,9 +18,8 @@ const subCategoria = () => {
   )
 
   const searchTable = (data, queryLowered) =>
-    data.filter(
-      (data) =>
-        (data.name || '').toLowerCase().includes(queryLowered),
+    data.filter((data) =>
+      (data.name || '').toLowerCase().includes(queryLowered),
     )
 
   return (

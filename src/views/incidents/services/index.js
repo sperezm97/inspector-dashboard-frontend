@@ -13,14 +13,11 @@ const servicios = () => {
     dispatch(getAllServicesActions())
   }, [])
 
-  const dataTableServices = useSelector(
-    (state) => state?.services?.services,
-  )
+  const dataTableServices = useSelector((state) => state?.services?.services)
 
   const searchTable = (data, queryLowered) =>
-    data.filter(
-      (data) =>
-        (data.name || '').toLowerCase().includes(queryLowered),
+    data.filter((data) =>
+      (data.name || '').toLowerCase().includes(queryLowered),
     )
 
   return (

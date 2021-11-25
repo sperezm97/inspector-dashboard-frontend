@@ -19,9 +19,7 @@ const IncidentsRoutes = [
   },
   {
     path: `${Url.institutionEdit}/:id`,
-    component: lazy(() =>
-      import('../../views/apps/user/instituciones/edit'),
-    ),
+    component: lazy(() => import('../../views/apps/user/instituciones/edit')),
     exact: true,
     meta: {
       navLink: Url.institution,

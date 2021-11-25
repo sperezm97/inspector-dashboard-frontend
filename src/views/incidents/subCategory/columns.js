@@ -1,6 +1,4 @@
-import {
-  rowActions,
-} from '../../../@core/components/table/commonColumns'
+import { rowActions } from '../../../@core/components/table/commonColumns'
 import Url from '../../../constants/Url'
 
 export const columns = [
@@ -20,6 +18,6 @@ export const columns = [
         edit: Url.subCategoryEdit,
       }
       return rowActions(row.id, url)
-    } 
+    },
   },
 ]

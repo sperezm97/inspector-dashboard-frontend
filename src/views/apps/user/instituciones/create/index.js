@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
-import { Col} from 'reactstrap'
+import { Col } from 'reactstrap'
 
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
@@ -28,7 +28,7 @@ const schema = yup.object().shape({
   address: yup.string().required().trim(),
 })
 
-const institutionCreate = ({history}) => {
+const institutionCreate = ({ history }) => {
   // ** State
   // const [img, setImg] = useState(null)
   const [loadingState, setLoadingState] = useState(false)
@@ -37,16 +37,15 @@ const institutionCreate = ({history}) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   })
-  
+
   const onSubmit = async (data) => {
     try {
       setLoadingState(true)
       const response = await zammadAxios.post(zammadApi.organizations, data)
-      if(response.status === 201){
+      if (response.status === 201) {
         history.push(Url.institution)
       }
       console.log(response)
-      
     } catch (error) {
       console.log(error)
       alert('Se produjo un error al procesar la solicitud')
@@ -98,7 +97,11 @@ const institutionCreate = ({history}) => {
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Institución">
-      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loadingState}>
+      <FormApp
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        loading={loadingState}
+      >
         <Col sm="12">
           <h4 className="mb-1">
             <IconInstitution size={20} className="mr-50" />
