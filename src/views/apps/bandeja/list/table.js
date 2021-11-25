@@ -28,6 +28,9 @@ const CustomHeader = ({
   showButtonAddUser,
   showButtonAddInstitution,
   showButtonAddReport,
+  showButton,
+  labelButton,
+  urlButton,
   // componentButton
 }) => {
   const history = useHistory()
@@ -98,6 +101,12 @@ const CustomHeader = ({
               onClick={() => history.push(Url.dashboardInboxCreate)}
             />
           )}
+          {showButton && (
+            <ButtonRipple
+              label={labelButton}
+              onClick={() => history.push(urlButton)}
+            />
+          )}
           {/* {componentButton &&
               componentButton
             } */}
@@ -115,6 +124,9 @@ const DataTableList = ({
   showButtonAddUser = false,
   showButtonAddInstitution = false,
   showButtonAddReport = false,
+  showButton = false,
+  labelButton='',
+  urlButton='',
   dataTableTitle = '',
   // componentButton = false
 }) => {
@@ -249,6 +261,9 @@ const DataTableList = ({
                 showButtonAddUser={showButtonAddUser}
                 showButtonAddInstitution={showButtonAddInstitution}
                 showButtonAddReport={showButtonAddReport}
+                showButton={showButton}
+                labelButton={labelButton}
+                urlButton={urlButton}
                 // componentButton={componentButton}
               />
             }

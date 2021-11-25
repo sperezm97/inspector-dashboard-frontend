@@ -66,14 +66,14 @@ export const rowActions = (rowId=0, url) => (
             <MoreVertical size={14} className="cursor-pointer" />
         </DropdownToggle>
         <DropdownMenu right>
-            <DropdownItem
+            {/* <DropdownItem
                 tag={Link}
                 to={`${url?.details}/${rowId}`}
                 className="w-100"
                 >
                 <FileText size={14} className="mr-50" />
                 <span className="align-middle">Detalles</span>
-            </DropdownItem>
+            </DropdownItem> */}
             <DropdownItem
                 tag={Link}
                 to={`${url?.edit}/${rowId}`}
@@ -82,10 +82,10 @@ export const rowActions = (rowId=0, url) => (
                 <Archive size={14} className="mr-50" />
                 <span className="align-middle">Editar</span>
             </DropdownItem>
-            <DropdownItem className="w-100">
+            {/* <DropdownItem className="w-100">
                 <Trash2 size={14} className="mr-50" />
                 <span className="align-middle">Borrar</span>
-            </DropdownItem>
+            </DropdownItem> */}
         </DropdownMenu>
     </UncontrolledDropdown>
 )
