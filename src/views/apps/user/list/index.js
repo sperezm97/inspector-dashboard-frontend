@@ -131,61 +131,59 @@ const UsersList = () => {
         (data.cedula || '').toLowerCase().includes(queryLowered),
     )
 
-  return (
-    dataTable[0] ?
-      <>
-        <CardGrid cardHeaderTitle="Búsqueda con filtro">
-          <Row>
-            <Col className="my-md-0 my-1" md="4">
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className="react-select"
-                classNamePrefix="select"
-                value={provinciaState}
-                options={optionsCodeValueSelect(provincesSelector)}
-                onChange={handleChangeProvinces}
-              />
-            </Col>
-            <Col md="4">
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className="react-select"
-                classNamePrefix="select"
-                value={municipioState}
-                options={optionsCodeValueSelect(
-                  municipalitiesSelector.filter(
-                    (municipality) =>
-                      municipality.provinceCode === provinciaState.value,
-                  ),
-                )}
-                onChange={handleChangeMunicipalities}
-              />
-            </Col>
-            <Col md="4">
-              <Select
-                isClearable={false}
-                theme={selectThemeColors}
-                className="react-select"
-                classNamePrefix="select"
-                value={rolState}
-                options={optionsIdValueSelect(rolSelector)}
-                onChange={handleChangeRols}
-              />
-            </Col>
-          </Row>
-        </CardGrid>
+  return dataTable[0] ? (
+    <>
+      <CardGrid cardHeaderTitle="Búsqueda con filtro">
+        <Row>
+          <Col className="my-md-0 my-1" md="4">
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              className="react-select"
+              classNamePrefix="select"
+              value={provinciaState}
+              options={optionsCodeValueSelect(provincesSelector)}
+              onChange={handleChangeProvinces}
+            />
+          </Col>
+          <Col md="4">
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              className="react-select"
+              classNamePrefix="select"
+              value={municipioState}
+              options={optionsCodeValueSelect(
+                municipalitiesSelector.filter(
+                  (municipality) =>
+                    municipality.provinceCode === provinciaState.value,
+                ),
+              )}
+              onChange={handleChangeMunicipalities}
+            />
+          </Col>
+          <Col md="4">
+            <Select
+              isClearable={false}
+              theme={selectThemeColors}
+              className="react-select"
+              classNamePrefix="select"
+              value={rolState}
+              options={optionsIdValueSelect(rolSelector)}
+              onChange={handleChangeRols}
+            />
+          </Col>
+        </Row>
+      </CardGrid>
 
-        <DataTableList
-          columnsTable={columns}
-          dataTable={dataTable}
-          searchTable={searchTable}
-          showButtonAddUser
-        />
-      </>
-    : null
-  )
+      <DataTableList
+        columnsTable={columns}
+        dataTable={dataTable}
+        searchTable={searchTable}
+        showButtonAddUser
+      />
+    </>
+  ) : null
 }
 
 export default UsersList

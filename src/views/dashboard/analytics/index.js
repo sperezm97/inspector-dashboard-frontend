@@ -52,7 +52,9 @@ const AnalyticsDashboard = () => {
     dispatch(getAllUsersActions())
   }, [])
 
-  const dataTableTicketsTwo = useSelector((state) => state?.tickets?.listTickets)
+  const dataTableTicketsTwo = useSelector(
+    (state) => state?.tickets?.listTickets,
+  )
   // const dataTableTicketsTwo = useSelector(
   //   (state) => state?.tickets?.ticketsTwoDate?.Ticket,
   // )

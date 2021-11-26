@@ -51,9 +51,7 @@ const CardBrowserState = ({ organizations, listTickets }) => {
             Instituciones
           </CardTitle>
         </div>
-        <div>
-          {/* <p className="text-muted">Últimos 28 días</p> */}
-        </div>
+        <div>{/* <p className="text-muted">Últimos 28 días</p> */}</div>
       </CardHeader>
       <CardBody>
         <div className="overflow-auto" style={{ height: '310px' }}>
