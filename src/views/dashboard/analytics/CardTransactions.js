@@ -49,7 +49,7 @@ const CardTransactions = ({ provinces, listTickets }) => {
           </CardTitle>
         </div>
         <div>
-          <p className="text-muted">Últimos 28 días</p>
+          {/* <p className="text-muted">Últimos 28 días</p> */}
         </div>
       </CardHeader>
       <CardBody>

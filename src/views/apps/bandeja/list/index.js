@@ -30,7 +30,7 @@ const Bandeja = () => {
   useEffect(() => {
     dispatch(getAllTicketsActions())
     dispatch(getAllRegionsActions())
-  }, [dispatch])
+  }, [])
 
   const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 

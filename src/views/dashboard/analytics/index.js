@@ -32,6 +32,7 @@ import {
 } from '../../../utility/Utils'
 import { getAllOrganizationsActions } from '../../../redux/actions/zammad/organizations'
 import { getAllProvincesActions } from '../../../redux/actions/territories/provinces'
+import { getAllUsersActions } from '../../../redux/actions/zammad/users'
 
 const AnalyticsDashboard = () => {
   const dispatch = useDispatch()
@@ -39,26 +40,28 @@ const AnalyticsDashboard = () => {
   const { colors } = useContext(ThemeColors)
 
   useEffect(() => {
-    // dispatch(getAllTicketsActions())
-    dispatch(
-      getTicketsByTwoDateActions(
-        dateBeforeDay({ day: 28, f: 'YYYY-MM-DD' }),
-        dateToday('YYYY-MM-DD'),
-      ),
-    )
+    dispatch(getAllTicketsActions())
+    // dispatch(
+    //   getTicketsByTwoDateActions(
+    //     dateBeforeDay({ day: 28, f: 'YYYY-MM-DD' }),
+    //     dateToday('YYYY-MM-DD'),
+    //   ),
+    // )
     dispatch(getAllOrganizationsActions())
     dispatch(getAllProvincesActions())
-  }, [dispatch])
+    dispatch(getAllUsersActions())
+  }, [])
 
-  // const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
-  const dataTableTicketsTwo = useSelector(
-    (state) => state?.tickets?.ticketsTwoDate?.Ticket,
-  )
+  const dataTableTicketsTwo = useSelector((state) => state?.tickets?.listTickets)
+  // const dataTableTicketsTwo = useSelector(
+  //   (state) => state?.tickets?.ticketsTwoDate?.Ticket,
+  // )
   const newDataTableTicketsTwo =
     (dataTableTicketsTwo && Object.values(dataTableTicketsTwo)) || []
 
-  const usersState = useSelector((state) => state?.tickets?.tickets?.User)
-  const newUsersState = usersState && Object.values(usersState)
+  const newUsersState = useSelector((state) => state?.users?.users)
+  // const usersState = useSelector((state) => state?.tickets?.tickets?.User)
+  // const newUsersState = usersState && Object.values(usersState)
 
   const organizationsState = useSelector(
     (state) => state?.organizations?.organizations,
@@ -83,40 +86,40 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
     const dateDay = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.created_at) === dateToday(),
+      (cases) => formatDate(cases.createDate) === dateToday(),
     ).length
     const dateDayOneAgo = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.created_at) === dateBeforeDay({ day: 1 }),
+      (cases) => formatDate(cases.createDate) === dateBeforeDay({ day: 1 }),
     ).length
     const dateDayTwoAgo = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.created_at) === dateBeforeDay({ day: 2 }),
+      (cases) => formatDate(cases.createDate) === dateBeforeDay({ day: 2 }),
     ).length
 
     const dateWeek = newDataTableTicketsTwo.filter(
       (cases) =>
-        toMs(formatDate(cases.created_at)) >= toMs(dateBeforeDay({ day: 7 })) &&
-        toMs(formatDate(cases.created_at)) <= toMs(dateToday()),
+        toMs(formatDate(cases.createDate)) >= toMs(dateBeforeDay({ day: 7 })) &&
+        toMs(formatDate(cases.createDate)) <= toMs(dateToday()),
     ).length
 
     const dateWeekTwoAgo = newDataTableTicketsTwo.filter(
       (cases) =>
-        toMs(formatDate(cases.created_at)) >=
+        toMs(formatDate(cases.createDate)) >=
           toMs(dateBeforeDay({ day: 14 })) &&
-        toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({ day: 8 })),
+        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 8 })),
     ).length
 
     const dateWeekThreeAgo = newDataTableTicketsTwo.filter(
       (cases) =>
-        toMs(formatDate(cases.created_at)) >=
+        toMs(formatDate(cases.createDate)) >=
           toMs(dateBeforeDay({ day: 21 })) &&
-        toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({ day: 15 })),
+        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 15 })),
     ).length
 
     const dateWeekFourAgo = newDataTableTicketsTwo.filter(
       (cases) =>
-        toMs(formatDate(cases.created_at)) >=
+        toMs(formatDate(cases.createDate)) >=
           toMs(dateBeforeDay({ day: 28 })) &&
-        toMs(formatDate(cases.created_at)) <= toMs(dateBeforeDay({ day: 22 })),
+        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 22 })),
     ).length
 
     const objDay = {

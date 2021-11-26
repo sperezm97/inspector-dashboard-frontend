@@ -17,6 +17,7 @@ import Chart from 'react-apexcharts'
 import { filterByPriorityTickets } from '../../../utility/Utils'
 
 const AvgSessions = ({ colors, listTickets }) => {
+  console.log(listTickets)
   const lowPriority = filterByPriorityTickets(listTickets, 1).length || 0
   const normalPriority = filterByPriorityTickets(listTickets, 2).length || 0
   const highPriority = filterByPriorityTickets(listTickets, 3).length || 0
@@ -73,7 +74,7 @@ const AvgSessions = ({ colors, listTickets }) => {
           >
             <div className="session-info mb-1 mb-lg-0">
               <h2 className="font-weight-bold mb-25">
-                {kFormatter(totalPriority)}
+                {totalPriority}
               </h2>
               <CardText className="mb-2">Casos nuevos</CardText>
             </div>
@@ -83,7 +84,7 @@ const AvgSessions = ({ colors, listTickets }) => {
             xs={{ order: 1 }}
             className="d-flex justify-content-between flex-column text-right"
           >
-            <p className="text-muted">Últimos 28 días</p>
+            {/* <p className="text-muted">Últimos 28 días</p> */}
             <Chart
               options={options}
               series={series}
@@ -98,7 +99,7 @@ const AvgSessions = ({ colors, listTickets }) => {
           <Col className="mb-2" md="4" sm="12">
             <div className="d-flex justify-content-between align-items-end">
               <p className="mb-50">Prioridad Baja</p>
-              <p className="mb-50">{kFormatter(lowPriority)}</p>
+              <p className="mb-50">{lowPriority}</p>
             </div>
             <Progress
               className="avg-session-progress progress-bar-success mt-25"
@@ -108,7 +109,7 @@ const AvgSessions = ({ colors, listTickets }) => {
           <Col className="mb-2" md="4" sm="12">
             <div className="d-flex justify-content-between align-items-end">
               <p className="mb-50">Prioridad Normal</p>
-              <p className="mb-50">{kFormatter(normalPriority)}</p>
+              <p className="mb-50">{normalPriority}</p>
             </div>
             <Progress
               className="avg-session-progress progress-bar-warning mt-25"
@@ -118,7 +119,7 @@ const AvgSessions = ({ colors, listTickets }) => {
           <Col className="mb-2" md="4" sm="12">
             <div className="d-flex justify-content-between align-items-end">
               <p className="mb-50">Prioridad Alta</p>
-              <p className="mb-50">{kFormatter(highPriority)}</p>
+              <p className="mb-50">{highPriority}</p>
             </div>
             <Progress
               className="avg-session-progress progress-bar-danger mt-25"

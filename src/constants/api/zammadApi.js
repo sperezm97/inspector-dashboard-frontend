@@ -1,5 +1,5 @@
 export const zammadApi = {
-  allTickets: 'ticket_overviews?view=all_open',
+  allTickets: 'ticket_overviews?view=all',
   ticketsByDate: 'tickets/search?query=created_at:',
   ticketsByState: 'tickets/search?query=state_id:',
   ticketsByGroup: 'tickets/search?query=group_id:',

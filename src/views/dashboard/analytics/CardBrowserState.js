@@ -15,7 +15,7 @@ const CardBrowserState = ({ organizations, listTickets }) => {
   const renderStates = () =>
     organizations.map((state) => {
       const ticketLength =
-        listTickets.filter((ticket) => ticket.organization_id === state.id)
+        listTickets.filter((ticket) => ticket.institutionId === state.id)
           .length || 0
 
       return (
@@ -52,7 +52,7 @@ const CardBrowserState = ({ organizations, listTickets }) => {
           </CardTitle>
         </div>
         <div>
-          <p className="text-muted">Últimos 28 días</p>
+          {/* <p className="text-muted">Últimos 28 días</p> */}
         </div>
       </CardHeader>
       <CardBody>
