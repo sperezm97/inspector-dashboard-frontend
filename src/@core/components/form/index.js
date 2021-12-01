@@ -7,7 +7,7 @@ import {
     Button,
   } from 'reactstrap'
 
-const FormApp = ({ handleSubmit, onSubmit, children, loading, edit }) => (
+const FormApp = ({ handleSubmit, onSubmit, children, loading, edit=false }) => (
     <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
 
