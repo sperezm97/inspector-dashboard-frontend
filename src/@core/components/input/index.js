@@ -1,7 +1,8 @@
 import React, { memo } from 'react'
+import Select from 'react-select'
+import { Controller } from "react-hook-form"
 
 import { selectThemeColors, optionsZammadIdValueSelect } from '../../../utility/Utils'
-import Select from 'react-select'
 
 import {
     Col,
@@ -10,20 +11,30 @@ import {
     Input,
   } from 'reactstrap'
 
-const InputApp = ({ label, type="text", select=false, selectOptions=[], name, register, placeholder="", messageError="", defaultValue=null }) => (
+const InputApp = ({ label, type="text", select=false, selectOptions=[], control, name, register, placeholder="", messageError="", defaultValue=null }) => (
     <Col lg="4" md="6" sm="12">
         <FormGroup>
             <Label>{label}</Label>
             {select 
                 ?
-                    <Select
-                        theme={selectThemeColors}
-                        isClearable={false}
-                        className="react-select"
-                        classNamePrefix="select"
-                        value={{value: '', label: 'Sin Seleccionar'}}
-                        options={optionsZammadIdValueSelect(selectOptions)}
-                        onChange={register()}
+                    <Controller
+                        control={control}
+                        name={name}
+                        onChange={register}
+                        defaultValue={{value: '', label: 'Sin Seleccionar'}}
+                        render={({ onChange, value, name }) => (
+                            <Select
+                                name={name}
+                                theme={selectThemeColors}
+                                isClearable={false}
+                                className="react-select"
+                                classNamePrefix="select"
+                                defaultValue={value}
+                                isLoading={selectOptions[0] ? false : true}
+                                options={optionsZammadIdValueSelect(selectOptions)}
+                                onChange={onChange}
+                            />
+                        )}
                     />
                 :
                     <Input
