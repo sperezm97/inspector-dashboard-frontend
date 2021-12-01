@@ -119,6 +119,10 @@ const ReportCreate = () => {
             register={register}
             control={control}
             messageError={errors.name?.message && 'La Institución es obligatoria'}
+            placeholder="Escribe la Institución"
+            messageError={
+              errors.name?.message && 'El Título del Reporte es obligatorio'
+            }
           />
 
           <Col sm="12">
