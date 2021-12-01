@@ -44,10 +44,7 @@ const ReportCreate = () => {
 
   return (
     <CardGrid cardHeaderTitle="Nuevo Reporte">
-      <FormApp
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-      >
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
         <Row className="mt-1">
           <Col sm="12">
             <h4 className="mb-1">
@@ -62,7 +59,9 @@ const ReportCreate = () => {
             name="title"
             register={register}
             placeholder="Escribe la Institución"
-            messageError={errors.name?.message && 'El Título del Reporte es obligatorio'}
+            messageError={
+              errors.name?.message && 'El Título del Reporte es obligatorio'
+            }
           />
 
           <Col lg="4" md="6">
