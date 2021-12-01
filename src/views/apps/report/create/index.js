@@ -36,7 +36,6 @@ const schema = yup.object().shape({
 })
 
 const ReportCreate = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -70,149 +69,148 @@ const ReportCreate = () => {
 
   return (
     <CardGrid cardHeaderTitle="Nuevo Reporte">
-      <FormApp
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-      >
-          <Col sm="12">
-            <h4 className="mb-1">
-              <FileText size={20} className="mr-50" />
-              <span className="align-middle">Tipo de incidencia</span>
-            </h4>
-          </Col>
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
+        <Col sm="12">
+          <h4 className="mb-1">
+            <FileText size={20} className="mr-50" />
+            <span className="align-middle">Tipo de incidencia</span>
+          </h4>
+        </Col>
 
-          <InputApp
-            select
-            label="Incidente"
-            name="Incidente"
-            selectOptions={dataTableServices}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'El Incidente es obligatorio'}
-          />
+        <InputApp
+          select
+          label="Incidente"
+          name="Incidente"
+          selectOptions={dataTableServices}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'El Incidente es obligatorio'}
+        />
 
-          <InputApp
-            select
-            label="Categoria"
-            name="Categoria"
-            selectOptions={dataTableCategories}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Categoria es obligatoria'}
-          />
+        <InputApp
+          select
+          label="Categoria"
+          name="Categoria"
+          selectOptions={dataTableCategories}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'La Categoria es obligatoria'}
+        />
 
-          <InputApp
-            select
-            label="Sub-Categorias"
-            name="subCategoria"
-            selectOptions={dataTableSubCategories}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Sub-Categorias es obligatoria'}
-          />
+        <InputApp
+          select
+          label="Sub-Categorias"
+          name="subCategoria"
+          selectOptions={dataTableSubCategories}
+          register={register}
+          control={control}
+          messageError={
+            errors.name?.message && 'La Sub-Categorias es obligatoria'
+          }
+        />
 
-          <InputApp
-            select
-            label="Institución"
-            name="institución"
-            selectOptions={dataTableOrganizations}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Institución es obligatoria'}
-            placeholder="Escribe la Institución"
-            messageError={
-              errors.name?.message && 'El Título del Reporte es obligatorio'
-            }
-          />
+        <InputApp
+          select
+          label="Institución"
+          name="institución"
+          selectOptions={dataTableOrganizations}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'La Institución es obligatoria'}
+          placeholder="Escribe la Institución"
+          messageError={
+            errors.name?.message && 'El Título del Reporte es obligatorio'
+          }
+        />
 
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <User size={20} className="mr-50" />
-              <span className="align-middle">Detalles del beneficiario</span>
-            </h4>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label className="d-block" for="dob">
-                Cédula de Identidad
-              </Label>
-              <Input
-                type="text"
-                id="state"
-                defaultValue="001-0000000-0"
-                placeholder="Cédula de Identidad"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Nombre Completo</Label>
-              <Input
-                type="text"
-                id="state"
-                defaultValue="John Doe"
-                placeholder="Nombre Completo"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Teléfono Móvil</Label>
-              <Input
-                type="text"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="809-220-1111"
-              />
-            </FormGroup>
-          </Col>
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <MapPin size={20} className="mr-50" />
-              <span className="align-middle">Detalles del reporte</span>
-            </h4>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="ZoneID">Zona ID</Label>
-              <Input
-                type="text"
-                id="ZoneID"
-                defaultValue="05"
-                placeholder="Zone ID"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Dirección</Label>
-              <Input
-                type="text"
-                id="state"
-                defaultValue="Santo Domingo"
-                placeholder="Dirección"
-              />
-            </FormGroup>
-          </Col>
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <Image size={20} className="mr-50" />
-              <span className="align-middle">Evidencias</span>
-            </h4>
-          </Col>
-          <Col sm="12">
-            <FileUploader />
-          </Col>
-          <Col sm="12">
-            <FormGroup>
-              <Label for="Description">Descripción</Label>
-              <Input
-                type="text"
-                id="Description"
-                placeholder="Escribe de qué se trata el reporte"
-              />
-            </FormGroup>
-          </Col>
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <User size={20} className="mr-50" />
+            <span className="align-middle">Detalles del beneficiario</span>
+          </h4>
+        </Col>
+        <Col lg="4" md="6">
+          <FormGroup>
+            <Label className="d-block" for="dob">
+              Cédula de Identidad
+            </Label>
+            <Input
+              type="text"
+              id="state"
+              defaultValue="001-0000000-0"
+              placeholder="Cédula de Identidad"
+            />
+          </FormGroup>
+        </Col>
+        <Col lg="4" md="6">
+          <FormGroup>
+            <Label for="mobileNumber">Nombre Completo</Label>
+            <Input
+              type="text"
+              id="state"
+              defaultValue="John Doe"
+              placeholder="Nombre Completo"
+            />
+          </FormGroup>
+        </Col>
+        <Col lg="4" md="6">
+          <FormGroup>
+            <Label for="nacionalidad">Teléfono Móvil</Label>
+            <Input
+              type="text"
+              name="nacionalidad"
+              id="nacionalidad"
+              defaultValue="809-220-1111"
+            />
+          </FormGroup>
+        </Col>
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <MapPin size={20} className="mr-50" />
+            <span className="align-middle">Detalles del reporte</span>
+          </h4>
+        </Col>
+        <Col lg="4" md="6">
+          <FormGroup>
+            <Label for="ZoneID">Zona ID</Label>
+            <Input
+              type="text"
+              id="ZoneID"
+              defaultValue="05"
+              placeholder="Zone ID"
+            />
+          </FormGroup>
+        </Col>
+        <Col lg="4" md="6">
+          <FormGroup>
+            <Label for="mobileNumber">Dirección</Label>
+            <Input
+              type="text"
+              id="state"
+              defaultValue="Santo Domingo"
+              placeholder="Dirección"
+            />
+          </FormGroup>
+        </Col>
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <Image size={20} className="mr-50" />
+            <span className="align-middle">Evidencias</span>
+          </h4>
+        </Col>
+        <Col sm="12">
+          <FileUploader />
+        </Col>
+        <Col sm="12">
+          <FormGroup>
+            <Label for="Description">Descripción</Label>
+            <Input
+              type="text"
+              id="Description"
+              placeholder="Escribe de qué se trata el reporte"
+            />
+          </FormGroup>
+        </Col>
       </FormApp>
     </CardGrid>
   )
