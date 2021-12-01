@@ -1,5 +1,6 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -22,21 +23,46 @@ import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
+import { getAllServicesActions } from '../../../../redux/actions/incidents/services'
+import { getAllCategoriesActions } from '../../../../redux/actions/incidents/categories'
+import { getAllSubCategoriesActions } from '../../../../redux/actions/incidents/subCategories'
+import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
+
 const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-  acronimo: yup.string().required().trim(),
-  phonenumber: yup.number().positive().integer().required(),
-  address: yup.string().required().trim(),
+  // Incidente: yup.string().required().trim(),
+  // acronimo: yup.string().required().trim(),
+  // phonenumber: yup.number().positive().integer().required(),
+  // address: yup.string().required().trim(),
 })
 
 const ReportCreate = () => {
-  // ** State
-  const [data, setData] = useState(null)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getAllServicesActions())
+    dispatch(getAllCategoriesActions())
+    dispatch(getAllSubCategoriesActions())
+    dispatch(getAllOrganizationsActions())
+  }, [])
+
+  const dataTableServices = useSelector((state) => state?.services?.services)
+  const dataTableCategories = useSelector(
+    (state) => state?.categories?.categories,
+  )
+  const dataTableSubCategories = useSelector(
+    (state) => state?.subCategories?.subCategories,
+  )
+  const dataTableOrganizations = useSelector(
+    (state) => state?.organizations?.organizations,
+  )
 
   // ** React hook form vars
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, getValues, control } = useForm({
     resolver: yupResolver(schema),
   })
+
+  console.log(getValues())
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -48,7 +74,6 @@ const ReportCreate = () => {
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
       >
-        <Row className="mt-1">
           <Col sm="12">
             <h4 className="mb-1">
               <FileText size={20} className="mr-50" />
@@ -58,37 +83,44 @@ const ReportCreate = () => {
 
           <InputApp
             select
-            label="Título del Reporte"
-            name="title"
+            label="Incidente"
+            name="Incidente"
+            selectOptions={dataTableServices}
             register={register}
-            placeholder="Escribe la Institución"
-            messageError={errors.name?.message && 'El Título del Reporte es obligatorio'}
+            control={control}
+            messageError={errors.name?.message && 'El Incidente es obligatorio'}
           />
 
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="titlereport">Título del Reporte</Label>
-              <Input
-                type="text"
-                id="titlereport"
-                defaultValue="Ejemplo"
-                placeholder="Título del Reporte"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="Institución">Institución</Label>
-              <Input
-                type="select"
-                name="institucion"
-                id="institucion"
-                defaultValue="Seleccione"
-              >
-                <option value="Seleccione">Seleccione</option>
-              </Input>
-            </FormGroup>
-          </Col>
+          <InputApp
+            select
+            label="Categoria"
+            name="Categoria"
+            selectOptions={dataTableCategories}
+            register={register}
+            control={control}
+            messageError={errors.name?.message && 'La Categoria es obligatoria'}
+          />
+
+          <InputApp
+            select
+            label="Sub-Categorias"
+            name="subCategoria"
+            selectOptions={dataTableSubCategories}
+            register={register}
+            control={control}
+            messageError={errors.name?.message && 'La Sub-Categorias es obligatoria'}
+          />
+
+          <InputApp
+            select
+            label="Institución"
+            name="institución"
+            selectOptions={dataTableOrganizations}
+            register={register}
+            control={control}
+            messageError={errors.name?.message && 'La Institución es obligatoria'}
+          />
+
           <Col sm="12">
             <h4 className="mb-1 mt-2">
               <User size={20} className="mr-50" />
@@ -177,19 +209,6 @@ const ReportCreate = () => {
               />
             </FormGroup>
           </Col>
-          <Col className="d-flex flex-sm-row flex-column mt-2">
-            <Button
-              type="submit"
-              color="primary"
-              className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            >
-              Crear
-            </Button>
-            <Button type="reset" color="primary" outline>
-              Limpiar
-            </Button>
-          </Col>
-        </Row>
       </FormApp>
     </CardGrid>
   )
