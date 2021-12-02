@@ -69,162 +69,161 @@ const ReportCreate = () => {
 
   return (
     <CardGrid cardHeaderTitle="Nuevo Reporte">
-      <FormApp
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-      >
-          <Col sm="12">
-            <h4 className="mb-1">
-              <FileText size={20} className="mr-50" />
-              <span className="align-middle">Tipo de incidencia</span>
-            </h4>
-          </Col>
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
+        <Col sm="12">
+          <h4 className="mb-1">
+            <FileText size={20} className="mr-50" />
+            <span className="align-middle">Tipo de incidencia</span>
+          </h4>
+        </Col>
 
-          <InputApp
-            select
-            label="Incidente"
-            name="Incidente"
-            selectOptions={dataTableServices}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'El Incidente es obligatorio'}
-          />
+        <InputApp
+          select
+          label="Incidente"
+          name="Incidente"
+          selectOptions={dataTableServices}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'El Incidente es obligatorio'}
+        />
 
-          <InputApp
-            select
-            label="Categoria"
-            name="Categoria"
-            selectOptions={dataTableCategories}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Categoria es obligatoria'}
-          />
+        <InputApp
+          select
+          label="Categoria"
+          name="Categoria"
+          selectOptions={dataTableCategories}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'La Categoria es obligatoria'}
+        />
 
-          <InputApp
-            select
-            label="Sub-Categorias"
-            name="subCategoria"
-            selectOptions={dataTableSubCategories}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Sub-Categorias es obligatoria'}
-          />
+        <InputApp
+          select
+          label="Sub-Categorias"
+          name="subCategoria"
+          selectOptions={dataTableSubCategories}
+          register={register}
+          control={control}
+          messageError={
+            errors.name?.message && 'La Sub-Categorias es obligatoria'
+          }
+        />
 
-          <InputApp
-            select
-            label="Institución"
-            name="institución"
-            selectOptions={dataTableOrganizations}
-            register={register}
-            control={control}
-            messageError={errors.name?.message && 'La Institución es obligatoria'}
-            placeholder="Escribe la Institución"
-          />
+        <InputApp
+          select
+          label="Institución"
+          name="institución"
+          selectOptions={dataTableOrganizations}
+          register={register}
+          control={control}
+          messageError={errors.name?.message && 'La Institución es obligatoria'}
+          placeholder="Escribe la Institución"
+        />
 
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <User size={20} className="mr-50" />
-              <span className="align-middle">Detalles del beneficiario</span>
-            </h4>
-          </Col>
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <User size={20} className="mr-50" />
+            <span className="align-middle">Detalles del beneficiario</span>
+          </h4>
+        </Col>
 
-          <InputApp
-            label="Cédula de Identidad"
-            name="cedula"
-            type="number"
-            register={register}
-            placeholder="Escribe la Cédula"
-            messageError={errors.name?.message && 'La Cédula es obligatoria'}
-          />
+        <InputApp
+          label="Cédula de Identidad"
+          name="cedula"
+          type="number"
+          register={register}
+          placeholder="Escribe la Cédula"
+          messageError={errors.name?.message && 'La Cédula es obligatoria'}
+        />
 
-          <InputApp
-            label="Nombre Completo"
-            name="name"
-            register={register}
-            placeholder="Nombre..."
-            disabled
-            messageError={errors.name?.message && 'El Nombre es obligatorio'}
-          />
+        <InputApp
+          label="Nombre Completo"
+          name="name"
+          register={register}
+          placeholder="Nombre..."
+          disabled
+          messageError={errors.name?.message && 'El Nombre es obligatorio'}
+        />
 
-          <InputApp
-            label="Teléfono"
-            name="telefono"
-            type="number"
-            register={register}
-            placeholder="Escribe el Teléfono"
-            messageError={errors.name?.message && 'El Teléfono es obligatorio'}
-          />
+        <InputApp
+          label="Teléfono"
+          name="telefono"
+          type="number"
+          register={register}
+          placeholder="Escribe el Teléfono"
+          messageError={errors.name?.message && 'El Teléfono es obligatorio'}
+        />
 
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <MapPin size={20} className="mr-50" />
-              <span className="align-middle">Detalles del reporte</span>
-            </h4>
-          </Col>
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <MapPin size={20} className="mr-50" />
+            <span className="align-middle">Detalles del reporte</span>
+          </h4>
+        </Col>
 
-          <InputApp
-            select
-            label="Sección"
-            name="Sección"
-            selectOptions={dataTableOrganizations}
-            register={register}
-            control={control}
-            placeholder="Escribe la Sección"
-            messageError={errors.name?.message && 'La Sección es obligatoria'}
-          />
+        <InputApp
+          select
+          label="Sección"
+          name="Sección"
+          selectOptions={dataTableOrganizations}
+          register={register}
+          control={control}
+          placeholder="Escribe la Sección"
+          messageError={errors.name?.message && 'La Sección es obligatoria'}
+        />
 
-          <InputApp
-            select
-            label="Barrio"
-            name="Barrio"
-            selectOptions={dataTableOrganizations}
-            register={register}
-            control={control}
-            placeholder="Escribe el Barrio"
-            messageError={errors.name?.message && 'El Barrio es obligatorio'}
-          />
+        <InputApp
+          select
+          label="Barrio"
+          name="Barrio"
+          selectOptions={dataTableOrganizations}
+          register={register}
+          control={control}
+          placeholder="Escribe el Barrio"
+          messageError={errors.name?.message && 'El Barrio es obligatorio'}
+        />
 
-          <InputApp
-            select
-            label="Sub-Barrio"
-            name="subBarrio"
-            selectOptions={dataTableOrganizations}
-            register={register}
-            control={control}
-            placeholder="Escribe el Sub-Barrio"
-            messageError={errors.name?.message && 'El Sub-Barrio es obligatorio'}
-          />
-         
-          <InputApp
-            label="Residencial, calle, número"
-            name="location"
-            type="text"
-            register={register}
-            placeholder="Escribe la dirección"
-            messageError={errors.name?.message && 'Campo obligatorio'}
-          />          
+        <InputApp
+          select
+          label="Sub-Barrio"
+          name="subBarrio"
+          selectOptions={dataTableOrganizations}
+          register={register}
+          control={control}
+          placeholder="Escribe el Sub-Barrio"
+          messageError={errors.name?.message && 'El Sub-Barrio es obligatorio'}
+        />
 
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <Image size={20} className="mr-50" />
-              <span className="align-middle">Evidencias</span>
-            </h4>
-          </Col>
-          <Col sm="12">
-            <FileUploader />
-          </Col>
-          <Col sm="12">
-            <FormGroup>
-              <Label for="Description">Descripción</Label>
-              <Input
-                type="text"
-                id="Description"
-                name="Description"
-                innerRef={register()}
-                placeholder="Digite información relevante para el reporte"
-              />
-            </FormGroup>
-          </Col>
+        <InputApp
+          label="Residencial, calle, número"
+          name="location"
+          type="text"
+          register={register}
+          placeholder="Escribe la dirección"
+          messageError={errors.name?.message && 'Campo obligatorio'}
+        />
+
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <Image size={20} className="mr-50" />
+            <span className="align-middle">Evidencias</span>
+          </h4>
+        </Col>
+        <Col sm="12">
+          <FileUploader />
+        </Col>
+        <Col sm="12">
+          <FormGroup>
+            <Label for="Description">Descripción</Label>
+            <Input
+              type="text"
+              id="Description"
+              name="Description"
+              innerRef={register()}
+              placeholder="Digite información relevante para el reporte"
+            />
+          </FormGroup>
+        </Col>
       </FormApp>
     </CardGrid>
   )
