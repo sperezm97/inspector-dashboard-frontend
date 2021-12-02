@@ -1,199 +1,209 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Select from 'react-select';
+
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 // ** Third Party Components
-import classnames from 'classnames'
-import Flatpickr from 'react-flatpickr'
-import { User, MapPin } from 'react-feather'
+import { User } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
-import { useForm, Controller } from 'react-hook-form'
 import {
-  Row,
   Col,
-  Button,
-  Label,
   FormGroup,
-  Input,
-  CustomInput,
-  Form,
+  Label
 } from 'reactstrap'
 
-import { rolArray } from '../../../../constants/Rol/rol'
 import CardGrid from '../../../../@core/components/card-grid'
+import FormApp from '../../../../@core/components/form'
+import InputApp from '../../../../@core/components/input'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
+import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
+import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
+import { optionsIdentifierValueSelect, selectThemeColors } from '../../../../utility/Utils';
+import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces';
+
+const schema = yup.object().shape({
+  name: yup.string().required().trim(),
+  // acronimo: yup.string().required().trim(),
+  // phonenumber: yup.number().positive().integer().required(),
+  // address: yup.string().required().trim(),
+})
 
 const UserCreate = () => {
-  // ** State
-  const [data, setData] = useState(null)
+  const dispatch = useDispatch()
 
-  // ** React hook form vars
-  const { register, errors, handleSubmit, control, setValue, trigger } =
-    useForm({
-      defaultValues: { gender: 'gender-female', dob: null },
-    })
+  const [loadingState, setLoadingState] = useState(false)
+
+  useEffect(() => {
+    dispatch(getAllOrganizationsActions())
+    dispatch(getAllRolsActions())
+    dispatch(getAllProvincesActions())
+  }, [])
+
+  const dataTableOrganizations = useSelector(
+    (state) => state?.organizations?.organizations,
+  )
+  const rolSelector = useSelector((state) => state?.rols?.rols)
+  const provincesSelector = useSelector((state) => state?.provinces?.allProvinces)
+
+
+  const { register, handleSubmit, errors, control } = useForm({
+    resolver: yupResolver(schema),
+  })
+
+  const onSubmit = async (data) => {
+    console.log(data)
+  }
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nuevo Usuario">
-      <Form
-        onSubmit={handleSubmit((data) => {
-          trigger()
-          setData(data)
-        })}
+      <FormApp
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        loading={loadingState}
       >
-        <Row className="mt-1">
           <Col sm="12">
             <h4 className="mb-1">
               <User size={20} className="mr-50" />
               <span className="align-middle">Información Personal</span>
             </h4>
           </Col>
-          <Col lg="4" md="6">
+
+          <InputApp
+            label="Nombre"
+            name="name"
+            register={register}
+            placeholder="Escribe el Nombre"
+            messageError={errors.name?.message && 'El Nombre es obligatorio'}
+          />
+
+          <InputApp
+            label="Apellido"
+            name="apellido"
+            register={register}
+            placeholder="Escribe el Apellido"
+            messageError={errors.apellido?.message && 'El Apellido es obligatorio'}
+          />
+
+          <InputApp
+            type='number'
+            label="Cédula de Identidad"
+            name="cedula"
+            register={register}
+            placeholder="Escribe la Cédula"
+            messageError={errors.cedula?.message && 'La Cédula es obligatoria'}
+          />
+
+          <InputApp
+            type="email"
+            label="Correo Electrónico"
+            name="email"
+            register={register}
+            placeholder="Escribe el Correo Electrónico"
+            messageError={errors.email?.message && 'El Correo Electrónico es obligatorio'}
+          />
+
+          <InputApp
+            type="number"
+            label="Teléfono"
+            name="telefono"
+            register={register}
+            placeholder="Escribe el Teléfono"
+            messageError={errors.email?.message && 'El Teléfono es obligatorio'}
+          />
+
+          <InputApp
+            select
+            label="Institución"
+            name="institucion"
+            selectOptions={dataTableOrganizations}
+            register={register}
+            control={control}
+            messageError={errors.institucion?.message && 'La Institución es obligatoria'}
+            placeholder="Escribe la Institución"
+          />
+
+          <Col lg="4" md="6" sm="12">
             <FormGroup>
-              <Label className="d-block" for="dob">
-                Cédula de Identidad
-              </Label>
-              <Input
-                type="text"
-                id="statee"
-                defaultValue="001-0000000-0"
-                placeholder="Cédula de Identidad"
+              <Label>Permisos</Label>
+              <Controller
+                control={control}
+                name='permisos'
+                onChange={register}
+                render={({ onChange, name }) => (
+                  <Select
+                    isMulti
+                    name={name}
+                    theme={selectThemeColors}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={onChange}
+                    options={rolSelector.map((dataMap) => ({
+                      value: dataMap.id,
+                      label: dataMap.name
+                    }))}
+                  />
+                )}
               />
             </FormGroup>
           </Col>
-          <Col lg="4" md="6">
+
+          <Col lg="4" md="6" sm="12">
             <FormGroup>
-              <Label for="Nombre">Nombre</Label>
-              <Input
-                type="text"
-                id="Nombre"
-                defaultValue="John"
-                placeholder="Nombre"
-                readOnly
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="Apellido">Apellido</Label>
-              <Input
-                type="text"
-                id="Apellido"
-                defaultValue="Doe"
-                placeholder="Apellido"
-                readOnly
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Nacionalidad</Label>
-              <Input
-                type="select"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="Dominicana"
-              >
-                <option value="Dominicana">Dominicana</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Teléfono Móvil</Label>
-              <Input
-                type="text"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="809-220-1111"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Correo Electrónico</Label>
-              <Input
-                type="email"
-                id="state"
-                defaultValue="johndoe@email.com"
-                placeholder="Correo Electrónico"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <label className="d-block mb-1">Género</label>
-              <FormGroup>
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Masculino"
-                      value="Masculino"
-                      id="gender-male"
-                      name={props.name}
-                      onChange={() => setValue('gender', 'Masculino')}
-                    />
+              <Label>Provincia</Label>
+              <Controller
+                control={control}
+                name='provincia'
+                defaultValue={{value: '', label: 'Sin Seleccionar'}}
+                onChange={register}
+                render={({ onChange, value, name }) => (
+                  <Select
+                    theme={selectThemeColors}
+                    name={name}
+                    isClearable={false}
+                    className="react-select"
+                    classNamePrefix="select"
+                    value={value}
+                    isLoading={provincesSelector[0] ? false : true}
+                    options={optionsIdentifierValueSelect(provincesSelector)}
+                    onChange={onChange}
+                    // noOptionsMessage={({ inputValue }) =>
+                    //   noOptionsMessageSelect(
+                    //     inputValue,
+                    //     territoriesLabel.selectNoRegionsFound,
+                    //   )
+                    // }
+                  />
                   )}
-                />
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Femenino"
-                      value="Femenino"
-                      id="gender-female"
-                      name={props.name}
-                      defaultChecked
-                      onChange={() => setValue('gender', 'Femenino')}
-                    />
-                  )}
-                />
-              </FormGroup>
+              />
             </FormGroup>
           </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="zonaid">Zona ID</Label>
-              <Input type="text" name="zonaid" id="zonaid" defaultValue="05" />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="organizacion">Organización</Label>
-              <Input
-                type="select"
-                name="organizacion"
-                id="organizacion"
-                defaultValue="Organización"
-              >
-                <option value="Organización">Organización</option>
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="d-flex flex-sm-row flex-column mt-2">
-            <Button
-              type="submit"
-              color="primary"
-              className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            >
-              Crear
-            </Button>
-            <Button type="reset" color="primary" outline>
-              Limpiar
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+
+          <InputApp
+            type="password"
+            label="Contraseña"
+            name="contraseña"
+            register={register}
+            placeholder="Escribe la Contraseña"
+            messageError={errors.contraseña?.message && 'La Contraseña es obligatoria'}
+          />
+
+          <InputApp
+            type="password"
+            label="Confirmar Contraseña"
+            name="cContraseña"
+            register={register}
+            placeholder="Escribe la Contraseña"
+            messageError={errors.cContraseña?.message && 'Las Contraseñas no coinciden'}
+          />
+
+      </FormApp>
     </CardGrid>
   )
 }
