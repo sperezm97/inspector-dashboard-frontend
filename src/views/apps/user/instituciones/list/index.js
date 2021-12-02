@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import ComponentSpinner from '../../../../../@core/components/spinner/Loading-spinner'
 import { columns } from './columns'
 import DataTableList from '../../../bandeja/list/table'
 import { getAllOrganizationsActions } from '../../../../../redux/actions/zammad/organizations'
@@ -20,13 +21,6 @@ const Instituciones = () => {
     (state) => state?.organizations?.organizations,
   )
 
-  const [dataTable, setDataTable] = useState([])
-  console.log(dataTable)
-
-  useEffect(() => {
-    setDataTable(dataTableTickets)
-  }, [dataTableTickets])
-
   const searchTable = (data, queryLowered) =>
     data.filter(
       (data) =>
@@ -34,15 +28,15 @@ const Instituciones = () => {
         (data.name || '').toLowerCase().includes(queryLowered),
     )
 
-  return (
+  return dataTableTickets[0] ? (
     <DataTableList
       columnsTable={columns}
-      dataTable={dataTable}
+      dataTable={dataTableTickets}
       dataTableTitle="Instituciones"
       searchTable={searchTable}
       showButtonAddInstitution
     />
-  )
+  ) : <ComponentSpinner />
 }
 
 export default Instituciones

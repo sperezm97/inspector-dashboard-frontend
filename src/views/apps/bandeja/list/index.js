@@ -10,6 +10,8 @@ import { dataInfoChart } from './dataInfoChart'
 import { columns } from './columns'
 import DataTableList from './table'
 import CardGrid from '../../../../@core/components/card-grid'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
+
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { territoriesLabel } from '../../../../constants/label/territories'
@@ -210,7 +212,7 @@ const Bandeja = () => {
         />
       )}
     </>
-  ) : null
+  ) : <ComponentSpinner />
 }
 
 export default Bandeja

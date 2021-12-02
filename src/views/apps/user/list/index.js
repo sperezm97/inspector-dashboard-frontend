@@ -13,6 +13,7 @@ import { columns } from './columns'
 // import DataTableList from '../../../../@core/components/table'
 import DataTableList from '../../bandeja/list/table'
 import CardGrid from '../../../../@core/components/card-grid'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
 import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
 import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces'
@@ -183,7 +184,7 @@ const UsersList = () => {
         showButtonAddUser
       />
     </>
-  ) : null
+  ) : <ComponentSpinner />
 }
 
 export default UsersList

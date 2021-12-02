@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { columns } from './columns'
 import DataTableList from '../../apps/bandeja/list/table'
+import ComponentSpinner from '../../../@core/components/spinner/Loading-spinner'
 import { getAllSubCategoriesActions } from '../../../redux/actions/incidents/subCategories'
 import Url from '../../../constants/Url'
 
@@ -22,7 +23,7 @@ const subCategoria = () => {
       (data.name || '').toLowerCase().includes(queryLowered),
     )
 
-  return (
+  return dataTableSubCategories[0] ? (
     <DataTableList
       columnsTable={columns}
       dataTable={dataTableSubCategories}
@@ -32,7 +33,7 @@ const subCategoria = () => {
       labelButton="Añadir Nueva Sub-Categoria"
       urlButton={Url.subCategoryCreate}
     />
-  )
+  ) : <ComponentSpinner />
 }
 
 export default subCategoria

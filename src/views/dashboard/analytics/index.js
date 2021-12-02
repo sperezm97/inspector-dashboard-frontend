@@ -7,6 +7,7 @@ import { Row, Col } from 'reactstrap'
 
 import StatsWithAreaChart from '../../../@core/components/widgets/stats/StatsWithAreaChart'
 import TinyChartStats from '../../../@core/components/widgets/stats/TinyChartStats'
+import ComponentSpinner from '../../../@core/components/spinner/Loading-spinner'
 
 import OrdersBarChart from './OrdersBarChart'
 import ProfitLineChart from './ProfitLineChart'
@@ -226,7 +227,7 @@ const AnalyticsDashboard = () => {
         </Col>
       </Row>
     </div>
-  ) : null
+  ) : <ComponentSpinner />
 }
 
 export default AnalyticsDashboard
