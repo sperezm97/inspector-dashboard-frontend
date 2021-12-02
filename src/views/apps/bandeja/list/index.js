@@ -212,7 +212,9 @@ const Bandeja = () => {
         />
       )}
     </>
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default Bandeja

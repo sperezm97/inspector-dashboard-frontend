@@ -36,7 +36,9 @@ const Instituciones = () => {
       searchTable={searchTable}
       showButtonAddInstitution
     />
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default Instituciones

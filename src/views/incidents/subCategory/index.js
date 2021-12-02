@@ -33,7 +33,9 @@ const subCategoria = () => {
       labelButton="Añadir Nueva Sub-Categoria"
       urlButton={Url.subCategoryCreate}
     />
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default subCategoria

@@ -33,7 +33,9 @@ const categoria = () => {
       labelButton="Añadir Nueva Categoria"
       urlButton={Url.categoryCreate}
     />
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default categoria

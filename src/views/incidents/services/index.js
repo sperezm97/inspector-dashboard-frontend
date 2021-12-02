@@ -31,7 +31,9 @@ const servicios = () => {
       labelButton="Añadir Nuevo Servicio"
       urlButton={Url.servicesCreate}
     />
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default servicios

@@ -184,7 +184,9 @@ const UsersList = () => {
         showButtonAddUser
       />
     </>
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default UsersList

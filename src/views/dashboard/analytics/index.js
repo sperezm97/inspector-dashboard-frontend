@@ -227,7 +227,9 @@ const AnalyticsDashboard = () => {
         </Col>
       </Row>
     </div>
-  ) : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default AnalyticsDashboard
