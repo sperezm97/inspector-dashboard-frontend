@@ -36,7 +36,6 @@ const schema = yup.object().shape({
 })
 
 const ReportCreate = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {
