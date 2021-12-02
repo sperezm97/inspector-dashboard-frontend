@@ -21,7 +21,7 @@ const FileUploader = () => {
 
   return (
     <div className="mb-2">
-      <Label>Cargar Prueba</Label>
+      <Label>Cargar pruebas</Label>
       <DragDrop
         uppy={uppy}
         // note= 'asd'

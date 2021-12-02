@@ -11,7 +11,7 @@ import {
     Input,
   } from 'reactstrap'
 
-const InputApp = ({ label, type="text", select=false, selectOptions=[], control, name, register, placeholder="", messageError="", defaultValue=null }) => (
+const InputApp = ({ label, type="text", select=false, selectOptions=[], control, name, register, placeholder="", messageError="", defaultValue=null, disabled=false }) => (
     <Col lg="4" md="6" sm="12">
         <FormGroup>
             <Label>{label}</Label>
@@ -40,6 +40,7 @@ const InputApp = ({ label, type="text", select=false, selectOptions=[], control,
                     <Input
                         type={type}
                         name={name}
+                        disabled={disabled}
                         innerRef={register()}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
