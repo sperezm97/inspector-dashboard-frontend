@@ -89,23 +89,23 @@ const ReportCreate = () => {
 
         <InputApp
           select
-          label="Categoria"
-          name="Categoria"
+          label="Categoría"
+          name="categoria"
           selectOptions={dataTableCategories}
           register={register}
           control={control}
-          messageError={errors.name?.message && 'La Categoria es obligatoria'}
+          messageError={errors.name?.message && 'La Categoría es obligatoria'}
         />
 
         <InputApp
           select
-          label="Sub-Categorias"
+          label="Sub-Categorías"
           name="subCategoria"
           selectOptions={dataTableSubCategories}
           register={register}
           control={control}
           messageError={
-            errors.name?.message && 'La Sub-Categorias es obligatoria'
+            errors.name?.message && 'La Sub-Categoría es obligatoria'
           }
         />
 

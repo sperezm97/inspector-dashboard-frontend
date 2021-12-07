@@ -15,13 +15,13 @@ export default [
       },
       {
         id: 'incidents',
-        title: 'Categorias',
+        title: 'Categorías',
         icon: <Circle size={12} />,
         navLink: Url.category,
       },
       {
         id: 'incidents',
-        title: 'Sub-Categorias',
+        title: 'Sub-Categorías',
         icon: <Circle size={12} />,
         navLink: Url.subCategory,
       },

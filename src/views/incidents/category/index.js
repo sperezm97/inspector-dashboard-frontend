@@ -27,10 +27,10 @@ const categoria = () => {
     <DataTableList
       columnsTable={columns}
       dataTable={dataTableCategories}
-      dataTableTitle="Categorias"
+      dataTableTitle="Categorías"
       searchTable={searchTable}
       showButton
-      labelButton="Añadir Nueva Categoria"
+      labelButton="Añadir Nueva Categoría"
       urlButton={Url.categoryCreate}
     />
   ) : (
