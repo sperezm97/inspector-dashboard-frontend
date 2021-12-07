@@ -4,6 +4,7 @@ export const zammadApi = {
   ticketsByState: 'tickets/search?query=state_id:',
   ticketsByGroup: 'tickets/search?query=group_id:',
 
+  users: 'users',
   allUsers: 'users?expand=true',
 
   allRols: 'roles',

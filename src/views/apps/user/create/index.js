@@ -16,6 +16,8 @@ import CardGrid from '../../../../@core/components/card-grid'
 import FormApp from '../../../../@core/components/form'
 import InputApp from '../../../../@core/components/input'
 
+import { postUser } from '../../../../services/user'
+
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
@@ -28,10 +30,15 @@ import {
 import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces'
 
 const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-  // acronimo: yup.string().required().trim(),
-  // phonenumber: yup.number().positive().integer().required(),
-  // address: yup.string().required().trim(),
+  firstName: yup.string().required().trim(),
+  lastName: yup.string().required().trim(),
+  email: yup.string().required().trim().email(),
+  // organization: yup.string().required().trim(),
+  // rols: yup.string().required().trim(),
+  cedula: yup.number().required(),
+  phone: yup.number().required(),
+  // zone: yup.string().required().trim(),
+  password: yup.string().required().trim(),
 })
 
 const UserCreate = () => {
@@ -58,7 +65,23 @@ const UserCreate = () => {
   })
 
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log('data', data)
+    const objZammad = {
+      firstname: data.firstName,
+      lastname: data.lastName,
+      email: data.email,
+      login: data.email,
+      organization: data.institucion.label,
+      roles: data.rols.map(data => data.label),
+      cedula: data.cedula,
+      phone: data.phone,
+      zone: data.provincia.value,
+      password: data.password,
+    }
+
+    console.log('objZammad', objZammad)
+    const { dataPost, loading, error } = postUser(objZammad)
+    console.log('dataPost, loading, error', dataPost, loading, error)
   }
 
   return (
@@ -77,19 +100,19 @@ const UserCreate = () => {
 
         <InputApp
           label="Nombre"
-          name="name"
+          name="firstName"
           register={register}
           placeholder="Escribe el Nombre"
-          messageError={errors.name?.message && 'El Nombre es obligatorio'}
+          messageError={errors.firstName?.message && 'El Nombre es obligatorio'}
         />
 
         <InputApp
           label="Apellido"
-          name="apellido"
+          name="lastName"
           register={register}
           placeholder="Escribe el Apellido"
           messageError={
-            errors.apellido?.message && 'El Apellido es obligatorio'
+            errors.lastName?.message && 'El Apellido es obligatorio'
           }
         />
 
@@ -116,10 +139,10 @@ const UserCreate = () => {
         <InputApp
           type="number"
           label="Teléfono"
-          name="telefono"
+          name="phone"
           register={register}
           placeholder="Escribe el Teléfono"
-          messageError={errors.email?.message && 'El Teléfono es obligatorio'}
+          messageError={errors.phone?.message && 'El Teléfono es obligatorio'}
         />
 
         <InputApp
@@ -140,7 +163,7 @@ const UserCreate = () => {
             <Label>Permisos</Label>
             <Controller
               control={control}
-              name="permisos"
+              name="rols"
               onChange={register}
               render={({ onChange, name }) => (
                 <Select
@@ -194,22 +217,22 @@ const UserCreate = () => {
         <InputApp
           type="password"
           label="Contraseña"
-          name="contraseña"
+          name="password"
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={
-            errors.contraseña?.message && 'La Contraseña es obligatoria'
+            errors.password?.message && 'La Contraseña es obligatoria'
           }
         />
 
         <InputApp
           type="password"
           label="Confirmar Contraseña"
-          name="cContraseña"
+          name="cPassword"
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={
-            errors.cContraseña?.message && 'Las Contraseñas no coinciden'
+            errors.cPassword?.message && 'Las Contraseñas no coinciden'
           }
         />
       </FormApp>
