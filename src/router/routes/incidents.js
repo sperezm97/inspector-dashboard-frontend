@@ -4,35 +4,45 @@ import Url from '../../constants/Url'
 const IncidentsRoutes = [
   {
     path: Url.services,
-    component: lazy(() => import('../../views/incidents/services')),
+    component: lazy(() => import('../../views/incidents/services/list')),
     exact: true,
   },
   {
-    path: Url.category,
-    component: lazy(() => import('../../views/incidents/category')),
-    exact: true,
-  },
-  {
-    path: Url.subCategory,
-    component: lazy(() => import('../../views/incidents/subCategory')),
-    exact: true,
-  },
-  {
-    path: `${Url.institutionEdit}/:id`,
-    component: lazy(() => import('../../views/apps/user/instituciones/edit')),
+    path: Url.servicesCreate,
+    component: lazy(() => import('../../views/incidents/services/create')),
     exact: true,
     meta: {
-      navLink: Url.institution,
+      navLink: Url.services,
     },
   },
+
+
   {
-    path: `${Url.institution}/:id`,
-    component: lazy(() =>
-      import('../../views/apps/user/instituciones/details'),
-    ),
+    path: Url.category,
+    component: lazy(() => import('../../views/incidents/category/list')),
+    exact: true,
+  },
+  {
+    path: Url.categoryCreate,
+    component: lazy(() => import('../../views/incidents/category/create')),
     exact: true,
     meta: {
-      navLink: Url.institution,
+      navLink: Url.services,
+    },
+  },
+
+
+  {
+    path: Url.subCategory,
+    component: lazy(() => import('../../views/incidents/subCategory/list')),
+    exact: true,
+  },
+  {
+    path: Url.subCategoryCreate,
+    component: lazy(() => import('../../views/incidents/subCategory/create')),
+    exact: true,
+    meta: {
+      navLink: Url.services,
     },
   },
 ]

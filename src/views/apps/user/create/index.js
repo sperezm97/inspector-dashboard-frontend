@@ -16,7 +16,7 @@ import CardGrid from '../../../../@core/components/card-grid'
 import FormApp from '../../../../@core/components/form'
 import InputApp from '../../../../@core/components/input'
 
-import { postUser } from '../../../../services/user'
+import { postUser } from '../../../../services/zammad/user'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'

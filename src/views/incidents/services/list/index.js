@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { columns } from './columns'
-import DataTableList from '../../apps/bandeja/list/table'
-import ComponentSpinner from '../../../@core/components/spinner/Loading-spinner'
-import { getAllServicesActions } from '../../../redux/actions/incidents/services'
-import Url from '../../../constants/Url'
+import DataTableList from '../../../apps/bandeja/list/table'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
+import { getAllServicesActions } from '../../../../redux/actions/incidents/services'
+import Url from '../../../../constants/Url'
 
 const servicios = () => {
   const dispatch = useDispatch()

@@ -1,5 +1,5 @@
-import { zammadAxios } from "../../configs/axios"
-import { zammadApi } from "../../constants/api/zammadApi"
+import { zammadAxios } from "../../../configs/axios"
+import { zammadApi } from "../../../constants/api/zammadApi"
 
 export const postUser = async (dataObj) => {
     let dataPost = []

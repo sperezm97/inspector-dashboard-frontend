@@ -1,5 +1,5 @@
-import { rowActions } from '../../../@core/components/table/commonColumns'
-import Url from '../../../constants/Url'
+import { rowActions } from '../../../../@core/components/table/commonColumns'
+import Url from '../../../../constants/Url'
 
 export const columns = [
   {
@@ -14,8 +14,8 @@ export const columns = [
     minWidth: '50px',
     cell: (row) => {
       const url = {
-        details: Url.services,
-        edit: Url.servicesEdit,
+        details: Url.category,
+        edit: Url.categoryEdit,
       }
       return rowActions(row.id, url)
     },
