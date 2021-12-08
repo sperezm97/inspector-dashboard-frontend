@@ -9,30 +9,6 @@ const Tabs = ({ activeTab, toggleTab }) => (
         <span className="font-weight-bold">General</span>
       </NavLink>
     </NavItem>
-    <NavItem>
-      <NavLink active={activeTab === '2'} onClick={() => toggleTab('2')}>
-        <Lock size={18} className="mr-1" />
-        <span className="font-weight-bold">Change Password</span>
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink active={activeTab === '3'} onClick={() => toggleTab('3')}>
-        <Info size={18} className="mr-1" />
-        <span className="font-weight-bold">Information</span>
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink active={activeTab === '4'} onClick={() => toggleTab('4')}>
-        <Link size={18} className="mr-1" />
-        <span className="font-weight-bold">Social</span>
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink active={activeTab === '5'} onClick={() => toggleTab('5')}>
-        <Bell size={18} className="mr-1" />
-        <span className="font-weight-bold">Notifications</span>
-      </NavLink>
-    </NavItem>
   </Nav>
 )
 

@@ -53,6 +53,7 @@ const Login = (props) => {
   const [password, setPassword] = useState('')
 
   const [errorLogin, setErrorLogin] = useState(false)
+  const [loadingLogin, setLoadingLogin] = useState(false)
 
   const { register, errors, handleSubmit } = useForm()
 
@@ -63,6 +64,7 @@ const Login = (props) => {
           encodeURIComponent(`${data.loginEmail}:${data.loginPassword}`),
         ),
       )
+      setLoadingLogin(true)
       const request = axios
         .get('https://zammad.rgg.digital.gob.do/api/v1/users/me', {
           headers: {
@@ -106,6 +108,7 @@ const Login = (props) => {
           )
         })
         .catch((err) => {
+          setLoadingLogin(false)
           setErrorLogin(true)
           console.log(err.message)
         })
@@ -138,7 +141,7 @@ const Login = (props) => {
                   value={email}
                   id="loginEmail"
                   name="loginEmail"
-                  placeholder="john@example.com"
+                  placeholder="tucorreo@ejemplo.com"
                   onChange={(e) => setEmail(e.target.value)}
                   className={classnames({
                     'is-invalid': errors.loginEmail,
@@ -173,20 +176,20 @@ const Login = (props) => {
                   })}
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <CustomInput
                   type="checkbox"
                   className="custom-control-Primary"
                   id="remember-me"
                   label="Recuerdame"
                 />
-              </FormGroup>
+              </FormGroup> */}
               <p style={{ marginBottom: '10px', color: 'red' }}>
                 {errorLogin &&
                   'Error al autenticar, por favor verifique sus datos.'}
               </p>
-              <Button.Ripple type="submit" color="primary" block>
-                Login
+              <Button.Ripple type="submit" color="primary" block disabled={loadingLogin}>
+                {loadingLogin ? 'Cargando...' : 'Login'}
               </Button.Ripple>
             </Form>
           </CardBody>
