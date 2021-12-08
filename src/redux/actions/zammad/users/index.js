@@ -9,3 +9,11 @@ export const getAllUsersActions = () => (dispatch) =>
       payload: response.data,
     })
   })
+
+export const getUserMeActions = () => (dispatch) =>
+  zammadAxios.get(zammadApi.userMe).then((response) => {
+    dispatch({
+      type: zammadTypes.GET_USER_ME,
+      payload: response.data,
+    })
+  })

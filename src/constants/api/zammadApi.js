@@ -5,6 +5,8 @@ export const zammadApi = {
   ticketsByGroup: 'tickets/search?query=group_id:',
 
   users: 'users',
+  userMe: 'users/me?expand=true',
+  
   allUsers: 'users?expand=true',
 
   allRols: 'roles',

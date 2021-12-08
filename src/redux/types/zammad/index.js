@@ -6,6 +6,9 @@ export const zammadTypes = {
   GET_TICKETS_GROUP: 'GET_TICKETS_GROUP',
 
   GET_USERS: 'GET_USERS',
+  GET_USER_ME: 'GET_USER_ME',
+
+  // GET_AUTH_USER: 'GET_AUTH_USER',
 
   GET_ROLS: 'GET_ROLS',
 
