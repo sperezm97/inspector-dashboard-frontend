@@ -188,7 +188,12 @@ const Login = (props) => {
                 {errorLogin &&
                   'Error al autenticar, por favor verifique sus datos.'}
               </p>
-              <Button.Ripple type="submit" color="primary" block disabled={loadingLogin}>
+              <Button.Ripple
+                type="submit"
+                color="primary"
+                block
+                disabled={loadingLogin}
+              >
                 {loadingLogin ? 'Cargando...' : 'Login'}
               </Button.Ripple>
             </Form>

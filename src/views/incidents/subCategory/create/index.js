@@ -23,7 +23,6 @@ const schema = yup.object().shape({
 })
 
 const subCategoryCreate = ({ history }) => {
-
   const [loadingState, setLoadingState] = useState(false)
 
   const { register, handleSubmit, errors } = useForm({
@@ -33,7 +32,6 @@ const subCategoryCreate = ({ history }) => {
   const onSubmit = async (data) => {
     console.log(data)
   }
-
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Sub-Categoría">
@@ -54,9 +52,10 @@ const subCategoryCreate = ({ history }) => {
           name="name"
           register={register}
           placeholder="Escribe la Sub-Categoría"
-          messageError={errors.name?.message && 'La Sub-Categoría es obligatoria'}
+          messageError={
+            errors.name?.message && 'La Sub-Categoría es obligatoria'
+          }
         />
-
       </FormApp>
     </CardGrid>
   )

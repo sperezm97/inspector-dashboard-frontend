@@ -63,9 +63,7 @@ const UserConfig = () => {
     (state) => state?.provinces?.allProvinces,
   )
 
-  const userMeSelector = useSelector(
-    (state) => state?.users?.userMe,
-  )
+  const userMeSelector = useSelector((state) => state?.users?.userMe)
 
   const { register, handleSubmit, errors, control } = useForm({
     resolver: yupResolver(schema),
@@ -79,7 +77,7 @@ const UserConfig = () => {
       email: data.email,
       login: data.email,
       organization: data.institucion.label,
-      roles: data.rols.map(data => data.label),
+      roles: data.rols.map((data) => data.label),
       cedula: data.cedula,
       phone: data.phone,
       zone: data.provincia.value,
@@ -251,8 +249,9 @@ const UserConfig = () => {
         />
       </FormApp>
     </CardGrid>
-    ) 
-  : <ComponentSpinner />
+  ) : (
+    <ComponentSpinner />
+  )
 }
 
 export default UserConfig

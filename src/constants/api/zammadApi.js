@@ -6,7 +6,7 @@ export const zammadApi = {
 
   users: 'users',
   userMe: 'users/me?expand=true',
-  
+
   allUsers: 'users?expand=true',
 
   allRols: 'roles',

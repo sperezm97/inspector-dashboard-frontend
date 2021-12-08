@@ -23,7 +23,6 @@ const schema = yup.object().shape({
 })
 
 const servicesCreate = ({ history }) => {
-
   const [loadingState, setLoadingState] = useState(false)
 
   const { register, handleSubmit, errors } = useForm({
@@ -33,7 +32,6 @@ const servicesCreate = ({ history }) => {
   const onSubmit = async (data) => {
     console.log(data)
   }
-
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nuevo Servicio">
@@ -56,7 +54,6 @@ const servicesCreate = ({ history }) => {
           placeholder="Escribe el Servicio"
           messageError={errors.name?.message && 'El Servicio es obligatorio'}
         />
-
       </FormApp>
     </CardGrid>
   )

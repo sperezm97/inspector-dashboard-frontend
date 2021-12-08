@@ -72,7 +72,7 @@ const UserCreate = () => {
       email: data.email,
       login: data.email,
       organization: data.institucion.label,
-      roles: data.rols.map(data => data.label),
+      roles: data.rols.map((data) => data.label),
       cedula: data.cedula,
       phone: data.phone,
       zone: data.provincia.value,

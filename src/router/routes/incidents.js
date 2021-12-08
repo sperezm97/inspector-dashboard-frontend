@@ -16,7 +16,6 @@ const IncidentsRoutes = [
     },
   },
 
-
   {
     path: Url.category,
     component: lazy(() => import('../../views/incidents/category/list')),
@@ -30,7 +29,6 @@ const IncidentsRoutes = [
       navLink: Url.services,
     },
   },
-
 
   {
     path: Url.subCategory,
