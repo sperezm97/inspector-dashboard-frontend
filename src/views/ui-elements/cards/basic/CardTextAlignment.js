@@ -9,8 +9,8 @@ import {
   Button,
 } from 'reactstrap'
 
-const CardTextAlignment = () => (
-  <>
+const CardTextAlignment = function() {
+  return <>
     <h5 className="mt-3 mb-2">Text alignment</h5>
     <Row>
       <Col md="6" lg="4">
@@ -57,6 +57,6 @@ const CardTextAlignment = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default CardTextAlignment

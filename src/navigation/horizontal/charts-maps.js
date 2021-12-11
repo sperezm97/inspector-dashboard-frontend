@@ -1,4 +1,5 @@
 import { BarChart2, PieChart, Circle, Map } from 'react-feather'
+
 export default [
   {
     id: 'chartsAndMaps',

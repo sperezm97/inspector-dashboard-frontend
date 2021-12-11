@@ -14,8 +14,8 @@ const params = {
   },
 }
 
-const SwiperFade = () => (
-  <Card>
+const SwiperFade = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Fade</CardTitle>
     </CardHeader>
@@ -39,6 +39,6 @@ const SwiperFade = () => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperFade

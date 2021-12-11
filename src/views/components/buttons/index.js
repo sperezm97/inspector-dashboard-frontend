@@ -32,7 +32,7 @@ import {
   buttonCBRadio,
 } from './ButtonsSourceCode'
 
-const Buttons = () => {
+const Buttons = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

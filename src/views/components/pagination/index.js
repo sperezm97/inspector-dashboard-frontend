@@ -26,7 +26,7 @@ import {
   paginationSizes,
 } from './PaginationSourceCode'
 
-const Pagination = () => {
+const Pagination = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

@@ -1,8 +1,8 @@
 import { Badge } from 'reactstrap'
 import { Star } from 'react-feather'
 
-const BadgeIcons = () => (
-  <div className="demo-inline-spacing">
+const BadgeIcons = function() {
+  return <div className="demo-inline-spacing">
     <Badge color="primary">
       <Star size={12} className="align-middle" />
       <span className="align-middle ml-25">Primary</span>
@@ -32,5 +32,5 @@ const BadgeIcons = () => (
       <span className="align-middle ml-25">Dark</span>
     </Badge>
   </div>
-)
+}
 export default BadgeIcons

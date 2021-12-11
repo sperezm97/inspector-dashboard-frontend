@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Label } from 'reactstrap'
 import Flatpickr from 'react-flatpickr'
 
-const Timepickers = () => {
+const Timepickers = function() {
   const [basic, setBasic] = useState(new Date())
 
   return (

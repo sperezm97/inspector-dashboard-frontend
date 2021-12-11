@@ -1,8 +1,8 @@
 import { Badge } from 'reactstrap'
 import { Bell } from 'react-feather'
 
-const BadgePillNotification = () => (
-  <div className="demo-inline-spacing">
+const BadgePillNotification = function() {
+  return <div className="demo-inline-spacing">
     <div className="position-relative">
       <Badge pill color="primary" className="badge-up">
         4
@@ -22,5 +22,5 @@ const BadgePillNotification = () => (
       <Bell className="text-info" size={22} />
     </div>
   </div>
-)
+}
 export default BadgePillNotification

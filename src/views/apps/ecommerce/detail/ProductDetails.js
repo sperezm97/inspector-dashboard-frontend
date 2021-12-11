@@ -26,7 +26,7 @@ import {
   DropdownMenu,
 } from 'reactstrap'
 
-const Product = (props) => {
+const Product = function(props) {
   // ** Props
   const {
     data,
@@ -52,7 +52,7 @@ const Product = (props) => {
         onClick={() => setSelectedColor(color)}
       >
         <div className={`color-option b-${color}`}>
-          <div className={`filloption bg-${color}`}></div>
+          <div className={`filloption bg-${color}`} />
         </div>
       </li>
     ))

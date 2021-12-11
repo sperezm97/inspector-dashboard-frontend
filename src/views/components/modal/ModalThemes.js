@@ -46,7 +46,7 @@ const ModalConfig = [
   },
 ]
 
-const ModalTheme = () => {
+const ModalTheme = function() {
   const [modal, setModal] = useState(null)
 
   const toggleModal = (id) => {

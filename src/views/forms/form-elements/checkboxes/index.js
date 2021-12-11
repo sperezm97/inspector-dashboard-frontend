@@ -5,8 +5,8 @@ import BasicCheckbox from './CheckboxBasic'
 import CustomCheckbox from './CheckboxCustom'
 import ColoredCheckbox from './CheckboxColors'
 
-const Checkbox = () => (
-  <>
+const Checkbox = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Checkbox"
       breadCrumbParent="Form Elements"
@@ -24,5 +24,5 @@ const Checkbox = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Checkbox

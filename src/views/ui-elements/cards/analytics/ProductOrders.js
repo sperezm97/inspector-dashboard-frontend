@@ -13,7 +13,7 @@ import {
 import Chart from 'react-apexcharts'
 import { Circle } from 'react-feather'
 
-const ProductOrders = (props) => {
+const ProductOrders = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

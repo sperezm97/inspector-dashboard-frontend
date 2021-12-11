@@ -17,7 +17,7 @@ import {
 } from 'react-feather'
 import Url from '../../../../constants/Url'
 
-const UserInfoCard = ({ selectedUser }) => {
+const UserInfoCard = function({ selectedUser }) {
   // ** render user img
   const renderUserImg = () => {
     if (selectedUser !== null && selectedUser.avatar.length) {

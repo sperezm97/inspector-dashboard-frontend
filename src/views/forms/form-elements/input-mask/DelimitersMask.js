@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const DelimitersMask = () => {
+const DelimitersMask = function() {
   const options = { delimiter: '·', blocks: [3, 3, 3], uppercase: true }
   return (
     <>

@@ -11,7 +11,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const PricingCards = ({ data, duration }) => {
+const PricingCards = function({ data, duration }) {
   const renderPricingCards = () =>
     data.map((item, index) => {
       const monthlyPrice =

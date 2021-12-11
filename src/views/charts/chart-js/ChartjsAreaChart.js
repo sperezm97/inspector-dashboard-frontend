@@ -3,14 +3,14 @@ import Flatpickr from 'react-flatpickr'
 import { Calendar } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ChartjsAreaChart = ({
+const ChartjsAreaChart = function({
   labelColor,
   tooltipShadow,
   gridLineColor,
   blueColor,
   blueLightColor,
   greyLightColor,
-}) => {
+}) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,

@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableStriped = () => (
-  <Table striped responsive>
+const TableStriped = function() {
+  return <Table striped responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableStriped = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableStriped

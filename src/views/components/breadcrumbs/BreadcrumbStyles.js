@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-const BreadcrumbsStyles = () => (
-  <>
+const BreadcrumbsStyles = function() {
+  return <>
     <Breadcrumb listClassName="breadcrumb-slash">
       <BreadcrumbItem>
         <Link to="#"> Home </Link>
@@ -64,5 +64,5 @@ const BreadcrumbsStyles = () => (
       </BreadcrumbItem>
     </Breadcrumb>
   </>
-)
+}
 export default BreadcrumbsStyles

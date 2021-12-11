@@ -7,8 +7,8 @@ import {
   Table,
 } from 'reactstrap'
 
-const HeadingColors = () => (
-  <Card>
+const HeadingColors = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Heading colors</CardTitle>
     </CardHeader>
@@ -56,5 +56,5 @@ const HeadingColors = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 export default HeadingColors

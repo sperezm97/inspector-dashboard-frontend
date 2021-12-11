@@ -1,8 +1,8 @@
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 
-const PaginationIconsAndText = () => (
-  <Pagination className="d-flex mt-3">
+const PaginationIconsAndText = function() {
+  return <Pagination className="d-flex mt-3">
     <PaginationItem>
       <PaginationLink className="text-nowrap" href="#" first>
         <ChevronLeft className="align-middle" size={15} />
@@ -31,5 +31,5 @@ const PaginationIconsAndText = () => (
       </PaginationLink>
     </PaginationItem>
   </Pagination>
-)
+}
 export default PaginationIconsAndText

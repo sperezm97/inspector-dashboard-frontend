@@ -4,8 +4,8 @@ import { X, Loader, Info } from 'react-feather'
 import { toast } from 'react-toastify'
 import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
 
-const ErrorToast = () => (
-  <>
+const ErrorToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="danger" icon={<X size={12} />} />
@@ -20,10 +20,10 @@ const ErrorToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const AutoCloseToast = () => (
-  <>
+const AutoCloseToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="primary" icon={<Loader size={12} />} />
@@ -38,10 +38,10 @@ const AutoCloseToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const InfoToast = () => (
-  <>
+const InfoToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="info" icon={<Info size={12} />} />
@@ -56,9 +56,9 @@ const InfoToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const Toastr = () => {
+const Toastr = function() {
   const notifyDelay = () =>
     toast.error(<ErrorToast />, { autoClose: 10000, hideProgressBar: true })
   const notifyAutoClose = () =>

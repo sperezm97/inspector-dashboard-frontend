@@ -16,7 +16,7 @@ import Earnings from './Earnings'
 
 import '@styles/react/libs/charts/apex-charts.scss'
 
-const AnalyticsCards = () => {
+const AnalyticsCards = function() {
   const context = useContext(ThemeColors)
   return (
     <>

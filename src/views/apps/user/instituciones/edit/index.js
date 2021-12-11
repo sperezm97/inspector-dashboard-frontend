@@ -76,8 +76,7 @@ const institutionCreate = ({ match }) => {
   }
 
   return dataInstitution ? (
-    <>
-      <CardGrid cardHeaderTitle="Editar Institución">
+    <CardGrid cardHeaderTitle="Editar Institución">
         <FormApp
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
@@ -138,7 +137,6 @@ const institutionCreate = ({ match }) => {
           />
         </FormApp>
       </CardGrid>
-    </>
   ) : null
 }
 export default institutionCreate

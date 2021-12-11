@@ -9,7 +9,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const ApexScatterCharts = ({ direction, warning, primary, success }) => {
+const ApexScatterCharts = function({ direction, warning, primary, success }) {
   const [active, setActive] = useState('daily')
 
   const options = {

@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableBorderless = () => (
-  <Table borderless responsive>
+const TableBorderless = function() {
+  return <Table borderless responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableBorderless = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableBorderless

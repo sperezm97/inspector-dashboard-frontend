@@ -2,7 +2,7 @@ import Avatar from '@components/avatar'
 import { Table, Card } from 'reactstrap'
 import { Monitor, Coffee, Watch, TrendingUp, TrendingDown } from 'react-feather'
 
-const CompanyTable = () => {
+const CompanyTable = function() {
   const data = [
     {
       img: require('@src/assets/images/icons/toolbox.svg').default,

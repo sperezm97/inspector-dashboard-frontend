@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Monitor } from 'react-feather'
 import StatsWithLineChart from '@components/widgets/stats/StatsWithLineChart'
 
-const SiteTraffic = () => {
+const SiteTraffic = function() {
   const [data, setData] = useState(null)
 
   useEffect(() => {

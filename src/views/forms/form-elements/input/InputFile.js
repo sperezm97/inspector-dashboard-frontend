@@ -11,8 +11,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InputFile = () => (
-  <Card>
+const InputFile = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Input File</CardTitle>
     </CardHeader>
@@ -38,5 +38,5 @@ const InputFile = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default InputFile

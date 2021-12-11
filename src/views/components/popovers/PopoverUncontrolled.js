@@ -6,8 +6,8 @@ import {
   PopoverBody,
 } from 'reactstrap'
 
-const PopoverUncontrolled = () => (
-  <>
+const PopoverUncontrolled = function() {
+  return <>
     <Button color="primary" outline id="uncontrolledPopover">
       Uncontrolled
     </Button>
@@ -19,5 +19,5 @@ const PopoverUncontrolled = () => (
       </PopoverBody>
     </UncontrolledPopover>
   </>
-)
+}
 export default PopoverUncontrolled

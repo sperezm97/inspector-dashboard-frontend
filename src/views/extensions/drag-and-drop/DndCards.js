@@ -36,7 +36,7 @@ const dragItems = [
   },
 ]
 
-const DndCards = () => {
+const DndCards = function() {
   const [cardsArr, setCardsArr] = useState(dragItems)
 
   return (

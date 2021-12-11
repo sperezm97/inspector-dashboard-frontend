@@ -12,8 +12,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const MultipleColumnForm = () => (
-  <Card>
+const MultipleColumnForm = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Multiple Column</CardTitle>
     </CardHeader>
@@ -106,5 +106,5 @@ const MultipleColumnForm = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default MultipleColumnForm

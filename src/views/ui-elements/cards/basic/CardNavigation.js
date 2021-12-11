@@ -15,7 +15,7 @@ import {
   NavLink,
 } from 'reactstrap'
 
-const CardNavigation = () => {
+const CardNavigation = function() {
   const [activePill, setPillActive] = useState('1')
   const [activeTab, setTabActive] = useState('1')
 

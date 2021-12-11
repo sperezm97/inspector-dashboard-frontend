@@ -11,7 +11,7 @@ import {
   Input,
 } from 'reactstrap'
 
-const AsyncValidationForm = () => {
+const AsyncValidationForm = function() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = async (data) => {

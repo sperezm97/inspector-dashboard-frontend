@@ -1,7 +1,7 @@
 import { Card, CardBody, CardText } from 'reactstrap'
 
-const ProfileAbout = ({ data }) => (
-  <Card>
+const ProfileAbout = function({ data }) {
+  return <Card>
     <CardBody>
       <h5 className="mb-75">About</h5>
       <CardText>{data.about}</CardText>
@@ -23,6 +23,6 @@ const ProfileAbout = ({ data }) => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default ProfileAbout

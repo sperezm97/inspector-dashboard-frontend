@@ -10,7 +10,7 @@ import {
   Input,
 } from 'reactstrap'
 
-const ModalForm = () => {
+const ModalForm = function() {
   const [formModal, setFormModal] = useState(false)
   const [scrollModal, setScrollModal] = useState(false)
   const [scrollInnerModal, setScrollInnerModal] = useState(false)

@@ -12,7 +12,7 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const CardBrowserState = ({ colors, trackBgColor }) => {
+const CardBrowserState = function({ colors, trackBgColor }) {
   const statesArr = [
     {
       avatar: require('@src/assets/images/icons/google-chrome.png').default,

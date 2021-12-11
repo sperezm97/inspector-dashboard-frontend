@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const PillThemes = () => (
-  <>
+const PillThemes = function() {
+  return <>
     <h6>Secondary</h6>
     <Nav pills className="nav-pill-secondary my-2">
       <NavItem>
@@ -86,5 +86,5 @@ const PillThemes = () => (
       </NavItem>
     </Nav>
   </>
-)
+}
 export default PillThemes

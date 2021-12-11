@@ -1,7 +1,7 @@
 import { Badge } from 'reactstrap'
 
-const BadgePillLight = () => (
-  <div className="demo-inline-spacing">
+const BadgePillLight = function() {
+  return <div className="demo-inline-spacing">
     <Badge color="light-primary" pill>
       Primary
     </Badge>
@@ -21,5 +21,5 @@ const BadgePillLight = () => (
       Info
     </Badge>
   </div>
-)
+}
 export default BadgePillLight

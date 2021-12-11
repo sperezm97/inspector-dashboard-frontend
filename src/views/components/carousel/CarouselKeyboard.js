@@ -24,5 +24,7 @@ const images = [
   },
 ]
 
-const CarouselKeyboard = () => <UncontrolledCarousel items={images} keyboard />
+const CarouselKeyboard = function() {
+  return <UncontrolledCarousel items={images} keyboard />
+}
 export default CarouselKeyboard

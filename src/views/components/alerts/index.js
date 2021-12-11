@@ -20,7 +20,7 @@ import {
   alertExample,
 } from './AlertSourceCode'
 
-const Alerts = () => {
+const Alerts = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

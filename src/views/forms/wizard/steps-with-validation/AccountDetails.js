@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowRight } from 'react-feather'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Form, Label, Input, FormGroup, Row, Col, Button } from 'reactstrap'
 
-const AccountDetails = ({ stepper, type }) => {
+const AccountDetails = function({ stepper, type }) {
   const SignupSchema = yup.object().shape({
     [`username-${type}`]: yup.string().required(),
     [`email-${type}`]: yup.string().email().required(),
@@ -105,7 +105,7 @@ const AccountDetails = ({ stepper, type }) => {
             <ArrowLeft
               size={14}
               className="align-middle mr-sm-25 mr-0"
-            ></ArrowLeft>
+             />
             <span className="align-middle d-sm-inline-block d-none">
               Previous
             </span>
@@ -115,7 +115,7 @@ const AccountDetails = ({ stepper, type }) => {
             <ArrowRight
               size={14}
               className="align-middle ml-sm-25 ml-0"
-            ></ArrowRight>
+             />
           </Button.Ripple>
         </div>
       </Form>

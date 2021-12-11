@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const BlocksMask = () => {
+const BlocksMask = function() {
   const options = { blocks: [4, 3, 3], uppercase: true }
   return (
     <>

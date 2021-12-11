@@ -1,7 +1,7 @@
 import { Alert } from 'reactstrap'
 
-const DefaultAlert = () => (
-  <div className="demo-spacing-0">
+const DefaultAlert = function() {
+  return <div className="demo-spacing-0">
     <Alert color="primary">
       <div className="alert-body">
         <span className="font-weight-bold">Good Morning!</span>
@@ -9,5 +9,5 @@ const DefaultAlert = () => (
       </div>
     </Alert>
   </div>
-)
+}
 export default DefaultAlert

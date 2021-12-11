@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const IconPagination = () => (
-  <Card>
+const IconPagination = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Icon Only</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const IconPagination = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default IconPagination

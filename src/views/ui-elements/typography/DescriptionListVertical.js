@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const DescriptionListVertical = () => (
-  <Card>
+const DescriptionListVertical = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         Description lists <small className="text-muted">Vertical</small>
@@ -21,5 +21,5 @@ const DescriptionListVertical = () => (
       </dl>
     </CardBody>
   </Card>
-)
+}
 export default DescriptionListVertical

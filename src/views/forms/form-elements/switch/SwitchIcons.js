@@ -9,8 +9,8 @@ import {
 } from 'reactstrap'
 import { Check, X } from 'react-feather'
 
-const Label = () => (
-  <>
+const Label = function() {
+  return <>
     <span className="switch-icon-left">
       <Check size={14} />
     </span>
@@ -18,10 +18,10 @@ const Label = () => (
       <X size={14} />
     </span>
   </>
-)
+}
 
-const SwitchIcons = () => (
-  <Card>
+const SwitchIcons = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Icons</CardTitle>
     </CardHeader>
@@ -118,5 +118,5 @@ const SwitchIcons = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SwitchIcons

@@ -20,8 +20,8 @@ import PickerInline from './PickerInline'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const Pickers = () => (
-  <>
+const Pickers = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Date & Time Picker"
       breadCrumbParent="Form Elements"
@@ -61,5 +61,5 @@ const Pickers = () => (
       </CardBody>
     </Card>
   </>
-)
+}
 export default Pickers

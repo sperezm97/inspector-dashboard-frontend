@@ -9,7 +9,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const BasicBlocking = () => {
+const BasicBlocking = function() {
   const [block, setBlock] = useState(false)
 
   const handleBlock = () => {

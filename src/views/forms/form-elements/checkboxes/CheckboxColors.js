@@ -7,8 +7,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const CheckboxCustom = () => (
-  <Card>
+const CheckboxCustom = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Custom Checkboxes</CardTitle>
     </CardHeader>
@@ -68,5 +68,5 @@ const CheckboxCustom = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default CheckboxCustom

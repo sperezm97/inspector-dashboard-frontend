@@ -33,7 +33,7 @@ const filters = [
   { label: 'ETC', color: 'info', className: 'custom-control-info' },
 ]
 
-const SidebarLeft = (props) => {
+const SidebarLeft = function(props) {
   // ** Props
   const {
     handleAddEventSidebar,

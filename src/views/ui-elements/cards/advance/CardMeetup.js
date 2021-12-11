@@ -4,7 +4,7 @@ import AvatarGroup from '@components/avatar-group'
 import { Card, CardTitle, CardBody, CardText, Media } from 'reactstrap'
 import illustration from '@src/assets/images/illustration/email.svg'
 
-const CardMeetup = () => {
+const CardMeetup = function() {
   const data = [
     {
       title: 'Billy Hopkins',

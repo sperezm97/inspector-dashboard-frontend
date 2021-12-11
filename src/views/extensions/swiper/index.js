@@ -42,7 +42,7 @@ SwiperCore.use([
   Virtual,
 ])
 
-const Slider = () => {
+const Slider = function() {
   const [isRtl, setIsRtl] = useRTL()
 
   return (

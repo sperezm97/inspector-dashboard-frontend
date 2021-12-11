@@ -20,8 +20,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import '@styles/base/pages/ui-feather.scss'
 
-const ToastContent = ({ icon }) => (
-  <>
+const ToastContent = function({ icon }) {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Icons.Check size={12} />} />
@@ -34,9 +34,9 @@ const ToastContent = ({ icon }) => (
       </span>
     </div>
   </>
-)
+}
 
-const FeatherIcons = () => {
+const FeatherIcons = function() {
   const IconsArr = []
   const [query, setQuery] = useState([])
   const [filteredArr, setFilteredArr] = useState([])

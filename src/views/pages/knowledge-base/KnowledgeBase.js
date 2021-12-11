@@ -7,7 +7,7 @@ import KnowledgeBaseHeader from './KnowledgeBaseHeader'
 
 import '@styles/base/pages/page-knowledge-base.scss'
 
-const KnowledgeBase = () => {
+const KnowledgeBase = function() {
   const [data, setData] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -15,8 +15,8 @@ const KnowledgeBase = () => {
     axios.get('/faq/data/knowledge_base').then((res) => setData(res.data))
   }, [])
 
-  const Content = ({ item }) => (
-    <Col className="kb-search-content" key={item.id} md="4" sm="6">
+  const Content = function({ item }) {
+  return <Col className="kb-search-content" key={item.id} md="4" sm="6">
       <Card>
         <Link to={`/pages/knowledge-base/${item.category}`}>
           <CardImg src={item.img} alt="knowledge-base-image" top />
@@ -27,7 +27,7 @@ const KnowledgeBase = () => {
         </Link>
       </Card>
     </Col>
-  )
+}
 
   const renderContent = () =>
     data.map((item) => {

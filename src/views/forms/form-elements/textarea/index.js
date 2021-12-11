@@ -5,8 +5,8 @@ import TextareaDefault from './TextareaDefault'
 import TextareaFloatingLabel from './TextareaFloatingLabel'
 import TextareaCounter from './TextareaCounter'
 
-const Textarea = () => (
-  <>
+const Textarea = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Textarea"
       breadCrumbParent="Form Elements"
@@ -24,5 +24,5 @@ const Textarea = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Textarea

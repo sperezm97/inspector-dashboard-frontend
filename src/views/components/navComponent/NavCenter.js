@@ -1,7 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const NavCenter = () => (
-  <Nav className="justify-content-center">
+const NavCenter = function() {
+  return <Nav className="justify-content-center">
     <NavItem>
       <NavLink href="#" active>
         Active
@@ -19,5 +19,5 @@ const NavCenter = () => (
       </NavLink>
     </NavItem>
   </Nav>
-)
+}
 export default NavCenter

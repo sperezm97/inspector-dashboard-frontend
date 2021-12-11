@@ -3,7 +3,7 @@ import Flatpickr from 'react-flatpickr'
 import { Calendar } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap'
 
-const ApexCandleStickChart = ({ danger, success, direction }) => {
+const ApexCandleStickChart = function({ danger, success, direction }) {
   const options = {
     chart: {
       parentHeightOffset: 0,

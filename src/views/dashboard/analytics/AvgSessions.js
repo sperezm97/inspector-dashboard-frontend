@@ -16,7 +16,7 @@ import {
 import Chart from 'react-apexcharts'
 import { filterByPriorityTickets } from '../../../utility/Utils'
 
-const AvgSessions = ({ colors, listTickets }) => {
+const AvgSessions = function({ colors, listTickets }) {
   console.log(listTickets)
   const lowPriority = filterByPriorityTickets(listTickets, 1).length || 0
   const normalPriority = filterByPriorityTickets(listTickets, 2).length || 0

@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem, Badge } from 'reactstrap'
 
-const ListGroupBadges = () => (
-  <ListGroup>
+const ListGroupBadges = function() {
+  return <ListGroup>
     <ListGroupItem className="d-flex justify-content-between align-items-center">
       <span>Biscuit jelly beans macaroon danish pudding.</span>
       <Badge color="primary" pill>
@@ -21,5 +21,5 @@ const ListGroupBadges = () => (
       </Badge>
     </ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupBadges

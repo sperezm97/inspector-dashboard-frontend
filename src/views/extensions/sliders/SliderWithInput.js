@@ -10,7 +10,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const SliderWithInput = ({ direction }) => {
+const SliderWithInput = function({ direction }) {
   const [upperConnect, setUpperConnect] = useState(10)
   const [lowerConnect, setLowerConnect] = useState(30.0)
 

@@ -27,7 +27,7 @@ import {
   optionsCodeValueSelect,
 } from '../../../../utility/Utils'
 
-const UsersList = () => {
+const UsersList = function() {
   const dispatch = useDispatch()
 
   useEffect(() => {

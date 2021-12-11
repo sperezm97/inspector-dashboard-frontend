@@ -35,7 +35,7 @@ import { getAllOrganizationsActions } from '../../../redux/actions/zammad/organi
 import { getAllProvincesActions } from '../../../redux/actions/territories/provinces'
 import { getAllUsersActions } from '../../../redux/actions/zammad/users'
 
-const AnalyticsDashboard = () => {
+const AnalyticsDashboard = function() {
   const dispatch = useDispatch()
 
   const { colors } = useContext(ThemeColors)

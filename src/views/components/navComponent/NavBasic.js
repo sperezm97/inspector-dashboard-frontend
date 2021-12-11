@@ -1,7 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const NavBasic = () => (
-  <Nav>
+const NavBasic = function() {
+  return <Nav>
     <NavItem>
       <NavLink href="#" active>
         Active
@@ -19,5 +19,5 @@ const NavBasic = () => (
       </NavLink>
     </NavItem>
   </Nav>
-)
+}
 export default NavBasic

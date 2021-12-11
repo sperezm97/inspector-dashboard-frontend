@@ -1,4 +1,6 @@
 import { Spinner } from 'reactstrap'
 
-const SpinnerBorder = () => <Spinner />
+const SpinnerBorder = function() {
+  return <Spinner />
+}
 export default SpinnerBorder

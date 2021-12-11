@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardText, CardBody } from 'reactstrap'
 
-const NamingSource = () => (
-  <Card>
+const NamingSource = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Naming a source</CardTitle>
     </CardHeader>
@@ -28,5 +28,5 @@ const NamingSource = () => (
       </blockquote>
     </CardBody>
   </Card>
-)
+}
 export default NamingSource

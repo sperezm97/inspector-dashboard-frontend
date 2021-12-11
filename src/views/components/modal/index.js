@@ -17,7 +17,8 @@ import {
   modalForm,
   modalUnmount,
 } from './ModalSourceCode'
-const Modals = () => {
+
+const Modals = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

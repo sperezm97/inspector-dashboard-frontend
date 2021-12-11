@@ -7,7 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Button, ListGroup, ListGroupItem } from 'reactstrap'
 import { Mail, Star, Check, Trash, Plus } from 'react-feather'
 
-const TodoSidebar = (props) => {
+const TodoSidebar = function(props) {
   // ** Props
   const {
     handleTaskSidebar,
@@ -117,7 +117,7 @@ const TodoSidebar = (props) => {
                   onClick={() => handleTag('team')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-primary mr-1"></span>
+                  <span className="bullet bullet-sm bullet-primary mr-1" />
                   <span className="align-middle">Team</span>
                 </ListGroupItem>
                 <ListGroupItem
@@ -128,7 +128,7 @@ const TodoSidebar = (props) => {
                   onClick={() => handleTag('low')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-success mr-1"></span>
+                  <span className="bullet bullet-sm bullet-success mr-1" />
                   <span className="align-middle">Low</span>
                 </ListGroupItem>
                 <ListGroupItem
@@ -139,7 +139,7 @@ const TodoSidebar = (props) => {
                   onClick={() => handleTag('medium')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-warning mr-1"></span>
+                  <span className="bullet bullet-sm bullet-warning mr-1" />
                   <span className="align-middle">Medium</span>
                 </ListGroupItem>
                 <ListGroupItem
@@ -150,7 +150,7 @@ const TodoSidebar = (props) => {
                   onClick={() => handleTag('high')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-danger mr-1"></span>
+                  <span className="bullet bullet-sm bullet-danger mr-1" />
                   <span className="align-middle">High</span>
                 </ListGroupItem>
                 <ListGroupItem
@@ -161,7 +161,7 @@ const TodoSidebar = (props) => {
                   onClick={() => handleTag('update')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-info mr-1"></span>
+                  <span className="bullet bullet-sm bullet-info mr-1" />
                   <span className="align-middle">Update</span>
                 </ListGroupItem>
               </ListGroup>

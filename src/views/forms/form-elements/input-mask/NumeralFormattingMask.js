@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const NumeralFormattingMask = () => {
+const NumeralFormattingMask = function() {
   const options = { numeral: true, numeralThousandsGroupStyle: 'thousand' }
 
   return (

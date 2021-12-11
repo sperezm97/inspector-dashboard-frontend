@@ -51,8 +51,8 @@ const data = [
   },
 ]
 
-const SimpleRadarChart = ({ series1, series3 }) => (
-  <Card>
+const SimpleRadarChart = function({ series1, series3 }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Mobile Comparison</CardTitle>
     </CardHeader>
@@ -82,18 +82,18 @@ const SimpleRadarChart = ({ series1, series3 }) => (
       </div>
       <div className="d-flex align-items-center justify-content-center">
         <div className="mr-2">
-          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50"></span>
+          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50" />
           <span className="align-middle mr-75">Replies</span>
         </div>
         <div>
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: '#ffe700' }}
-          ></span>
+           />
           <span className="align-middle mr-75">Shares</span>
         </div>
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SimpleRadarChart

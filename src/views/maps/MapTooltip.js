@@ -32,7 +32,7 @@ const rectangle = [
   [51.5, -0.06],
 ]
 
-const MapTooltip = () => {
+const MapTooltip = function() {
   const [clicked, setClicked] = useState(0)
 
   const onClickCircle = () => {

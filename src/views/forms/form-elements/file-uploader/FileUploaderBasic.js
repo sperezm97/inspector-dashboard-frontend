@@ -4,7 +4,7 @@ import thumbnailGenerator from '@uppy/thumbnail-generator'
 import { DragDrop } from '@uppy/react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const FileUploaderBasic = () => {
+const FileUploaderBasic = function() {
   const [img, setImg] = useState(null)
 
   const uppy = new Uppy({

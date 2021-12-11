@@ -3,7 +3,7 @@ import axios from 'axios'
 import { UserCheck } from 'react-feather'
 import StatsWithLineChart from '@components/widgets/stats/StatsWithLineChart'
 
-const ActiveUsers = ({ success }) => {
+const ActiveUsers = function({ success }) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

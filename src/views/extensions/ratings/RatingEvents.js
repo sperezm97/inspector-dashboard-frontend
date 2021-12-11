@@ -11,8 +11,8 @@ import {
 } from 'reactstrap'
 import RatingsHover from './RatingsHover'
 
-const RatingEvents = ({ filledColor, dir }) => (
-  <Card>
+const RatingEvents = function({ filledColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Events</CardTitle>
     </CardHeader>
@@ -39,6 +39,6 @@ const RatingEvents = ({ filledColor, dir }) => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 
 export default RatingEvents

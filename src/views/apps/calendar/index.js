@@ -37,7 +37,7 @@ const calendarsColor = {
   ETC: 'info',
 }
 
-const CalendarComponent = () => {
+const CalendarComponent = function() {
   // ** Variables
   const dispatch = useDispatch()
   const store = useSelector((state) => state.calendar)
@@ -125,7 +125,7 @@ const CalendarComponent = () => {
               show: leftSidebarOpen === true,
             })}
             onClick={() => toggleSidebar(false)}
-          ></div>
+           />
         </Row>
       </div>
       <AddEventSidebar

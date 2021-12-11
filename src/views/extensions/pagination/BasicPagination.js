@@ -1,7 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
-const BasicPagination = () => (
-  <Card>
+
+const BasicPagination = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic</CardTitle>
     </CardHeader>
@@ -26,5 +27,5 @@ const BasicPagination = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default BasicPagination

@@ -17,18 +17,16 @@ import { Card, CardBody } from 'reactstrap'
 import { Menu, Check } from 'react-feather'
 
 // ** Toast Component
-const ToastComponent = ({ title, icon, color }) => (
-  <>
-    <div className="toastify-header pb-0">
+const ToastComponent = function({ title, icon, color }) {
+  return <div className="toastify-header pb-0">
       <div className="title-wrapper">
         <Avatar size="sm" color={color} icon={icon} />
         <h6 className="toast-title">{title}</h6>
       </div>
     </div>
-  </>
-)
+}
 
-const Calendar = (props) => {
+const Calendar = function(props) {
   // ** Refs
   const calendarRef = useRef(null)
 

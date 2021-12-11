@@ -28,7 +28,7 @@ import SiteTraffic from './SiteTraffic'
 import ActiveUsers from './ActiveUsers'
 import Newsletter from './Newsletter'
 
-const StatisticsCards = () => {
+const StatisticsCards = function() {
   const context = useContext(ThemeColors)
 
   return (

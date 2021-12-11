@@ -29,8 +29,8 @@ import LogoAuth from '../../../@core/components/logo-auth'
 
 import '@styles/base/pages/page-auth.scss'
 
-const ToastContent = ({ name }) => (
-  <>
+const ToastContent = function({ name }) {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Coffee size={12} />} />
@@ -43,9 +43,9 @@ const ToastContent = ({ name }) => (
       </span>
     </div>
   </>
-)
+}
 
-const Login = (props) => {
+const Login = function(props) {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()

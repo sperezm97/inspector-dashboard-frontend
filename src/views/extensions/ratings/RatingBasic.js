@@ -2,8 +2,8 @@ import Rating from 'react-rating'
 import { Star } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingBasic = ({ filledColor, dir }) => (
-  <Card>
+const RatingBasic = function({ filledColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic</CardTitle>
     </CardHeader>
@@ -16,6 +16,6 @@ const RatingBasic = ({ filledColor, dir }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingBasic

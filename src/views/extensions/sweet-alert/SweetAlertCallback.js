@@ -12,7 +12,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
 
-const BasicSweetCallback = () => {
+const BasicSweetCallback = function() {
   const handleConfirmText = () =>
     MySwal.fire({
       title: 'Are you sure?',
@@ -25,7 +25,7 @@ const BasicSweetCallback = () => {
         cancelButton: 'btn btn-outline-danger ml-1',
       },
       buttonsStyling: false,
-    }).then(function (result) {
+    }).then((result) => {
       if (result.value) {
         MySwal.fire({
           icon: 'success',
@@ -50,7 +50,7 @@ const BasicSweetCallback = () => {
         cancelButton: 'btn btn-danger ml-1',
       },
       buttonsStyling: false,
-    }).then(function (result) {
+    }).then((result) => {
       if (result.value) {
         MySwal.fire({
           icon: 'success',

@@ -19,8 +19,8 @@ import DescriptionList from './DescriptionList'
 import DescriptionListVertical from './DescriptionListVertical'
 import DescriptionListText from './DescriptionListText'
 
-const Typography = () => (
-  <>
+const Typography = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Typography"
       breadCrumbParent="UI"
@@ -116,5 +116,5 @@ const Typography = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Typography

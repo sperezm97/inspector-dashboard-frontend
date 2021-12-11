@@ -1,7 +1,7 @@
 import { duration } from 'moment'
 import { CustomInput } from 'reactstrap'
 
-const PricingHeader = ({ duration, setDuration }) => {
+const PricingHeader = function({ duration, setDuration }) {
   const onChange = (e) => {
     if (e.target.checked) {
       setDuration('yearly')

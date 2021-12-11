@@ -24,7 +24,7 @@ const images = [
   },
 ]
 
-const CarouselBasic = () => {
+const CarouselBasic = function() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [animating, setAnimating] = useState(0)
 

@@ -5,8 +5,8 @@ import MediaPlayerVideo from './MediaPlayerVideo'
 import MediaPlayerAudio from './MediaPlayerAudio'
 import MediaPlayerControlled from './MediaPlayerControlled'
 
-const ReactPlayer = () => (
-  <>
+const ReactPlayer = function() {
+  return <>
     <ExtensionsHeader
       title="React Player"
       subTitle="React Media Player"
@@ -24,6 +24,6 @@ const ReactPlayer = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default ReactPlayer

@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ApexRadialbar = () => {
+const ApexRadialbar = function() {
   const donutColors = {
     series1: '#ffe700',
     series2: '#00d4bd',

@@ -3,8 +3,8 @@ import { Alert } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
 import Ecommerce from '../../dashboard/ecommerce'
 
-const WithoutMenu = () => (
-  <>
+const WithoutMenu = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Layout without menu"
       breadCrumbParent="Layouts"
@@ -17,7 +17,7 @@ const WithoutMenu = () => (
           Please check the{' '}
           <a
             href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/development/page-layouts"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             Layout without menu documentation
           </a>{' '}
@@ -27,6 +27,6 @@ const WithoutMenu = () => (
     </Alert>
     <Ecommerce />
   </>
-)
+}
 
 export default WithoutMenu

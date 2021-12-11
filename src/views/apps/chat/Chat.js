@@ -37,7 +37,7 @@ import {
 } from 'reactstrap'
 import { sendMsg } from './store/actions'
 
-const ChatLog = (props) => {
+const ChatLog = function(props) {
   // ** Props & Store
   const {
     handleUser,

@@ -1,14 +1,14 @@
 import { Line } from 'react-chartjs-2'
 import { Card, CardHeader, CardTitle, CardBody, CardSubtitle } from 'reactstrap'
 
-const ChartjsLineChart = ({
+const ChartjsLineChart = function({
   tooltipShadow,
   gridLineColor,
   labelColor,
   warningColorShade,
   lineChartDanger,
   lineChartPrimary,
-}) => {
+}) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,

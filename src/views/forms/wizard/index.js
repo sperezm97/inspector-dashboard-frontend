@@ -6,8 +6,8 @@ import WizardVertical from './WizardVertical'
 import WizardHorizontal from './WizardHorizontal'
 import WizardModernVertical from './WizardModernVertical'
 
-const Wizard = () => (
-  <>
+const Wizard = function() {
+  return <>
     <BreadCrumbs
       breadCrumbTitle="Form Wizard"
       breadCrumbParent="Form"
@@ -28,5 +28,5 @@ const Wizard = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Wizard

@@ -18,7 +18,7 @@ import {
   mediaRightBordered,
 } from './MediaObjectSourceCode'
 
-const MediaObject = () => {
+const MediaObject = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

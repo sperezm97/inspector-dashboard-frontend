@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap'
 
-const ListUnordered = () => (
-  <Card>
+const ListUnordered = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Lists Unordered </CardTitle>
     </CardHeader>
@@ -34,5 +34,5 @@ const ListUnordered = () => (
       </ul>
     </CardBody>
   </Card>
-)
+}
 export default ListUnordered

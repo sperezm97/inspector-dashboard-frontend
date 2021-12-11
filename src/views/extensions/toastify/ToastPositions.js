@@ -12,8 +12,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InfoToast = ({ title }) => (
-  <>
+const InfoToast = function({ title }) {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="info" icon={<Info size={12} />} />
@@ -25,9 +25,9 @@ const InfoToast = ({ title }) => (
       <span>I do not think that word means what you think it means.</span>
     </div>
   </>
-)
+}
 
-const ToastPositions = () => {
+const ToastPositions = function() {
   const notifyTopLeft = () =>
     toast.info(<InfoToast title="Top Left!" />, {
       position: toast.POSITION.TOP_LEFT,

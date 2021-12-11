@@ -6,8 +6,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const PaginationPositions = () => (
-  <Row className="align-items-center">
+const PaginationPositions = function() {
+  return <Row className="align-items-center">
     <Col xl="4" lg="12">
       <Pagination size="lg">
         <PaginationItem>
@@ -66,5 +66,5 @@ const PaginationPositions = () => (
       </Pagination>
     </Col>
   </Row>
-)
+}
 export default PaginationPositions

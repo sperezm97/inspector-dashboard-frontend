@@ -2,12 +2,12 @@ import { Doughnut } from 'react-chartjs-2'
 import { Monitor, Tablet, ArrowDown, ArrowUp } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ChartjsRadarChart = ({
+const ChartjsRadarChart = function({
   tooltipShadow,
   successColorShade,
   warningLightColor,
   primary,
-}) => {
+}) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,

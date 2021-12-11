@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableSmall = () => (
-  <Table size="sm" responsive>
+const TableSmall = function() {
+  return <Table size="sm" responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableSmall = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableSmall

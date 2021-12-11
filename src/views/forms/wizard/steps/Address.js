@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import { Label, FormGroup, Row, Col, Input, Form, Button } from 'reactstrap'
 
-const Address = ({ stepper, type }) => (
-  <>
+const Address = function({ stepper, type }) {
+  return <>
     <div className="content-header">
       <h5 className="mb-0">Address</h5>
       <small>Enter Your Address.</small>
@@ -66,7 +66,7 @@ const Address = ({ stepper, type }) => (
           <ArrowLeft
             size={14}
             className="align-middle mr-sm-25 mr-0"
-          ></ArrowLeft>
+           />
           <span className="align-middle d-sm-inline-block d-none">
             Previous
           </span>
@@ -80,11 +80,11 @@ const Address = ({ stepper, type }) => (
           <ArrowRight
             size={14}
             className="align-middle ml-sm-25 ml-0"
-          ></ArrowRight>
+           />
         </Button.Ripple>
       </div>
     </Form>
   </>
-)
+}
 
 export default Address

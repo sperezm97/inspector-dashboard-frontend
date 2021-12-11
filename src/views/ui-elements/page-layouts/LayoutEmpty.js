@@ -3,8 +3,8 @@ import { Fragment } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import { Alert } from 'reactstrap'
 
-const LayoutEmpty = () => (
-  <>
+const LayoutEmpty = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Layout Empty"
       breadCrumbParent="Layouts"
@@ -18,7 +18,7 @@ const LayoutEmpty = () => (
           section. Please check the{' '}
           <a
             href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/development/page-layouts"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             Layout empty documentation
           </a>{' '}
@@ -27,6 +27,6 @@ const LayoutEmpty = () => (
       </div>
     </Alert>
   </>
-)
+}
 
 export default LayoutEmpty

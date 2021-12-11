@@ -8,7 +8,7 @@ import {
   useMapEvents,
 } from 'react-leaflet'
 
-const LocationMarker = () => {
+const LocationMarker = function() {
   const [position, setPosition] = useState(null)
   const map = useMapEvents({
     click() {
@@ -26,8 +26,8 @@ const LocationMarker = () => {
     </Marker>
   )
 }
-const MapEvents = () => (
-  <Card>
+const MapEvents = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Event Handling</CardTitle>
     </CardHeader>
@@ -47,5 +47,5 @@ const MapEvents = () => (
       </MapContainer>
     </CardBody>
   </Card>
-)
+}
 export default MapEvents

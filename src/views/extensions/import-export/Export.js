@@ -92,7 +92,7 @@ const initialData = [
   },
 ]
 
-const Export = () => {
+const Export = function() {
   const tableRef = useRef()
 
   const [data] = useState(initialData)

@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const DateMask = () => {
+const DateMask = function() {
   const options = { date: true, delimiter: '-', datePattern: ['Y', 'm', 'd'] }
   return (
     <>

@@ -22,7 +22,7 @@ import {
   avatarStatus,
 } from './AvatarSourceCode'
 
-const Avatar = () => {
+const Avatar = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

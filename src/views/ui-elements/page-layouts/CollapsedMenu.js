@@ -3,8 +3,8 @@ import { Alert } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
 import Ecommerce from '../../dashboard/ecommerce'
 
-const CollapsedMenu = () => (
-  <>
+const CollapsedMenu = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Layout collapsed menu"
       breadCrumbParent="Layouts"
@@ -18,7 +18,7 @@ const CollapsedMenu = () => (
           check{' '}
           <a
             href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/development/page-layouts"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             the Layout collapsed menu documentation
           </a>{' '}
@@ -28,6 +28,6 @@ const CollapsedMenu = () => (
     </Alert>
     <Ecommerce />
   </>
-)
+}
 
 export default CollapsedMenu

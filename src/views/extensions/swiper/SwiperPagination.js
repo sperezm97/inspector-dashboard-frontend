@@ -12,8 +12,8 @@ const params = {
   },
 }
 
-const SwiperPagination = ({ isRtl }) => (
-  <Card>
+const SwiperPagination = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Pagination</CardTitle>
     </CardHeader>
@@ -37,6 +37,6 @@ const SwiperPagination = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperPagination

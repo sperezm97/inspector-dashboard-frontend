@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const TimeMask = () => {
+const TimeMask = function() {
   const options = { time: true, timePattern: ['h', 'm', 's'] }
   return (
     <>

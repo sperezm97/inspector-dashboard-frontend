@@ -5,18 +5,16 @@ import { Check } from 'react-feather'
 import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
 import { Menu, Item, useContextMenu, animation } from 'react-contexify'
 
-const ToastContent = ({ text }) => (
-  <>
-    <div className="toastify-header pb-0">
+const ToastContent = function({ text }) {
+  return <div className="toastify-header pb-0">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check />} />
         <h6 className="toast-title">Clicked {text}</h6>
       </div>
     </div>
-  </>
-)
+}
 
-const ContextMenuAnimations = () => {
+const ContextMenuAnimations = function() {
   const { show: showFade } = useContextMenu({
     id: 'fade',
   })
@@ -34,24 +32,24 @@ const ContextMenuAnimations = () => {
     })
   }
 
-  const FadeMenu = () => (
-    <Menu id="fade" animation={animation.fade}>
+  const FadeMenu = function() {
+  return <Menu id="fade" animation={animation.fade}>
       <Item onClick={() => handleClick('Option 1')}>Option 1</Item>
       <Item onClick={() => handleClick('Option 2')}>Option 2</Item>
     </Menu>
-  )
-  const FlipMenu = () => (
-    <Menu id="flip" animation={animation.flip}>
+}
+  const FlipMenu = function() {
+  return <Menu id="flip" animation={animation.flip}>
       <Item onClick={() => handleClick('Option 1')}>Option 1</Item>
       <Item onClick={() => handleClick('Option 2')}>Option 2</Item>
     </Menu>
-  )
-  const SlideMenu = () => (
-    <Menu id="pop" animation={animation.slide}>
+}
+  const SlideMenu = function() {
+  return <Menu id="pop" animation={animation.slide}>
       <Item onClick={() => handleClick('Option 1')}>Option 1</Item>
       <Item onClick={() => handleClick('Option 2')}>Option 2</Item>
     </Menu>
-  )
+}
 
   return (
     <Card>

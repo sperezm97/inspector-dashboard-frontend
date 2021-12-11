@@ -11,8 +11,8 @@ import {
   Button,
 } from 'reactstrap'
 
-const CardHeaderFooter = () => (
-  <>
+const CardHeaderFooter = function() {
+  return <>
     <h6 className="text-muted my-2">Header and footer</h6>
     <Row>
       <Col md="6" lg="4">
@@ -63,6 +63,6 @@ const CardHeaderFooter = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default CardHeaderFooter

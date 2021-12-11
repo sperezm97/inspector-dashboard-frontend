@@ -1,4 +1,5 @@
 import mock from '../mock'
+
 const data = {
   profileData: {
     header: {

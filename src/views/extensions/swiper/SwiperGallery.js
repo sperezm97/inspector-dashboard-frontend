@@ -10,7 +10,7 @@ import img5 from '@src/assets/images/banner/banner-15.jpg'
 
 SwiperCore.use([Thumbs])
 
-const SwiperGallery = ({ isRtl }) => {
+const SwiperGallery = function({ isRtl }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   const params = {

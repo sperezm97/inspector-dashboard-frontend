@@ -2,8 +2,8 @@ import Timeline from '@components/timeline'
 import { Card, CardBody, CardHeader, CardTitle } from 'reactstrap'
 import { basicData } from './data'
 
-const BasicTimeline = () => (
-  <Card>
+const BasicTimeline = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic</CardTitle>
     </CardHeader>
@@ -11,6 +11,6 @@ const BasicTimeline = () => (
       <Timeline data={basicData} />
     </CardBody>
   </Card>
-)
+}
 
 export default BasicTimeline

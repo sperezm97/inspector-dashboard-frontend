@@ -4,8 +4,8 @@ import BreadCrumbs from '@components/breadcrumbs'
 import BasicTimeline from './BasicTimeline'
 import IconsTimeline from './IconsTimeline'
 
-const Timeline = () => (
-  <>
+const Timeline = function() {
+  return <>
     <BreadCrumbs
       breadCrumbTitle="Timeline"
       breadCrumbParent="Extra Components"
@@ -20,6 +20,6 @@ const Timeline = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Timeline

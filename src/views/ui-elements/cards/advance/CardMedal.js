@@ -1,8 +1,8 @@
 import { Card, CardBody, CardText, Button } from 'reactstrap'
 import medal from '@src/assets/images/illustration/badge.svg'
 
-const CardMedal = () => (
-  <Card className="card-congratulations-medal">
+const CardMedal = function() {
+  return <Card className="card-congratulations-medal">
     <CardBody>
       <h5>Congratulations 🎉 John!</h5>
       <CardText className="font-small-3">You have won gold medal</CardText>
@@ -15,6 +15,6 @@ const CardMedal = () => (
       <img className="congratulation-medal" src={medal} alt="Medal Pic" />
     </CardBody>
   </Card>
-)
+}
 
 export default CardMedal

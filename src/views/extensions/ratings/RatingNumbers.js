@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import Rating from 'react-rating'
 
-const RatingNumbers = (props) => (
-  <Card>
+const RatingNumbers = function(props) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Numbers</CardTitle>
     </CardHeader>
@@ -16,6 +16,6 @@ const RatingNumbers = (props) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingNumbers

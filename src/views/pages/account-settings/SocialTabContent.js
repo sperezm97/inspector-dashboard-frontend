@@ -4,7 +4,7 @@ import Avatar from '@components/avatar'
 import { Link, User } from 'react-feather'
 import { Form, Label, Input, Button, Row, Col, FormGroup } from 'reactstrap'
 
-const SocialTabContent = ({ data }) => {
+const SocialTabContent = function({ data }) {
   const [twitter, setTwitter] = useState(
     data.socialLinks.twitter ? data.socialLinks.twitter : '',
   )

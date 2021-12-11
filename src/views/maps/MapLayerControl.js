@@ -19,8 +19,8 @@ const rectangle = [
   [51.5, -0.06],
 ]
 
-const MapLayerControl = () => (
-  <Card>
+const MapLayerControl = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Layer Control</CardTitle>
     </CardHeader>
@@ -74,5 +74,5 @@ const MapLayerControl = () => (
       </MapContainer>
     </CardBody>
   </Card>
-)
+}
 export default MapLayerControl

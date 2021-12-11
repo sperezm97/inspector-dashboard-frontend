@@ -12,8 +12,8 @@ import NumberInputStates from './NumberInputStates'
 import NumberInputVertical from './NumberInputVertical'
 import NumberInputCustomIcons from './NumberInputCustomIcon'
 
-const NumberInput = () => (
-  <>
+const NumberInput = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Number Input"
       breadCrumbParent="Form Elements"
@@ -52,5 +52,5 @@ const NumberInput = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default NumberInput

@@ -1,4 +1,6 @@
 import { Spinner } from 'reactstrap'
 
-const SpinnerGrowing = () => <Spinner type="grow" />
+const SpinnerGrowing = function() {
+  return <Spinner type="grow" />
+}
 export default SpinnerGrowing

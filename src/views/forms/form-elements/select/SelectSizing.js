@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const SelectReactstrap = () => (
-  <Card>
+const SelectReactstrap = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Bootstrap Sizing</CardTitle>
     </CardHeader>
@@ -40,5 +40,5 @@ const SelectReactstrap = () => (
       </FormGroup>
     </CardBody>
   </Card>
-)
+}
 export default SelectReactstrap

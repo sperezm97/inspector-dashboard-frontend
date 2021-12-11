@@ -4,7 +4,7 @@ import Chart from 'react-apexcharts'
 import { Settings } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap'
 
-const Revenue = (props) => {
+const Revenue = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

@@ -22,7 +22,7 @@ import '@styles/react/apps/app-users.scss'
 // components
 import { InstitutionNotFound } from '../../../../../@core/components/alert'
 
-const UserView = (props) => {
+const UserView = function(props) {
   // ** Vars
   const store = useSelector((state) => state.users)
   const dispatch = useDispatch()

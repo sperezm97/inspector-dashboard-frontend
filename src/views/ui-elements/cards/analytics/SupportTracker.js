@@ -15,7 +15,7 @@ import {
 } from 'reactstrap'
 import Chart from 'react-apexcharts'
 
-const SupportTracker = (props) => {
+const SupportTracker = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

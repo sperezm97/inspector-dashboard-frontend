@@ -11,8 +11,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InputSizes = () => (
-  <Card>
+const InputSizes = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Sizing Options</CardTitle>
     </CardHeader>
@@ -54,5 +54,5 @@ const InputSizes = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default InputSizes

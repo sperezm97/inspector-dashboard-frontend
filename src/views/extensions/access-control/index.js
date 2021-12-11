@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { AbilityContext } from '@src/utility/context/Can'
 import { Row, Col, Card, CardBody, CardTitle, CardText } from 'reactstrap'
 
-const AccessControl = () => {
+const AccessControl = function() {
   const ability = useContext(AbilityContext)
   return (
     <Row>

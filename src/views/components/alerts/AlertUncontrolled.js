@@ -1,7 +1,7 @@
 import { UncontrolledAlert } from 'reactstrap'
 
-const AlertUncontrolled = () => (
-  <div className="demo-spacing-0">
+const AlertUncontrolled = function() {
+  return <div className="demo-spacing-0">
     <UncontrolledAlert color="primary">
       <div className="alert-body">
         Chupa chups topping bonbon. Jelly-o toffee I love. Sweet I love wafer I
@@ -9,5 +9,5 @@ const AlertUncontrolled = () => (
       </div>
     </UncontrolledAlert>
   </div>
-)
+}
 export default AlertUncontrolled

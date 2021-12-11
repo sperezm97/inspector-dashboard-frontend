@@ -9,7 +9,7 @@ import {
   InputGroupText,
 } from 'reactstrap'
 
-const ProductsSearchbar = (props) => {
+const ProductsSearchbar = function(props) {
   // ** Props
   const { dispatch, getProducts, store } = props
 

@@ -12,8 +12,8 @@ import PaginationWarning from './PaginationWarning'
 import PaginationPositions from './PaginationPositions'
 import PaginationSizes from './PaginationSizes'
 
-const ReactPaginate = () => (
-  <>
+const ReactPaginate = function() {
+  return <>
     <ExtensionsHeader
       title="React Paginate"
       subTitle="A ReactJS component that creates a pagination"
@@ -53,6 +53,6 @@ const ReactPaginate = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default ReactPaginate

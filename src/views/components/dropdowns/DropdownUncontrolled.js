@@ -5,8 +5,8 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const DropdownUncontrolled = () => (
-  <UncontrolledButtonDropdown>
+const DropdownUncontrolled = function() {
+  return <UncontrolledButtonDropdown>
     <DropdownToggle color="primary" caret>
       Uncontrolled
     </DropdownToggle>
@@ -22,5 +22,5 @@ const DropdownUncontrolled = () => (
       </DropdownItem>
     </DropdownMenu>
   </UncontrolledButtonDropdown>
-)
+}
 export default DropdownUncontrolled

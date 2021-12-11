@@ -12,8 +12,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InputState = () => (
-  <Card>
+const InputState = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Input Validation State</CardTitle>
     </CardHeader>
@@ -41,5 +41,5 @@ const InputState = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default InputState

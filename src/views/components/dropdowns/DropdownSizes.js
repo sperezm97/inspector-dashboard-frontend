@@ -9,9 +9,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const DropdownSizes = () => (
-  <>
-    <Row>
+const DropdownSizes = function() {
+  return <Row>
       <Col md="6" sm="12">
         <div className="demo-inline-spacing">
           <UncontrolledButtonDropdown>
@@ -75,7 +74,7 @@ const DropdownSizes = () => (
               color="primary"
               caret
               size="lg"
-            ></DropdownToggle>
+             />
             <DropdownMenu right>
               <DropdownItem href="/" tag="a">
                 Option 1
@@ -94,7 +93,7 @@ const DropdownSizes = () => (
               className="dropdown-toggle-split"
               color="primary"
               caret
-            ></DropdownToggle>
+             />
             <DropdownMenu right>
               <DropdownItem href="/" tag="a">
                 Option 1
@@ -115,7 +114,7 @@ const DropdownSizes = () => (
               className="dropdown-toggle-split"
               color="primary"
               caret
-            ></DropdownToggle>
+             />
             <DropdownMenu right>
               <DropdownItem href="/" tag="a">
                 Option 1
@@ -131,6 +130,5 @@ const DropdownSizes = () => (
         </div>
       </Col>
     </Row>
-  </>
-)
+}
 export default DropdownSizes

@@ -36,8 +36,8 @@ const params = {
   },
 }
 
-const SwiperResponsive = ({ isRtl }) => (
-  <Card>
+const SwiperResponsive = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Responsive</CardTitle>
     </CardHeader>
@@ -73,6 +73,6 @@ const SwiperResponsive = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperResponsive

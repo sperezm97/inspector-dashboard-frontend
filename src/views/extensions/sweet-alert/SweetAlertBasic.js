@@ -12,7 +12,7 @@ import {
 
 const MySwal = withReactContent(Swal)
 
-const BasicSweetAlert = () => {
+const BasicSweetAlert = function() {
   const handleBasicTitleAlert = () =>
     MySwal.fire({
       title: 'Any fool can use a computer',

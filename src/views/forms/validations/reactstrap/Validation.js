@@ -22,7 +22,7 @@ import {
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const Validation = () => {
+const Validation = function() {
   const [picker, setPicker] = useState('')
 
   return (

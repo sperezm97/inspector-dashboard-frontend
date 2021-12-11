@@ -2,8 +2,8 @@ import { Card, CardBody, CardText } from 'reactstrap'
 import CardHeader from 'reactstrap/lib/CardHeader'
 import { User, Phone } from 'react-feather'
 
-const CardProfile = () => (
-  <Card className="card-profile">
+const CardProfile = function() {
+  return <Card className="card-profile">
     <CardHeader>
       <div className="text-left">
         <h3>Datos del ciudadano</h3>
@@ -46,6 +46,6 @@ const CardProfile = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default CardProfile

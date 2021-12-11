@@ -3,8 +3,8 @@ import { Search } from 'react-feather'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap'
 
-const InputGroupBasic = () => (
-  <>
+const InputGroupBasic = function() {
+  return <>
     <InputGroup className="mb-2">
       <InputGroupAddon addonType="prepend">
         <InputGroupText>
@@ -49,6 +49,6 @@ const InputGroupBasic = () => (
       <Input type="textarea" />
     </InputGroup>
   </>
-)
+}
 
 export default InputGroupBasic

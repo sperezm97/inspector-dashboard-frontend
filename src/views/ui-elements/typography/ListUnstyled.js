@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap'
 
-const ListUnstyled = () => (
-  <Card>
+const ListUnstyled = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Lists Unstyled</CardTitle>
     </CardHeader>
@@ -34,5 +34,5 @@ const ListUnstyled = () => (
       </ul>
     </CardBody>
   </Card>
-)
+}
 export default ListUnstyled

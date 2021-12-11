@@ -49,7 +49,7 @@ const icons = [
   },
 ]
 
-const DropdownVariations = () => {
+const DropdownVariations = function() {
   const [formDropdown, setFormDropdown] = useState(false)
   const [activeIcon, setActiveIcon] = useState(<Wifi size={15} />)
 

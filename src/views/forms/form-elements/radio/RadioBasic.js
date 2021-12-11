@@ -9,8 +9,8 @@ import {
   Input,
 } from 'reactstrap'
 
-const RadioBasic = () => (
-  <Card>
+const RadioBasic = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic</CardTitle>
     </CardHeader>
@@ -41,5 +41,5 @@ const RadioBasic = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default RadioBasic

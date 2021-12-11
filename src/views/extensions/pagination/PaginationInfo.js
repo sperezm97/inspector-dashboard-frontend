@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationInfo = () => (
-  <Card>
+const PaginationInfo = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Info</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const PaginationInfo = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default PaginationInfo

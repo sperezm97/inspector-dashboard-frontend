@@ -23,7 +23,7 @@ import Sidebar from '../BlogSidebar'
 
 import '@styles/base/pages/page-blog.scss'
 
-const BlogList = () => {
+const BlogList = function() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -142,7 +142,7 @@ const BlogList = () => {
                         <PaginationLink
                           href="#"
                           onClick={(e) => e.preventDefault()}
-                        ></PaginationLink>
+                         />
                       </PaginationItem>
                       <PaginationItem>
                         <PaginationLink
@@ -204,7 +204,7 @@ const BlogList = () => {
                         <PaginationLink
                           href="#"
                           onClick={(e) => e.preventDefault()}
-                        ></PaginationLink>
+                         />
                       </PaginationItem>
                     </Pagination>
                   </Col>

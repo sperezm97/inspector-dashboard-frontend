@@ -10,8 +10,8 @@ const params = {
   navigation: true,
 }
 
-const SwiperNavigation = ({ isRtl }) => (
-  <Card>
+const SwiperNavigation = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Navigation</CardTitle>
     </CardHeader>
@@ -35,6 +35,6 @@ const SwiperNavigation = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperNavigation

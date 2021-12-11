@@ -6,7 +6,7 @@ import { Label, FormGroup, Row, Col, Form, Input, Button } from 'reactstrap'
 
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const PersonalInfo = ({ stepper, type }) => {
+const PersonalInfo = function({ stepper, type }) {
   const countryOptions = [
     { value: 'UK', label: 'UK' },
     { value: 'USA', label: 'USA' },
@@ -94,7 +94,7 @@ const PersonalInfo = ({ stepper, type }) => {
             <ArrowLeft
               size={14}
               className="align-middle mr-sm-25 mr-0"
-            ></ArrowLeft>
+             />
             <span className="align-middle d-sm-inline-block d-none">
               Previous
             </span>
@@ -108,7 +108,7 @@ const PersonalInfo = ({ stepper, type }) => {
             <ArrowRight
               size={14}
               className="align-middle ml-sm-25 ml-0"
-            ></ArrowRight>
+             />
           </Button.Ripple>
         </div>
       </Form>

@@ -22,7 +22,7 @@ import ScatterChart from './ScatterChart'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/libs/charts/recharts.scss'
 
-const Recharts = () => {
+const Recharts = function() {
   // ** Context
   const { colors } = useContext(ThemeColors)
 

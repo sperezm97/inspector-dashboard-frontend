@@ -1,7 +1,7 @@
 import { Table } from 'reactstrap'
 
-const TableResponsive = () => (
-  <Table responsive>
+const TableResponsive = function() {
+  return <Table responsive>
     <thead>
       <tr>
         <th scope="col" className="text-nowrap">
@@ -115,6 +115,6 @@ const TableResponsive = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableResponsive

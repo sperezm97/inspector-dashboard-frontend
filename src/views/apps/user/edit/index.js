@@ -31,7 +31,7 @@ import '@styles/react/apps/app-users.scss'
 // components
 import { UserNotFound } from '../../../../@core/components/alert'
 
-const UserEdit = () => {
+const UserEdit = function() {
   // ** States & Vars
   const [activeTab, setActiveTab] = useState('1')
   const store = useSelector((state) => state.users)

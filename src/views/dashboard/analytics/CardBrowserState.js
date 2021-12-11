@@ -11,7 +11,7 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const CardBrowserState = ({ organizations, listTickets }) => {
+const CardBrowserState = function({ organizations, listTickets }) {
   const renderStates = () =>
     organizations.map((state) => {
       const ticketLength =

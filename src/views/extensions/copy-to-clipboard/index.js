@@ -15,16 +15,14 @@ import {
   Input,
 } from 'reactstrap'
 
-const ToastSuccess = () => (
-  <>
-    <div className="toastify-header pb-0">
+const ToastSuccess = function() {
+  return <div className="toastify-header pb-0">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check />} />
         <h6 className="toast-title">Copied To Clipboard !</h6>
       </div>
     </div>
-  </>
-)
+}
 
 /*eslint-disable */
 const Clipboard = () => {

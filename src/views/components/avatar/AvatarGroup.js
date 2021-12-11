@@ -18,6 +18,8 @@ const data = [
   },
 ]
 
-const AvatarGroupComponent = () => <AvatarGroup data={data} />
+const AvatarGroupComponent = function() {
+  return <AvatarGroup data={data} />
+}
 
 export default AvatarGroupComponent

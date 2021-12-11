@@ -57,8 +57,8 @@ const data = [
   },
 ]
 
-const AccordionShadow = () => (
-  <AppCollapse data={data} type="shadow" accordion />
-)
+const AccordionShadow = function() {
+  return <AppCollapse data={data} type="shadow" accordion />
+}
 
 export default AccordionShadow

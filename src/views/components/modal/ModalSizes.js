@@ -34,7 +34,7 @@ const ModalConfig = [
   },
 ]
 
-const ModalSizes = () => {
+const ModalSizes = function() {
   const [modal, setModal] = useState(null)
 
   const toggleModal = (id) => {

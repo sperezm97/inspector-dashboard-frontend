@@ -16,7 +16,7 @@ import {
   Slash,
 } from 'react-feather'
 
-const UserProfileSidebar = (props) => {
+const UserProfileSidebar = function(props) {
   // ** Props
   const { user, handleUserSidebarRight, userSidebarRight } = props
 

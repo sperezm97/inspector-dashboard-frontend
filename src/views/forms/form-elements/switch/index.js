@@ -5,8 +5,8 @@ import SwitchReactstrap from './SwitchBasic'
 import SwitchColors from './SwitchColors'
 import SwitchIcons from './SwitchIcons'
 
-const Switch = () => (
-  <>
+const Switch = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Switch"
       breadCrumbParent="Form Elements"
@@ -24,5 +24,5 @@ const Switch = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Switch

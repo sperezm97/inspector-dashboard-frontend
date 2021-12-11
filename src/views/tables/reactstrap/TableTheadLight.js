@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableTheadLight = () => (
-  <Table responsive>
+const TableTheadLight = function() {
+  return <Table responsive>
     <thead className="thead-light">
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableTheadLight = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableTheadLight

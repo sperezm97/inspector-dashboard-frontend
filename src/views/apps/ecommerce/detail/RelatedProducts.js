@@ -18,7 +18,7 @@ import img5 from '@src/assets/images/elements/iphone-x.png'
 // ** Styles
 import '@styles/react/libs/swiper/swiper.scss'
 
-const RelatedProducts = () => {
+const RelatedProducts = function() {
   SwiperCore.use([Navigation])
 
   // ** Related products Slides

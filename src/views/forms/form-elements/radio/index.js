@@ -5,8 +5,8 @@ import RadioBasic from './RadioBasic'
 import RadioCustom from './RadioCustom'
 import RadioColors from './RadioColors'
 
-const Radio = () => (
-  <>
+const Radio = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Radio"
       breadCrumbParent="Form Elements"
@@ -24,5 +24,5 @@ const Radio = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Radio

@@ -16,7 +16,7 @@ import Url from '../../../../constants/Url'
 import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const CustomHeader = ({
+const CustomHeader = function({
   handleFilter,
   value,
   newDataTable,
@@ -32,7 +32,7 @@ const CustomHeader = ({
   labelButton,
   urlButton,
   // componentButton
-}) => {
+}) {
   const history = useHistory()
 
   return (
@@ -116,7 +116,7 @@ const CustomHeader = ({
   )
 }
 
-const DataTableList = ({
+const DataTableList = function({
   columnsTable,
   dataTable,
   searchTable,
@@ -129,7 +129,7 @@ const DataTableList = ({
   urlButton = '',
   dataTableTitle = '',
   // componentButton = false
-}) => {
+}) {
   const [newDataTable, setNewDataTable] = useState([])
   const [value, setValue] = useState('')
   // const [currentPage, setCurrentPage] = useState(1)

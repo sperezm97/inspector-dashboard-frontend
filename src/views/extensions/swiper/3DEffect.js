@@ -16,8 +16,8 @@ const params = {
 
 SwiperCore.use([EffectCube, Pagination])
 
-const SwiperThreeD = ({ isRtl }) => (
-  <Card>
+const SwiperThreeD = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">3D Cube Effect</CardTitle>
     </CardHeader>
@@ -38,6 +38,6 @@ const SwiperThreeD = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperThreeD

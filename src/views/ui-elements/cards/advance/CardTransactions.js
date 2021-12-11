@@ -2,7 +2,7 @@ import Avatar from '@components/avatar'
 import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 
-const CardTransactions = () => {
+const CardTransactions = function() {
   const transactionsArr = [
     {
       title: 'San Francisco de Macorís',

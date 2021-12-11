@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { ArrowLeft, ArrowRight } from 'react-feather'
 import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
 
-const Address = ({ stepper, type }) => {
+const Address = function({ stepper, type }) {
   const { register, errors, handleSubmit, trigger } = useForm()
 
   const onSubmit = () => {
@@ -89,7 +89,7 @@ const Address = ({ stepper, type }) => {
             <ArrowLeft
               size={14}
               className="align-middle mr-sm-25 mr-0"
-            ></ArrowLeft>
+             />
             <span className="align-middle d-sm-inline-block d-none">
               Previous
             </span>
@@ -99,7 +99,7 @@ const Address = ({ stepper, type }) => {
             <ArrowRight
               size={14}
               className="align-middle ml-sm-25 ml-0"
-            ></ArrowRight>
+             />
           </Button.Ripple>
         </div>
       </Form>

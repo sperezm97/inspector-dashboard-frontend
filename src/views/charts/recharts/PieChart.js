@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { PieChart, Pie, Cell, ResponsiveContainer, Label } from 'recharts'
 
-const SimplePieChart = (props) => {
+const SimplePieChart = function(props) {
   const data = [
     { name: 'R&D', value: 50, color: props.series2 },
     { name: 'Operational', value: 85, color: props.series1 },
@@ -61,25 +61,25 @@ const SimplePieChart = (props) => {
             <span
               className="bullet bullet-sm bullet-bordered mr-50"
               style={{ backgroundColor: '#ffe700' }}
-            ></span>
+             />
             <span className="align-middle mr-75">Operational</span>
           </div>
           <div className="mr-2">
             <span
               className="bullet bullet-sm bullet-bordered mr-50"
               style={{ backgroundColor: '#ffa1a1' }}
-            ></span>
+             />
             <span className="align-middle mr-75">Networking</span>
           </div>
           <div className="mr-2">
-            <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50"></span>
+            <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50" />
             <span className="align-middle mr-75">Hiring</span>
           </div>
           <div>
             <span
               className="bullet bullet-sm bullet-bordered mr-50"
               style={{ backgroundColor: '#00d4bd' }}
-            ></span>
+             />
             <span className="align-middle mr-75">R&amp;D</span>
           </div>
         </div>

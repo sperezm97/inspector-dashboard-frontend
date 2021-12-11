@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AutoComplete from '@components/autocomplete'
 
-const AutoCompleteAjax = () => {
+const AutoCompleteAjax = function() {
   const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {

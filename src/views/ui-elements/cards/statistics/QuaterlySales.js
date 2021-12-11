@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ShoppingCart } from 'react-feather'
 import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 
-const QuarterlySales = ({ danger }) => {
+const QuarterlySales = function({ danger }) {
   const [data, setData] = useState(null)
 
   const options = {

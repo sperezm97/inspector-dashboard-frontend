@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, ButtonGroup, Row, Col, CardText } from 'reactstrap'
 
-const ButtonCheckboxRadio = () => {
+const ButtonCheckboxRadio = function() {
   const [cSelected, setCSelected] = useState([1])
   const [rSelected, setRSelected] = useState(1)
 

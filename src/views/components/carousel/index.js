@@ -19,7 +19,7 @@ import {
   carouselUncontrolled,
 } from './CarouselSourceCode'
 
-const Carousel = () => {
+const Carousel = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

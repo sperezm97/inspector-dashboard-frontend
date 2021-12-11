@@ -39,18 +39,16 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 // ** Toast Component
-const ToastComponent = ({ title, icon, color }) => (
-  <>
-    <div className="toastify-header pb-0">
+const ToastComponent = function({ title, icon, color }) {
+  return <div className="toastify-header pb-0">
       <div className="title-wrapper">
         <Avatar size="sm" color={color} icon={icon} />
         <h6 className="toast-title">{title}</h6>
       </div>
     </div>
-  </>
-)
+}
 
-const AddEventSidebar = (props) => {
+const AddEventSidebar = function(props) {
   // ** Props
   const {
     store,
@@ -106,21 +104,21 @@ const AddEventSidebar = (props) => {
   ]
 
   // ** Custom select components
-  const OptionComponent = ({ data, ...props }) => (
-    <components.Option {...props}>
-      <span className={`bullet bullet-${data.color} bullet-sm mr-50`}></span>
+  const OptionComponent = function({ data, ...props }) {
+  return <components.Option {...props}>
+      <span className={`bullet bullet-${data.color} bullet-sm mr-50`} />
       {data.label}
     </components.Option>
-  )
+}
 
-  const GuestsComponent = ({ data, ...props }) => (
-    <components.Option {...props}>
+  const GuestsComponent = function({ data, ...props }) {
+  return <components.Option {...props}>
       <div className="d-flex flex-wrap align-items-center">
         <Avatar className="my-0 mr-1" size="sm" img={data.avatar} />
         <div>{data.label}</div>
       </div>
     </components.Option>
-  )
+}
 
   // ** Adds New Event
   const handleAddEvent = () => {
@@ -288,7 +286,7 @@ const AddEventSidebar = (props) => {
   }
 
   // ** Event Action buttons
-  const EventActions = () => {
+  const EventActions = function() {
     if (
       isObjEmpty(selectedEvent) ||
       (!isObjEmpty(selectedEvent) && !selectedEvent.title.length)

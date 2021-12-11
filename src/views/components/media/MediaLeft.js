@@ -3,8 +3,8 @@ import mediaImg1 from '@src/assets/images/portrait/small/avatar-s-3.jpg'
 import mediaImg2 from '@src/assets/images/portrait/small/avatar-s-6.jpg'
 import mediaImg3 from '@src/assets/images/portrait/small/avatar-s-1.jpg'
 
-const MediaLeft = () => (
-  <div className="media-list">
+const MediaLeft = function() {
+  return <div className="media-list">
     <Media>
       <Media left href="#">
         <Media
@@ -59,5 +59,5 @@ const MediaLeft = () => (
       </Media>
     </Media>
   </div>
-)
+}
 export default MediaLeft

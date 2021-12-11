@@ -14,7 +14,7 @@ import CardContact from './CardContact'
 // ** Styles
 import '@styles/base/pages/app-invoice.scss'
 
-const InvoicePreview = () => {
+const InvoicePreview = function() {
   // ** Vars
   const { id } = useParams()
 

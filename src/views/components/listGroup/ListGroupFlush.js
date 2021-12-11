@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-const ListGroupFlush = () => (
-  <ListGroup flush>
+const ListGroupFlush = function() {
+  return <ListGroup flush>
     <ListGroupItem>Cras justo odio</ListGroupItem>
     <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
     <ListGroupItem>Morbi leo risus</ListGroupItem>
@@ -10,5 +10,5 @@ const ListGroupFlush = () => (
     <ListGroupItem>Vestibulum at eros</ListGroupItem>
     <ListGroupItem>Lorem ipsum Quibusdam, voluptas.</ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupFlush

@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const PrefixMask = () => {
+const PrefixMask = function() {
   const options = { prefix: '+63', blocks: [3, 3, 3, 4], uppercase: true }
   return (
     <>

@@ -90,7 +90,7 @@ const steps = [
   },
 ]
 
-const Content = () => {
+const Content = function() {
   const tour = useContext(ShepherdTourContext)
   instance = tour
 
@@ -101,8 +101,8 @@ const Content = () => {
   )
 }
 
-const TourComponent = () => (
-  <>
+const TourComponent = function() {
+  return <>
     <ExtensionsHeader
       title="React Shepherd"
       subTitle="Tourist Guide into your React Components With React Shepherd"
@@ -128,6 +128,6 @@ const TourComponent = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default TourComponent

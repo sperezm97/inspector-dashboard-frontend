@@ -3,8 +3,8 @@ import { Row, Col } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
 import Validations from './Validation'
 
-const ReactstrapValidation = () => (
-  <>
+const ReactstrapValidation = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Reactstrap Validation"
       breadCrumbParent="Form"
@@ -16,5 +16,5 @@ const ReactstrapValidation = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default ReactstrapValidation

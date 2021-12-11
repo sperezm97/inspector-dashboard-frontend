@@ -12,7 +12,7 @@ import {
   Media,
 } from 'reactstrap'
 
-const BlogSidebar = () => {
+const BlogSidebar = function() {
   const [data, setData] = useState(null)
 
   useEffect(() => {

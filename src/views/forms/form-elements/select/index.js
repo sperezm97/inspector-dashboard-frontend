@@ -9,8 +9,8 @@ import SelectReactstrap from './SelectReactstrap'
 
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const Select = () => (
-  <>
+const Select = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Select"
       breadCrumbParent="Form Elements"
@@ -34,5 +34,5 @@ const Select = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Select

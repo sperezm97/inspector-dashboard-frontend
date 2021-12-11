@@ -14,7 +14,7 @@ import {
 import { filterByStatusTickets } from '../../../utility/Utils'
 import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 
-const GoalOverview = ({ success, dataTableTickets }) => {
+const GoalOverview = function({ success, dataTableTickets }) {
   const options = {
     chart: {
       sparkline: {

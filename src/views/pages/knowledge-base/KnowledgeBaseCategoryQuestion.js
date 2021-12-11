@@ -12,7 +12,7 @@ import {
   ListGroupItem,
 } from 'reactstrap'
 
-const KnowledgeBaseCategoryQuestion = () => {
+const KnowledgeBaseCategoryQuestion = function() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const KnowledgeBaseCategoryQuestion = () => {
                     dangerouslySetInnerHTML={{
                       __html: data.content,
                     }}
-                  ></div>
+                   />
                 </CardBody>
               </Card>
             </Col>

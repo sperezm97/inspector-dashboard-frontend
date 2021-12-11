@@ -1,8 +1,8 @@
 import { Button } from 'reactstrap'
 import { Search, Inbox, Camera } from 'react-feather'
 
-const ButtonsIconOnly = () => (
-  <div className="demo-inline-spacing">
+const ButtonsIconOnly = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple className="btn-icon" outline color="primary">
       <Search size={16} />
     </Button.Ripple>
@@ -33,5 +33,5 @@ const ButtonsIconOnly = () => (
       <Search size={16} />
     </Button.Ripple>
   </div>
-)
+}
 export default ButtonsIconOnly

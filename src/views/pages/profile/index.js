@@ -14,7 +14,7 @@ import ProfileFriendsSuggestions from './ProfileFriendsSuggestions'
 
 import '@styles/react/pages/page-profile.scss'
 
-const Profile = () => {
+const Profile = function() {
   const [data, setData] = useState(null)
   const [block, setBlock] = useState(false)
 

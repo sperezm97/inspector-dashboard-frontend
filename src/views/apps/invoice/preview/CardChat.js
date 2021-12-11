@@ -72,7 +72,7 @@ const data = {
   },
 }
 
-const CardChat = () => {
+const CardChat = function() {
   const [msg, setMsg] = useState('')
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)

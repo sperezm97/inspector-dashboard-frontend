@@ -12,7 +12,7 @@ import {
   TabPane,
 } from 'reactstrap'
 
-const Faqs = ({ data }) => {
+const Faqs = function({ data }) {
   const dataToRender = []
 
   const [activeTab, setActiveTab] = useState('Payment')

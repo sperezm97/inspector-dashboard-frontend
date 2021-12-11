@@ -2,9 +2,8 @@ import { Fragment } from 'react'
 import { Button, ButtonGroup, Row, Col } from 'reactstrap'
 import { Facebook, Twitter, Instagram } from 'react-feather'
 
-const ButtonGroups = () => (
-  <>
-    <Row>
+const ButtonGroups = function() {
+  return <Row>
       <Col md={6} sm={12}>
         <ButtonGroup className="mb-1">
           <Button color="primary">Left</Button>
@@ -26,6 +25,5 @@ const ButtonGroups = () => (
         </ButtonGroup>
       </Col>
     </Row>
-  </>
-)
+}
 export default ButtonGroups

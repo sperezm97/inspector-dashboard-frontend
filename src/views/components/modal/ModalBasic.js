@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'reactstrap'
 
-const ModalBasic = () => {
+const ModalBasic = function() {
   const [basicModal, setBasicModal] = useState(false)
   const [centeredModal, setCenteredModal] = useState(false)
   const [disabledModal, setDisabledModal] = useState(false)
@@ -75,8 +75,7 @@ const ModalBasic = () => {
         </Modal>
       </div>
       <div className="disabled-backdrop-modal">
-        <>
-          <Button.Ripple
+        <Button.Ripple
             color="primary"
             outline
             onClick={() => setDisabledModal(!disabledModal)}
@@ -106,7 +105,6 @@ const ModalBasic = () => {
               </Button>{' '}
             </ModalFooter>
           </Modal>
-        </>
       </div>
       <div className="disabled-animation-modal">
         <Button.Ripple

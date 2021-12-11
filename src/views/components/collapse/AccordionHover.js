@@ -57,8 +57,8 @@ const data = [
   },
 ]
 
-const AccordionHover = () => (
-  <AppCollapse data={data} toggle="hover" accordion />
-)
+const AccordionHover = function() {
+  return <AppCollapse data={data} toggle="hover" accordion />
+}
 
 export default AccordionHover

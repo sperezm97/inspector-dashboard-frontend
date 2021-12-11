@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, CustomInput } from 'reactstrap'
 
-const SwitchBasic = () => (
-  <Card>
+const SwitchBasic = function() {
+  return <Card>
     <CardHeader className="pb-0">
       <CardTitle tag="h4">Basic</CardTitle>
     </CardHeader>
@@ -25,5 +25,5 @@ const SwitchBasic = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SwitchBasic

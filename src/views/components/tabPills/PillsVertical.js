@@ -9,7 +9,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const PillsVertical = () => {
+const PillsVertical = function() {
   const [active, setActive] = useState('1')
 
   const toggle = (tab) => {

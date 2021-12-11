@@ -12,7 +12,7 @@ import {
   ButtonGroup,
 } from 'reactstrap'
 
-const ProductsHeader = (props) => {
+const ProductsHeader = function(props) {
   // ** Props
   const {
     activeView,

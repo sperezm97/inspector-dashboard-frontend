@@ -26,7 +26,7 @@ import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const Bandeja = () => {
+const Bandeja = function() {
   const dispatch = useDispatch()
 
   useEffect(() => {

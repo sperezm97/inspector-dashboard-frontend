@@ -3,7 +3,7 @@ import Cleave from 'cleave.js/react'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 
-const PhoneMask = () => {
+const PhoneMask = function() {
   const options = { phone: true, phoneRegionCode: 'US' }
   return (
     <>

@@ -11,8 +11,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InputBasic = () => (
-  <Card>
+const InputBasic = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic Inputs</CardTitle>
     </CardHeader>
@@ -71,5 +71,5 @@ const InputBasic = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default InputBasic

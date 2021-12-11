@@ -17,8 +17,8 @@ import {
 } from 'reactstrap'
 import { User, Mail, Smartphone, Lock } from 'react-feather'
 
-const VerticalFormIcons = () => (
-  <Card>
+const VerticalFormIcons = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Vertical Form with Icons</CardTitle>
     </CardHeader>
@@ -118,5 +118,5 @@ const VerticalFormIcons = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default VerticalFormIcons

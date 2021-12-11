@@ -5,7 +5,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Mail, Send, Edit2, Star, Info, Trash } from 'react-feather'
 import { Button, ListGroup, ListGroupItem, Badge } from 'reactstrap'
 
-const Sidebar = (props) => {
+const Sidebar = function(props) {
   // ** Props
   const {
     store,
@@ -158,7 +158,7 @@ const Sidebar = (props) => {
                   active={handleActiveItem('personal')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-success mr-1"></span>
+                  <span className="bullet bullet-sm bullet-success mr-1" />
                   Personal
                 </ListGroupItem>
                 <ListGroupItem
@@ -168,7 +168,7 @@ const Sidebar = (props) => {
                   active={handleActiveItem('company')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-primary mr-1"></span>
+                  <span className="bullet bullet-sm bullet-primary mr-1" />
                   Company
                 </ListGroupItem>
                 <ListGroupItem
@@ -178,7 +178,7 @@ const Sidebar = (props) => {
                   active={handleActiveItem('important')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-warning mr-1"></span>
+                  <span className="bullet bullet-sm bullet-warning mr-1" />
                   Important
                 </ListGroupItem>
                 <ListGroupItem
@@ -188,7 +188,7 @@ const Sidebar = (props) => {
                   active={handleActiveItem('private')}
                   action
                 >
-                  <span className="bullet bullet-sm bullet-danger mr-1"></span>
+                  <span className="bullet bullet-sm bullet-danger mr-1" />
                   Private
                 </ListGroupItem>
               </ListGroup>

@@ -16,7 +16,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const RepeatingForm = () => {
+const RepeatingForm = function() {
   const [count, setCount] = useState(1)
 
   const increaseCount = () => {

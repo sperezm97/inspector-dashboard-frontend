@@ -15,8 +15,8 @@ import {
 import img1 from '@src/assets/images/slider/01.jpg'
 import img2 from '@src/assets/images/slider/02.jpg'
 
-const CardContentTypes = () => (
-  <>
+const CardContentTypes = function() {
+  return <>
     <h5 className="mt-3">Content types</h5>
     <Row>
       <Col md="6" lg="4">
@@ -102,6 +102,6 @@ const CardContentTypes = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default CardContentTypes

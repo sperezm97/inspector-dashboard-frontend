@@ -5,8 +5,8 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const DropdownGradient = () => (
-  <div className="demo-inline-spacing">
+const DropdownGradient = function() {
+  return <div className="demo-inline-spacing">
     <UncontrolledButtonDropdown>
       <DropdownToggle className="btn-gradient-primary" color="none" caret>
         Primary
@@ -120,5 +120,5 @@ const DropdownGradient = () => (
       </DropdownMenu>
     </UncontrolledButtonDropdown>
   </div>
-)
+}
 export default DropdownGradient

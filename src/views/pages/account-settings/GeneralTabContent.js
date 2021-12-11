@@ -13,7 +13,7 @@ import {
   Form,
 } from 'reactstrap'
 
-const GeneralTabs = ({ data }) => {
+const GeneralTabs = function({ data }) {
   const { register, errors, handleSubmit, control, setValue, trigger } =
     useForm()
 

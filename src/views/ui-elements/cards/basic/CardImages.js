@@ -13,8 +13,8 @@ import img1 from '@src/assets/images/slider/06.jpg'
 import img2 from '@src/assets/images/slider/09.jpg'
 import img3 from '@src/assets/images/slider/10.jpg'
 
-const CardImages = () => (
-  <>
+const CardImages = function() {
+  return <>
     <h5 className="mt-3 mb-2">Images</h5>
     <Row>
       <Col xl="4" md="6">
@@ -69,6 +69,6 @@ const CardImages = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default CardImages

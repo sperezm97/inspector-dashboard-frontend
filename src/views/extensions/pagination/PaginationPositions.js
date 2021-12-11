@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody, Row, Col } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationPositions = () => (
-  <Card>
+const PaginationPositions = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Positions</CardTitle>
     </CardHeader>{' '}
@@ -68,5 +68,5 @@ const PaginationPositions = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default PaginationPositions

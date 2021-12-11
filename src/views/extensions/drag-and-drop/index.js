@@ -10,8 +10,8 @@ import DndListGroup from './DndListGroup'
 
 import '@styles/react/libs/drag-and-drop/drag-and-drop.scss'
 
-const DragAndDrop = () => (
-  <>
+const DragAndDrop = function() {
+  return <>
     <ExtensionsHeader
       title="React Sortablejs"
       subTitle="Sortablejs wrapper for React"
@@ -38,6 +38,6 @@ const DragAndDrop = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default DragAndDrop

@@ -7,8 +7,8 @@ import VerticalForm from './VerticalForm'
 import VerticalFormIcons from './VerticalFormIcons'
 import MultipleColumnForm from './MultipleColumnForm'
 
-const FormLayouts = () => (
-  <>
+const FormLayouts = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Form Layouts"
       breadCrumbParent="Form"
@@ -32,5 +32,5 @@ const FormLayouts = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default FormLayouts

@@ -4,7 +4,7 @@ import { useEffect, useState, createContext } from 'react'
 // ** Create Context
 const ThemeColors = createContext()
 
-const ThemeContext = ({ children }) => {
+const ThemeContext = function({ children }) {
   // ** State
   const [colors, setColors] = useState({})
 

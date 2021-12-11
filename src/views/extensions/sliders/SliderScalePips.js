@@ -1,8 +1,8 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderScalePips = ({ direction }) => (
-  <Card>
+const SliderScalePips = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Slider Scales / Pips</CardTitle>
     </CardHeader>
@@ -25,6 +25,6 @@ const SliderScalePips = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderScalePips

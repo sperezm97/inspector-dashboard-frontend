@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { ArrowLeft } from 'react-feather'
 import { Label, FormGroup, Row, Col, Button, Form, Input } from 'reactstrap'
 
-const SocialLinks = ({ stepper, type }) => {
+const SocialLinks = function({ stepper, type }) {
   const { register, errors, handleSubmit, trigger } = useForm()
 
   const onSubmit = () => {
@@ -93,7 +93,7 @@ const SocialLinks = ({ stepper, type }) => {
             <ArrowLeft
               size={14}
               className="align-middle mr-sm-25 mr-0"
-            ></ArrowLeft>
+             />
             <span className="align-middle d-sm-inline-block d-none">
               Previous
             </span>

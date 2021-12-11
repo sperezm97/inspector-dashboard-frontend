@@ -5,7 +5,7 @@ import { Label, Input, FormGroup, Row, Col, Button, Form } from 'reactstrap'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const InfoTabContent = ({ data }) => {
+const InfoTabContent = function({ data }) {
   const { register, errors, handleSubmit, control, trigger } = useForm({
     defaultValues: { dob: data.dob || new Date() },
   })

@@ -1,7 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const NavDivider = () => (
-  <Nav vertical className="wrap-border square-border">
+const NavDivider = function() {
+  return <Nav vertical className="wrap-border square-border">
     <NavItem>
       <NavLink href="#" active>
         Active
@@ -22,5 +22,5 @@ const NavDivider = () => (
       </NavLink>
     </NavItem>
   </Nav>
-)
+}
 export default NavDivider

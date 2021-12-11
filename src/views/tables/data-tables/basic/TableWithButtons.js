@@ -48,7 +48,7 @@ const BootstrapCheckbox = forwardRef(({ onClick, ...rest }, ref) => (
   </div>
 ))
 
-const DataTableWithButtons = () => {
+const DataTableWithButtons = function() {
   // ** States
   const [modal, setModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
@@ -113,8 +113,8 @@ const DataTableWithButtons = () => {
   }
 
   // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
+  const CustomPagination = function() {
+  return <ReactPaginate
       previousLabel=""
       nextLabel=""
       forcePage={currentPage}
@@ -138,7 +138,7 @@ const DataTableWithButtons = () => {
       breakLinkClassName="page-link"
       containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1"
     />
-  )
+}
 
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {

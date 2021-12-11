@@ -12,7 +12,7 @@ import {
   DropdownMenu,
 } from 'reactstrap'
 
-const PillBasic = () => {
+const PillBasic = function() {
   const [active, setActive] = useState('1')
   const [dropdownOpen, setDropdownOpen] = useState(false)
 

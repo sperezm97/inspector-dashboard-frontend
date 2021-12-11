@@ -8,8 +8,8 @@ import {
   FormGroup,
 } from 'reactstrap'
 
-const NumberInputWidth = () => (
-  <Card>
+const NumberInputWidth = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Width</CardTitle>
     </CardHeader>
@@ -33,6 +33,6 @@ const NumberInputWidth = () => (
       </FormGroup>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputWidth

@@ -11,8 +11,8 @@ import { Lock } from 'react-feather'
 
 import { rolObj } from '../../../../constants/Rol/rol'
 
-const PermissionsTable = () => (
-  <Card>
+const PermissionsTable = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         <Lock className="mr-1" />
@@ -139,6 +139,6 @@ const PermissionsTable = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 
 export default PermissionsTable

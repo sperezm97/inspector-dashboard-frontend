@@ -11,8 +11,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const InputFloating = () => (
-  <Card>
+const InputFloating = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Floating Label Inputs</CardTitle>
     </CardHeader>
@@ -48,5 +48,5 @@ const InputFloating = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default InputFloating

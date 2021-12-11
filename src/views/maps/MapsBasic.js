@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 
-const MapsBasic = () => {
+const MapsBasic = function() {
   const center = [51.5074, 0.1278]
   const zoom = 13
 

@@ -29,7 +29,7 @@ import ApexCandlestickChart from './ApexCandlestickChart'
 import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const ApexCharts = () => {
+const ApexCharts = function() {
   // ** Hooks
   const [isRtl, setIsRtl] = useRTL()
 

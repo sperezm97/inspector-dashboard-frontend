@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 
-const DividerPosition = () => (
-  <>
+const DividerPosition = function() {
+  return <>
     <div className="divider divider-left">
       <div className="divider-text">Left</div>
     </div>
@@ -22,5 +22,5 @@ const DividerPosition = () => (
       <div className="divider-text">Right</div>
     </div>
   </>
-)
+}
 export default DividerPosition

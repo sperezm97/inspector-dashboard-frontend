@@ -12,7 +12,7 @@ import {
   tooltipPosition,
 } from './TooltipSourceCode'
 
-const Tooltips = () => {
+const Tooltips = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

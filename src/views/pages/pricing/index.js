@@ -7,7 +7,7 @@ import PricingHeader from './PricingHeader'
 
 import '@styles/base/pages/page-pricing.scss'
 
-const Pricing = () => {
+const Pricing = function() {
   const [data, setData] = useState(null)
   const [faq, setFaq] = useState(null)
   const [duration, setDuration] = useState('monthly')

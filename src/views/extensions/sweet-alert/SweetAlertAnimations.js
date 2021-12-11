@@ -11,7 +11,7 @@ import {
 
 const MySwal = withReactContent(Swal)
 
-const AnimatedSweetAlert = () => {
+const AnimatedSweetAlert = function() {
   const handleBounceIn = () =>
     MySwal.fire({
       title: 'Bounce In Animation',

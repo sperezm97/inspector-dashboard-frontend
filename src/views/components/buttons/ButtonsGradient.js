@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const GradientButtons = () => (
-  <div className="demo-inline-spacing">
+const GradientButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button color="gradient-primary">Primary</Button>
     <Button color="gradient-secondary">Secondary</Button>
     <Button color="gradient-success">Success</Button>
@@ -10,5 +10,5 @@ const GradientButtons = () => (
     <Button color="gradient-info">Info</Button>
     <Button color="gradient-dark">Dark</Button>
   </div>
-)
+}
 export default GradientButtons

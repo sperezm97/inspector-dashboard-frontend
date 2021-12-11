@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const NumberInputVertical = () => (
-  <Card>
+const NumberInputVertical = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Vertical</CardTitle>
     </CardHeader>
@@ -36,6 +36,6 @@ const NumberInputVertical = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputVertical

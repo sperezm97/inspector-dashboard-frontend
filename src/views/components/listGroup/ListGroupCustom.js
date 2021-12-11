@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem, CardText } from 'reactstrap'
 
-const ListGroupCustom = () => (
-  <ListGroup tag="div">
+const ListGroupCustom = function() {
+  return <ListGroup tag="div">
     <ListGroupItem tag="a" action active>
       <div className="d-flex justify-content-between w-100">
         <h5 className="mb-1 text-white">List group item heading</h5>
@@ -36,5 +36,5 @@ const ListGroupCustom = () => (
       <small className="text-secondary">Donec id elit non mi porta.</small>
     </ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupCustom

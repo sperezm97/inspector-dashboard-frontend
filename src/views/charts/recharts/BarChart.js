@@ -84,7 +84,7 @@ const data = [
   },
 ]
 
-const CustomTooltip = (data) => {
+const CustomTooltip = function(data) {
   if (data.active && data.payload) {
     return (
       <div className="recharts-custom-tooltip">
@@ -98,7 +98,7 @@ const CustomTooltip = (data) => {
                 style={{
                   backgroundColor: i.fill,
                 }}
-              ></span>
+               />
               <span className="align-middle text-capitalize mr-75">
                 {i.dataKey} : {i.payload[i.dataKey]}
               </span>
@@ -112,8 +112,8 @@ const CustomTooltip = (data) => {
   return null
 }
 
-const SimpleBarChart = () => (
-  <Card>
+const SimpleBarChart = function() {
+  return <Card>
     <CardHeader className="flex-sm-row flex-column justify-content-sm-between justify-content-center align-items-sm-center align-items-start">
       <CardTitle tag="h4">Brand Turnover</CardTitle>
       <div className="d-flex align-items-center">
@@ -134,28 +134,28 @@ const SimpleBarChart = () => (
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: '#826af9' }}
-          ></span>
+           />
           <span className="align-middle mr-75">Apple</span>
         </div>
         <div className="mr-1">
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: '#9f87ff' }}
-          ></span>
+           />
           <span className="align-middle mr-75">Samsung</span>
         </div>
         <div className="mr-1">
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: '#d2b0ff' }}
-          ></span>
+           />
           <span className="align-middle mr-75">Oneplus</span>
         </div>
         <div>
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: '#f8d3ff' }}
-          ></span>
+           />
           <span className="align-middle">Motorola</span>
         </div>
       </div>
@@ -180,5 +180,5 @@ const SimpleBarChart = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SimpleBarChart

@@ -1,7 +1,7 @@
 import { Button, UncontrolledTooltip } from 'reactstrap'
 
-const TooltipPosition = () => (
-  <div className="demo-inline-spacing">
+const TooltipPosition = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="primary" outline id="positionTop">
       Top
     </Button.Ripple>
@@ -30,5 +30,5 @@ const TooltipPosition = () => (
       Tooltip on Left
     </UncontrolledTooltip>
   </div>
-)
+}
 export default TooltipPosition

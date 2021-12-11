@@ -10,7 +10,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const CustomSpinner = () => {
+const CustomSpinner = function() {
   const [block, setBlock] = useState(false)
 
   const handleBlock = () => {

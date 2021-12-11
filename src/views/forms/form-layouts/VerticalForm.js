@@ -13,8 +13,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const VerticalForm = () => (
-  <Card>
+const VerticalForm = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Vertical Form</CardTitle>
     </CardHeader>
@@ -95,5 +95,5 @@ const VerticalForm = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default VerticalForm

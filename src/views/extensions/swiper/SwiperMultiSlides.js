@@ -14,8 +14,8 @@ const params = {
   },
 }
 
-const SwiperMultiSlides = () => (
-  <Card>
+const SwiperMultiSlides = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Multi Slides Per View</CardTitle>
     </CardHeader>
@@ -39,6 +39,6 @@ const SwiperMultiSlides = () => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperMultiSlides

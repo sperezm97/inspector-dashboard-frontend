@@ -3,8 +3,8 @@ import { Card, CardBody, CardImg, Badge, Col, CardText, Row } from 'reactstrap'
 import profileImg from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 import { Users, Box } from 'react-feather'
 
-const CardProfile = () => (
-  <Card className="card-profile">
+const CardProfile = function() {
+  return <Card className="card-profile">
     <CardBody>
       <Col
         xl="12"
@@ -67,6 +67,6 @@ const CardProfile = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default CardProfile

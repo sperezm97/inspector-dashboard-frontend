@@ -1,8 +1,8 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderConnectUpper = ({ direction }) => (
-  <Card>
+const SliderConnectUpper = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Connect to upper</CardTitle>
     </CardHeader>
@@ -22,6 +22,6 @@ const SliderConnectUpper = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderConnectUpper

@@ -3,8 +3,8 @@ import coverImg from '@src/assets/images/banner/banner-12.jpg'
 import { Card, CardBody, CardImg, Badge } from 'reactstrap'
 import profileImg from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 
-const CardProfile = () => (
-  <Card className="card-profile">
+const CardProfile = function() {
+  return <Card className="card-profile">
     <CardImg className="img-fluid" src={coverImg} top />
     <CardBody>
       <div className="profile-image-wrapper">
@@ -34,6 +34,6 @@ const CardProfile = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default CardProfile

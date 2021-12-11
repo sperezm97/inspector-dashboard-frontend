@@ -4,8 +4,8 @@ import CardAction from '@components/card-actions'
 import { ChevronDown, RotateCw, X } from 'react-feather'
 import { CardBody, CardText, Row, Col, Table } from 'reactstrap'
 
-const CardActions = () => (
-  <>
+const CardActions = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Card Actions"
       breadCrumbParent="Card"
@@ -108,5 +108,5 @@ const CardActions = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default CardActions

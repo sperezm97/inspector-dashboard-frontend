@@ -9,8 +9,8 @@ import {
   Input,
 } from 'reactstrap'
 
-const CheckboxBasic = () => (
-  <Card>
+const CheckboxBasic = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Basic Checkboxes</CardTitle>
     </CardHeader>
@@ -41,5 +41,5 @@ const CheckboxBasic = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default CheckboxBasic

@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { ArrowLeft } from 'react-feather'
 import { Label, FormGroup, Row, Col, Form, Input, Button } from 'reactstrap'
 
-const SocialLinks = ({ stepper, type }) => (
-  <>
+const SocialLinks = function({ stepper, type }) {
+  return <>
     <div className="content-header">
       <h5 className="mb-0">Social Links</h5>
       <small>Enter Your Social Links.</small>
@@ -66,7 +66,7 @@ const SocialLinks = ({ stepper, type }) => (
           <ArrowLeft
             size={14}
             className="align-middle mr-sm-25 mr-0"
-          ></ArrowLeft>
+           />
           <span className="align-middle d-sm-inline-block d-none">
             Previous
           </span>
@@ -81,6 +81,6 @@ const SocialLinks = ({ stepper, type }) => (
       </div>
     </Form>
   </>
-)
+}
 
 export default SocialLinks

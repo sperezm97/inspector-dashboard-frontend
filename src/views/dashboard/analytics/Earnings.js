@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { Card, CardTitle, CardText, CardBody, Row, Col } from 'reactstrap'
 
-const Earnings = ({ success, beforeMonth = 0, thisMonth = 0 }) => {
+const Earnings = function({ success, beforeMonth = 0, thisMonth = 0 }) {
   const [valuePercent, setValuePercent] = useState('')
 
   useEffect(() => {

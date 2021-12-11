@@ -7,8 +7,8 @@ const close = (
   </button>
 )
 
-const ToastTranslucent = () => (
-  <Row>
+const ToastTranslucent = function() {
+  return <Row>
     <Col md="6" sm="12">
       <div className="p-3 bg-primary my-2 rounded">
         <Toast>
@@ -97,5 +97,5 @@ const ToastTranslucent = () => (
       </div>
     </Col>
   </Row>
-)
+}
 export default ToastTranslucent

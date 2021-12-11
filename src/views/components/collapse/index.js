@@ -18,7 +18,7 @@ import {
   accordionShadow,
 } from './CollapseSourceCode'
 
-const Collapse = () => {
+const Collapse = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

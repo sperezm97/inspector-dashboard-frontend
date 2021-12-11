@@ -12,7 +12,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const GoalOverview = (props) => {
+const GoalOverview = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

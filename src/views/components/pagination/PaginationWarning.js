@@ -1,8 +1,8 @@
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 
-const PaginationWarning = () => (
-  <Pagination className="d-flex mt-3" listClassName="pagination-warning">
+const PaginationWarning = function() {
+  return <Pagination className="d-flex mt-3" listClassName="pagination-warning">
     <PaginationItem>
       <PaginationLink href="#" first>
         <ChevronLeft size={15} />
@@ -35,5 +35,5 @@ const PaginationWarning = () => (
       </PaginationLink>
     </PaginationItem>
   </Pagination>
-)
+}
 export default PaginationWarning

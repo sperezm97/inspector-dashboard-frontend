@@ -1,6 +1,6 @@
 import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 
-const SubscribersGained = ({ kFormatter, dataInfoChart }) => {
+const SubscribersGained = function({ kFormatter, dataInfoChart }) {
   const options = {
     chart: {
       id: 'revenue',

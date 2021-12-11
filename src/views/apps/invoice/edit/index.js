@@ -12,7 +12,7 @@ import EditActions from './EditActions'
 import SendInvoiceSidebar from '../shared-sidebar/SidebarSendInvoice'
 import AddPaymentSidebar from '../shared-sidebar/SidebarAddPayment'
 
-const InvoiceEdit = () => {
+const InvoiceEdit = function() {
   // ** Vars
   const { id } = useParams()
 

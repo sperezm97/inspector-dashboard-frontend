@@ -2,7 +2,7 @@ import Avatar from '@components/avatar'
 import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 
-const CardTransactions = ({ provinces, listTickets }) => {
+const CardTransactions = function({ provinces, listTickets }) {
   const renderTransactions = () =>
     provinces.map((state) => {
       const ticketLength =

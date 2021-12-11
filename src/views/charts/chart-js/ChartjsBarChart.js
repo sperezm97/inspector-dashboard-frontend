@@ -3,12 +3,12 @@ import { Calendar } from 'react-feather'
 import { Bar } from 'react-chartjs-2'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ChartjsBarChart = ({
+const ChartjsBarChart = function({
   tooltipShadow,
   gridLineColor,
   labelColor,
   successColorShade,
-}) => {
+}) {
   const options = {
     elements: {
       rectangle: {

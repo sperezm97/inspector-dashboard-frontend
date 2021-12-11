@@ -58,8 +58,8 @@ const reactData = [
   { x: 20.0, y: 120 },
 ]
 
-const SimpleScatterChart = ({ primary, success, danger }) => (
-  <Card>
+const SimpleScatterChart = function({ primary, success, danger }) {
+  return <Card>
     <CardHeader className="flex-sm-row flex-column justify-content-sm-between justify-content-center align-items-sm-center align-items-start">
       <CardTitle tag="h4">Framework Usage</CardTitle>
       <div className="d-flex align-items-center">
@@ -77,15 +77,15 @@ const SimpleScatterChart = ({ primary, success, danger }) => (
     <CardBody>
       <div className="d-flex align-items-center mb-2">
         <div className="mr-2">
-          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50"></span>
+          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50" />
           <span className="align-middle mr-75">React</span>
         </div>
         <div className="mr-2">
-          <span className="bullet bullet-sm bullet-success bullet-bordered mr-50"></span>
+          <span className="bullet bullet-sm bullet-success bullet-bordered mr-50" />
           <span className="align-middle mr-75">Vue</span>
         </div>
         <div>
-          <span className="bullet bullet-sm bullet-danger bullet-bordered mr-50"></span>
+          <span className="bullet bullet-sm bullet-danger bullet-bordered mr-50" />
           <span className="align-middle">Angular</span>
         </div>
       </div>
@@ -103,5 +103,5 @@ const SimpleScatterChart = ({ primary, success, danger }) => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SimpleScatterChart

@@ -11,7 +11,7 @@ import {
   DropdownItem,
 } from 'reactstrap'
 
-const ChartjsPolarAreaChart = ({
+const ChartjsPolarAreaChart = function({
   primary,
   labelColor,
   primaryColorShade,
@@ -20,7 +20,7 @@ const ChartjsPolarAreaChart = ({
   greyColor,
   successColorShade,
   tooltipShadow,
-}) => {
+}) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,

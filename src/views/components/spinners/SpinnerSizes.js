@@ -1,7 +1,7 @@
 import { Spinner } from 'reactstrap'
 
-const SpinnerSizes = () => (
-  <div className="demo-inline-spacing">
+const SpinnerSizes = function() {
+  return <div className="demo-inline-spacing">
     <div>
       <Spinner className="mr-25" size="sm" />
       <Spinner type="grow" size="sm" />
@@ -15,5 +15,5 @@ const SpinnerSizes = () => (
       <Spinner type="grow" style={{ height: '3rem', width: '3rem' }} />
     </div>
   </div>
-)
+}
 export default SpinnerSizes

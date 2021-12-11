@@ -21,8 +21,8 @@ const params = {
   },
 }
 
-const SwiperMultiSlides = ({ isRtl }) => (
-  <Card>
+const SwiperMultiSlides = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Multi Row Slides Layout</CardTitle>
     </CardHeader>
@@ -61,6 +61,6 @@ const SwiperMultiSlides = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperMultiSlides

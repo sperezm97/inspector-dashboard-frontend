@@ -2,7 +2,7 @@ import { useState, Fragment } from 'react'
 import Rating from 'react-rating'
 import { Star } from 'react-feather'
 
-const RatingsHover = ({ filledColor, dir }) => {
+const RatingsHover = function({ filledColor, dir }) {
   const [value, setValue] = useState(0)
 
   const onHover = (rate) => {

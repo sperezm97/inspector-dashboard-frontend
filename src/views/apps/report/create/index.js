@@ -35,7 +35,7 @@ const schema = yup.object().shape({
   // address: yup.string().required().trim(),
 })
 
-const ReportCreate = () => {
+const ReportCreate = function() {
   const dispatch = useDispatch()
 
   useEffect(() => {

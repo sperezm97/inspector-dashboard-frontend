@@ -3,7 +3,7 @@ import { EditorState } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const EditorControlled = () => {
+const EditorControlled = function() {
   const [value, setValue] = useState(EditorState.createEmpty())
 
   return (

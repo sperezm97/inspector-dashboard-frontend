@@ -33,7 +33,7 @@ import ComposePopUp from './ComposePopup'
 import MailDetails from './MailDetails'
 import MailCard from './MailCard'
 
-const Mails = (props) => {
+const Mails = function(props) {
   // ** Props
   const {
     query,

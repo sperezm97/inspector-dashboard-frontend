@@ -41,7 +41,7 @@ const schema = yup.object().shape({
   password: yup.string().required().trim(),
 })
 
-const UserCreate = () => {
+const UserCreate = function() {
   const dispatch = useDispatch()
 
   const [loadingState, setLoadingState] = useState(false)

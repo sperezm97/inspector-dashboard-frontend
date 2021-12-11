@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AutoComplete from '@components/autocomplete'
 
-const AutoCompleteSections = () => {
+const AutoCompleteSections = function() {
   const [suggestions] = useState([
     {
       groupTitle: '1970s',

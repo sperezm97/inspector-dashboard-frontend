@@ -5,8 +5,8 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const DropdownFlat = () => (
-  <div className="demo-inline-spacing">
+const DropdownFlat = function() {
+  return <div className="demo-inline-spacing">
     <UncontrolledButtonDropdown>
       <DropdownToggle color="flat-primary" caret>
         Primary
@@ -120,6 +120,6 @@ const DropdownFlat = () => (
       </DropdownMenu>
     </UncontrolledButtonDropdown>
   </div>
-)
+}
 
 export default DropdownFlat

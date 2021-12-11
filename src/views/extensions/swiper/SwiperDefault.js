@@ -6,8 +6,8 @@ import img3 from '@src/assets/images/banner/banner-4.jpg'
 import img4 from '@src/assets/images/banner/banner-13.jpg'
 import img5 from '@src/assets/images/banner/banner-7.jpg'
 
-const SwiperDefault = ({ isRtl }) => (
-  <Card>
+const SwiperDefault = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Default</CardTitle>
     </CardHeader>
@@ -31,6 +31,6 @@ const SwiperDefault = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperDefault

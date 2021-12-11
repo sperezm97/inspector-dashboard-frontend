@@ -10,7 +10,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const CardBusiness = () => {
+const CardBusiness = function() {
   const dataArr = [
     {
       id: 'option-1',

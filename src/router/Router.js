@@ -27,7 +27,7 @@ import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
 import { DefaultRoute, Routes } from './routes'
 
-const Router = () => {
+const Router = function() {
   // ** Hooks
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
@@ -76,7 +76,7 @@ const Router = () => {
   /**
    ** Final Route Component Checks for Login & User Role and then redirects to the route
    */
-  const FinalRoute = (props) => {
+  const FinalRoute = function(props) {
     const { route } = props
     let action
     let resource

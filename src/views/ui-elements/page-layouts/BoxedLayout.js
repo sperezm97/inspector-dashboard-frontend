@@ -3,8 +3,8 @@ import { Alert } from 'reactstrap'
 import Breadcrumbs from '@components/breadcrumbs'
 import Ecommerce from '../../dashboard/ecommerce'
 
-const BoxedLayout = () => (
-  <>
+const BoxedLayout = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Layout Boxed"
       breadCrumbParent="Layouts"
@@ -17,7 +17,7 @@ const BoxedLayout = () => (
           Please check the{' '}
           <a
             href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/development/page-layouts"
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             Layout boxed documentation
           </a>{' '}
@@ -27,6 +27,6 @@ const BoxedLayout = () => (
     </Alert>
     <Ecommerce />
   </>
-)
+}
 
 export default BoxedLayout

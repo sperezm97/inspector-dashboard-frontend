@@ -1,8 +1,8 @@
 import { Alert } from 'reactstrap'
 import { Star } from 'react-feather'
 
-const AlertIcon = () => (
-  <div className="demo-spacing-0">
+const AlertIcon = function() {
+  return <div className="demo-spacing-0">
     <Alert color="primary">
       <div className="alert-body">
         <Star size={15} />
@@ -13,5 +13,5 @@ const AlertIcon = () => (
       </div>
     </Alert>
   </div>
-)
+}
 export default AlertIcon

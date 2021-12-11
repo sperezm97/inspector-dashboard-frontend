@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationSuccess = () => (
-  <Card>
+const PaginationSuccess = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Success</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const PaginationSuccess = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default PaginationSuccess

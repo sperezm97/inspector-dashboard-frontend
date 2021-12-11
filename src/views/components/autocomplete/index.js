@@ -18,7 +18,7 @@ import {
   searchLimitExample,
 } from './AutoCompleteSourceCode'
 
-const AutoComplete = () => {
+const AutoComplete = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'reactstrap'
 
-const NumberInputBasic = () => {
+const NumberInputBasic = function() {
   const [count, setCount] = useState(0)
 
   return (

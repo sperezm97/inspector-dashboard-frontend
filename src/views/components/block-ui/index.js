@@ -6,8 +6,8 @@ import CustomSpinner from './CustomSpinner'
 import CustomColorBlocking from './CustomColor'
 import MessageBlocking from './MessageBlocking'
 
-const Editor = () => (
-  <>
+const Editor = function() {
+  return <>
     <ExtensionsHeader
       title="React BlockUI"
       subTitle="Easy way to block the user from interacting with your UI."
@@ -29,6 +29,6 @@ const Editor = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Editor

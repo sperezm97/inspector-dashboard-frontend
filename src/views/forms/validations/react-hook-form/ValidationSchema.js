@@ -14,7 +14,7 @@ import {
   FormFeedback,
 } from 'reactstrap'
 
-const ValidationOnChange = () => {
+const ValidationOnChange = function() {
   const SignupSchema = yup.object().shape({
     email: yup.string().email().required(),
     lastName: yup.string().min(3).required(),

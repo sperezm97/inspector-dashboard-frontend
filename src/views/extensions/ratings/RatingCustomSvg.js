@@ -8,8 +8,8 @@ import {
 } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingCustomSvg = ({ emptyColor, dir }) => (
-  <Card>
+const RatingCustomSvg = function({ emptyColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Custom SVG</CardTitle>
     </CardHeader>
@@ -27,6 +27,6 @@ const RatingCustomSvg = ({ emptyColor, dir }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingCustomSvg

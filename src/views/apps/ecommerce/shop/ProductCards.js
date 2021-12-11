@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import { Star, ShoppingCart, Heart } from 'react-feather'
 import { Card, CardBody, CardText, Button, Badge } from 'reactstrap'
 
-const ProductCards = (props) => {
+const ProductCards = function(props) {
   // ** Props
   const {
     store,

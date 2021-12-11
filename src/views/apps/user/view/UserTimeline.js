@@ -41,8 +41,8 @@ const data = [
   },
 ]
 
-const UserTimeline = () => (
-  <Card>
+const UserTimeline = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4" className="mb-1">
         <List className="mr-1" />
@@ -53,6 +53,6 @@ const UserTimeline = () => (
       <Timeline data={data} />
     </CardBody>
   </Card>
-)
+}
 
 export default UserTimeline

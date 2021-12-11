@@ -3,8 +3,8 @@ import { Card, CardBody, Progress, Badge, Col } from 'reactstrap'
 import profileImg from '@src/assets/images/icons/1.png'
 import profileImgPerson from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 
-const CardProfile = () => (
-  <Card className="card-profile">
+const CardProfile = function() {
+  return <Card className="card-profile">
     <CardBody>
       <Col
         xl="12"
@@ -91,6 +91,6 @@ const CardProfile = () => (
       </Col>
     </CardBody>
   </Card>
-)
+}
 
 export default CardProfile

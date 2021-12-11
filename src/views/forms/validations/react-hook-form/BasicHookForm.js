@@ -15,8 +15,8 @@ import {
   Input,
 } from 'reactstrap'
 
-const SuccessToast = ({ data }) => (
-  <>
+const SuccessToast = function({ data }) {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check size={12} />} />
@@ -37,9 +37,9 @@ const SuccessToast = ({ data }) => (
       </ul>
     </div>
   </>
-)
+}
 
-const BasicHookForm = () => {
+const BasicHookForm = function() {
   const { register, errors, handleSubmit } = useForm()
 
   const onSubmit = (data) => {

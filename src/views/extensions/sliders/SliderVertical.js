@@ -1,8 +1,8 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderVertical = ({ direction }) => (
-  <Card>
+const SliderVertical = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Vertical Default</CardTitle>
     </CardHeader>
@@ -21,6 +21,6 @@ const SliderVertical = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderVertical

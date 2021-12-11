@@ -25,7 +25,7 @@ import {
 // ** Styles
 import '@styles/base/pages/app-ecommerce.scss'
 
-const Checkout = () => {
+const Checkout = function() {
   // ** Ref & State
   const ref = useRef(null)
   const [stepper, setStepper] = useState(null)

@@ -1,7 +1,7 @@
 import { Badge } from 'reactstrap'
 
-const BadgeContextual = () => (
-  <div className="demo-inline-spacing">
+const BadgeContextual = function() {
+  return <div className="demo-inline-spacing">
     <Badge color="primary">Primary</Badge>
     <Badge color="secondary">Secondary</Badge>
     <Badge color="success">Success</Badge>
@@ -10,5 +10,5 @@ const BadgeContextual = () => (
     <Badge color="info">Info</Badge>
     <Badge color="dark">Dark</Badge>
   </div>
-)
+}
 export default BadgeContextual

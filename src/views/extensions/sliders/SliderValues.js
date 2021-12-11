@@ -1,8 +1,8 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderValues = ({ direction }) => (
-  <Card>
+const SliderValues = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Slider Values</CardTitle>
     </CardHeader>
@@ -31,6 +31,6 @@ const SliderValues = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderValues

@@ -2,8 +2,8 @@ import Rating from 'react-rating'
 import { Star } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingReadOnly = ({ filledColor, dir }) => (
-  <Card>
+const RatingReadOnly = function({ filledColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Readonly</CardTitle>
     </CardHeader>
@@ -17,6 +17,6 @@ const RatingReadOnly = ({ filledColor, dir }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingReadOnly

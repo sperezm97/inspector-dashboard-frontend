@@ -12,7 +12,7 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const Sales = (props) => {
+const Sales = function(props) {
   const options = {
     chart: {
       height: 300,

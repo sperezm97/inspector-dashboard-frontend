@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const NumberInputMinMax = () => (
-  <Card>
+const NumberInputMinMax = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Min & Max</CardTitle>
     </CardHeader>
@@ -25,6 +25,6 @@ const NumberInputMinMax = () => (
       <NumberInput id="min-max-number-input" min={0} max={10} />
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputMinMax

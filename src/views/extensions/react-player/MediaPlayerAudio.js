@@ -26,7 +26,7 @@ const format = (seconds) => {
   return `${mm}:${ss}`
 }
 
-const MediaPlayerAudio = () => {
+const MediaPlayerAudio = function() {
   useEffect(() => {
     Prism.highlightAll()
   })
@@ -79,14 +79,14 @@ const MediaPlayerAudio = () => {
   })
 
   // for duration, elapsed and remaining time
-  const Duration = ({ className, seconds }) => (
-    <time dateTime={`P${Math.round(seconds)}S`} className={className}>
+  const Duration = function({ className, seconds }) {
+  return <time dateTime={`P${Math.round(seconds)}S`} className={className}>
       {format(seconds)}
     </time>
-  )
-  const preDuration = <Duration seconds={duration}></Duration>
-  const preElapsed = <Duration seconds={duration * played}></Duration>
-  const preRemaining = <Duration seconds={duration * (1 - played)}></Duration>
+}
+  const preDuration = <Duration seconds={duration} />
+  const preElapsed = <Duration seconds={duration * played} />
+  const preRemaining = <Duration seconds={duration * (1 - played)} />
 
   return (
     <Card className="overflow-hidden">

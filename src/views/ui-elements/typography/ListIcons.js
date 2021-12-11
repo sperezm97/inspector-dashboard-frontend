@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap'
 import { ArrowRight, ChevronRight } from 'react-feather'
 
-const ListIcons = () => (
-  <Card>
+const ListIcons = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Lists icons</CardTitle>
     </CardHeader>
@@ -42,5 +42,5 @@ const ListIcons = () => (
       </ul>
     </CardBody>
   </Card>
-)
+}
 export default ListIcons

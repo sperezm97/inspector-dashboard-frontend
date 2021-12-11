@@ -2,13 +2,13 @@ import { Bubble } from 'react-chartjs-2'
 import { ArrowDown } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Badge } from 'reactstrap'
 
-const ChartjsRadarChart = ({
+const ChartjsRadarChart = function({
   labelColor,
   primaryColorShade,
   warningColorShade,
   tooltipShadow,
   gridLineColor,
-}) => {
+}) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,

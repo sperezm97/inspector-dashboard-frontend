@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody, Row, Col } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationSizes = () => (
-  <Card>
+const PaginationSizes = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Sizes</CardTitle>
     </CardHeader>
@@ -65,5 +65,5 @@ const PaginationSizes = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default PaginationSizes

@@ -8,8 +8,8 @@ import InputFloating from './InputFloating'
 import InputFile from './InputFile'
 import InputState from './InputStates'
 
-const Input = () => (
-  <>
+const Input = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Input"
       breadCrumbParent="Form Elements"
@@ -36,5 +36,5 @@ const Input = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default Input

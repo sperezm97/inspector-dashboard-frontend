@@ -23,7 +23,7 @@ import { rolArray } from '../../../../constants/Rol/rol'
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const UserInfoTab = () => {
+const UserInfoTab = function() {
   // ** State
   const [data, setData] = useState(null)
 

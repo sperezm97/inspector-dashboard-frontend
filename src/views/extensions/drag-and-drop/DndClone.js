@@ -11,7 +11,7 @@ import {
   Badge,
 } from 'reactstrap'
 
-const DndClone = () => {
+const DndClone = function() {
   const source1 = [
     {
       text: 'Youtube',

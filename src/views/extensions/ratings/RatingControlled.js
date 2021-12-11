@@ -3,7 +3,7 @@ import Rating from 'react-rating'
 import { Star } from 'react-feather'
 import { Card, Button, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingControlled = ({ filledColor, dir }) => {
+const RatingControlled = function({ filledColor, dir }) {
   const [value, setValue] = useState(0)
 
   return (

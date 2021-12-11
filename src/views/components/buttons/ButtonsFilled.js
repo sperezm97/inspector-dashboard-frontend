@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const FilledButtons = () => (
-  <div className="demo-inline-spacing">
+const FilledButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="primary">Primary</Button.Ripple>
     <Button.Ripple color="secondary">Secondary</Button.Ripple>
     <Button.Ripple color="success">Success</Button.Ripple>
@@ -10,5 +10,5 @@ const FilledButtons = () => (
     <Button.Ripple color="info">Info</Button.Ripple>
     <Button.Ripple color="dark">Dark</Button.Ripple>
   </div>
-)
+}
 export default FilledButtons

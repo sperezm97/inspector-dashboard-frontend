@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const OutlineButtons = () => (
-  <div className="demo-inline-spacing">
+const OutlineButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="primary" outline>
       Primary
     </Button.Ripple>
@@ -24,5 +24,5 @@ const OutlineButtons = () => (
       Dark
     </Button.Ripple>
   </div>
-)
+}
 export default OutlineButtons

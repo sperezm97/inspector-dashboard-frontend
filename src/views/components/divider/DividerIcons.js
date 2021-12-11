@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { ArrowDown, Star, Check, XCircle, Clock } from 'react-feather'
 
-const DividerIcon = () => (
-  <>
+const DividerIcon = function() {
+  return <>
     <div className="divider divider-left">
       <div className="divider-text">
         <ArrowDown size={15} />
@@ -33,5 +33,5 @@ const DividerIcon = () => (
       </div>
     </div>
   </>
-)
+}
 export default DividerIcon

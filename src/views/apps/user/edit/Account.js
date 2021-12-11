@@ -21,7 +21,7 @@ import Avatar from '@components/avatar'
 // Roles
 import { rolObj } from '../../../../constants/Rol/rol'
 
-const UserAccountTab = ({ selectedUser }) => {
+const UserAccountTab = function({ selectedUser }) {
   // ** States
   const [img, setImg] = useState(null)
   const [userData, setUserData] = useState(null)

@@ -9,8 +9,8 @@ import 'uppy/dist/uppy.css'
 import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 
-const Uploader = () => (
-  <>
+const Uploader = function() {
+  return <>
     <ExtensionsHeader
       title="React Uppy"
       subTitle="Uppy is a sleek, modular React file uploader that integrates seamlessly with any application."
@@ -29,6 +29,6 @@ const Uploader = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Uploader

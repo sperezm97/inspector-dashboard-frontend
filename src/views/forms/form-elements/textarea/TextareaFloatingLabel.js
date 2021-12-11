@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const TextareaFloatingLabel = () => (
-  <Card>
+const TextareaFloatingLabel = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Floating label</CardTitle>
     </CardHeader>
@@ -31,5 +31,5 @@ const TextareaFloatingLabel = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default TextareaFloatingLabel

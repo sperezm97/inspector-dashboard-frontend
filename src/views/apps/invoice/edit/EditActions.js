@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 // ** Third Party Components
 import { Card, CardBody, Button, Input, CustomInput, Label } from 'reactstrap'
 
-const EditActions = ({ setSendSidebarOpen, setAddPaymentOpen }) => (
-  <>
+const EditActions = function({ setSendSidebarOpen, setAddPaymentOpen }) {
+  return <>
     <Card className="invoice-action-wrapper">
       <CardBody>
         <Button.Ripple
@@ -72,6 +72,6 @@ const EditActions = ({ setSendSidebarOpen, setAddPaymentOpen }) => (
       </div>
     </div>
   </>
-)
+}
 
 export default EditActions

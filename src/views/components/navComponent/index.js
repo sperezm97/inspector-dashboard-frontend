@@ -22,7 +22,7 @@ import {
   navVerticalBorder,
 } from './NavComponentSourceCode'
 
-const NavComponent = () => {
+const NavComponent = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

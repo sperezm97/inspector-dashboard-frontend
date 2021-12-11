@@ -14,7 +14,7 @@ import {
 import * as Icon from 'react-feather'
 import Chart from 'react-apexcharts'
 
-const Customers = (props) => {
+const Customers = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

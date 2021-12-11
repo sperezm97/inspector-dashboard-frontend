@@ -7,8 +7,8 @@ import ValidationSchema from './ValidationSchema'
 import AsyncValidationForm from './AsyncValidation'
 import ValidationThirdPartyComponents from './ValidationThirdPartyComponents'
 
-const ReactHookForm = () => (
-  <>
+const ReactHookForm = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="React Hook Form"
       breadCrumbParent="Form"
@@ -29,6 +29,6 @@ const ReactHookForm = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default ReactHookForm

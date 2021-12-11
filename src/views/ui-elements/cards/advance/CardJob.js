@@ -2,8 +2,8 @@ import Avatar from '@components/avatar'
 import { Card, CardBody, CardText, Button, Badge, Media } from 'reactstrap'
 import profileImg from '@src/assets/images/portrait/small/avatar-s-7.jpg'
 
-const CardJob = () => (
-  <Card className="card-apply-job">
+const CardJob = function() {
+  return <Card className="card-apply-job">
     <CardBody>
       <div className="d-flex justify-content-between align-items-center mb-1">
         <Media>
@@ -48,6 +48,6 @@ const CardJob = () => (
       </Button>
     </CardBody>
   </Card>
-)
+}
 
 export default CardJob

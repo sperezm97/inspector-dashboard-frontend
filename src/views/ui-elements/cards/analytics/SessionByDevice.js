@@ -14,7 +14,7 @@ import {
 import Chart from 'react-apexcharts'
 import * as Icon from 'react-feather'
 
-const SessionByDevice = (props) => {
+const SessionByDevice = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

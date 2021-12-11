@@ -1,7 +1,7 @@
 import { Progress } from 'reactstrap'
 
-const ProgressMultipleStacked = () => (
-  <Progress multi>
+const ProgressMultipleStacked = function() {
+  return <Progress multi>
     <Progress bar color="danger" value="15">
       15%
     </Progress>
@@ -12,5 +12,5 @@ const ProgressMultipleStacked = () => (
       10%
     </Progress>
   </Progress>
-)
+}
 export default ProgressMultipleStacked

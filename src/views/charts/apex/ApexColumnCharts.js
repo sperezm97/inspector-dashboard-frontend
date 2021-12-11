@@ -3,7 +3,7 @@ import Flatpickr from 'react-flatpickr'
 import { Calendar } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ApexColumnCharts = ({ direction }) => {
+const ApexColumnCharts = function({ direction }) {
   const columnColors = {
     series1: '#826af9',
     series2: '#d2b0ff',

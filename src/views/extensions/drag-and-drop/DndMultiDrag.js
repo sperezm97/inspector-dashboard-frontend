@@ -96,7 +96,7 @@ const array = {
 }
 
 // Sortable.mount(new MultiDrag())
-const DndMultiDrag = () => {
+const DndMultiDrag = function() {
   const [listArr1, setListArr1] = useState(array.list1)
   const [listArr2, setListArr2] = useState(array.list2)
 
