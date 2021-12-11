@@ -97,24 +97,20 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"{,!(node_modules)/**/}*.js\""
   },
-  "prettier": "@imaginary-cloud/prettier-config",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "devDependencies": {
-    "@imaginary-cloud/eslint-config-react": "^1.0.1",
-    "@types/sortablejs": "^1.10.6",
+    "@types/sortablejs": "1.10.6",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^2.5.1",
-    "install-peerdeps": "^3.0.3",
-    "prettier": "^2.3.2",
-    "react-app-rewire-postcss": "^3.0.2",
-    "react-app-rewire-sass-rule": "^2.1.1",
-    "react-app-rewired": "^2.1.6",
+    "eslint": "^8.4.1",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-react": "^7.27.1",
+    "prettier": "^2.5.1",
+    "pretty-quick": "^3.1.2",
+    "react-app-rewired": "^2.1.8",
     "sass-loader": "^8.0.2"
   },
   "browserslist": [
