@@ -5,6 +5,7 @@
   "dependencies": {
     "@casl/ability": "5.2.2",
     "@casl/react": "2.1.1",
+    "@craco/craco": "^6.4.0",
     "@fullcalendar/core": "5.7.2",
     "@fullcalendar/daygrid": "5.7.2",
     "@fullcalendar/interaction": "5.7.2",
@@ -89,10 +90,10 @@
     "yup": "0.32.8"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"{,!(node_modules)/**/}*.js\""
@@ -109,15 +110,8 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-react": "^7.27.1",
-    "install-peers": "^1.0.3",
-    "node-gyp": "^8.4.1",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.2",
-    "react-app-rewire-alias": "^1.1.5",
-    "react-app-rewire-aliases": "^0.2.0",
-    "react-app-rewire-postcss": "^3.0.2",
-    "react-app-rewire-sass-rule": "^2.2.1",
-    "react-app-rewired": "^2.1.8",
     "sass-loader": "^8.0.2"
   },
   "browserslist": [
