@@ -142,7 +142,7 @@ const AnalyticsDashboard = function() {
     setCasesWeekState(objWeek)
   }, [newDataTableTicketsTwo[0]])
 
-  return newDataTableTicketsTwo[0] ? (
+  return (
     <div id="dashboard-analytics">
       <Row className="match-height">
         {infoChart.map((dataInfoChart, index) => (
@@ -227,8 +227,6 @@ const AnalyticsDashboard = function() {
         </Col>
       </Row>
     </div>
-  ) : (
-    <ComponentSpinner />
   )
 }
 
