@@ -29,7 +29,30 @@ const IncidentsRoutes = [
       navLink: Url.services,
     },
   },
-
+  {
+    path: `${Url.categoryEdit}/:id`,
+    component: lazy(() => import('../../views/incidents/category/edit')),
+    exact: true,
+    meta: {
+      navLink: Url.services,
+    },
+  },
+  {
+    path: `${Url.subCategoryEdit}/:id`,
+    component: lazy(() => import('../../views/incidents/subCategory/edit')),
+    exact: true,
+    meta: {
+      navLink: Url.services,
+    },
+  },
+  {
+    path: `${Url.servicesEdit}/:id`,
+    component: lazy(() => import('../../views/incidents/services/edit')),
+    exact: true,
+    meta: {
+      navLink: Url.services,
+    },
+  },
   {
     path: Url.subCategory,
     component: lazy(() => import('../../views/incidents/subCategory/list')),
