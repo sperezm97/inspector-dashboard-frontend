@@ -10,10 +10,10 @@ import * as yup from 'yup'
 
 import { Col } from 'reactstrap'
 
+import { Layers } from 'react-feather'
 import FormApp from '../../../../@core/components/form'
 import InputApp from '../../../../@core/components/input'
 import CardGrid from '../../../../@core/components/card-grid'
-import { Layers } from 'react-feather'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
