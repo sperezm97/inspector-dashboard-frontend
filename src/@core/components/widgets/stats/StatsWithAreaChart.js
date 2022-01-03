@@ -5,11 +5,13 @@ import classnames from 'classnames'
 import Chart from 'react-apexcharts'
 import { Card, CardBody } from 'reactstrap'
 
+import LoadingData from '../../../../@core/components/spinner/loadingData'
+
 // ** Default Options
 
 const StatsWithAreaChart = props => {
   // ** Props
-  const { kFormatter, dataInfoChart, series, type = 'area', height, className, ...rest } = props
+  const { kFormatter, newDataTableTicketsTwo, dataInfoChart, series, type = 'area', height, className, ...rest } = props
 
   const options = {
     chart: {
@@ -68,7 +70,7 @@ const StatsWithAreaChart = props => {
         })}
       >
         <Avatar className='avatar-stats p-50 m-0' color={`light-${dataInfoChart.color}`} icon={dataInfoChart.icon} />
-        <h2 className='font-weight-bolder mt-1'>{kFormatter(dataInfoChart.quantity)}</h2>
+        <h2 className='font-weight-bolder mt-1'>{!newDataTableTicketsTwo[0] ? <LoadingData /> : kFormatter(dataInfoChart.quantity)}</h2>
         <p className='card-text mb-1'>{dataInfoChart.title}</p>
       </CardBody>
       {series[0].data &&

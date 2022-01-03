@@ -10,6 +10,7 @@ import {
   DropdownItem,
   DropdownToggle,
 } from 'reactstrap'
+import LoadingData from '../../../@core/components/spinner/loadingData'
 
 const CardBrowserState = function({ organizations, listTickets }) {
   const renderStates = () =>
@@ -36,7 +37,7 @@ const CardBrowserState = function({ organizations, listTickets }) {
           </div>
           <div>
             <div className="font-weight-bold text-body-heading mx-1">
-              {ticketLength}
+              {!listTickets[0] ? <LoadingData size='sm' /> : ticketLength}
             </div>
           </div>
         </div>

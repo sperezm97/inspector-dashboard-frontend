@@ -86,6 +86,7 @@ const AnalyticsDashboard = function() {
   })
 
   const infoChart = dataInfoChart(newDataTableTicketsTwo, newUsersState?.length)
+  console.log(infoChart)
 
   useEffect(() => {
     const dateDay = newDataTableTicketsTwo.filter(
@@ -149,6 +150,7 @@ const AnalyticsDashboard = function() {
           <Col lg="3" sm="6" key={index}>
             <StatsWithAreaChart
               kFormatter={kFormatter}
+              newDataTableTicketsTwo={newDataTableTicketsTwo}
               dataInfoChart={dataInfoChart}
               series={[{ name: dataInfoChart.title, data: null }]}
             />
@@ -160,6 +162,7 @@ const AnalyticsDashboard = function() {
             <Col xs="12">
               <TinyChartStats
                 height={70}
+                newDataTableTicketsTwo={newDataTableTicketsTwo}
                 type="bar"
                 title="Casos por Día"
                 total={casesDayState.firstDay}
@@ -178,6 +181,7 @@ const AnalyticsDashboard = function() {
             <Col xs="12">
               <TinyChartStats
                 height={70}
+                newDataTableTicketsTwo={newDataTableTicketsTwo}
                 type="line"
                 title="Casos por Semana"
                 total={casesWeekState.firstWeek}

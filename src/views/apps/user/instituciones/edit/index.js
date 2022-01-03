@@ -21,6 +21,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { zammadAxios } from '../../../../../configs/axios'
 import { zammadApi } from '../../../../../constants/api/zammadApi'
 import Url from '../../../../../constants/Url'
+import ComponentSpinner from '../../../../../@core/components/spinner/Loading-spinner'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -137,6 +138,6 @@ const institutionCreate = ({ match }) => {
           />
         </FormApp>
       </CardGrid>
-  ) : null
+  ) : <ComponentSpinner />
 }
 export default institutionCreate

@@ -1,6 +1,7 @@
 import Avatar from '@components/avatar'
 import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
+import LoadingData from '../../../@core/components/spinner/loadingData'
 
 const CardTransactions = function({ provinces, listTickets }) {
   const renderTransactions = () =>
@@ -34,7 +35,7 @@ const CardTransactions = function({ provinces, listTickets }) {
             {/* <small>{item.subtitle}</small> */}
           </Media>
           <div className="font-weight-bold text-body-heading mx-1">
-            {ticketLength}
+            {!listTickets[0] ? <LoadingData size='sm' /> : ticketLength}
           </div>
         </div>
       )

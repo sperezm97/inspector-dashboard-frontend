@@ -13,6 +13,7 @@ import {
 } from 'reactstrap'
 import { filterByStatusTickets } from '../../../utility/Utils'
 import { statusTicketsObj } from '../../../constants/Status/statusTickets'
+import LoadingData from '../../../@core/components/spinner/loadingData'
 
 const GoalOverview = function({ success, dataTableTickets }) {
   const options = {
@@ -103,11 +104,11 @@ const GoalOverview = function({ success, dataTableTickets }) {
       <Row className="border-top text-center mx-0">
         <Col xs="6" className="border-right py-1">
           <CardText className="text-muted mb-0">Completados</CardText>
-          <h3 className="font-weight-bolder mb-0">{ticketsClosed}</h3>
+          <h3 className="font-weight-bolder mb-0">{!dataTableTickets[0] ? <LoadingData /> : ticketsClosed}</h3>
         </Col>
         <Col xs="6" className="py-1">
           <CardText className="text-muted mb-0">En Progreso</CardText>
-          <h3 className="font-weight-bolder mb-0">{ticketsNoClosed}</h3>
+          <h3 className="font-weight-bolder mb-0">{!dataTableTickets[0] ? <LoadingData /> : ticketsNoClosed}</h3>
         </Col>
       </Row>
     </Card>
