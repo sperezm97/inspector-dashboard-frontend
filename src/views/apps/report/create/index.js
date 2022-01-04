@@ -111,7 +111,7 @@ const ReportCreate = function() {
                   className="basic-multi-select"
                   classNamePrefix="select"
                   onChange={e => getCategoryByIdService(e)}
-                  isLoading={dataTableServices[0] ? false : true}
+                  isLoading={!dataTableServices[0]}
                   defaultValue={{value: '', label: 'Sin Seleccionar'}}
                   options={dataTableServices.map((dataMap) => ({
                     value: dataMap.id,
@@ -135,7 +135,7 @@ const ReportCreate = function() {
               className="basic-multi-select"
               classNamePrefix="select"
               onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
-              isLoading={dataTableCategories[0] ? false : true}
+              isLoading={!dataTableCategories[0]}
               defaultValue={{value: '', label: 'Sin Seleccionar'}}
               options={dataTableCategories.map((dataMap) => ({
                 value: dataMap.id,
@@ -156,7 +156,7 @@ const ReportCreate = function() {
               theme={selectThemeColors}
               className="basic-multi-select"
               classNamePrefix="select"
-              isLoading={dataTableSubCategories[0] ? false : true}
+              isLoading={!dataTableSubCategories[0]}
               defaultValue={{value: '', label: 'Sin Seleccionar'}}
               options={dataTableSubCategories.map((dataMap) => ({
                 value: dataMap.id,

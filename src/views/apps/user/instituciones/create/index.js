@@ -12,12 +12,12 @@ import Cleave from 'cleave.js/react'
 
 import { Col, FormGroup, Label } from 'reactstrap'
 
+import { User } from 'react-feather'
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
 import Avatar from '../../../../../@core/components/avatar'
 import CardGrid from '../../../../../@core/components/card-grid'
 import { IconInstitution } from '../../../../../@core/components/icons'
-import { User } from 'react-feather'
 import { selectThemeColors } from '../../../../../utility/Utils'
 
 // ** Styles
