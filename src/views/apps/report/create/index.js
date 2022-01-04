@@ -2,13 +2,15 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { selectThemeColors } from '../../../../utility/Utils'
 
 // ** Third Party Components
 import { User, MapPin, FileText, Image } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
+import Select from 'react-select'
 import { Row, Col, Button, Label, FormGroup, Input, Form } from 'reactstrap'
 
 import CardGrid from '../../../../@core/components/card-grid'
@@ -27,6 +29,9 @@ import { getAllServicesActions } from '../../../../redux/actions/incidents/servi
 import { getAllCategoriesActions } from '../../../../redux/actions/incidents/categories'
 import { getAllSubCategoriesActions } from '../../../../redux/actions/incidents/subCategories'
 import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
+import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
+import { getIncidentSubCategoryByIdServiceByIdCategory } from '../../../../services/incidents/subCategory'
+import { getIncidentOrganizationByIdService } from '../../../../services/incidents/organization'
 
 const schema = yup.object().shape({
   // Incidente: yup.string().required().trim(),
@@ -38,30 +43,44 @@ const schema = yup.object().shape({
 const ReportCreate = function() {
   const dispatch = useDispatch()
 
+  const [hierarchies, setHierarchies] = useState({
+    category: null,
+    subCategory: null,
+  })
+  console.log(hierarchies)
+  const [ dataTableCategories, setDataTableCategories ] = useState([])
+  console.log(dataTableCategories)
+  const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
+  const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
+
   useEffect(() => {
     dispatch(getAllServicesActions())
-    dispatch(getAllCategoriesActions())
-    dispatch(getAllSubCategoriesActions())
+    // dispatch(getAllCategoriesActions())
+    // dispatch(getAllSubCategoriesActions())
     dispatch(getAllOrganizationsActions())
   }, [])
 
   const dataTableServices = useSelector((state) => state?.services?.services)
-  const dataTableCategories = useSelector(
-    (state) => state?.categories?.categories,
-  )
-  const dataTableSubCategories = useSelector(
-    (state) => state?.subCategories?.subCategories,
-  )
-  const dataTableOrganizations = useSelector(
-    (state) => state?.organizations?.organizations,
-  )
 
   // ** React hook form vars
   const { register, handleSubmit, errors, getValues, control } = useForm({
     resolver: yupResolver(schema),
   })
 
-  console.log(getValues())
+  // console.log(getValues())
+
+  const getCategoryByIdService = ({value}) => {
+    console.log(value)
+    setHierarchies({...hierarchies, category: value})
+    getIncidentCategoryByIdService(value).then(({data}) => setDataTableCategories(data))
+    getIncidentOrganizationByIdService(value).then(({data}) => setDataTableOrganizations(data))
+  }
+
+  const getSubCategoryByIdServiceByIdCategory = ({value}) => {
+    console.log(value)
+    setHierarchies({...hierarchies, subCategory: value})
+    getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
+  }
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -77,37 +96,78 @@ const ReportCreate = function() {
           </h4>
         </Col>
 
-        <InputApp
-          select
-          label="Incidente"
-          name="Incidente"
-          selectOptions={dataTableServices}
-          register={register}
-          control={control}
-          messageError={errors.name?.message && 'El Incidente es obligatorio'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Incidente</Label>
+            {/* <Controller
+              control={control}
+              name="Incidente"
+              onChange={getCategoryByIdIncident}
+              defaultValue={{value: '', label: 'Sin Seleccionar'}}
+              render={({ onChange, value, name }) => ( */}
+                <Select
+                  name="Incidente"
+                  theme={selectThemeColors}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={e => getCategoryByIdService(e)}
+                  isLoading={dataTableServices[0] ? false : true}
+                  defaultValue={{value: '', label: 'Sin Seleccionar'}}
+                  options={dataTableServices.map((dataMap) => ({
+                    value: dataMap.id,
+                    label: dataMap.name,
+                  }))}
+                />
+              {/* )}
+            /> */}
+          </FormGroup>
+          <p className="text-danger">{
+            errors.Incidente?.message && 'El Incidente es obligatorio'
+          }</p>
+        </Col>
 
-        <InputApp
-          select
-          label="Categoría"
-          name="categoria"
-          selectOptions={dataTableCategories}
-          register={register}
-          control={control}
-          messageError={errors.name?.message && 'La Categoría es obligatoria'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Categoría</Label>
+            <Select
+              name="categoria"
+              theme={selectThemeColors}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
+              isLoading={dataTableCategories[0] ? false : true}
+              defaultValue={{value: '', label: 'Sin Seleccionar'}}
+              options={dataTableCategories.map((dataMap) => ({
+                value: dataMap.id,
+                label: dataMap.name,
+              }))}
+            />
+          </FormGroup>
+          {/* <p className="text-danger">{
+            errors.Incidente?.message && 'La Categoría es obligatoria'
+          }</p> */}
+        </Col>
 
-        <InputApp
-          select
-          label="Sub-Categorías"
-          name="subCategoria"
-          selectOptions={dataTableSubCategories}
-          register={register}
-          control={control}
-          messageError={
-            errors.name?.message && 'La Sub-Categoría es obligatoria'
-          }
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Sub-Categorías</Label>
+            <Select
+              name="subCategoria"
+              theme={selectThemeColors}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              isLoading={dataTableSubCategories[0] ? false : true}
+              defaultValue={{value: '', label: 'Sin Seleccionar'}}
+              options={dataTableSubCategories.map((dataMap) => ({
+                value: dataMap.id,
+                label: dataMap.name,
+              }))}
+            />
+          </FormGroup>
+          {/* <p className="text-danger">{
+            errors.Incidente?.message && 'La Sub-Categorías es obligatoria'
+          }</p> */}
+        </Col>
 
         <InputApp
           select

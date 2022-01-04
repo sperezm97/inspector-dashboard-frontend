@@ -7,3 +7,10 @@ export const getIncidentCategoryId = async (id) => {
 
     return data
 }
+
+export const getIncidentCategoryByIdService = async (id) => {
+
+    const { data } = await incidentsAxios.get(`${incidentsApi.services}/${id}/${incidentsApi.categories}`)
+
+    return data
+}

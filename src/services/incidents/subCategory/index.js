@@ -7,3 +7,10 @@ export const getIncidentSubCategoryId = async (id) => {
 
     return data
 }
+
+export const getIncidentSubCategoryByIdServiceByIdCategory = async (hierarchies, id) => {
+
+    const { data } = await incidentsAxios.get(`types/${hierarchies.category}/categories/${id}/subcategories`)
+
+    return data
+}
