@@ -18,7 +18,4 @@ const apiKey = '67767088-88e2-4416-9d2d-d784edc20b3c'
 //     return data.access_token
 // }
 
-export const getInfoCedula = async (cedulaId) => {
-
-    return await Axios.get(`https://api.digital.gob.do/valpha/citizens/${cedulaId}/info/basic?api-key=${apiKey}`)
-}
+export const getInfoCedula = async (cedulaId) => await Axios.get(`https://api.digital.gob.do/valpha/citizens/${cedulaId}/info/basic?api-key=${apiKey}`)

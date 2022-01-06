@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { optionsCodeValueSelect, optionsIdValueSelect, selectThemeColors } from '../../../../utility/Utils'
 import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
@@ -13,6 +12,7 @@ import { User, MapPin, FileText, Image } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import Select from 'react-select'
 import { Row, Col, Button, Label, FormGroup, Input, Form } from 'reactstrap'
+import { optionsCodeValueSelect, optionsIdValueSelect, selectThemeColors } from '../../../../utility/Utils'
 
 import CardGrid from '../../../../@core/components/card-grid'
 import FormApp from '../../../../@core/components/form'
