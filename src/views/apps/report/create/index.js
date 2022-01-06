@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { selectThemeColors } from '../../../../utility/Utils'
+import { optionsCodeValueSelect, optionsIdValueSelect, selectThemeColors } from '../../../../utility/Utils'
+import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
 import { User, MapPin, FileText, Image } from 'react-feather'
@@ -26,12 +27,13 @@ import '@styles/react/libs/file-uploader/file-uploader.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 import { getAllServicesActions } from '../../../../redux/actions/incidents/services'
-import { getAllCategoriesActions } from '../../../../redux/actions/incidents/categories'
-import { getAllSubCategoriesActions } from '../../../../redux/actions/incidents/subCategories'
-import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
 import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
 import { getIncidentSubCategoryByIdServiceByIdCategory } from '../../../../services/incidents/subCategory'
 import { getIncidentOrganizationByIdService } from '../../../../services/incidents/organization'
+import { getInfoCedula } from '../../../../services/cedula'
+import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
+import { getProvinceByIdRegion } from '../../../../services/territories/province'
+import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
 
 const schema = yup.object().shape({
   // Incidente: yup.string().required().trim(),
@@ -47,20 +49,40 @@ const ReportCreate = function() {
     category: null,
     subCategory: null,
   })
-  console.log(hierarchies)
   const [ dataTableCategories, setDataTableCategories ] = useState([])
-  console.log(dataTableCategories)
   const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
+  
+  const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  console.log(infoCedulaState)
+  
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+
+  const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
+  console.log(regionValueState)
+  const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
+  console.log(provinceValueState)
+  const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
+  console.log(municipalityValueState)
+  const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
+  const [ sectionValueState, setSectionValueState ] = useState(defaultValueState)
+  const [ neighborhoodValueState, setNeighborhoodValueState ] = useState(defaultValueState)
+  const [ subNeighborhoodValueState, setSubNeighborhoodValueState ] = useState(defaultValueState)
+
+  const [ provinceState, setProvinceState ] = useState([])
+  const [ municipalityState, setMunicipalityState ] = useState([])
+  const [ districtState, setDistrictState ] = useState([])
+  const [ sectionState, setSectionState ] = useState([])
+  const [ neighborhoodState, setNeighborhoodState ] = useState([])
+  const [ subNeighborhoodState, setSubNeighborhoodState ] = useState([])
 
   useEffect(() => {
     dispatch(getAllServicesActions())
-    // dispatch(getAllCategoriesActions())
-    // dispatch(getAllSubCategoriesActions())
-    dispatch(getAllOrganizationsActions())
+    dispatch(getAllRegionsActions())
   }, [])
 
-  const dataTableServices = useSelector((state) => state?.services?.services)
+  const servicesSelector = useSelector((state) => state?.services?.services)
+  const regionSelector = useSelector((state) => state?.regions?.regions)
 
   // ** React hook form vars
   const { register, handleSubmit, errors, getValues, control } = useForm({
@@ -80,6 +102,38 @@ const ReportCreate = function() {
     console.log(value)
     setHierarchies({...hierarchies, subCategory: value})
     getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
+  }
+
+  const handleDataCedula = ({target}) => {
+    getInfoCedula(target.value).then(({data}) => setInfoCedulaState(data.payload))
+  }
+
+  const handleGetProvinceByIdRegion = (e) => {
+    console.log(e)
+    setRegionValueState(e)
+    setProvinceValueState(defaultValueState)
+    setProvinceState([])
+    setMunicipalityState([])
+    setDistrictState([])
+    setSectionState([])
+    setNeighborhoodState([])
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    getProvinceByIdRegion(e.value).then(res => setProvinceState(res.data.data))
+  }
+
+  const handleGetMunicipalityByIdProvince = (e) => {
+    console.log(e)
+    setProvinceValueState(e)
+    setMunicipalityValueState(defaultValueState)
+    setMunicipalityState([])
+    setDistrictState([])
+    setSectionState([])
+    setNeighborhoodState([])
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    console.log(regionValueState.value, e.value)
+    getMunicipalityByIdRegionByIdProvince(regionValueState.value, e.value).then(res => setMunicipalityState(res.data.data))
   }
 
   const onSubmit = async (data) => {
@@ -108,15 +162,11 @@ const ReportCreate = function() {
                 <Select
                   name="Incidente"
                   theme={selectThemeColors}
-                  className="basic-multi-select"
                   classNamePrefix="select"
                   onChange={e => getCategoryByIdService(e)}
-                  isLoading={!dataTableServices[0]}
-                  defaultValue={{value: '', label: 'Sin Seleccionar'}}
-                  options={dataTableServices.map((dataMap) => ({
-                    value: dataMap.id,
-                    label: dataMap.name,
-                  }))}
+                  isLoading={!servicesSelector[0]}
+                  defaultValue={defaultValueState}
+                  options={optionsIdValueSelect(servicesSelector)}
                 />
               {/* )}
             /> */}
@@ -132,15 +182,11 @@ const ReportCreate = function() {
             <Select
               name="categoria"
               theme={selectThemeColors}
-              className="basic-multi-select"
               classNamePrefix="select"
               onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
               isLoading={!dataTableCategories[0]}
-              defaultValue={{value: '', label: 'Sin Seleccionar'}}
-              options={dataTableCategories.map((dataMap) => ({
-                value: dataMap.id,
-                label: dataMap.name,
-              }))}
+              defaultValue={defaultValueState}
+              options={optionsIdValueSelect(dataTableCategories)}
             />
           </FormGroup>
           {/* <p className="text-danger">{
@@ -154,19 +200,12 @@ const ReportCreate = function() {
             <Select
               name="subCategoria"
               theme={selectThemeColors}
-              className="basic-multi-select"
               classNamePrefix="select"
               isLoading={!dataTableSubCategories[0]}
-              defaultValue={{value: '', label: 'Sin Seleccionar'}}
-              options={dataTableSubCategories.map((dataMap) => ({
-                value: dataMap.id,
-                label: dataMap.name,
-              }))}
+              defaultValue={defaultValueState}
+              options={optionsIdValueSelect(dataTableSubCategories)}
             />
           </FormGroup>
-          {/* <p className="text-danger">{
-            errors.Incidente?.message && 'La Sub-Categorías es obligatoria'
-          }</p> */}
         </Col>
 
         <InputApp
@@ -187,14 +226,24 @@ const ReportCreate = function() {
           </h4>
         </Col>
 
-        <InputApp
-          label="Cédula de Identidad"
-          name="cedula"
-          type="number"
-          register={register}
-          placeholder="Escribe la Cédula"
-          messageError={errors.name?.message && 'La Cédula es obligatoria'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Cédula de Identidad</Label>
+            {/* <Input
+              type="number"
+              name="cedula"
+              placeholder="Escribe la Cédula"
+              onBlur={e => handleDataCedula(e)}
+            /> */}
+            <Cleave
+              className="form-control"
+              placeholder="Escribe la Cédula"
+              onBlur={e => handleDataCedula(e)}
+              options={{ blocks: [11], numericOnly: true }}
+            />
+          </FormGroup>
+        </Col>
+
 
         <InputApp
           label="Nombre Completo"
@@ -202,6 +251,7 @@ const ReportCreate = function() {
           register={register}
           placeholder="Nombre..."
           disabled
+          defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
           messageError={errors.name?.message && 'El Nombre es obligatorio'}
         />
 
@@ -221,33 +271,97 @@ const ReportCreate = function() {
           </h4>
         </Col>
 
-        <InputApp
-          select
-          label="Sección"
-          name="Sección"
-          selectOptions={dataTableOrganizations}
-          register={register}
-          control={control}
-          placeholder="Escribe la Sección"
-          messageError={errors.name?.message && 'La Sección es obligatoria'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Región</Label>
+            <Select
+              name="region"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              onChange={e => handleGetProvinceByIdRegion(e)}
+              isLoading={!regionSelector[0]}
+              defaultValue={regionValueState}
+              options={optionsCodeValueSelect(regionSelector)}
+            />
+          </FormGroup>
+        </Col>
 
-        <InputApp
-          select
-          label="Barrio"
-          name="Barrio"
-          selectOptions={dataTableOrganizations}
-          register={register}
-          control={control}
-          placeholder="Escribe el Barrio"
-          messageError={errors.name?.message && 'El Barrio es obligatorio'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Provincia</Label>
+            <Select
+              name="provincia"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              onChange={e => handleGetMunicipalityByIdProvince(e)}
+              isLoading={!provinceState[0]}
+              value={provinceValueState}
+              options={optionsCodeValueSelect(provinceState)}
+            />
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Municipio</Label>
+            <Select
+              name="municipio"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              isLoading={!municipalityState[0]}
+              value={municipalityValueState}
+              options={optionsCodeValueSelect(municipalityState)}
+            />
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Distrito</Label>
+            <Select
+              name="distrito"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              isLoading={!districtState[0]}
+              value={districtValueState}
+              options={optionsCodeValueSelect(districtState)}
+            />
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Sección</Label>
+            <Select
+              name="seccion"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              isLoading={!sectionState[0]}
+              value={sectionValueState}
+              options={optionsCodeValueSelect(sectionState)}
+            />
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Barrio</Label>
+            <Select
+              name="barrio"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              isLoading={!neighborhoodState[0]}
+              value={neighborhoodValueState}
+              options={optionsCodeValueSelect(neighborhoodState)}
+            />
+          </FormGroup>
+        </Col>
 
         <InputApp
           select
           label="Sub-Barrio"
           name="subBarrio"
-          selectOptions={dataTableOrganizations}
+          selectOptions={subNeighborhoodState}
           register={register}
           control={control}
           placeholder="Escribe el Sub-Barrio"
