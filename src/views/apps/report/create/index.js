@@ -34,6 +34,10 @@ import { getInfoCedula } from '../../../../services/cedula'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { getProvinceByIdRegion } from '../../../../services/territories/province'
 import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
+import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
+import { getSectionByIdMunicipalityByIdDistrict } from '../../../../services/territories/section'
+import { getNeighborhoodByIdDistrictByIdSection } from '../../../../services/territories/neighborhood'
+import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../services/territories/subNeighborhood'
 
 const schema = yup.object().shape({
   // Incidente: yup.string().required().trim(),
@@ -54,16 +58,12 @@ const ReportCreate = function() {
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
   
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
-  console.log(infoCedulaState)
   
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
   const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
-  console.log(regionValueState)
   const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
-  console.log(provinceValueState)
   const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
-  console.log(municipalityValueState)
   const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
   const [ sectionValueState, setSectionValueState ] = useState(defaultValueState)
   const [ neighborhoodValueState, setNeighborhoodValueState ] = useState(defaultValueState)
@@ -92,14 +92,12 @@ const ReportCreate = function() {
   // console.log(getValues())
 
   const getCategoryByIdService = ({value}) => {
-    console.log(value)
     setHierarchies({...hierarchies, category: value})
     getIncidentCategoryByIdService(value).then(({data}) => setDataTableCategories(data))
     getIncidentOrganizationByIdService(value).then(({data}) => setDataTableOrganizations(data))
   }
 
   const getSubCategoryByIdServiceByIdCategory = ({value}) => {
-    console.log(value)
     setHierarchies({...hierarchies, subCategory: value})
     getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
   }
@@ -109,31 +107,96 @@ const ReportCreate = function() {
   }
 
   const handleGetProvinceByIdRegion = (e) => {
-    console.log(e)
     setRegionValueState(e)
     setProvinceValueState(defaultValueState)
     setProvinceState([])
+    setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
+    setDistrictValueState(defaultValueState)
     setDistrictState([])
+    setSectionValueState(defaultValueState)
     setSectionState([])
+    setNeighborhoodValueState(defaultValueState)
     setNeighborhoodState([])
+    setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
     if(!e.value) return
     getProvinceByIdRegion(e.value).then(res => setProvinceState(res.data.data))
   }
 
   const handleGetMunicipalityByIdProvince = (e) => {
-    console.log(e)
     setProvinceValueState(e)
     setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
+    setDistrictValueState(defaultValueState)
     setDistrictState([])
+    setSectionValueState(defaultValueState)
     setSectionState([])
+    setNeighborhoodValueState(defaultValueState)
     setNeighborhoodState([])
+    setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
     if(!e.value) return
-    console.log(regionValueState.value, e.value)
     getMunicipalityByIdRegionByIdProvince(regionValueState.value, e.value).then(res => setMunicipalityState(res.data.data))
+  }
+
+  const handleGetDistrictByIdMunicipality = (e) => {
+    setMunicipalityValueState(e)
+    setDistrictValueState(defaultValueState)
+    setDistrictState([])
+    setSectionValueState(defaultValueState)
+    setSectionState([])
+    setNeighborhoodValueState(defaultValueState)
+    setNeighborhoodState([])
+    setSubNeighborhoodValueState(defaultValueState)
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    getDistrictByIdProvinceByIdMunicipality(regionValueState.value, provinceValueState.value, e.value)
+    .then(res => setDistrictState(res.data.data))
+  }
+
+  const handleGetSectionByIdDistrict = (e) => {
+    setDistrictValueState(e)
+    setSectionValueState(defaultValueState)
+    setSectionState([])
+    setNeighborhoodValueState(defaultValueState)
+    setNeighborhoodState([])
+    setSubNeighborhoodValueState(defaultValueState)
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    getSectionByIdMunicipalityByIdDistrict(regionValueState.value, provinceValueState.value, municipalityValueState.value, e.value)
+    .then(res => setSectionState(res.data.data))
+  }
+
+  const handleGetNeighborhoodByIdSection = (e) => {
+    setSectionValueState(e)
+    setNeighborhoodValueState(defaultValueState)
+    setNeighborhoodState([])
+    setSubNeighborhoodValueState(defaultValueState)
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    getNeighborhoodByIdDistrictByIdSection(
+      regionValueState.value, 
+      provinceValueState.value, 
+      municipalityValueState.value, 
+      districtValueState.value,
+      e.value
+    ).then(res => setNeighborhoodState(res.data.data))
+  }
+
+  const handleGetSubNeighborhoodByIdNeighborhood = (e) => {
+    setNeighborhoodValueState(e)
+    setSubNeighborhoodValueState(defaultValueState)
+    setSubNeighborhoodState([])
+    if(!e.value) return
+    getSubNeighborhoodByIdSectionByIdNeighborhood(
+      regionValueState.value,
+      provinceValueState.value, 
+      municipalityValueState.value, 
+      districtValueState.value,
+      sectionValueState.value,
+      e.value
+    ).then(res => setSubNeighborhoodState(res.data.data))
   }
 
   const onSubmit = async (data) => {
@@ -308,6 +371,7 @@ const ReportCreate = function() {
               name="municipio"
               theme={selectThemeColors}
               classNamePrefix="select"
+              onChange={e => handleGetDistrictByIdMunicipality(e)}
               isLoading={!municipalityState[0]}
               value={municipalityValueState}
               options={optionsCodeValueSelect(municipalityState)}
@@ -322,6 +386,7 @@ const ReportCreate = function() {
               name="distrito"
               theme={selectThemeColors}
               classNamePrefix="select"
+              onChange={e => handleGetSectionByIdDistrict(e)}
               isLoading={!districtState[0]}
               value={districtValueState}
               options={optionsCodeValueSelect(districtState)}
@@ -336,6 +401,7 @@ const ReportCreate = function() {
               name="seccion"
               theme={selectThemeColors}
               classNamePrefix="select"
+              onChange={e => handleGetNeighborhoodByIdSection(e)}
               isLoading={!sectionState[0]}
               value={sectionValueState}
               options={optionsCodeValueSelect(sectionState)}
@@ -350,6 +416,7 @@ const ReportCreate = function() {
               name="barrio"
               theme={selectThemeColors}
               classNamePrefix="select"
+              onChange={e => handleGetSubNeighborhoodByIdNeighborhood(e)}
               isLoading={!neighborhoodState[0]}
               value={neighborhoodValueState}
               options={optionsCodeValueSelect(neighborhoodState)}
@@ -357,16 +424,20 @@ const ReportCreate = function() {
           </FormGroup>
         </Col>
 
-        <InputApp
-          select
-          label="Sub-Barrio"
-          name="subBarrio"
-          selectOptions={subNeighborhoodState}
-          register={register}
-          control={control}
-          placeholder="Escribe el Sub-Barrio"
-          messageError={errors.name?.message && 'El Sub-Barrio es obligatorio'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Sub-Barrio</Label>
+            <Select
+              name="subBarrio"
+              theme={selectThemeColors}
+              classNamePrefix="select"
+              onChange={e => setSubNeighborhoodValueState(e)}
+              isLoading={!subNeighborhoodState[0]}
+              value={subNeighborhoodValueState}
+              options={optionsCodeValueSelect(subNeighborhoodState)}
+            />
+          </FormGroup>
+        </Col>
 
         <InputApp
           label="Residencial, calle, número"
