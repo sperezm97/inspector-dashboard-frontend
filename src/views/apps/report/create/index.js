@@ -38,6 +38,7 @@ import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/te
 import { getSectionByIdMunicipalityByIdDistrict } from '../../../../services/territories/section'
 import { getNeighborhoodByIdDistrictByIdSection } from '../../../../services/territories/neighborhood'
 import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../services/territories/subNeighborhood'
+import { sweetAlert } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
   // Incidente: yup.string().required().trim(),
@@ -103,7 +104,17 @@ const ReportCreate = function() {
   }
 
   const handleDataCedula = ({target}) => {
-    getInfoCedula(target.value).then(({data}) => setInfoCedulaState(data.payload))
+    getInfoCedula(target.value)
+      .then(({data}) => setInfoCedulaState(data.payload))
+      .catch(err => {
+        console.log(err)
+        setInfoCedulaState(null)
+        sweetAlert({
+          title: 'Error!',
+          text: 'La Cédula ingresada no es válida',
+          type: 'error'
+        })
+      })
   }
 
   const handleGetProvinceByIdRegion = (e) => {
