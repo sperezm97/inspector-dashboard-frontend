@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Cleave from 'cleave.js/react'
+import classnames from 'classnames'
 
 // ** Third Party Components
 import { User, MapPin, FileText, Image } from 'react-feather'
@@ -25,6 +26,7 @@ import 'uppy/dist/uppy.css'
 import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import '@styles/react/libs/react-select/_react-select.scss'
 
 import { getAllServicesActions } from '../../../../redux/actions/incidents/services'
 import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
@@ -41,24 +43,31 @@ import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../servi
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
-  // Incidente: yup.string().required().trim(),
+  incidente: yup.number().required(),
+  categoria: yup.number().required(),
+  subCategoria: yup.number().required(),
+  institucion: yup.number().required(),
+  name: yup.string().required(),
   // acronimo: yup.string().required().trim(),
   // phonenumber: yup.number().positive().integer().required(),
   // address: yup.string().required().trim(),
-})
+}).required()
 
 const ReportCreate = function() {
   const dispatch = useDispatch()
 
-  const [hierarchies, setHierarchies] = useState({
+  const initialHierarchies = {
     category: null,
     subCategory: null,
-  })
+  }
+
+  const [hierarchies, setHierarchies] = useState(initialHierarchies)
   const [ dataTableCategories, setDataTableCategories ] = useState([])
   const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
   
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  console.log(infoCedulaState)
   
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -86,24 +95,34 @@ const ReportCreate = function() {
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
   // ** React hook form vars
-  const { register, handleSubmit, errors, getValues, control } = useForm({
+  const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
     resolver: yupResolver(schema),
   })
 
-  // console.log(getValues())
+  console.log(getValues())
 
   const getCategoryByIdService = ({value}) => {
+    setValue("incidente", value)
     setHierarchies({...hierarchies, category: value})
+    setDataTableCategories([])
+    setDataTableSubCategories([])
+    setDataTableOrganizations([])
+    if(!value) return
     getIncidentCategoryByIdService(value).then(({data}) => setDataTableCategories(data))
     getIncidentOrganizationByIdService(value).then(({data}) => setDataTableOrganizations(data))
   }
 
   const getSubCategoryByIdServiceByIdCategory = ({value}) => {
+    setValue("categoria", value)
+    setDataTableSubCategories([])
+    if(!value) return
     setHierarchies({...hierarchies, subCategory: value})
     getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
   }
 
   const handleDataCedula = ({target}) => {
+    setInfoCedulaState(null)
+    if(target.value.length !== 11) return
     getInfoCedula(target.value)
       .then(({data}) => setInfoCedulaState(data.payload))
       .catch(err => {
@@ -227,71 +246,90 @@ const ReportCreate = function() {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Incidente</Label>
-            {/* <Controller
-              control={control}
-              name="Incidente"
-              onChange={getCategoryByIdIncident}
-              defaultValue={{value: '', label: 'Sin Seleccionar'}}
-              render={({ onChange, value, name }) => ( */}
-                <Select
-                  name="Incidente"
-                  theme={selectThemeColors}
-                  classNamePrefix="select"
+              <Controller
+                control={control}
+                name="incidente"
+                render={({field}) => <Select 
+                  {...field} 
                   onChange={e => getCategoryByIdService(e)}
+                  options={optionsIdValueSelect(servicesSelector)}
                   isLoading={!servicesSelector[0]}
                   defaultValue={defaultValueState}
-                  options={optionsIdValueSelect(servicesSelector)}
-                />
-              {/* )}
-            /> */}
+                  classNamePrefix="select"
+                  theme={selectThemeColors}
+                />}
+              />
+            <p className="text-danger">{
+              errors.incidente?.message && 'El Incidente es obligatorio'
+            }</p>
           </FormGroup>
-          <p className="text-danger">{
-            errors.Incidente?.message && 'El Incidente es obligatorio'
-          }</p>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Categoría</Label>
-            <Select
-              name="categoria"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
-              isLoading={!dataTableCategories[0]}
-              defaultValue={defaultValueState}
-              options={optionsIdValueSelect(dataTableCategories)}
-            />
+              <Controller
+                control={control}
+                name="categoria"
+                render={({field}) => <Select 
+                  {...field} 
+                  onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
+                  options={optionsIdValueSelect(dataTableCategories)}
+                  isLoading={!dataTableCategories[0]}
+                  defaultValue={defaultValueState}
+                  classNamePrefix="select"
+                  theme={selectThemeColors}
+                />}
+              />
+            <p className="text-danger">{
+              errors.categoria?.message && 'La Categoría es obligatoria'
+            }</p>
           </FormGroup>
-          {/* <p className="text-danger">{
-            errors.Incidente?.message && 'La Categoría es obligatoria'
-          }</p> */}
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Sub-Categorías</Label>
-            <Select
-              name="subCategoria"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              isLoading={!dataTableSubCategories[0]}
-              defaultValue={defaultValueState}
-              options={optionsIdValueSelect(dataTableSubCategories)}
-            />
+              <Controller
+                control={control}
+                name="subCategoria"
+                render={({field}) => <Select 
+                  {...field} 
+                  onChange={e => setValue("subCategoria", e.value)}
+                  options={optionsIdValueSelect(dataTableSubCategories)}
+                  isLoading={!dataTableSubCategories[0]}
+                  defaultValue={defaultValueState}
+                  classNamePrefix="select"
+                  theme={selectThemeColors}
+                />}
+              />
+            <p className="text-danger">{
+              errors.subCategoria?.message && 'La Sub-Categoría es obligatoria'
+            }</p>
           </FormGroup>
         </Col>
 
-        <InputApp
-          select
-          label="Institución"
-          name="institución"
-          selectOptions={dataTableOrganizations}
-          register={register}
-          control={control}
-          messageError={errors.name?.message && 'La Institución es obligatoria'}
-          placeholder="Escribe la Institución"
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Institución</Label>
+              <Controller
+                control={control}
+                name="institucion"
+                render={({field}) => <Select 
+                  {...field} 
+                  onChange={e => setValue("institucion", e.value)}
+                  options={optionsIdValueSelect(dataTableOrganizations)}
+                  isLoading={!dataTableOrganizations[0]}
+                  defaultValue={defaultValueState}
+                  classNamePrefix="select"
+                  theme={selectThemeColors}
+                />}
+              />
+            <p className="text-danger">{
+              errors.institucion?.message && 'La Institución es obligatoria'
+            }</p>
+          </FormGroup>
+        </Col>
 
         <Col sm="12">
           <h4 className="mb-1 mt-2">
@@ -315,6 +353,9 @@ const ReportCreate = function() {
               onBlur={e => handleDataCedula(e)}
               options={{ blocks: [11], numericOnly: true }}
             />
+            <p className="text-danger">{
+              errors.cedula?.message && 'La Cédula es obligatoria'
+            }</p>
           </FormGroup>
         </Col>
 
@@ -323,7 +364,7 @@ const ReportCreate = function() {
           label="Nombre Completo"
           name="name"
           register={register}
-          placeholder="Nombre..."
+          placeholder="Digita la cédula..."
           disabled
           defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
           messageError={errors.name?.message && 'El Nombre es obligatorio'}
@@ -335,7 +376,7 @@ const ReportCreate = function() {
           type="number"
           register={register}
           placeholder="Escribe el Teléfono"
-          messageError={errors.name?.message && 'El Teléfono es obligatorio'}
+          messageError={errors.telefono?.message && 'El Teléfono es obligatorio'}
         />
 
         <Col sm="12">
@@ -456,7 +497,7 @@ const ReportCreate = function() {
           type="text"
           register={register}
           placeholder="Escribe la dirección"
-          messageError={errors.name?.message && 'Campo obligatorio'}
+          messageError={errors.location?.message && 'Campo obligatorio'}
         />
 
         <Col sm="12">
