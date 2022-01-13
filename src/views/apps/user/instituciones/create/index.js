@@ -18,7 +18,7 @@ import InputApp from '../../../../../@core/components/input'
 import Avatar from '../../../../../@core/components/avatar'
 import CardGrid from '../../../../../@core/components/card-grid'
 import { IconInstitution } from '../../../../../@core/components/icons'
-import { selectThemeColors } from '../../../../../utility/Utils'
+import { optionsZammadIdValueSelect, selectThemeColors } from '../../../../../utility/Utils'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
@@ -28,20 +28,21 @@ import Url from '../../../../../constants/Url'
 import { postZammadOrganization } from '../../../../../services/zammad/organization'
 import { getAllRolsActions } from '../../../../../redux/actions/zammad/rols'
 import { getAllServicesActions } from '../../../../../redux/actions/incidents/services'
+import { getAllUsersActions } from '../../../../../redux/actions/zammad/users'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
   acronimo: yup.string().required().trim(),
-  phonenumber: yup.number().positive().integer().required(),
+  phonenumber: yup.string()
+    .required('El Teléfono es obligatorio')
+    .length(10, 'Debe tener exactamente 10 dígitos'),
   address: yup.string().required().trim(),
   email: yup.string().required().trim().email(),
   website: yup.string().required().trim(),
   cedula: yup.string().required().trim(),
   fullName: yup.string().required().trim(),
-  // rols: ,
-  dateBird: yup.string().required().trim(),
-  phone: yup.string().required().trim(),
-  emailEncargado: yup.string().required().trim().email(),
+  encargado: yup.number().required('El Encargado es obligatorio'),
+  servicio: yup.number().required('El Servicio es obligatorio'),
 })
 
 const institutionCreate = ({ history }) => {
@@ -52,19 +53,21 @@ const institutionCreate = ({ history }) => {
   // const [img, setImg] = useState(null)
   const [loadingState, setLoadingState] = useState(false)
 
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+
   useEffect(() => {
-    dispatch(getAllRolsActions())
     dispatch(getAllServicesActions())
+    dispatch(getAllUsersActions())
   }, [])
 
-  const rolSelector = useSelector((state) => state?.rols?.rols)
+  const usersSelector = useSelector((state) => state?.users?.users)
   const servicesSelector = useSelector((state) => state?.services?.services)
 
   // ** React hook form vars
-  const { register, handleSubmit, errors, control } = useForm({
+  const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
     resolver: yupResolver(schema),
   })
-  console.log(errors)
+  console.log(getValues())
 
   const onSubmit = async (data) => {
     return console.log(data)
@@ -153,37 +156,46 @@ const institutionCreate = ({ history }) => {
             errors.acronimo?.message && 'El Acrónimo es obligatorio'
           }
         />
-
-        <InputApp
-          select
-          label="Servicio"
-          name="service"
-          selectOptions={servicesSelector}
-          register={register}
-          control={control}
-          messageError={errors.name?.message && 'El Servicio es obligatorio'}
-        />
-
         <Col lg="4" md="6" sm="12">
-          <label htmlFor="date">Teléfono</label>
-          <Controller
+          <FormGroup>
+            <Label>Servicio</Label>
+            <Controller
               control={control}
-              name="phonenumber"
-              onChange={register}
-              render={({ onChange, name }) => (
-                <Cleave
-                  className="form-control"
-                  placeholder="809 220 1111"
-                  name={name}
-                  onChange={onChange}
-                  options={{ phone: true, phoneRegionCode: 'US' }}
-                  id="phone-number"
-                />
-              )}
+              name="servicio"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('servicio', e.value)}
+                options={optionsZammadIdValueSelect(servicesSelector)}
+                isLoading={!servicesSelector[0]}
+                defaultValue={defaultValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
             <p className="text-danger">{
-              errors.phonenumber?.message && 'El Teléfono es obligatorio'
+              errors.servicio?.message && errors.servicio?.message
             }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Teléfono</Label>
+            <Controller
+              control={control}
+              name="phonenumber"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe el Teléfono"
+                onChange={e => setValue("phonenumber", e.target.value)}
+                options={{ blocks: [10], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.phonenumber?.message && errors.phonenumber?.message
+            }</p>
+          </FormGroup>
         </Col>
 
         <InputApp
@@ -216,111 +228,30 @@ const institutionCreate = ({ history }) => {
           }
         />
 
-        <Col sm="12">
-          <h4 className="mb-1">
-            <User size={20} className="mr-50" />
-            <span className="align-middle">Encargado</span>
-          </h4>
-        </Col>
-
-        <InputApp
-          type="number"
-          label="Cédula de Identidad"
-          name="cedula"
-          register={register}
-          placeholder="Escribe la Cédula"
-          messageError={errors.cedula?.message && 'La Cédula es obligatoria'}
-        />
-
-        <InputApp
-          label="Nombre Completo"
-          name="fullName"
-          register={register}
-          placeholder="Escribe el Nombre Completo"
-          messageError={errors.fullName?.message && 'El Nombre Completo es obligatorio'}
-        />
-
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Permisos</Label>
+            <Label>Encargado</Label>
             <Controller
               control={control}
-              name="rols"
-              onChange={register}
-              render={({ onChange, name }) => (
-                <Select
-                  isMulti
-                  name={name}
-                  theme={selectThemeColors}
-                  className="basic-multi-select"
-                  classNamePrefix="select"
-                  onChange={onChange}
-                  options={rolSelector.map((dataMap) => ({
-                    value: dataMap.id,
-                    label: dataMap.name,
-                  }))}
-                />
-              )}
-            />
-          </FormGroup>
-          <p className="text-danger">{
-            errors.rols?.message && 'El Permiso es obligatorio'
-          }</p>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <label htmlFor="date">Fecha de Nacimiento</label>
-          <Controller
-              control={control}
-              name="dateBird"
-              onChange={register}
-              render={({ onChange, name }) => (
-              <Cleave
-                className="form-control"
-                placeholder="31-12-2000"
-                name={name}
-                onChange={onChange}
-                options={{ date: true, delimiter: '-', datePattern: ['d', 'm', 'Y'] }}
-                id="date"
-              />
-            )}
-          />
-          <p className="text-danger">{
-            errors.dateBird?.message && 'La Fecha de Nacimiento es obligatoria'
-          }</p>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <label htmlFor="date">Teléfono Móvil</label>
-          <Controller
-              control={control}
-              name="phone"
-              onChange={register}
-              render={({ onChange, name }) => (
-                <Cleave
-                  className="form-control"
-                  placeholder="809 220 1111"
-                  name={name}
-                  onChange={onChange}
-                  options={{ phone: true, phoneRegionCode: 'US' }}
-                  id="phone-number"
-                />
-              )}
+              name="encargado"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('encargado', e.value)}
+                options={usersSelector.map(data => ({
+                  value: data.id,
+                  label: `${data.firstname} ${data.lastname}`
+                }))}
+                isLoading={!usersSelector[0]}
+                defaultValue={defaultValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
             <p className="text-danger">{
-              errors.phone?.message && 'El Teléfono Móvil es obligatorio'
+              errors.encargado?.message && errors.encargado?.message
             }</p>
+          </FormGroup>
         </Col>
-
-        <InputApp
-          label="Correo Electrónico"
-          name="emailEncargado"
-          register={register}
-          placeholder="Escribe el Correo Electrónico"
-          messageError={
-            errors.emailEncargado?.message && 'El Correo Electrónico es obligatorio'
-          }
-        />
 
       </FormApp>
     </CardGrid>
