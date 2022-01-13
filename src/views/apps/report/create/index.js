@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import Cleave from 'cleave.js/react'
-import classnames from 'classnames'
 
 // ** Third Party Components
 import { User, MapPin, FileText, Image } from 'react-feather'
@@ -41,17 +39,7 @@ import { getSectionByIdMunicipalityByIdDistrict } from '../../../../services/ter
 import { getNeighborhoodByIdDistrictByIdSection } from '../../../../services/territories/neighborhood'
 import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../services/territories/subNeighborhood'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
-
-const schema = yup.object().shape({
-  incidente: yup.number().required(),
-  categoria: yup.number().required(),
-  subCategoria: yup.number().required(),
-  institucion: yup.number().required(),
-  name: yup.string().required(),
-  // acronimo: yup.string().required().trim(),
-  // phonenumber: yup.number().positive().integer().required(),
-  // address: yup.string().required().trim(),
-}).required()
+import { schemaYup } from './schemaYup'
 
 const ReportCreate = function() {
   const dispatch = useDispatch()
@@ -96,7 +84,7 @@ const ReportCreate = function() {
 
   // ** React hook form vars
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaYup),
   })
 
   console.log(getValues())
@@ -230,7 +218,7 @@ const ReportCreate = function() {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
+    alert(data)
   }
 
   return (
@@ -341,43 +329,53 @@ const ReportCreate = function() {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Cédula de Identidad</Label>
-            {/* <Input
-              type="number"
+            <Controller
+              control={control}
               name="cedula"
-              placeholder="Escribe la Cédula"
-              onBlur={e => handleDataCedula(e)}
-            /> */}
-            <Cleave
-              className="form-control"
-              placeholder="Escribe la Cédula"
-              onBlur={e => handleDataCedula(e)}
-              options={{ blocks: [11], numericOnly: true }}
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe la Cédula"
+                onChange={e => setValue("cedula", e.target.value)}
+                onBlur={e => handleDataCedula(e)}
+                options={{ blocks: [11], numericOnly: true }}
+              />}
             />
             <p className="text-danger">{
-              errors.cedula?.message && 'La Cédula es obligatoria'
+              errors.cedula?.message && errors.cedula?.message
             }</p>
           </FormGroup>
         </Col>
 
-
         <InputApp
           label="Nombre Completo"
-          name="name"
+          name="nombreC"
           register={register}
           placeholder="Digita la cédula..."
           disabled
           defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
-          messageError={errors.name?.message && 'El Nombre es obligatorio'}
+          messageError={errors.cedula?.message && 'El Nombre es obligatorio'}
         />
 
-        <InputApp
-          label="Teléfono"
-          name="telefono"
-          type="number"
-          register={register}
-          placeholder="Escribe el Teléfono"
-          messageError={errors.telefono?.message && 'El Teléfono es obligatorio'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Teléfono</Label>
+            <Controller
+              control={control}
+              name="telefono"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe el Teléfono"
+                onChange={e => setValue("telefono", e.target.value)}
+                options={{ blocks: [10], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.telefono?.message && errors.telefono?.message
+            }</p>
+          </FormGroup>
+        </Col>
 
         <Col sm="12">
           <h4 className="mb-1 mt-2">
