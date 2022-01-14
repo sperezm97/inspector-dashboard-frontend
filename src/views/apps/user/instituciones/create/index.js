@@ -10,11 +10,9 @@ import * as yup from 'yup'
 import Select from 'react-select'
 import Cleave from 'cleave.js/react'
 
-import { Col, FormGroup, Label } from 'reactstrap'
-import { Button } from 'reactstrap'
-import { Plus } from 'react-feather'
+import { Col, FormGroup, Label , Button } from 'reactstrap'
+import { Plus , User } from 'react-feather'
 
-import { User } from 'react-feather'
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
 import Avatar from '../../../../../@core/components/avatar'
@@ -244,7 +242,7 @@ const institutionCreate = ({ history }) => {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label></Label>
+            <Label />
             <div>
               <Button.Ripple 
                 outline 
