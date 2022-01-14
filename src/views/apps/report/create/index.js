@@ -125,6 +125,7 @@ const ReportCreate = function() {
   }
 
   const handleGetProvinceByIdRegion = (e) => {
+    setValue('region', e.value)
     setRegionValueState(e)
     setProvinceValueState(defaultValueState)
     setProvinceState([])
@@ -143,6 +144,7 @@ const ReportCreate = function() {
   }
 
   const handleGetMunicipalityByIdProvince = (e) => {
+    setValue('provincia', e.value)
     setProvinceValueState(e)
     setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
@@ -159,6 +161,7 @@ const ReportCreate = function() {
   }
 
   const handleGetDistrictByIdMunicipality = (e) => {
+    setValue('municipio', e.value)
     setMunicipalityValueState(e)
     setDistrictValueState(defaultValueState)
     setDistrictState([])
@@ -174,6 +177,7 @@ const ReportCreate = function() {
   }
 
   const handleGetSectionByIdDistrict = (e) => {
+    setValue('distrito', e.value)
     setDistrictValueState(e)
     setSectionValueState(defaultValueState)
     setSectionState([])
@@ -187,6 +191,7 @@ const ReportCreate = function() {
   }
 
   const handleGetNeighborhoodByIdSection = (e) => {
+    setValue('seccion', e.value)
     setSectionValueState(e)
     setNeighborhoodValueState(defaultValueState)
     setNeighborhoodState([])
@@ -203,6 +208,7 @@ const ReportCreate = function() {
   }
 
   const handleGetSubNeighborhoodByIdNeighborhood = (e) => {
+    setValue('barrio', e.value)
     setNeighborhoodValueState(e)
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
@@ -248,7 +254,7 @@ const ReportCreate = function() {
                 />}
               />
             <p className="text-danger">{
-              errors.incidente?.message && 'El Incidente es obligatorio'
+              errors.incidente?.message && errors.incidente?.message
             }</p>
           </FormGroup>
         </Col>
@@ -270,7 +276,7 @@ const ReportCreate = function() {
                 />}
               />
             <p className="text-danger">{
-              errors.categoria?.message && 'La Categoría es obligatoria'
+              errors.categoria?.message && errors.categoria?.message
             }</p>
           </FormGroup>
         </Col>
@@ -292,7 +298,7 @@ const ReportCreate = function() {
                 />}
               />
             <p className="text-danger">{
-              errors.subCategoria?.message && 'La Sub-Categoría es obligatoria'
+              errors.subCategoria?.message && errors.subCategoria?.message
             }</p>
           </FormGroup>
         </Col>
@@ -314,7 +320,7 @@ const ReportCreate = function() {
                 />}
               />
             <p className="text-danger">{
-              errors.institucion?.message && 'La Institución es obligatoria'
+              errors.institucion?.message && errors.institucion?.message
             }</p>
           </FormGroup>
         </Col>
@@ -387,115 +393,164 @@ const ReportCreate = function() {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Región</Label>
-            <Select
+            <Controller
+              control={control}
               name="region"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetProvinceByIdRegion(e)}
-              isLoading={!regionSelector[0]}
-              defaultValue={regionValueState}
-              options={optionsCodeValueSelect(regionSelector)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetProvinceByIdRegion(e)}
+                options={optionsCodeValueSelect(regionSelector)}
+                isLoading={!regionSelector[0]}
+                defaultValue={regionValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.region?.message && errors.region?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Provincia</Label>
-            <Select
+            <Controller
+              control={control}
               name="provincia"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetMunicipalityByIdProvince(e)}
-              isLoading={!provinceState[0]}
-              value={provinceValueState}
-              options={optionsCodeValueSelect(provinceState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetMunicipalityByIdProvince(e)}
+                options={optionsCodeValueSelect(provinceState)}
+                isLoading={!provinceState[0]}
+                defaultValue={provinceValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.provincia?.message && errors.provincia?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Municipio</Label>
-            <Select
+            <Controller
+              control={control}
               name="municipio"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetDistrictByIdMunicipality(e)}
-              isLoading={!municipalityState[0]}
-              value={municipalityValueState}
-              options={optionsCodeValueSelect(municipalityState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetDistrictByIdMunicipality(e)}
+                options={optionsCodeValueSelect(municipalityState)}
+                isLoading={!municipalityState[0]}
+                defaultValue={municipalityValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.municipio?.message && errors.municipio?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Distrito</Label>
-            <Select
+            <Controller
+              control={control}
               name="distrito"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetSectionByIdDistrict(e)}
-              isLoading={!districtState[0]}
-              value={districtValueState}
-              options={optionsCodeValueSelect(districtState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetSectionByIdDistrict(e)}
+                options={optionsCodeValueSelect(districtState)}
+                isLoading={!districtState[0]}
+                defaultValue={districtValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.distrito?.message && errors.distrito?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Sección</Label>
-            <Select
+            <Controller
+              control={control}
               name="seccion"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetNeighborhoodByIdSection(e)}
-              isLoading={!sectionState[0]}
-              value={sectionValueState}
-              options={optionsCodeValueSelect(sectionState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetNeighborhoodByIdSection(e)}
+                options={optionsCodeValueSelect(sectionState)}
+                isLoading={!sectionState[0]}
+                defaultValue={sectionValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.seccion?.message && errors.seccion?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Barrio</Label>
-            <Select
+            <Controller
+              control={control}
               name="barrio"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => handleGetSubNeighborhoodByIdNeighborhood(e)}
-              isLoading={!neighborhoodState[0]}
-              value={neighborhoodValueState}
-              options={optionsCodeValueSelect(neighborhoodState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetSubNeighborhoodByIdNeighborhood(e)}
+                options={optionsCodeValueSelect(neighborhoodState)}
+                isLoading={!neighborhoodState[0]}
+                defaultValue={neighborhoodValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.barrio?.message && errors.barrio?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Sub-Barrio</Label>
-            <Select
+            <Controller
+              control={control}
               name="subBarrio"
-              theme={selectThemeColors}
-              classNamePrefix="select"
-              onChange={e => setSubNeighborhoodValueState(e)}
-              isLoading={!subNeighborhoodState[0]}
-              value={subNeighborhoodValueState}
-              options={optionsCodeValueSelect(subNeighborhoodState)}
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('subBarrio', e.value)}
+                options={optionsCodeValueSelect(subNeighborhoodState)}
+                isLoading={!subNeighborhoodState[0]}
+                defaultValue={subNeighborhoodValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
             />
+            <p className="text-danger">{
+              errors.subBarrio?.message && errors.subBarrio?.message
+            }</p>
           </FormGroup>
         </Col>
 
         <InputApp
           label="Residencial, calle, número"
-          name="location"
+          name="direccion"
           type="text"
           register={register}
-          placeholder="Escribe la dirección"
-          messageError={errors.location?.message && 'Campo obligatorio'}
+          placeholder="Escribe la dirección..."
+          messageError={errors.direccion?.message && errors.direccion?.message}
         />
 
         <Col sm="12">
@@ -509,14 +564,17 @@ const ReportCreate = function() {
         </Col>
         <Col sm="12">
           <FormGroup>
-            <Label for="Description">Descripción</Label>
+            <Label for="descripcion">Descripción</Label>
             <Input
               type="text"
-              id="Description"
-              name="Description"
+              id="descripcion"
+              name="descripcion"
               innerRef={register()}
               placeholder="Digite información relevante para el reporte"
             />
+            <p className="text-danger">{
+              errors.descripcion?.message && errors.descripcion?.message
+            }</p>
           </FormGroup>
         </Col>
       </FormApp>
