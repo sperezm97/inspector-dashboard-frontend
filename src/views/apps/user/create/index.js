@@ -34,23 +34,7 @@ import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/terr
 import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
 import { getInfoCedula } from '../../../../services/cedula'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
-
-const schema = yup.object().shape({
-  firstName: yup.string().required().trim(),
-  lastName: yup.string().required().trim(),
-  email: yup.string().required().trim().email(),
-  cedula: yup.string()
-    .required('La Cédula es obligatoria')
-    .length(11, 'Debe tener exactamente 11 dígitos'),
-  phone: yup.number().required(),
-  password: yup.string().required().trim(),
-  cPassword: yup.string().required().trim().oneOf([yup.ref('password')], 'Passwords must and should match'),
-  institucion: yup.string().required(),
-  region: yup.string().required(),
-  provincia: yup.string().required(),
-  municipio: yup.string().required(),
-  distrito: yup.string().required(),
-})
+import { schemaYup } from './schemaYup'
 
 const UserCreate = function() {
   const dispatch = useDispatch()
@@ -83,7 +67,7 @@ const UserCreate = function() {
   const regionSelector = useSelector((state) => state?.regions?.regions)
   
   const { register, handleSubmit, errors, control, getValues, setValue } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaYup),
   })
 
   console.log(getValues())
@@ -211,18 +195,29 @@ const UserCreate = function() {
           register={register}
           placeholder="Escribe el Correo Electrónico"
           messageError={
-            errors.email?.message && 'El Correo Electrónico es obligatorio'
+            errors.email?.message && errors.email?.message
           }
         />
 
-        <InputApp
-          type="number"
-          label="Teléfono"
-          name="phone"
-          register={register}
-          placeholder="Escribe el Teléfono"
-          messageError={errors.phone?.message && 'El Teléfono es obligatorio'}
-        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Teléfono</Label>
+            <Controller
+              control={control}
+              name="phone"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe el Teléfono"
+                onChange={e => setValue("phone", e.target.value)}
+                options={{ blocks: [10], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.phone?.message && errors.phone?.message
+            }</p>
+          </FormGroup>
+        </Col>
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
@@ -251,7 +246,7 @@ const UserCreate = function() {
             <Label>Permisos</Label>
             <Controller
               control={control}
-              name="rols"
+              name="permisos"
               onChange={register}
               render={({ onChange, name }) => (
                 <Select
@@ -265,9 +260,14 @@ const UserCreate = function() {
                     value: dataMap.id,
                     label: dataMap.name,
                   }))}
+                  isLoading={!rolSelector[0]}
+                  placeholder={defaultValueState.label}
                 />
               )}
             />
+            <p className="text-danger">{
+              errors.permisos?.message && errors.permisos?.message
+            }</p>
           </FormGroup>
         </Col>
 
@@ -366,7 +366,7 @@ const UserCreate = function() {
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={
-            errors.password?.message && 'La Contraseña es obligatoria'
+            errors.password?.message && errors.password?.message
           }
         />
 
@@ -377,7 +377,7 @@ const UserCreate = function() {
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={
-            errors.cPassword?.message && 'Las Contraseñas no coinciden'
+            errors.cPassword?.message && errors.cPassword?.message
           }
         />
       </FormApp>
