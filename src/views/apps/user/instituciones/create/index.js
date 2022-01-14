@@ -11,6 +11,8 @@ import Select from 'react-select'
 import Cleave from 'cleave.js/react'
 
 import { Col, FormGroup, Label } from 'reactstrap'
+import { Button } from 'reactstrap'
+import { Plus } from 'react-feather'
 
 import { User } from 'react-feather'
 import FormApp from '../../../../../@core/components/form'
@@ -18,6 +20,7 @@ import InputApp from '../../../../../@core/components/input'
 import Avatar from '../../../../../@core/components/avatar'
 import CardGrid from '../../../../../@core/components/card-grid'
 import { IconInstitution } from '../../../../../@core/components/icons'
+import { ButtonRipple } from '../../../../../@core/components/button'
 import { optionsZammadIdValueSelect, selectThemeColors } from '../../../../../utility/Utils'
 
 // ** Styles
@@ -29,21 +32,7 @@ import { postZammadOrganization } from '../../../../../services/zammad/organizat
 import { getAllRolsActions } from '../../../../../redux/actions/zammad/rols'
 import { getAllServicesActions } from '../../../../../redux/actions/incidents/services'
 import { getAllUsersActions } from '../../../../../redux/actions/zammad/users'
-
-const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-  acronimo: yup.string().required().trim(),
-  phonenumber: yup.string()
-    .required('El Teléfono es obligatorio')
-    .length(10, 'Debe tener exactamente 10 dígitos'),
-  address: yup.string().required().trim(),
-  email: yup.string().required().trim().email(),
-  website: yup.string().required().trim(),
-  cedula: yup.string().required().trim(),
-  fullName: yup.string().required().trim(),
-  encargado: yup.number().required('El Encargado es obligatorio'),
-  servicio: yup.number().required('El Servicio es obligatorio'),
-})
+import { schemaYup } from './schemaYup'
 
 const institutionCreate = ({ history }) => {
 
@@ -65,7 +54,7 @@ const institutionCreate = ({ history }) => {
 
   // ** React hook form vars
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaYup),
   })
   console.log(getValues())
 
@@ -144,7 +133,7 @@ const institutionCreate = ({ history }) => {
           name="name"
           register={register}
           placeholder="Escribe la Institución"
-          messageError={errors.name?.message && 'La Institución es obligatoria'}
+          messageError={errors.name?.message && errors.name?.message}
         />
 
         <InputApp
@@ -204,7 +193,7 @@ const institutionCreate = ({ history }) => {
           register={register}
           placeholder="Escribe la Dirección"
           messageError={
-            errors.address?.message && 'La Dirección es obligatoria'
+            errors.address?.message && errors.address?.message
           }
         />
 
@@ -214,7 +203,7 @@ const institutionCreate = ({ history }) => {
           register={register}
           placeholder="Escribe el Correo Electrónico"
           messageError={
-            errors.email?.message && 'El Correo Electrónico es obligatorio'
+            errors.email?.message && errors.email?.message
           }
         />
 
@@ -224,7 +213,7 @@ const institutionCreate = ({ history }) => {
           register={register}
           placeholder="Escribe el Sitio Web"
           messageError={
-            errors.website?.message && 'El Sitio Web es obligatorio'
+            errors.website?.message && errors.website?.message
           }
         />
 
@@ -250,6 +239,22 @@ const institutionCreate = ({ history }) => {
             <p className="text-danger">{
               errors.encargado?.message && errors.encargado?.message
             }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label></Label>
+            <div>
+              <Button.Ripple 
+                outline 
+                color='primary'
+                onClick={() => history.push(Url.userCreate)}  
+              >
+                <Plus size={14} />
+                <span className='align-middle ml-25'>Añadir Usuario</span>
+              </Button.Ripple>
+            </div>
           </FormGroup>
         </Col>
 
