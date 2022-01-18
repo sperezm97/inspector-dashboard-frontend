@@ -1,13 +1,12 @@
 import Select from 'react-select'
 
-import { statusTickets } from '../../../../@core/components/status'
+import { statusTickets , statusPriority } from '../../../../@core/components/status'
 
 import {
   rowActions,
   rowClient,
   rowInstitution,
 } from '../../../../@core/components/table/commonColumns'
-import { statusPriority } from '../../../../@core/components/status'
 import { formatDate, selectThemeColors } from '../../../../utility/Utils'
 import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
 import { putUpdateStateTicket } from '../../../../services/zammad/ticket'
