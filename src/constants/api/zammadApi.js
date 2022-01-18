@@ -1,4 +1,5 @@
 export const zammadApi = {
+  tickets: 'tickets',
   allTickets: 'ticket_overviews?view=all',
   ticketsByDate: 'tickets/search?query=created_at:',
   ticketsByState: 'tickets/search?query=state_id:',
@@ -6,6 +7,7 @@ export const zammadApi = {
 
   users: 'users',
   userMe: 'users/me?expand=true',
+  userByCedula: 'users/search?query=cedula:',
 
   allUsers: 'users?expand=true',
 

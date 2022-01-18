@@ -40,8 +40,10 @@ import { getNeighborhoodByIdDistrictByIdSection } from '../../../../services/ter
 import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../services/territories/subNeighborhood'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
+import { postTicketValidateUser } from '../../../../services/zammad/ticket'
+import Url from '../../../../constants/Url'
 
-const ReportCreate = function() {
+const ReportCreate = function({history}) {
   const dispatch = useDispatch()
 
   const initialHierarchies = {
@@ -86,8 +88,6 @@ const ReportCreate = function() {
   const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
     resolver: yupResolver(schemaYup),
   })
-
-  console.log(getValues())
 
   const getCategoryByIdService = ({value}) => {
     setValue("incidente", value)
@@ -224,7 +224,24 @@ const ReportCreate = function() {
   }
 
   const onSubmit = async (data) => {
-    alert(data)
+    console.log(data)
+    postTicketValidateUser(data)
+      .then((res) => {
+        sweetAlert({
+          title: 'Reporte creado',
+          text: 'Reporte creado con éxito.',
+          type: 'success'
+        })
+        history.push(Url.dashboardInbox)
+      })
+      .catch(err => {
+        sweetAlert({
+          title: 'Error!',
+          text: 'Ocurrió un error al crear el Reporte.',
+          type: 'error'
+        })
+        console.log('error: ', err.response)
+      })
   }
 
   return (
@@ -289,7 +306,7 @@ const ReportCreate = function() {
                 name="subCategoria"
                 render={({field}) => <Select 
                   {...field} 
-                  onChange={e => setValue("subCategoria", e.value)}
+                  onChange={e => setValue("subCategoria", e)}
                   options={optionsIdValueSelect(dataTableSubCategories)}
                   isLoading={!dataTableSubCategories[0]}
                   defaultValue={defaultValueState}
@@ -360,7 +377,7 @@ const ReportCreate = function() {
           placeholder="Digita la cédula..."
           disabled
           defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
-          messageError={errors.cedula?.message && 'El Nombre es obligatorio'}
+          messageError={errors.cedula?.message && errors.cedula?.message}
         />
 
         <Col lg="4" md="6" sm="12">

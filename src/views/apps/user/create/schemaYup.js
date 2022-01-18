@@ -4,7 +4,7 @@ export const schemaYup = yup.object().shape({
   cedula: yup.string()
     .required('La Cédula es obligatoria')
     .length(11, 'Debe tener exactamente 11 dígitos'),
-  nombreC: yup.string().required('El Nombre es obligatorio'),
+  // nombreC: yup.string().required('El Nombre es obligatorio'),
   email: yup.string().trim()
     .required('El Correo Electrónico es obligatorio')
     .email('El Correo Electrónico no es válido'),

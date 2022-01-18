@@ -1,20 +1,10 @@
 import { zammadAxios } from '../../../configs/axios'
 import { zammadApi } from '../../../constants/api/zammadApi'
 
-export const postUser = async (dataObj) => {
-  let dataPost = []
-  let loading = false
-  let error = false
+export const postUser = async (dataObj) => await zammadAxios.post(zammadApi.users, dataObj)
 
-  try {
-    loading = true
-    dataPost = await zammadAxios.post(zammadApi.users, dataObj)
-  } catch (err) {
-    console.log(err)
-    error = true
-  } finally {
-    loading = false
-  }
+export const putUser = async (dataObj) => await zammadAxios.put(`${zammadApi.users}/${dataObj.id}`, dataObj)
 
-  return { dataPost, loading, error }
-}
+export const getUserMe = async () => await zammadAxios.get(zammadApi.userMe)
+
+export const getUserByCedula = async (id) => await zammadAxios.get(`${zammadApi.userByCedula}${id}`)

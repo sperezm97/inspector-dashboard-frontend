@@ -35,11 +35,12 @@ import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/te
 import { getInfoCedula } from '../../../../services/cedula'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
+import Url from '../../../../constants/Url'
 
-const UserCreate = function() {
+const UserCreate = function({history}) {
   const dispatch = useDispatch()
 
-  const [loadingState, setLoadingState] = useState(false)
+  const [loadingCreate, setLoadingCreate] = useState(false)
 
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
 
@@ -123,24 +124,35 @@ const UserCreate = function() {
   }
 
   const onSubmit = async (data) => {
-    console.log('data', data)
-    return
+    // console.log('data', data)
     const objZammad = {
-      firstname: data.firstName,
-      lastname: data.lastName,
+      cedula: data.cedula,
+      firstname: infoCedulaState.names,
+      lastname: `${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
       email: data.email,
       login: data.email,
-      organization: data.institucion.label,
-      roles: data.rols.map((data) => data.label),
-      cedula: data.cedula,
       phone: data.phone,
-      zone: data.provincia.value,
-      password: data.password,
+      organization: parseInt(data.institucion),
+      role_ids: data.permisos.map((data) => data.value),
+      zone: data.region + data.provincia + data.municipio + data.distrito,
+      password: data.cPassword,
     }
 
     console.log('objZammad', objZammad)
-    const { dataPost, loading, error } = postUser(objZammad)
-    console.log('dataPost, loading, error', dataPost, loading, error)
+    setLoadingCreate(true)
+    postUser(objZammad)
+      .then((res) => {
+        history.push(Url.user)
+        console.log(res)
+      })
+      .catch(() => {
+        setLoadingCreate(false)
+        sweetAlert({
+          title: 'Error!',
+          text: 'Ocurrió un error al crear el usuario.',
+          type: 'error'
+        })
+      })
   }
 
   return (
@@ -148,7 +160,7 @@ const UserCreate = function() {
       <FormApp
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
-        loading={loadingState}
+        loading={loadingCreate}
       >
         <Col sm="12">
           <h4 className="mb-1">
