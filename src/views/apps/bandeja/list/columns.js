@@ -1,4 +1,5 @@
 import Select from 'react-select'
+import { Link } from 'react-router-dom'
 
 import { statusTickets , statusPriority } from '../../../../@core/components/status'
 
@@ -9,7 +10,18 @@ import {
 } from '../../../../@core/components/table/commonColumns'
 import { formatDate, selectThemeColors } from '../../../../utility/Utils'
 import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
-import { putUpdateStateTicket } from '../../../../services/zammad/ticket'
+import { putUpdateStatusTicket } from '../../../../services/zammad/ticket'
+import Url from '../../../../constants/Url'
+
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Badge,
+} from 'reactstrap'
+import { MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { sweetAlertGood } from '../../../../@core/components/sweetAlert'
 
 
 const handleChangeStatus = (e, ticket) => {
@@ -19,8 +31,8 @@ const handleChangeStatus = (e, ticket) => {
     id: ticket,
     state_id: e.value
   }
-  putUpdateStateTicket(dataObj)
-    .then(res => console.log(res))
+  putUpdateStatusTicket(dataObj)
+    .then(res => sweetAlertGood())
     .catch((err) => {
       sweetAlert({
         title: 'Error!',
@@ -134,6 +146,34 @@ export const columns = [
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => rowActions(row.id),
+    cell: (row) => (
+      <UncontrolledDropdown>
+        <DropdownToggle tag="div" className="btn btn-sm">
+            <MoreVertical size={14} className="cursor-pointer" />
+        </DropdownToggle>
+        <DropdownMenu right>
+            {/* <DropdownItem
+                tag={Link}
+                to={`${url?.details}/${rowId}`}
+                className="w-100"
+                >
+                <FileText size={14} className="mr-50" />
+                <span className="align-middle">Detalles</span>
+            </DropdownItem> */}
+            <DropdownItem
+                tag={Link}
+                to={`${Url.dashboardInbox}/${row.id}`}
+                className="w-100"
+                >
+                <Archive size={14} className="mr-50" />
+                <span className="align-middle">Detalles</span>
+            </DropdownItem>
+            {/* <DropdownItem className="w-100">
+                <Trash2 size={14} className="mr-50" />
+                <span className="align-middle">Borrar</span>
+            </DropdownItem> */}
+        </DropdownMenu>
+    </UncontrolledDropdown>
+    )
   },
 ]

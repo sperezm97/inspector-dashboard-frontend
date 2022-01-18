@@ -6,6 +6,7 @@ import { Send, FileText } from 'react-feather'
 import { Card, CardHeader, Form, InputGroup, Input, Button } from 'reactstrap'
 
 import '@styles/base/pages/app-chat-list.scss'
+import { formatDate } from '../../../../utility/Utils'
 
 const data = {
   chat: {
@@ -72,7 +73,7 @@ const data = {
   },
 }
 
-const CardChat = function() {
+const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handlePostTicketArticles}) {
   const [msg, setMsg] = useState('')
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
@@ -85,83 +86,98 @@ const CardChat = function() {
     }
 
     const formattedChatLog = []
-    let chatMessageSenderId = chatLog[0] ? chatLog[0].senderId : undefined
+    let chatMessageSenderId = dataTicketArticles[0] ? dataUserMe.id : undefined
     let msgGroup = {
       senderId: chatMessageSenderId,
       messages: [],
     }
-    chatLog.forEach((msg, index) => {
-      if (chatMessageSenderId === msg.senderId) {
+    dataTicketArticles.forEach((msg, index) => {
+      if (chatMessageSenderId === msg.created_by_id) {
         msgGroup.messages.push({
-          msg: msg.message,
-          time: msg.time,
+          from: msg.from,
+          msg: msg.body,
+          time: formatDate(msg.created_at),
         })
       } else {
-        chatMessageSenderId = msg.senderId
+        chatMessageSenderId = msg.created_by_id
         formattedChatLog.push(msgGroup)
         msgGroup = {
-          senderId: msg.senderId,
+          senderId: msg.created_by_id,
           messages: [
             {
-              msg: msg.message,
-              time: msg.time,
+              from: msg.from,
+              msg: msg.body,
+              time: formatDate(msg.created_at),
             },
           ],
         }
       }
-      if (index === chatLog.length - 1) formattedChatLog.push(msgGroup)
+      if (index === dataTicketArticles.length - 1) formattedChatLog.push(msgGroup)
     })
     return formattedChatLog
   }
 
   //* * Renders user chat
   const renderChats = () =>
-    formattedChatData().map((item, index) => (
-      <div
-        key={index}
-        className={classnames('chat', {
-          'chat-left ': item.senderId !== 11,
-        })}
-      >
-        <div className="chat-avatar header-profile-sidebar adove">
-          {item.senderId !== 11 && (
-            <>
-              <Avatar
-                className=" cursor-pointer"
-                img={item.senderId !== 11 && chatData.contact.avatar}
-              />
-              <span className="font-weight-bolder align-text-top">
-                {item.senderId !== 11 && chatData.contact.rol}
-              </span>
-              .
-              <span className="align-text-top mr-3 user-post">
-                {' '}
-                {item.senderId !== 11 && chatData.contact.fullName}
-              </span>
-            </>
-          )}
-        </div>
-
+    formattedChatData().map((item, index) => {
+      return (
         <div
-          className={classnames('chat-body', {
-            'chat-body below mt-3': item.senderId !== 11,
+          key={index}
+          className={classnames('chat', {
+            'chat-left ': item.senderId !== dataUserMe.id,
           })}
         >
-          {item.messages.map((chat) => (
-            <div key={chat.msg} className="chat-content">
-              <p className="mb-1">{chat.msg}</p>
-              <small
-                className={classnames('', {
-                  'position-left': item.senderId !== 11,
-                })}
-              >
-                {chat.time}
-              </small>
-            </div>
-          ))}
+          {/* <div className="chat-avatar header-profile-sidebar adove">
+            {item.senderId !== 352 && (
+              <>
+                <Avatar
+                  className=" cursor-pointer"
+                  img={item.senderId !== 11 && chatData.contact.avatar}
+                />
+                <span className="font-weight-bolder align-text-top">
+                  asd left
+                </span>
+                .
+                <span className="align-text-top mr-3 user-post">
+                  {' '}
+                  {item.senderId !== 11 && chatData.contact.fullName}
+                </span>
+              </>
+            )}
+          </div> */}
+
+          <div
+            className={classnames('chat-body', {
+              'chat-body below': item.senderId !== dataUserMe.id,
+            })}
+          >
+            {item.messages.map((chat) => (
+              <div key={chat.msg} className="row d-flex">
+                {item.senderId !== dataUserMe.id &&
+                  <div className="col-12" style={{marginBottom: '5px'}}>
+                    <span className="font-weight-bolder align-text-top">
+                      {chat.from}
+                    </span>
+                  </div>
+                }
+                <div className="col-12">
+                  <div className="chat-content">
+                    <p className="mb-1">{chat.msg}</p>
+                    <small
+                      className={classnames('text-muted', {
+                        'position-left': item.senderId !== dataUserMe.id,
+                      })}
+                      >
+                      {chat.time}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    ))
+      )
+    })
 
   //* * Scroll to chat bottom
   const scrollToBottom = () => {
@@ -177,15 +193,14 @@ const CardChat = function() {
   const handleSendMsg = (e) => {
     e.preventDefault()
     if (msg.trim().length) {
-      const newMsg = chatData
-
-      newMsg.chat.chat.push({
-        message: msg,
-        time: Date.now(),
-        senderId: 11,
-      })
-
-      setChatData(newMsg)
+      const dataObj = {
+        ticket_id: dataTicketId,
+        subject: null,
+        body: msg,
+        type: 'note',
+        attachments: []
+      }
+      handlePostTicketArticles(dataObj)
       setMsg('')
     }
   }
@@ -195,7 +210,7 @@ const CardChat = function() {
       <CardHeader>
         <div className="d-flex align-items-center">
           <FileText />
-          <h5 className="mb-0 ml-1">Información del reporte</h5>
+          <h5 className="mb-0 ml-1">Información del Reporte</h5>
         </div>
       </CardHeader>
       <div className="chat-app-window">
