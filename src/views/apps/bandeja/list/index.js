@@ -47,24 +47,11 @@ const Bandeja = function() {
 
   // const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
-  const regionRef = useRef({
-    value: '',
-    label: 'Seleccionar Región',
-  })
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
-  const provinciaRef = useRef({
-    value: '',
-    label: 'Seleccionar Provincia',
-  })
-
-  const municipioRef = useRef({
-    value: '',
-    label: 'Seleccionar Municipio',
-  })
-
-  const [regionState, setRegionState] = useState(regionRef.current)
-  const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
-  const [municipioState, setMunicipioState] = useState(municipioRef.current)
+  const [regionState, setRegionState] = useState(defaultValueState)
+  const [provinciaState, setProvinciaState] = useState(defaultValueState)
+  const [municipioState, setMunicipioState] = useState(defaultValueState)
 
   const [dataTable, setDataTable] = useState([])
 
@@ -77,9 +64,9 @@ const Bandeja = function() {
       setRegionState({ value, label })
       filterTickets(value, 2)
     } else {
-      setRegionState(regionRef.current)
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
+      setRegionState(defaultValueState)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       setDataTable(dataTableTickets)
     }
 
@@ -91,8 +78,8 @@ const Bandeja = function() {
       setProvinciaState({ value, label })
       filterTickets(regionState.value + value, 4)
     } else {
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       filterTickets(regionState.value, 2)
     }
 
@@ -106,7 +93,7 @@ const Bandeja = function() {
       setMunicipioState({ value, label })
       filterTickets(regionState.value + provinciaState.value + value, 6)
     } else {
-      setMunicipioState(municipioRef.current)
+      setMunicipioState(defaultValueState)
       filterTickets(regionState.value + provinciaState.value, 4)
     }
   }
