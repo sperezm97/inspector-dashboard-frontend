@@ -7,4 +7,6 @@ export const putUser = async (dataObj) => await zammadAxios.put(`${zammadApi.use
 
 export const getUserMe = async () => await zammadAxios.get(zammadApi.userMe)
 
+export const getUserById = async (id) => await zammadAxios.get(zammadApi.userById(id))
+
 export const getUserByCedula = async (id) => await zammadAxios.get(`${zammadApi.userByCedula}${id}`)
