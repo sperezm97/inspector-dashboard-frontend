@@ -1,6 +1,14 @@
 import Select from 'react-select'
 import { Link } from 'react-router-dom'
 
+import {
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Badge,
+} from 'reactstrap'
+import { MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { statusTickets , statusPriority } from '../../../../@core/components/status'
 
 import {
@@ -13,14 +21,6 @@ import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
 import { putUpdateStatusTicket } from '../../../../services/zammad/ticket'
 import Url from '../../../../constants/Url'
 
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Badge,
-} from 'reactstrap'
-import { MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { sweetAlertGood } from '../../../../@core/components/sweetAlert'
 
 

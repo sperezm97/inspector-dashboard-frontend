@@ -119,8 +119,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
 
   //* * Renders user chat
   const renderChats = () =>
-    formattedChatData().map((item, index) => {
-      return (
+    formattedChatData().map((item, index) => (
         <div
           key={index}
           className={classnames('chat', {
@@ -176,8 +175,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
             ))}
           </div>
         </div>
-      )
-    })
+      ))
 
   //* * Scroll to chat bottom
   const scrollToBottom = () => {
