@@ -2,9 +2,11 @@ import { zammadAxios } from "../../../configs/axios";
 import { zammadApi } from "../../../constants/api/zammadApi";
 import { getUserByCedula, getUserMe, putUser } from "../user";
 
-export const putUpdateStateTicket = async (dataObj) => await zammadAxios.put(`${zammadApi.tickets}/${dataObj.id}`, dataObj)
+export const putUpdateStatusTicket = async (dataObj) => await zammadAxios.put(`${zammadApi.tickets}/${dataObj.id}`, dataObj)
 
 export const postTicket = async (dataObj) => await zammadAxios.post(zammadApi.tickets, dataObj)
+
+export const getTicketById = async (id) => await zammadAxios.get(zammadApi.ticketById(id))
 
 export const postTicketValidateUser = async (dataObj) => {
 
