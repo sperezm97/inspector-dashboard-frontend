@@ -1,11 +1,11 @@
-export const New = 'Nuevo'
-export const Open = 'Abierto'
-export const PendingReminder = 'Pendiente Recordatorio'
-export const Closed = 'Cerrado'
-export const Merged = 'Fusionado'
-export const InProgress = 'En Progreso'
-export const PendingClose = 'Pendiente Cerrar'
-export const Undefined = 'Indefinido'
+export const New = {id: 1, value: 'new', label: 'Nuevo'}
+export const Open = {id: 2, value: 'open', label: 'Abierto'}
+export const PendingReminder = {id: 3, value: 'pendingReminder', label: 'Pendiente Recordatorio'}
+export const Closed = {id: 4, value: 'closed', label: 'Cerrado'}
+export const Merged = {id: 5, value: 'merged', label: 'Fusionado'}
+export const InProgress = {id: 6, value: 'inProgress', label: 'En Progreso'}
+export const PendingClose = {id: 7, value: 'pendingClose', label: 'Pendiente Cerrar'}
+export const Undefined = {id: 8, value: 'undefined', label: 'Indefinido'}
 
 export const statusTicketsObj = {
   new: {
@@ -54,5 +54,4 @@ export const statusTicketsArray = [
   Merged,
   InProgress,
   PendingClose,
-  Undefined,
 ]

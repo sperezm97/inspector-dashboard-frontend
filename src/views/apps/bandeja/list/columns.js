@@ -1,14 +1,36 @@
-// ** Custom Components
-import { statusTickets } from '@components/status'
+import Select from 'react-select'
+
+import { statusTickets } from '../../../../@core/components/status'
+
 import {
   rowActions,
   rowClient,
   rowInstitution,
 } from '../../../../@core/components/table/commonColumns'
 import { statusPriority } from '../../../../@core/components/status'
-import { formatDate } from '../../../../utility/Utils'
+import { formatDate, selectThemeColors } from '../../../../utility/Utils'
+import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
+import { putUpdateStateTicket } from '../../../../services/zammad/ticket'
 
-// ** Third Party Components
+
+const handleChangeStatus = (e, ticket) => {
+  console.log(e)
+  console.log(ticket)
+  const dataObj = {
+    id: ticket,
+    state_id: e.value
+  }
+  putUpdateStateTicket(dataObj)
+    .then(res => console.log(res))
+    .catch((err) => {
+      sweetAlert({
+        title: 'Error!',
+        text: 'Ocurrió un error al modificar el estado del ticket.',
+        type: 'error'
+      }) 
+      console.log(err)
+    })
+}
 
 export const columns = [
   {
@@ -20,10 +42,27 @@ export const columns = [
   },
   {
     name: 'ESTADO',
-    minWidth: '160px',
+    minWidth: '260px',
     selector: 'status',
     sortable: true,
-    cell: (row) => statusTickets(row.status),
+    cell: (row) => (
+      <div style={{width: '100%'}}>
+        <Select
+          menuPlacement="auto"
+          menuPosition="fixed"
+          theme={selectThemeColors}
+          className="react-select"
+          classNamePrefix="select"
+          defaultValue={statusTicketsArray[row.status - 1]}
+          onChange={(e) => handleChangeStatus(e, row.id)}
+          options={statusTicketsArray.map((dataMap) => ({
+            value: dataMap.id,
+            label: dataMap.label,
+          }))}
+        />
+      </div>
+      // statusTickets(row.status)
+    )
   },
   {
     name: 'DIRECCIÓN',
@@ -60,7 +99,15 @@ export const columns = [
     minWidth: '400px',
     selector: 'institutionName',
     sortable: true,
-    cell: (row) => rowInstitution(row),
+    cell: (row) => {
+      const institutionInfo = {
+        id: row.institutionId,
+        acronym: row.institutionAcronym,
+        name: row.institutionName
+      }
+      
+      return rowInstitution(institutionInfo)
+    }
   },
   {
     name: 'Cliente',
