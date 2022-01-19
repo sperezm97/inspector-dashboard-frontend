@@ -45,6 +45,8 @@ import Url from '../../../../constants/Url'
 
 const ReportCreate = function({history}) {
   const dispatch = useDispatch()
+  
+  const [ loadingPost, setLoadingPost ] = useState(false)
 
   const initialHierarchies = {
     category: null,
@@ -57,7 +59,6 @@ const ReportCreate = function({history}) {
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
   
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
-  console.log(infoCedulaState)
   
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -85,7 +86,7 @@ const ReportCreate = function({history}) {
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
   // ** React hook form vars
-  const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
+  const { register, handleSubmit, errors, setValue, control } = useForm({
     resolver: yupResolver(schemaYup),
   })
 
@@ -224,15 +225,16 @@ const ReportCreate = function({history}) {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
+    setLoadingPost(true)
     postTicketValidateUser(data)
-      .then((res) => {
+      .then(res => {
+        console.log(res)
         sweetAlert({
           title: 'Reporte creado',
           text: 'Reporte creado con éxito.',
           type: 'success'
         })
-        history.push(Url.dashboardInbox)
+        setTimeout(() => history.push(Url.dashboardInbox), 3000)
       })
       .catch(err => {
         sweetAlert({
@@ -240,13 +242,14 @@ const ReportCreate = function({history}) {
           text: 'Ocurrió un error al crear el Reporte.',
           type: 'error'
         })
-        console.log('error: ', err.response)
+        setLoadingPost(false)
+        console.log('error: ', err)
       })
   }
 
   return (
     <CardGrid cardHeaderTitle="Nuevo Reporte">
-      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit}>
+      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loadingPost}>
         <Col sm="12">
           <h4 className="mb-1">
             <FileText size={20} className="mr-50" />

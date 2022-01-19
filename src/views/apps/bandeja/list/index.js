@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'reactstrap'
 import Select from 'react-select'
 
-import { kFormatter, selectThemeColors } from '@utils'
+import { selectThemeColors } from '@utils'
 
-import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
-import { dataInfoChart } from './dataInfoChart'
 import { columns } from './columns'
 import DataTableList from './table'
 import CardGrid from '../../../../@core/components/card-grid'
@@ -25,27 +23,34 @@ import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { getAllTickets } from '../../../../services/zammad/ticket'
+import { ticketNewObjectFiltered } from '../../../../utility/zammad/filterData'
 
 const Bandeja = function() {
   const dispatch = useDispatch()
 
+  const [ dataTableTickets, setDataTableTickets ] = useState([])
+  console.log(dataTableTickets)
+
   useEffect(() => {
-    dispatch(getAllTicketsActions())
+    // dispatch(getAllTicketsActions())
+    getAllTickets()
+      .then(res => {
+        setDataTableTickets(
+          ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets)
+        )
+      })
+
     dispatch(getAllRegionsActions())
-  }, [])
+  }, [dispatch])
 
-  const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
-
-  // const usersState = useSelector((state) => state?.tickets?.tickets?.User)
-  // const newUsersState = usersState && Object.values(usersState)
+  // const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 
   const regionsSelector = useSelector((state) => state?.regions?.regions)
   const provincesSelector = useSelector((state) => state?.provinces?.provinces)
   const municipalitiesSelector = useSelector(
     (state) => state?.municipalities?.municipalities,
   )
-
-  // const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -122,18 +127,6 @@ const Bandeja = function() {
 
   return dataTableTickets[0] ? (
     <>
-      {/* <Row className="match-height">
-        {infoChart.map((dataInfoChart, index) => (
-          <Col lg="3" sm="6" key={index}>
-            <StatsWithAreaChart
-              kFormatter={kFormatter}
-              dataInfoChart={dataInfoChart}
-              series={[{ name: dataInfoChart.title, data: null }]}
-            />
-          </Col>
-        ))}
-      </Row> */}
-
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col md="4">

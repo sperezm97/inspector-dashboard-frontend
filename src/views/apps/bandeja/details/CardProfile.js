@@ -8,7 +8,7 @@ import { formatDate } from '../../../../utility/Utils'
 const CardProfile = function({dataTicket, dataUserOwner}) {
   return <Card>
     <CardBody>
-      <h2 className="mb-0">{dataTicket.organization}</h2>
+      <h2 className="mb-0">{dataTicket.group}</h2>
       
       <hr className="mb-2" />
       <div className="text-left">
