@@ -57,6 +57,9 @@ const ReportCreate = function({history}) {
   const [ dataTableCategories, setDataTableCategories ] = useState([])
   const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
+
+  const [ previewArr, setPreviewArr ] = useState([])
+  console.log(previewArr);
   
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
   
@@ -85,10 +88,10 @@ const ReportCreate = function({history}) {
   const servicesSelector = useSelector((state) => state?.services?.services)
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
-  // ** React hook form vars
-  const { register, handleSubmit, errors, setValue, control } = useForm({
+  const { register, handleSubmit, errors, setValue, control, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
+  console.log(getValues());
 
   const getCategoryByIdService = ({value}) => {
     setValue("incidente", value)
@@ -225,8 +228,15 @@ const ReportCreate = function({history}) {
   }
 
   const onSubmit = async (data) => {
+    if(!previewArr[0]){
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Debes agregar al menos una evidencia.',
+        type: 'warning'
+      })
+    }
     setLoadingPost(true)
-    postTicketValidateUser(data)
+    postTicketValidateUser(data, previewArr)
       .then(res => {
         console.log(res)
         sweetAlert({
@@ -579,9 +589,14 @@ const ReportCreate = function({history}) {
             <span className="align-middle">Evidencias</span>
           </h4>
         </Col>
+        
         <Col sm="12">
-          <FileUploader />
+          <FileUploader 
+            previewArr={previewArr}
+            setPreviewArr={setPreviewArr}
+          />
         </Col>
+
         <Col sm="12">
           <FormGroup>
             <Label for="descripcion">Descripción</Label>

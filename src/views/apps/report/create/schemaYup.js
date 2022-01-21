@@ -23,6 +23,13 @@ export const schemaYup = yup.object().shape({
   subBarrio: yup.string().required('El Sub-Barrio es obligatorio'),
   direccion: yup.string().trim()
     .required('La Dirección es obligatoria'),
+  // archivo: yup.array().of(
+  //   yup.object().shape({
+  //     Data: yup.string(),
+  //     Filename: yup.string(),
+  //     MimeType: yup.string(),
+  //   })
+  // ),
   descripcion: yup.string().trim()
     .required('La Descripción es obligatoria'),
 })

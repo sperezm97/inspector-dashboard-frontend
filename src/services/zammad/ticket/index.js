@@ -10,7 +10,7 @@ export const getTicketById = async (id) => await zammadAxios.get(zammadApi.ticke
 
 export const postTicket = async (dataObj) => await zammadAxios.post(zammadApi.tickets, dataObj)
 
-export const postTicketValidateUser = (dataObj) => {
+export const postTicketValidateUser = (dataObj, previewArr) => {
 
     let idUserMe = null
 
@@ -37,19 +37,21 @@ export const postTicketValidateUser = (dataObj) => {
                                         address: dataObj.direccion,
                                         zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}${dataObj.seccion}${dataObj.barrio}${dataObj.subBarrio}`,
                                         article: {
-                                            subject: null,
+                                            subject: '',
                                             body: dataObj.descripcion,
                                             type: 'note',
-                                            attachments: []
+                                            attachments: previewArr
                                         }
                                     }
                                     return postTicket(dataCreateTicket)
+                                            .then(res => console.log(res))
+                                            .catch(err => console.log('3 el error: ', err))
                                 })
-                                .catch(err => console.log('2', err))                               
+                                .catch(err => console.log('2 el error: ', err))                               
                         }
                     })
-                    .catch(err => console.log('1', err))
+                    .catch(err => console.log('1 el error: ', err))
             }
         })
-        .catch(err => console.log('0', err))
+        .catch(err => console.log('0 el error: ', err))
 }
