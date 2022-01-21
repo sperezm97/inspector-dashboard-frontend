@@ -7,6 +7,8 @@ import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 export const dataInfoChart = (tickets, reporteros) => {
   const { colors } = useContext(ThemeColors)
 
+  console.log('tickets', tickets)
+
   return [
     {
       icon: <FileText size={21} />,
@@ -20,8 +22,7 @@ export const dataInfoChart = (tickets, reporteros) => {
       color: 'warning',
       colorHEX: colors.warning.main,
       quantity:
-        tickets.filter((ticket) => ticket.status !== statusTicketsObj.closed.id)
-          .length || '0',
+        tickets.filter((ticket) => ticket.status !== statusTicketsObj.closed.idN).length || '0',
       title: 'Casos Abiertos',
     },
     {
@@ -29,7 +30,7 @@ export const dataInfoChart = (tickets, reporteros) => {
       color: 'secondary',
       colorHEX: colors.secondary.main,
       quantity:
-        filterByStatusTickets(tickets, statusTicketsObj.closed.id).length ||
+        filterByStatusTickets(tickets, statusTicketsObj.closed.idN).length ||
         '0',
       title: 'Casos Finalizados',
     },

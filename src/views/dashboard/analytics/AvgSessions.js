@@ -18,7 +18,6 @@ import { filterByPriorityTickets } from '../../../utility/Utils'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
 const AvgSessions = function({ colors, listTickets }) {
-  console.log(listTickets)
   const lowPriority = filterByPriorityTickets(listTickets, 1).length || 0
   const normalPriority = filterByPriorityTickets(listTickets, 2).length || 0
   const highPriority = filterByPriorityTickets(listTickets, 3).length || 0
