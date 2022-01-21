@@ -18,4 +18,6 @@ export const zammadApi = {
   allRols: 'roles',
 
   organizations: 'organizations',
+
+  groups: 'groups',
 }

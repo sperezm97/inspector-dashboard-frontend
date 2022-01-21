@@ -1,43 +1,34 @@
-// ** React Imports
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-// ** Third Party Components
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import Select from 'react-select'
 import Cleave from 'cleave.js/react'
 
 import { Col, FormGroup, Label , Button } from 'reactstrap'
-import { Plus , User } from 'react-feather'
+import { Plus } from 'react-feather'
 
 import FormApp from '../../../../../@core/components/form'
 import InputApp from '../../../../../@core/components/input'
-import Avatar from '../../../../../@core/components/avatar'
 import CardGrid from '../../../../../@core/components/card-grid'
 import { IconInstitution } from '../../../../../@core/components/icons'
-import { ButtonRipple } from '../../../../../@core/components/button'
 import { optionsZammadIdValueSelect, selectThemeColors } from '../../../../../utility/Utils'
-
-// ** Styles
-import '@styles/react/libs/flatpickr/flatpickr.scss'
-import { zammadAxios } from '../../../../../configs/axios'
-import { zammadApi } from '../../../../../constants/api/zammadApi'
 import Url from '../../../../../constants/Url'
-import { postZammadOrganization } from '../../../../../services/zammad/organization'
-import { getAllRolsActions } from '../../../../../redux/actions/zammad/rols'
+import { postOrganization } from '../../../../../services/zammad/organization'
 import { getAllServicesActions } from '../../../../../redux/actions/incidents/services'
 import { getAllUsersActions } from '../../../../../redux/actions/zammad/users'
+import { sweetAlertError, sweetAlertGood } from '../../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
+
+import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { postGroup } from '../../../../../services/zammad/group'
 
 const institutionCreate = ({ history }) => {
 
   const dispatch = useDispatch()
 
-  // ** State
-  // const [img, setImg] = useState(null)
   const [loadingState, setLoadingState] = useState(false)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
@@ -50,67 +41,41 @@ const institutionCreate = ({ history }) => {
   const usersSelector = useSelector((state) => state?.users?.users)
   const servicesSelector = useSelector((state) => state?.services?.services)
 
-  // ** React hook form vars
-  const { register, handleSubmit, errors, getValues, setValue, control } = useForm({
+  const { register, handleSubmit, errors, setValue, control } = useForm({
     resolver: yupResolver(schemaYup),
   })
-  console.log(getValues())
 
   const onSubmit = async (data) => {
-    return console.log(data)
+    const objZammad = {
+      name: data.name,
+      acronimo: data.acronimo.toUpperCase(),
+      service: data.servicio,
+      phonenumber: data.phonenumber,
+      address: data.address,
+      email: data.email,
+      domain: data.website,
+      manager: data.encargado,
+    }
+    console.log(objZammad)
     setLoadingState(true)
-    postZammadOrganization(data).then(response => {
-      if (response.status === 201) {
-        history.push(Url.institution)
-      }
-    }).catch(() => {
-      console.log(error)
-      alert('Se produjo un error al procesar la solicitud')
-      setLoadingState(false)      
-    })
+    postOrganization(objZammad)
+      .then(response => {
+        if (response.status === 201) {
+          postGroup({name: objZammad.name, acronimo: objZammad.acronimo})
+            .then(() => {
+              history.push(Url.institution)
+              sweetAlertGood()
+            })
+            .catch(() => sweetAlertError())
+            .finally(() => setLoadingState(false))
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        sweetAlertError()      
+      })
+      .finally(() => setLoadingState(false))
   }
-
-  // const renderUserAvatar = () => {
-  //   if (img === null) {
-  //     const stateNum = Math.floor(Math.random() * 6)
-  //     const states = [
-  //       'light-success',
-  //       'light-danger',
-  //       'light-warning',
-  //       'light-info',
-  //       'light-primary',
-  //       'light-secondary',
-  //     ]
-  //     const color = states[stateNum]
-  //     return (
-  //       <Avatar
-  //         initials
-  //         color={color}
-  //         className="rounded mr-2 my-25"
-  //         content="Subir Logotipo"
-  //         contentStyles={{
-  //           borderRadius: 0,
-  //           fontSize: 'calc(36px)',
-  //           width: '100%',
-  //           height: '100%',
-  //         }}
-  //         style={{
-  //           height: '90px',
-  //           width: '90px',
-  //         }}
-  //       />
-  //     )
-  //   }
-  //   return (
-  //     <img
-  //       className="user-avatar rounded mr-2 my-25 cursor-pointer"
-  //       src={img}
-  //       alt="user profile avatar"
-  //       height="90"
-  //       width="90"
-  //     />
-  //   )
-  // }
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Institución">
