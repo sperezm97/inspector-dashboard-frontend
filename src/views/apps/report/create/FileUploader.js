@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Label } from 'reactstrap'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
-const FileUploader = ({previewArr, setPreviewArr}) => {
+const FileUploader = function({previewArr, setPreviewArr}) {
 
   const [ previewUpload, setPreviewUpload ] = useState([])
   console.log('img', previewArr)
@@ -25,7 +25,7 @@ const FileUploader = ({previewArr, setPreviewArr}) => {
   // })
 
   uppy.on("file-added", (file) => {
-    let reader = new FileReader()
+    const reader = new FileReader()
     reader.readAsDataURL(file.data)
     reader.onloadend = () => {
       const arr = previewArr
@@ -75,7 +75,7 @@ const FileUploader = ({previewArr, setPreviewArr}) => {
                     <source src={src.data} type="video/mp4"/>
                   </video>
                 )
-              }else{
+              }
                 return (
                   <img 
                     key={index} 
@@ -85,7 +85,7 @@ const FileUploader = ({previewArr, setPreviewArr}) => {
                     alt="Adjunto de prueba" 
                   />
                 ) 
-              }
+              
             })
           }
         </div>
