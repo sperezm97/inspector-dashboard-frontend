@@ -5,6 +5,7 @@ import {
     Form,
     Col,
     Button,
+    Spinner
   } from 'reactstrap'
 
 const FormApp = ({ handleSubmit, onSubmit, children, loading, edit=false }) => (
@@ -20,12 +21,15 @@ const FormApp = ({ handleSubmit, onSubmit, children, loading, edit=false }) => (
                     className="mb-1 mb-sm-0 mr-0 mr-sm-1"
                     disabled={loading}
                 >
-                    {edit 
-                        ? loading ? 'Modificando...' : 'Modificar' 
-                        : loading ? 'Creando...' : 'Crear'
-                    }
+                    {loading && <Spinner color='white' size='sm' />}
+                    <span className={`${loading && 'ml-50'}`}>
+                        {edit 
+                            ? loading ? 'Modificando...' : 'Modificar' 
+                            : loading ? 'Creando...' : 'Crear'
+                        }
+                    </span>
                 </Button>
-                {!edit &&
+                {/* {!edit &&
                     <Button 
                         type="reset" 
                         color="primary" 
@@ -33,7 +37,7 @@ const FormApp = ({ handleSubmit, onSubmit, children, loading, edit=false }) => (
                     >
                         Limpiar
                     </Button>
-                }
+                } */}
             </Col>
         </Row>
     </Form>
