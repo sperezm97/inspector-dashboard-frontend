@@ -96,6 +96,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
         msgGroup.messages.push({
           from: msg.from,
           msg: msg.body,
+          attachments: msg.attachments,
           time: formatDate(msg.created_at),
         })
       } else {
@@ -107,6 +108,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
             {
               from: msg.from,
               msg: msg.body,
+              attachments: msg.attachments,
               time: formatDate(msg.created_at),
             },
           ],
@@ -162,13 +164,26 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
                 <div className="col-12">
                   <div className="chat-content">
                     <p className="mb-1">{chat.msg}</p>
-                    <small
-                      className={classnames('text-muted', {
-                        'position-left': item.senderId !== dataUserMe.id,
-                      })}
+                    {chat.attachments[0] &&
+                      <Button.Ripple 
+                        size="sm" 
+                        className='round'
+                        color="primary" 
+                        id="reportToggler" 
+                        outline={item.senderId !== dataUserMe.id ? true : false}
                       >
-                      {chat.time}
-                    </small>
+                        Mostrar adjuntos
+                      </Button.Ripple >
+                    }
+                    <div className='mt-1'>
+                      <small
+                        className={classnames('text-muted', {
+                          'position-left': item.senderId !== dataUserMe.id,
+                        })}
+                        >
+                        {chat.time}
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,7 +201,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
     if (chatRef !== null) {
       scrollToBottom()
     }
-  }, [chatRef, chatData.chat.chat.length])
+  }, [chatRef, dataTicketArticles])
 
   const handleSendMsg = (e) => {
     e.preventDefault()

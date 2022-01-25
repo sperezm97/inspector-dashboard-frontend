@@ -1,6 +1,7 @@
 import Uppy from '@uppy/core'
 // import thumbnailGenerator from '@uppy/thumbnail-generator'
 import { DragDrop } from '@uppy/react'
+import { X } from 'react-feather'
 import { useState } from 'react'
 import { Label } from 'reactstrap'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
@@ -8,7 +9,6 @@ import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 const FileUploader = function({previewArr, setPreviewArr}) {
 
   const [ previewUpload, setPreviewUpload ] = useState([])
-  console.log('img', previewArr)
 
   const uppy = new Uppy({
     meta: { type: 'avatar' },
@@ -41,7 +41,6 @@ const FileUploader = function({previewArr, setPreviewArr}) {
         arr.push({
           filename: file.name,
           data: reader.result.split(',')[1],
-          // data: reader.result.replace(/^data:image\/[a-z]+;base64,/, ""),
           "mime-type": file.type,
         })
         previewArray.push({data: reader.result})
@@ -54,6 +53,25 @@ const FileUploader = function({previewArr, setPreviewArr}) {
     }
   })
 
+  const handleDeleteAttachments = (id) => {
+    setPreviewArr(
+      previewArr.filter(preview => preview !== previewArr[id])
+    )
+    setPreviewUpload(
+      previewUpload.filter(preview => preview !== previewUpload[id])
+    )
+  }
+
+  const renderDeleteAttachments = (id) => (
+    <div className="d-flex flex-row-reverse">
+      <div style={{marginBottom: '-10px', marginRight: '-5px', zIndex: '1'}}>
+        <span onClick={() => handleDeleteAttachments(id)} style={{cursor: 'pointer', background: 'red', borderRadius: '50%', padding: '2px'}}>
+          <X size={16} color="white" />
+        </span>
+      </div>
+    </div>
+  )
+
   return (
     <div className="mb-2">
       <Label>Cargar pruebas</Label>
@@ -61,31 +79,36 @@ const FileUploader = function({previewArr, setPreviewArr}) {
         uppy={uppy}
         // note={previewArr[0] && `${previewArr.length} Adjunto${previewArr.length > 1 ? 's' : ''}`}
       />
-        <div className="d-inline-flex">
+        <div className="d-flex flex-wrap">
           {previewUpload[0] &&
             previewUpload.map((src, index) => {
               if(src?.data.includes('video')){
                 return (
-                  <video 
-                    key={index} 
-                    className="rounded mt-2 mr-1"
-                    width="200"
-                    controls
-                  >
-                    <source src={src.data} type="video/mp4"/>
-                  </video>
+                  <div key={index} className="mt-2 mr-1">
+                    {renderDeleteAttachments(index)}
+                    <video 
+                      key={index} 
+                      className="rounded"
+                      width="200"
+                      controls
+                    >
+                      <source src={src.data} type="video/mp4"/>
+                    </video>
+                  </div>
                 )
               }
                 return (
-                  <img 
-                    key={index} 
-                    style={{width: '200px'}}
-                    className="rounded mt-2 mr-1" 
-                    src={src.data} 
-                    alt="Adjunto de prueba" 
-                  />
+                  <div key={index} className="mt-2 mr-1">
+                    {renderDeleteAttachments(index)}
+                    <img 
+                      key={index} 
+                      style={{width: '200px'}}
+                      className="rounded" 
+                      src={src.data} 
+                      alt="Adjunto de prueba" 
+                    />
+                  </div>
                 ) 
-              
             })
           }
         </div>
