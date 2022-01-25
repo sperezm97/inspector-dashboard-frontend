@@ -91,7 +91,6 @@ const ReportCreate = function({history}) {
   const { register, handleSubmit, errors, setValue, control, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
-  console.log(getValues());
 
   const getCategoryByIdService = ({value}) => {
     setValue("incidente", value)
@@ -118,7 +117,6 @@ const ReportCreate = function({history}) {
     getInfoCedula(target.value)
       .then(({data}) => setInfoCedulaState(data.payload))
       .catch(err => {
-        console.log(err)
         setInfoCedulaState(null)
         sweetAlert({
           title: 'Error!',
@@ -235,26 +233,26 @@ const ReportCreate = function({history}) {
         type: 'warning'
       })
     }
+
     setLoadingPost(true)
-    postTicketValidateUser(data, previewArr)
-      .then(res => {
-        console.log(res)
-        sweetAlert({
-          title: 'Reporte creado',
-          text: 'Reporte creado con éxito.',
-          type: 'success'
-        })
-        setTimeout(() => history.push(Url.dashboardInbox), 3000)
+
+    const ticketAsync = await postTicketValidateUser(data, previewArr)
+    if(ticketAsync.status === 201){
+      sweetAlert({
+        title: 'Reporte creado',
+        text: 'Reporte creado con éxito.',
+        type: 'success'
       })
-      .catch(err => {
-        sweetAlert({
-          title: 'Error!',
-          text: 'Ocurrió un error al crear el Reporte.',
-          type: 'error'
-        })
-        setLoadingPost(false)
-        console.log('error: ', err)
+      history.push(Url.dashboardInbox)  
+
+    }else{
+      sweetAlert({
+        title: 'Error!',
+        text: 'Ocurrió un error al crear el Reporte.',
+        type: 'error'
       })
+      setLoadingPost(false)
+    }
   }
 
   return (
