@@ -44,7 +44,7 @@ export const postTicketValidateUser = async (dataObj, previewArr) => {
             }
         }
  
-        //else if - if there is not user
+        // else if - if there is not user
  
         const postTicketAsy = await postTicket(dataCreateTicket)
 

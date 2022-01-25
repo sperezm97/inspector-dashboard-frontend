@@ -170,7 +170,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
                         className='round'
                         color="primary" 
                         id="reportToggler" 
-                        outline={item.senderId !== dataUserMe.id ? true : false}
+                        outline={item.senderId !== dataUserMe.id}
                       >
                         Mostrar adjuntos
                       </Button.Ripple >
