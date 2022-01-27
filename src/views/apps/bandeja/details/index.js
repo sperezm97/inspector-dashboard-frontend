@@ -28,6 +28,12 @@ const InvoicePreview = function() {
   const [dataUserMe, setDataUserMe] = useState(null)
   const [dataUserOwner, setDataUserOwner] = useState(null)
   const [dataUserCustomer, setDataUserCustomer] = useState(null)
+  
+  const [msg, setMsg] = useState('')
+  const [ previewArr, setPreviewArr ] = useState([])
+  const [ previewUpload, setPreviewUpload ] = useState([])
+
+  const [loadingPost, setLoadingPost] = useState(false)
 
   const handleGetTicketArticles = () => {
     getTicketArticles(id)
@@ -36,13 +42,18 @@ const InvoicePreview = function() {
   }
 
   const handlePostTicketArticles = (dataObj) => {
+    setLoadingPost(true)
     postTicketArticles(dataObj)
       .then(res => {
         handleGetTicketArticles()
         sweetAlertGood()
+        setMsg('')
+        setPreviewArr([])
+        setPreviewUpload([])
         console.log(res)
       })
       .catch(err => sweetAlertError())
+      .finally(() => setLoadingPost(false))
   }
 
   useEffect(() => {
@@ -79,6 +90,13 @@ const InvoicePreview = function() {
             dataTicketId={id}
             dataUserMe={dataUserMe}
             handlePostTicketArticles={handlePostTicketArticles}
+            loadingPost={loadingPost}
+            msg={msg}
+            setMsg={setMsg}
+            previewArr={previewArr}
+            setPreviewArr={setPreviewArr}
+            previewUpload={previewUpload} 
+            setPreviewUpload={setPreviewUpload}
           />
         </Col>
         <Col xl={5} md={5} sm={12}>

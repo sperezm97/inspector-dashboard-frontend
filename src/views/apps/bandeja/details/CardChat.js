@@ -2,13 +2,18 @@ import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useState, useEffect } from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Send, FileText } from 'react-feather'
-import { Card, CardHeader, Form, InputGroup, Input, Button, UncontrolledCollapse, Modal, ModalHeader, ModalBody, Spinner } from 'reactstrap'
+import { Send, FileText, Image } from 'react-feather'
+import { Row, Col, Card, CardHeader, Form, InputGroup, Input, Button, UncontrolledCollapse, Modal, ModalHeader, ModalBody, Spinner } from 'reactstrap'
 
+import FileUploader from './FileUploader'
+
+import 'uppy/dist/uppy.css'
+import '@styles/react/libs/file-uploader/file-uploader.scss'
 import '@styles/base/pages/app-chat-list.scss'
+
 import { formatDate } from '../../../../utility/Utils'
 import { getTicketArticleAttachment } from '../../../../services/zammad/ticketArticles'
-import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
+import { sweetAlert } from '../../../../@core/components/sweetAlert'
 
 const data = {
   chat: {
@@ -75,8 +80,19 @@ const data = {
   },
 }
 
-const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handlePostTicketArticles}) {
-  const [msg, setMsg] = useState('')
+const CardChat = function({
+  dataTicketArticles, 
+  dataTicketId, 
+  dataUserMe, 
+  handlePostTicketArticles, 
+  loadingPost, 
+  msg, 
+  setMsg,
+  previewArr, 
+  setPreviewArr,
+  previewUpload, 
+  setPreviewUpload}) {
+
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
 
@@ -290,16 +306,24 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
 
   const handleSendMsg = (e) => {
     e.preventDefault()
+
+    if(previewArr[0] && !msg.trim().length){
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Debes escribir un mensaje.',
+        type: 'warning'
+      })
+    }
+
     if (msg.trim().length) {
       const dataObj = {
         ticket_id: dataTicketId,
         subject: null,
         body: msg,
         type: 'note',
-        attachments: []
+        attachments: previewArr
       }
       handlePostTicketArticles(dataObj)
-      setMsg('')
     }
   }
 
@@ -320,6 +344,15 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
           <div className="chats">{renderChats()}</div>
         </PerfectScrollbar>
         <Form className="chat-app-form" onSubmit={(e) => handleSendMsg(e)}>
+          <div>
+            <Button.Ripple 
+              className="btn-icon" 
+              color="flat-primary"
+              id="togglerAttachments" 
+            >
+              <Image size={16} />
+            </Button.Ripple>
+          </div>
           <InputGroup className="input-group-merge mr-1 form-send-message">
             <Input
               value={msg}
@@ -328,12 +361,34 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
               placeholder="Escribir mensaje..."
             />
           </InputGroup>
-          <Button className="send" color="primary">
-            <Send size={14} className="d-lg-none" />
-            <span className="d-none d-lg-block">Enviar</span>
+          <Button className="send" color="primary" disabled={loadingPost ? true : false}>
+            {loadingPost
+              ? <Spinner color="white" size='sm' />
+              :
+                <>
+                  <Send size={14} className="d-lg-none" />
+                  <span className="d-none d-lg-block">
+                    Enviar
+                  </span>
+                </>
+            }
           </Button>
         </Form>
       </div>
+      <UncontrolledCollapse 
+        toggler="togglerAttachments"
+      >
+        <div className="row p-1">
+          <div className="col-12">
+            <FileUploader 
+              previewArr={previewArr}
+              setPreviewArr={setPreviewArr}
+              previewUpload={previewUpload}
+              setPreviewUpload={setPreviewUpload}
+            />
+          </div>
+        </div>
+      </UncontrolledCollapse>
     </Card>
   )
 }
