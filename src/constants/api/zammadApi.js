@@ -8,6 +8,7 @@ export const zammadApi = {
 
   ticketArticles: 'ticket_articles/by_ticket/',
   postTicketArticles: 'ticket_articles',
+  ticketArticlesAttachment: 'ticket_attachment/',
 
   users: 'users',
   userMe: 'users/me?expand=true',

@@ -25,7 +25,6 @@ const UserDropdown = () => {
 
   // ** State
   const [userData, setUserData] = useState(null)
-  console.log(userData)
 
   //** ComponentDidMount
   useEffect(() => {

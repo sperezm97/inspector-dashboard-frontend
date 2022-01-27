@@ -3,10 +3,12 @@ import Avatar from '@components/avatar'
 import { useState, useEffect } from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Send, FileText } from 'react-feather'
-import { Card, CardHeader, Form, InputGroup, Input, Button } from 'reactstrap'
+import { Card, CardHeader, Form, InputGroup, Input, Button, UncontrolledCollapse, Modal, ModalHeader, ModalBody, Spinner } from 'reactstrap'
 
 import '@styles/base/pages/app-chat-list.scss'
 import { formatDate } from '../../../../utility/Utils'
+import { getTicketArticleAttachment } from '../../../../services/zammad/ticketArticles'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 
 const data = {
   chat: {
@@ -78,6 +80,29 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
 
+  const [modal, setModal] = useState(null)
+
+  const [dataImage, setDataImage] = useState(null)
+  const [dataImageBase, setDataImageBase] = useState(null)
+
+  useEffect(() => {
+    if(dataImage?.status === 200){
+      setDataImageBase(Buffer.from(dataImage?.data, 'binary').toString('base64'))
+    }
+  }, [dataImage])
+
+  const toggleModal = (id, idArticleTicket) => {
+    console.log(idArticleTicket)
+    if (modal !== id) {
+      setModal(id)
+      setDataImage(null)
+      getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
+        .then(res => setDataImage(res))
+    } else {
+      setModal(null)
+    }
+  }
+
   //* * Formats chat data based on sender
   const formattedChatData = () => {
     let chatLog = []
@@ -94,6 +119,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
     dataTicketArticles.forEach((msg, index) => {
       if (chatMessageSenderId === msg.created_by_id) {
         msgGroup.messages.push({
+          id: msg.id,
           from: msg.from,
           msg: msg.body,
           attachments: msg.attachments,
@@ -106,6 +132,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
           senderId: msg.created_by_id,
           messages: [
             {
+              id: msg.id,
               from: msg.from,
               msg: msg.body,
               attachments: msg.attachments,
@@ -165,24 +192,82 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
                   <div className="chat-content">
                     <p className="mb-1">{chat.msg}</p>
                     {chat.attachments[0] &&
-                      <Button.Ripple 
-                        size="sm" 
-                        className='round'
-                        color="primary" 
-                        id="reportToggler" 
-                        outline={item.senderId !== dataUserMe.id}
-                      >
-                        Mostrar adjuntos
-                      </Button.Ripple >
+                      <>
+                        <Button.Ripple 
+                          size="sm" 
+                          // className='round'
+                          color="primary" 
+                          id={`toggler${chat.id}`} 
+                          outline={item.senderId !== dataUserMe.id}
+                        >
+                          Mostrar adjuntos
+                        </Button.Ripple >
+                        <UncontrolledCollapse toggler={`toggler${chat.id}`}>
+                          <div className="mt-1 bg-white px-1 rounded">
+                            {chat.attachments.map((att) => (
+                              <div 
+                                key={att.id}
+                                className="py-1"
+                              >
+                                {/* <Share2 size={17} /> */}
+                                <h6 
+                                  // color='flat-primary' 
+                                  style={{cursor: 'pointer'}}
+                                  className="text-primary mb-0"
+                                  onClick={() => toggleModal(att.id, chat.id)} 
+                                >
+                                  {att.filename}
+                                </h6>
+                                <Modal
+                                  isOpen={modal === att.id}
+                                  toggle={() => toggleModal(att.id, chat.id)}
+                                  className={`modal-dialog-centered modal-lg`}
+                                >
+                                  <ModalHeader toggle={() => toggleModal(att.id, chat.id)}>
+                                    {att.filename}
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    {dataImage ?
+                                      dataImage.headers['content-type'].includes('video')
+                                        ? 
+                                        <div key={index}>
+                                          <video 
+                                            key={index} 
+                                            className="rounded"
+                                            width="100%"
+                                            controls
+                                          >
+                                            <source src={`data:video/mp4;base64,${dataImageBase}`} type="video/mp4"/>
+                                          </video>
+                                        </div>
+                                        :
+                                          <div key={index}>
+                                            <img 
+                                              key={index}
+                                              className="rounded" 
+                                              width="100%"
+                                              src={`data:image/jpeg;base64,${dataImageBase}`}
+                                              alt="Adjunto de prueba" 
+                                            />
+                                          </div>
+                                      : <div className="d-flex justify-content-center"><Spinner color='primary' /></div> 
+                                    }
+                                  </ModalBody>
+                                </Modal>
+                              </div>
+                            ))}
+                          </div>
+                        </UncontrolledCollapse>
+                      </>
                     }
                     <div className='mt-1'>
-                      <small
+                      <p
                         className={classnames('text-muted', {
                           'position-left': item.senderId !== dataUserMe.id,
                         })}
                         >
                         {chat.time}
-                      </small>
+                      </p>
                     </div>
                   </div>
                 </div>
