@@ -361,7 +361,7 @@ const CardChat = function({
               placeholder="Escribir mensaje..."
             />
           </InputGroup>
-          <Button className="send" color="primary" disabled={loadingPost ? true : false}>
+          <Button className="send" color="primary" disabled={!!loadingPost}>
             {loadingPost
               ? <Spinner color="white" size='sm' />
               :
