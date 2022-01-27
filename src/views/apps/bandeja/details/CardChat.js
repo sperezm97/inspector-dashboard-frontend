@@ -221,7 +221,7 @@ const CardChat = function({dataTicketArticles, dataTicketId, dataUserMe, handleP
                                 <Modal
                                   isOpen={modal === att.id}
                                   toggle={() => toggleModal(att.id, chat.id)}
-                                  className={`modal-dialog-centered modal-lg`}
+                                  className="modal-dialog-centered modal-lg"
                                 >
                                   <ModalHeader toggle={() => toggleModal(att.id, chat.id)}>
                                     {att.filename}
