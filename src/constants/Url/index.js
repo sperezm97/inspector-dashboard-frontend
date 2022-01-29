@@ -6,6 +6,7 @@ export const Url = {
   dashboardInboxCreate: '/tickets/crear',
 
   reportCreate: '/reporte/crear',
+  reportImport: '/tickets/importar',
 
   user: '/usuario',
   userCreate: '/usuario/crear',

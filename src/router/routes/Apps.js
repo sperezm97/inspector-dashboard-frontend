@@ -22,6 +22,11 @@ const AppRoutes = [
     component: lazy(() => import('../../views/apps/report/create')),
   },
   {
+    path: Url.reportImport,
+    exact: true,
+    component: lazy(() => import('../../views/apps/report/import')),
+  },
+  {
     path: Url.user,
     component: lazy(() => import('../../views/apps/user/list')),
     exact: true,
