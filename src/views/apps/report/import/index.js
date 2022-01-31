@@ -1,327 +1,191 @@
-// ** React Imports
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { Fragment, useState } from 'react'
+import XLSX from 'xlsx'
+import Uppy from '@uppy/core'
+import { X } from 'react-feather'
+import { DragDrop } from '@uppy/react'
+import Avatar from '@components/avatar'
+import { toast } from 'react-toastify'
+import ExtensionsHeader from '@components/extensions-header'
+import {
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Table,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+} from 'reactstrap'
 
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Cleave from 'cleave.js/react'
-
-// ** Third Party Components
-import { User, MapPin, FileText, Image } from 'react-feather'
-import 'cleave.js/dist/addons/cleave-phone.us'
-import Select from 'react-select'
-import { Row, Col, Button, Label, FormGroup, Input, Form } from 'reactstrap'
-import { optionsCodeValueSelect, optionsIdValueSelect, selectThemeColors } from '../../../../utility/Utils'
-
-import CardGrid from '../../../../@core/components/card-grid'
-import FormApp from '../../../../@core/components/form'
-import InputApp from '../../../../@core/components/input'
-
-// ** Styles
 import 'uppy/dist/uppy.css'
 import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
-import '@styles/react/libs/flatpickr/flatpickr.scss'
-import '@styles/react/libs/react-select/_react-select.scss'
 
-import { getAllServicesActions } from '../../../../redux/actions/incidents/services'
-import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
-import { getIncidentSubCategoryByIdServiceByIdCategory } from '../../../../services/incidents/subCategory'
-import { getIncidentOrganizationByIdService } from '../../../../services/incidents/organization'
-import { getInfoCedula } from '../../../../services/cedula'
-import { sweetAlert } from '../../../../@core/components/sweetAlert'
-import { schemaYup } from './schemaYup'
-import { postTicketValidateUser } from '../../../../services/zammad/ticket'
-import Url from '../../../../constants/Url'
+const ErrorToast = function() {
+  return <>
+    <div className="toastify-header">
+      <div className="title-wrapper">
+        <Avatar size="sm" color="danger" icon={<X size={12} />} />
+        <h6 className="toast-title">Error!</h6>
+      </div>
+      {/* <small className="text-muted">a second ago</small> */}
+    </div>
+    <div className="toastify-body">
+      <span role="img" aria-label="toast-text">
+        👋 Sólo puedes subir archivos <span className="font-weight-bolder">.csv</span>
+      </span>
+    </div>
+  </>
+}
 
-const ReportImport = function({history}) {
-  const dispatch = useDispatch()
-  
-  const [ loadingPost, setLoadingPost ] = useState(false)
+const Import = function() {
+  const [tableData, setTableData] = useState([])
+  const [filteredData, setFilteredData] = useState([])
+  const [value, setValue] = useState('')
+  const [name, setName] = useState('')
 
-  const initialHierarchies = {
-    category: null,
-    subCategory: null,
-  }
-
-  const [hierarchies, setHierarchies] = useState(initialHierarchies)
-  const [ dataTableCategories, setDataTableCategories ] = useState([])
-  const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
-  const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
-
-  const [ infoCedulaState, setInfoCedulaState ] = useState(null)
-  
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
-
-  useEffect(() => {
-    dispatch(getAllServicesActions())
-  }, [])
-
-  const servicesSelector = useSelector((state) => state?.services?.services)
-
-  const { register, handleSubmit, errors, setValue, control } = useForm({
-    resolver: yupResolver(schemaYup),
+  const uppy = new Uppy({
+    restrictions: { maxNumberOfFiles: 1 },
+    autoProceed: true,
   })
 
-  const getCategoryByIdService = ({value}) => {
-    setValue("incidente", value)
-    setHierarchies({...hierarchies, category: value})
-    setDataTableCategories([])
-    setDataTableSubCategories([])
-    setDataTableOrganizations([])
-    if(!value) return
-    getIncidentCategoryByIdService(value).then(({data}) => setDataTableCategories(data))
-    getIncidentOrganizationByIdService(value).then(({data}) => setDataTableOrganizations(data))
+  const getTableData = (arr, name) => {
+    setTableData(arr)
+    setName(name)
   }
 
-  const getSubCategoryByIdServiceByIdCategory = ({value}) => {
-    setValue("categoria", value)
-    setDataTableSubCategories([])
-    if(!value) return
-    setHierarchies({...hierarchies, subCategory: value})
-    getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
-  }
+  uppy.on('complete', (result) => {
+    const reader = new FileReader()
+    reader.onload = function () {
+      const fileData = reader.result
+      const wb = XLSX.read(fileData, { type: 'binary' })
 
-  const handleDataCedula = ({target}) => {
-    setInfoCedulaState(null)
-    if(target.value.length !== 11) return
-    getInfoCedula(target.value)
-      .then(({data}) => setInfoCedulaState(data.payload))
-      .catch(err => {
-        setInfoCedulaState(null)
-        sweetAlert({
-          title: 'Error!',
-          text: 'La Cédula ingresada no es válida',
-          type: 'error'
-        })
+      wb.SheetNames.forEach((sheetName) => {
+        const rowObj = XLSX.utils.sheet_to_row_object_array(
+          wb.Sheets[sheetName],
+        )
+        getTableData(rowObj, result.successful[0].data.name)
       })
-  }
-
-  const onSubmit = async (data) => {
-    setLoadingPost(true)
-
-    const ticketAsync = await postTicketValidateUser(data)
-    if(ticketAsync.status === 201){
-      sweetAlert({
-        title: 'Reporte creado',
-        text: 'Reporte creado con éxito.',
-        type: 'success'
-      })
-      history.push(Url.dashboardInbox)  
-
-    }else{
-      sweetAlert({
-        title: 'Error!',
-        text: 'Ocurrió un error al crear el Reporte.',
-        type: 'error'
-      })
-      setLoadingPost(false)
     }
+    if (result.successful[0].extension === 'csv') {
+      reader.readAsBinaryString(result.successful[0].data)
+    } else {
+      toast.error(<ErrorToast />, { hideProgressBar: true })
+    }
+  })
+
+  const handleFilter = (e) => {
+    const data = tableData
+    let filteredData = []
+    const { value } = e.target
+    setValue(value)
+
+    if (value.length) {
+      filteredData = data.filter((col) => {
+        const keys = Object.keys(col)
+
+        const startsWithCondition = keys.filter((key) =>
+          col[key].toString().toLowerCase().startsWith(value.toLowerCase()),
+        )
+
+        const includesCondition = keys.filter((key) =>
+          col[key].toString().toLowerCase().includes(value.toLowerCase()),
+        )
+
+        if (startsWithCondition.length) return col[startsWithCondition]
+        if (!startsWithCondition && includesCondition.length)
+          return col[includesCondition]
+        return null
+      })
+      setFilteredData(filteredData)
+      setValue(value)
+    } else {
+      return null
+    }
+  }
+  /*eslint-disable */
+  const headArr = tableData.length
+    ? tableData.map((col, index) => {
+        if (index === 0) return [...Object.keys(col)]
+        else return null
+      })
+    : []
+  /* eslint-enable */
+  const dataArr = value.length
+    ? filteredData
+    : tableData.length && !value.length
+    ? tableData
+    : null
+
+  const renderTableBody = () => {
+    if (dataArr !== null && dataArr.length) {
+      return dataArr.map((col, index) => {
+        const keys = Object.keys(col)
+        const renderTd = keys.map((key, index) => (
+          <td key={index}>{col[key]}</td>
+        ))
+        return <tr key={index}>{renderTd}</tr>
+      })
+    }
+    return null
+  }
+
+  const renderTableHead = () => {
+    if (headArr.length) {
+      return headArr[0].map((head, index) => <th key={index}>{head}</th>)
+    }
+    return null
   }
 
   return (
-    <CardGrid cardHeaderTitle="Importar Reporte">
-      <FormApp handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loadingPost}>
+    <>
+      <ExtensionsHeader
+        title="Importar Tickets"
+        subTitle="Ejemplo de subtítulo"
+      />
+      <Row className="import-component">
         <Col sm="12">
-          <h4 className="mb-1">
-            <FileText size={20} className="mr-50" />
-            <span className="align-middle">Tipo de incidencia</span>
-          </h4>
+          <Card>
+            <CardBody>
+              <Row>
+                <Col sm="12">
+                  <DragDrop uppy={uppy} />
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
         </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Incidente</Label>
-              <Controller
-                control={control}
-                name="incidente"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => getCategoryByIdService(e)}
-                  options={optionsIdValueSelect(servicesSelector)}
-                  isLoading={!servicesSelector[0]}
-                  defaultValue={defaultValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
-            <p className="text-danger">{
-              errors.incidente?.message && errors.incidente?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Categoría</Label>
-              <Controller
-                control={control}
-                name="categoria"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
-                  options={optionsIdValueSelect(dataTableCategories)}
-                  isLoading={!dataTableCategories[0]}
-                  defaultValue={defaultValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
-            <p className="text-danger">{
-              errors.categoria?.message && errors.categoria?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Sub-Categorías</Label>
-              <Controller
-                control={control}
-                name="subCategoria"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => setValue("subCategoria", e)}
-                  options={optionsIdValueSelect(dataTableSubCategories)}
-                  isLoading={!dataTableSubCategories[0]}
-                  defaultValue={defaultValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
-            <p className="text-danger">{
-              errors.subCategoria?.message && errors.subCategoria?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Institución</Label>
-              <Controller
-                control={control}
-                name="institucion"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => setValue("institucion", e.value)}
-                  options={optionsIdValueSelect(dataTableOrganizations)}
-                  isLoading={!dataTableOrganizations[0]}
-                  defaultValue={defaultValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
-            <p className="text-danger">{
-              errors.institucion?.message && errors.institucion?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <Col sm="12">
-          <h4 className="mb-1 mt-2">
-            <User size={20} className="mr-50" />
-            <span className="align-middle">Detalles del beneficiario</span>
-          </h4>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Cédula de Identidad</Label>
-            <Controller
-              control={control}
-              name="cedula"
-              render={({field}) => <Cleave
-                {...field}
-                className="form-control"
-                placeholder="Escribe la Cédula"
-                onChange={e => setValue("cedula", e.target.value)}
-                onBlur={e => handleDataCedula(e)}
-                options={{ blocks: [11], numericOnly: true }}
-              />}
-            />
-            <p className="text-danger">{
-              errors.cedula?.message && errors.cedula?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <InputApp
-          label="Nombre Completo"
-          name="nombreC"
-          register={register}
-          placeholder="Digita la cédula..."
-          disabled
-          defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
-          messageError={errors.cedula?.message && errors.cedula?.message}
-        />
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Teléfono</Label>
-            <Controller
-              control={control}
-              name="telefono"
-              render={({field}) => <Cleave
-                {...field}
-                className="form-control"
-                placeholder="Escribe el Teléfono"
-                onChange={e => setValue("telefono", e.target.value)}
-                options={{ blocks: [10], numericOnly: true }}
-              />}
-            />
-            <p className="text-danger">{
-              errors.telefono?.message && errors.telefono?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <Col sm="12">
-          <h4 className="mb-1 mt-2">
-            <MapPin size={20} className="mr-50" />
-            <span className="align-middle">Detalles del reporte</span>
-          </h4>
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <FormGroup>
-            <Label>Zona ID</Label>
-            <Controller
-              control={control}
-              name="zonaId"
-              render={({field}) => <Cleave
-                {...field}
-                className="form-control"
-                placeholder="Escribe la Zona ID"
-                onChange={e => setValue("zonaId", e.target.value)}
-                options={{ numericOnly: true }}
-              />}
-            />
-            <p className="text-danger">{
-              errors.zonaId?.message && errors.zonaId?.message
-            }</p>
-          </FormGroup>
-        </Col>
-
-        <InputApp
-          label="Residencial, calle, número"
-          name="direccion"
-          type="text"
-          register={register}
-          placeholder="Escribe la dirección..."
-          messageError={errors.direccion?.message && errors.direccion?.message}
-        />
-
-        <InputApp
-          label="Descripción"
-          name="descripcion"
-          type="text"
-          register={register}
-          placeholder="Digite información relevante para el reporte"
-          messageError={errors.descripcion?.message && errors.descripcion?.message}
-        />
-
-      </FormApp>
-    </CardGrid>
+        {tableData.length ? (
+          <Col sm="12">
+            <Card>
+              <CardHeader className="justify-content-between flex-wrap">
+                <CardTitle tag="h4">{name}</CardTitle>
+                <div className="d-flex align-items-center justify-content-end">
+                  <Label for="search-input" className="mr-1">
+                    Buscar
+                  </Label>
+                  <Input
+                    id="search-input"
+                    type="text"
+                    bsSize="sm"
+                    value={value}
+                    onChange={(e) => handleFilter(e)}
+                  />
+                </div>
+              </CardHeader>
+              <Table className="table-hover-animation" responsive>
+                <thead>
+                  <tr>{renderTableHead()}</tr>
+                </thead>
+                <tbody>{renderTableBody()}</tbody>
+              </Table>
+            </Card>
+          </Col>
+        ) : null}
+      </Row>
+    </>
   )
 }
-export default ReportImport
+
+export default Import

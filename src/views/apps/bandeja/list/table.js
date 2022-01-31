@@ -30,7 +30,14 @@ const CustomHeader = function({
     <div className="invoice-list-table-header w-100 py-2">
       <Row>
         <Col lg="6" className="d-flex align-items-center px-0 px-lg-1">
-          <ExportButtons newDataTable={newDataTable} />
+          <Row>
+            <Col sm="12" md="6">
+              <ExportButtons newDataTable={newDataTable} />
+            </Col>
+            <Col sm="12" md="6">
+              {/* import button */}
+            </Col>
+          </Row>
         </Col>
         <Col
           lg="6"
@@ -62,7 +69,7 @@ const CustomHeader = function({
           )}
           {showButtonAddReport && (
             <ButtonRipple
-              label="Añadir Nuevo Reporte"
+              label="Añadir Nuevo Ticket"
               onClick={() => history.push(Url.dashboardInboxCreate)}
             />
           )}

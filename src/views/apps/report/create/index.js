@@ -239,8 +239,8 @@ const ReportCreate = function({history}) {
     const ticketAsync = await postTicketValidateUser(data, previewArr)
     if(ticketAsync.status === 201){
       sweetAlert({
-        title: 'Reporte creado',
-        text: 'Reporte creado con éxito.',
+        title: 'Ticket creado',
+        text: 'Ticket creado con éxito.',
         type: 'success'
       })
       history.push(Url.dashboardInbox)  
@@ -248,7 +248,7 @@ const ReportCreate = function({history}) {
     }else{
       sweetAlert({
         title: 'Error!',
-        text: 'Ocurrió un error al crear el Reporte.',
+        text: 'Ocurrió un error al crear el Ticket.',
         type: 'error'
       })
       setLoadingPost(false)

@@ -4,7 +4,7 @@ import { Row, Col } from 'reactstrap'
 
 const ExtensionsHeader = props => {
   return (
-    <Row className='mb-2'>
+    <Row>
       <Col sm='12' className='ml-50'>
         <p className='font-medium-5 mt-1 extension-title' data-tour='extension-title'>
           {props.title}

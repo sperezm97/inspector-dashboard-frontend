@@ -195,7 +195,7 @@ const CardChat = function() {
       <CardHeader>
         <div className="d-flex align-items-center">
           <FileText />
-          <h5 className="mb-0 ml-1">Información del reporte</h5>
+          <h5 className="mb-0 ml-1">Información del Ticket</h5>
         </div>
       </CardHeader>
       <div className="chat-app-window">
