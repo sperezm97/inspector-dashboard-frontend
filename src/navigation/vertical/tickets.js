@@ -19,6 +19,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: Url.dashboardInboxCreate,
       },
+      {
+        id: 'ticketImport',
+        title: 'Importar',
+        icon: <Circle size={12} />,
+        navLink: Url.reportImport,
+      },
     ],
   },
 ]
