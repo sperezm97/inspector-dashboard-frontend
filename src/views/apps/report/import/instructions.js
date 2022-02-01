@@ -1,7 +1,7 @@
 import { Row, Col } from 'reactstrap';
 
-export const Instructions = () => (
-    <Row>
+export var Instructions = function() {
+  return <Row>
         <Col sm='12' className='ml-50 mb-2'>
         <p className='font-medium-5 mt-1 extension-title' data-tour='extension-title'>
             Importar Tickets
@@ -11,4 +11,4 @@ export const Instructions = () => (
         <p className='text-primary mb-0'>El <b>reporte_zona_id</b> es el código de la zona del reporte.</p>
         </Col>
     </Row>
-)
+}

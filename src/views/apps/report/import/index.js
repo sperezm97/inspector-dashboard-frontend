@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import Select from 'react-select'
 
-import { schemaYup } from './schemaYup'
 
 import XLSX from 'xlsx'
 import Uppy from '@uppy/core'
@@ -26,6 +25,7 @@ import {
   Form,
   Spinner,
 } from 'reactstrap'
+import { schemaYup } from './schemaYup'
 
 import { getTicketPriorities } from '../../../../services/zammad/ticketPriorities'
 import { getTicketStates } from '../../../../services/zammad/ticketStates'

@@ -1,7 +1,7 @@
 import { Row, Col, Card, CardHeader, CardTitle, Table } from 'reactstrap';
 
-export const ExampleTable = () => (
-    <Col sm="12">
+export var ExampleTable = function() {
+  return <Col sm="12">
         <Card>
             <CardHeader className="justify-content-between flex-wrap">
                 <CardTitle tag="h4">Ejemplo.csv</CardTitle>
@@ -32,4 +32,4 @@ export const ExampleTable = () => (
             </Table>
         </Card>
     </Col>
-)
+}

@@ -5,8 +5,8 @@ import 'uppy/dist/uppy.css'
 import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 
-export const DropFile = ({uppy}) => (
-    <Col sm="12">
+export var DropFile = function({uppy}) {
+  return <Col sm="12">
         <Card>
             <CardBody>
                 <Row>
@@ -17,4 +17,4 @@ export const DropFile = ({uppy}) => (
             </CardBody>
         </Card>
     </Col>
-)
+}
