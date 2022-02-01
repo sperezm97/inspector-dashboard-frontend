@@ -6,6 +6,10 @@ export const zammadApi = {
   ticketsByState: 'tickets/search?query=state_id:',
   ticketsByGroup: 'tickets/search?query=group_id:',
 
+  ticketPriorities: 'ticket_priorities',
+  
+  ticketStates: 'ticket_states',
+
   ticketArticles: 'ticket_articles/by_ticket/',
   postTicketArticles: 'ticket_articles',
   ticketArticlesAttachment: 'ticket_attachment/',
