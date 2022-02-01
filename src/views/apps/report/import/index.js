@@ -1,26 +1,41 @@
-import { Fragment, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import Select from 'react-select'
+
+import { schemaYup } from './schemaYup'
+
 import XLSX from 'xlsx'
 import Uppy from '@uppy/core'
 import { X } from 'react-feather'
-import { DragDrop } from '@uppy/react'
 import Avatar from '@components/avatar'
 import { toast } from 'react-toastify'
-import ExtensionsHeader from '@components/extensions-header'
 import {
   Row,
   Col,
   Card,
   CardBody,
-  Table,
   CardHeader,
   CardTitle,
-  Input,
+  Button,
+  FormGroup,
   Label,
+  Form,
+  Spinner,
 } from 'reactstrap'
 
-import 'uppy/dist/uppy.css'
-import '@uppy/status-bar/dist/style.css'
-import '@styles/react/libs/file-uploader/file-uploader.scss'
+import { getTicketPriorities } from '../../../../services/zammad/ticketPriorities'
+import { getTicketStates } from '../../../../services/zammad/ticketStates'
+import { optionsNoteValueSelect, selectThemeColors } from '../../../../utility/Utils'
+import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
+
+import { Instructions } from './instructions'
+import { ExampleTable } from './exampleTable'
+import { DropFile } from './dropFile'
+
 
 const ErrorToast = function() {
   return <>
@@ -40,10 +55,37 @@ const ErrorToast = function() {
 }
 
 const Import = function() {
+
+  const dispatch = useDispatch()
+
   const [tableData, setTableData] = useState([])
-  const [filteredData, setFilteredData] = useState([])
-  const [value, setValue] = useState('')
+  console.log(tableData);
+  // const [filteredData, setFilteredData] = useState([])
+  // const [valueI, setValueI] = useState('')
   const [name, setName] = useState('')
+  const [loadingImport, setLoadingImport] = useState(false)
+
+  const [ticketPriorities, setTicketPriorities] = useState([])
+  const [ticketStates, setTicketStates] = useState([])
+
+  const usersSelector = useSelector((state) => state?.users?.users)
+
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+
+  const { handleSubmit, errors, setValue, control } = useForm({
+    resolver: yupResolver(schemaYup),
+  })
+
+  useEffect(() => {
+  
+    getTicketPriorities()
+      .then(res => setTicketPriorities(res.data))
+    getTicketStates()
+      .then(res => setTicketStates(res.data))
+
+    dispatch(getAllUsersActions())
+  
+    }, [])
 
   const uppy = new Uppy({
     restrictions: { maxNumberOfFiles: 1 },
@@ -75,114 +117,194 @@ const Import = function() {
     }
   })
 
-  const handleFilter = (e) => {
-    const data = tableData
-    let filteredData = []
-    const { value } = e.target
-    setValue(value)
+  // const handleFilter = (e) => {
+  //   const data = tableData
+  //   let filteredData = []
+  //   const { value } = e.target
+  //   setValueI(value)
 
-    if (value.length) {
-      filteredData = data.filter((col) => {
-        const keys = Object.keys(col)
+  //   if (valueI.length) {
+  //     filteredData = data.filter((col) => {
+  //       const keys = Object.keys(col)
 
-        const startsWithCondition = keys.filter((key) =>
-          col[key].toString().toLowerCase().startsWith(value.toLowerCase()),
-        )
+  //       const startsWithCondition = keys.filter((key) =>
+  //         col[key].toString().toLowerCase().startsWith(value.toLowerCase()),
+  //       )
 
-        const includesCondition = keys.filter((key) =>
-          col[key].toString().toLowerCase().includes(value.toLowerCase()),
-        )
+  //       const includesCondition = keys.filter((key) =>
+  //         col[key].toString().toLowerCase().includes(value.toLowerCase()),
+  //       )
 
-        if (startsWithCondition.length) return col[startsWithCondition]
-        if (!startsWithCondition && includesCondition.length)
-          return col[includesCondition]
-        return null
-      })
-      setFilteredData(filteredData)
-      setValue(value)
-    } else {
-      return null
-    }
-  }
+  //       if (startsWithCondition.length) return col[startsWithCondition]
+  //       if (!startsWithCondition && includesCondition.length)
+  //         return col[includesCondition]
+  //       return null
+  //     })
+  //     setFilteredData(filteredData)
+  //     setValueI(value)
+  //   } else {
+  //     return null
+  //   }
+  // }
   /*eslint-disable */
-  const headArr = tableData.length
-    ? tableData.map((col, index) => {
-        if (index === 0) return [...Object.keys(col)]
-        else return null
-      })
-    : []
+  // const headArr = tableData.length
+  //   ? tableData.map((col, index) => {
+  //       if (index === 0) return [...Object.keys(col)]
+  //       else return null
+  //     })
+  //   : []
   /* eslint-enable */
-  const dataArr = value.length
-    ? filteredData
-    : tableData.length && !value.length
-    ? tableData
-    : null
+  // const dataArr = valueI.length
+  //   ? filteredData
+  //   : tableData.length && !valueI.length
+  //   ? tableData
+  //   : null
 
-  const renderTableBody = () => {
-    if (dataArr !== null && dataArr.length) {
-      return dataArr.map((col, index) => {
-        const keys = Object.keys(col)
-        const renderTd = keys.map((key, index) => (
-          <td key={index}>{col[key]}</td>
-        ))
-        return <tr key={index}>{renderTd}</tr>
-      })
-    }
-    return null
-  }
+  // const renderTableBody = () => {
+  //   if (dataArr !== null && dataArr.length) {
+  //     return dataArr.map((col, index) => {
+  //       const keys = Object.keys(col)
+  //       const renderTd = keys.map((key, index) => (
+  //         <td key={index}>{col[key]}</td>
+  //       ))
+  //       return <tr key={index}>{renderTd}</tr>
+  //     })
+  //   }
+  //   return null
+  // }
 
-  const renderTableHead = () => {
-    if (headArr.length) {
-      return headArr[0].map((head, index) => <th key={index}>{head}</th>)
+  // const renderTableHead = () => {
+  //   if (headArr.length) {
+  //     return headArr[0].map((head, index) => <th key={index}>{head}</th>)
+  //   }
+  //   return null
+  // }
+
+  const onSubmit = (data) => {
+    console.log(data);
+    const objAddCsv = {
+      priority_id: data.prioridad,
+      state_id: data.estado,
+      owner_id: data.encargado,
     }
-    return null
   }
 
   return (
     <>
-      <ExtensionsHeader
-        title="Importar Tickets"
-        subTitle="Ejemplo de subtítulo"
-      />
+      <Instructions />
+
       <Row className="import-component">
-        <Col sm="12">
-          <Card>
-            <CardBody>
-              <Row>
-                <Col sm="12">
-                  <DragDrop uppy={uppy} />
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        </Col>
-        {tableData.length ? (
+
+        <ExampleTable />
+
+        {tableData[0] &&
           <Col sm="12">
             <Card>
               <CardHeader className="justify-content-between flex-wrap">
                 <CardTitle tag="h4">{name}</CardTitle>
-                <div className="d-flex align-items-center justify-content-end">
-                  <Label for="search-input" className="mr-1">
-                    Buscar
-                  </Label>
-                  <Input
-                    id="search-input"
-                    type="text"
-                    bsSize="sm"
-                    value={value}
-                    onChange={(e) => handleFilter(e)}
-                  />
-                </div>
               </CardHeader>
-              <Table className="table-hover-animation" responsive>
-                <thead>
-                  <tr>{renderTableHead()}</tr>
-                </thead>
-                <tbody>{renderTableBody()}</tbody>
-              </Table>
+              <CardBody>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Row>
+                    <Col lg="4" md="6" sm="12">
+                      <FormGroup>
+                        <Label>Prioridad</Label>
+                          <Controller
+                            control={control}
+                            name="prioridad"
+                            render={({field}) => <Select 
+                              {...field} 
+                              onChange={e => setValue("prioridad", e.value)}
+                              options={optionsNoteValueSelect(ticketPriorities)}
+                              isLoading={!ticketPriorities[0]}
+                              defaultValue={defaultValueState}
+                              classNamePrefix="select"
+                              theme={selectThemeColors}
+                            />}
+                          />
+                          <p className="text-danger">{
+                            errors.prioridad?.message && errors.prioridad?.message
+                          }</p>
+                      </FormGroup>
+                    </Col>
+
+                    <Col lg="4" md="6" sm="12">
+                      <FormGroup>
+                        <Label>Estado</Label>
+                          <Controller
+                            control={control}
+                            name="estado"
+                            render={({field}) => <Select 
+                              {...field} 
+                              onChange={e => setValue("estado", e.value)}
+                              options={optionsNoteValueSelect(ticketStates)}
+                              isLoading={!ticketStates[0]}
+                              defaultValue={defaultValueState}
+                              classNamePrefix="select"
+                              theme={selectThemeColors}
+                            />}
+                          />
+                          <p className="text-danger">{
+                            errors.estado?.message && errors.estado?.message
+                          }</p>
+                      </FormGroup>
+                    </Col>
+
+                    <Col lg="4" md="6" sm="12">
+                      <FormGroup>
+                        <Label>Encargado</Label>
+                        <Controller
+                          control={control}
+                          name="encargado"
+                          render={({field}) => <Select 
+                            {...field} 
+                            onChange={e => setValue('encargado', e.value)}
+                            options={usersSelector.map(data => ({
+                              value: data.id,
+                              label: `${data.firstname} ${data.lastname}`
+                            }))}
+                            isLoading={!usersSelector[0]}
+                            defaultValue={defaultValueState}
+                            classNamePrefix="select"
+                            theme={selectThemeColors}
+                          />}
+                        />
+                        <p className="text-danger">{
+                          errors.encargado?.message && errors.encargado?.message
+                        }</p>
+                      </FormGroup>
+                    </Col>
+
+                    <Col sm="12" className="mt-2">
+                      <Button
+                        type="submit"
+                        color="primary"
+                        className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+                        disabled={loadingImport}
+                      >
+                        {loadingImport && <Spinner color='white' size='sm' />}
+                        <span className={`${loadingImport && 'ml-50'}`}>
+                            {loadingImport ? 'Importando...' : 'Importar'}
+                        </span>
+                      </Button>
+                      <Button
+                        color="primary"
+                        className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+                        disabled={loadingImport}
+                        outline
+                      >
+                        Descargar Ejemplo
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </CardBody>
             </Card>
           </Col>
-        ) : null}
+        }
+
+        <DropFile uppy={uppy} />
+
       </Row>
     </>
   )
