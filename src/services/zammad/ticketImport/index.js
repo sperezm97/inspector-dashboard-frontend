@@ -12,11 +12,11 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
     let dataCreateTicket = {}
     let idUserCiudadano = null
     let idInstitucion = null
-    let arrIncidente = dataCsv.incidente.split(',')
-    let lengthIncidente = arrIncidente.length - 1
+    const arrIncidente = dataCsv.incidente.split(',')
+    const lengthIncidente = arrIncidente.length - 1
 
     try {
-        //user
+        // user
         const userCedula = await getUserByCedula(dataCsv.ciudadano_id)
         if(userCedula.data[0]) {
             idUserCiudadano = userCedula.data[0].id
@@ -32,7 +32,7 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
             idUserCiudadano = requestUser.data.id
         }
 
-        //organization and group
+        // organization and group
         const organizationData = await getOrganizationByAcronym(dataCsv.institucion)
         if(organizationData.data[0]) {
             idInstitucion = organizationData.data[0].id
@@ -44,7 +44,7 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
             }
         }
         
-        //ticket
+        // ticket
         dataCreateTicket = {
             group_id: idInstitucion,
             customer_id: idUserCiudadano,
