@@ -71,7 +71,7 @@ const institutionCreate = ({ history }) => {
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.message)
         sweetAlertError()      
       })
       .finally(() => setLoadingState(false))

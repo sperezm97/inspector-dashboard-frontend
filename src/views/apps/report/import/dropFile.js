@@ -6,15 +6,9 @@ import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 
 export var DropFile = function({uppy}) {
-  return <Col sm="12">
-        <Card>
-            <CardBody>
-                <Row>
-                    <Col sm="12">
-                        <DragDrop uppy={uppy} />
-                    </Col>
-                </Row>
-            </CardBody>
-        </Card>
-    </Col>
+  return <Row>
+            <Col sm="12">
+                <DragDrop uppy={uppy} />
+            </Col>
+        </Row>
 }

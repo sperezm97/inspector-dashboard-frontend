@@ -35,6 +35,8 @@ import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
 import { Instructions } from './instructions'
 import { ExampleTable } from './exampleTable'
 import { DropFile } from './dropFile'
+import { postTicketImport } from '../../../../services/zammad/ticketImport'
+import { sweetAlert } from '../../../../@core/components/sweetAlert'
 
 
 const ErrorToast = function() {
@@ -59,7 +61,6 @@ const Import = function() {
   const dispatch = useDispatch()
 
   const [tableData, setTableData] = useState([])
-  console.log(tableData);
   // const [filteredData, setFilteredData] = useState([])
   // const [valueI, setValueI] = useState('')
   const [name, setName] = useState('')
@@ -181,12 +182,24 @@ const Import = function() {
   // }
 
   const onSubmit = (data) => {
-    console.log(data);
     const objAddCsv = {
       priority_id: data.prioridad,
       state_id: data.estado,
       owner_id: data.encargado,
     }
+
+    let newArrCsv = []
+
+    tableData.map(async (dataCsv, index) => {
+      newArrCsv = [...newArrCsv, Object.assign(dataCsv, objAddCsv)]
+      const ticketAsync = await postTicketImport(dataCsv, objAddCsv)
+      if(ticketAsync.status !== 201){
+        sweetAlert({
+          title: 'Ticket No creado',
+          text: `Ocurrió un error al crear el Ticket de la línea ${(index + 2)} del archivo CSV.`,
+        })
+      }
+    })    
   }
 
   return (
@@ -197,114 +210,117 @@ const Import = function() {
 
         <ExampleTable />
 
-        {tableData[0] &&
-          <Col sm="12">
-            <Card>
-              <CardHeader className="justify-content-between flex-wrap">
-                <CardTitle tag="h4">{name}</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Row>
-                    <Col lg="4" md="6" sm="12">
-                      <FormGroup>
-                        <Label>Prioridad</Label>
+        <Col sm="12">
+          <Card>
+            {tableData[0] &&
+              <>
+                <CardHeader className="justify-content-between flex-wrap">
+                  <CardTitle tag="h4">{name}</CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Row>
+                      <Col lg="4" md="6" sm="12">
+                        <FormGroup>
+                          <Label>Prioridad</Label>
+                            <Controller
+                              control={control}
+                              name="prioridad"
+                              render={({field}) => <Select 
+                                {...field} 
+                                onChange={e => setValue("prioridad", e.value)}
+                                options={optionsNoteValueSelect(ticketPriorities)}
+                                isLoading={!ticketPriorities[0]}
+                                defaultValue={defaultValueState}
+                                classNamePrefix="select"
+                                theme={selectThemeColors}
+                                />}
+                                />
+                            <p className="text-danger">{
+                              errors.prioridad?.message && errors.prioridad?.message
+                            }</p>
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg="4" md="6" sm="12">
+                        <FormGroup>
+                          <Label>Estado</Label>
+                            <Controller
+                              control={control}
+                              name="estado"
+                              render={({field}) => <Select 
+                              {...field} 
+                                onChange={e => setValue("estado", e.value)}
+                                options={optionsNoteValueSelect(ticketStates)}
+                                isLoading={!ticketStates[0]}
+                                defaultValue={defaultValueState}
+                                classNamePrefix="select"
+                                theme={selectThemeColors}
+                                />}
+                                />
+                            <p className="text-danger">{
+                              errors.estado?.message && errors.estado?.message
+                            }</p>
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg="4" md="6" sm="12">
+                        <FormGroup>
+                          <Label>Encargado</Label>
                           <Controller
                             control={control}
-                            name="prioridad"
+                            name="encargado"
                             render={({field}) => <Select 
-                              {...field} 
-                              onChange={e => setValue("prioridad", e.value)}
-                              options={optionsNoteValueSelect(ticketPriorities)}
-                              isLoading={!ticketPriorities[0]}
-                              defaultValue={defaultValueState}
-                              classNamePrefix="select"
-                              theme={selectThemeColors}
-                            />}
-                          />
-                          <p className="text-danger">{
-                            errors.prioridad?.message && errors.prioridad?.message
-                          }</p>
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg="4" md="6" sm="12">
-                      <FormGroup>
-                        <Label>Estado</Label>
-                          <Controller
-                            control={control}
-                            name="estado"
-                            render={({field}) => <Select 
-                              {...field} 
-                              onChange={e => setValue("estado", e.value)}
-                              options={optionsNoteValueSelect(ticketStates)}
-                              isLoading={!ticketStates[0]}
-                              defaultValue={defaultValueState}
-                              classNamePrefix="select"
-                              theme={selectThemeColors}
-                            />}
-                          />
-                          <p className="text-danger">{
-                            errors.estado?.message && errors.estado?.message
-                          }</p>
-                      </FormGroup>
-                    </Col>
-
-                    <Col lg="4" md="6" sm="12">
-                      <FormGroup>
-                        <Label>Encargado</Label>
-                        <Controller
-                          control={control}
-                          name="encargado"
-                          render={({field}) => <Select 
                             {...field} 
-                            onChange={e => setValue('encargado', e.value)}
-                            options={usersSelector.map(data => ({
-                              value: data.id,
-                              label: `${data.firstname} ${data.lastname}`
-                            }))}
-                            isLoading={!usersSelector[0]}
-                            defaultValue={defaultValueState}
-                            classNamePrefix="select"
-                            theme={selectThemeColors}
-                          />}
-                        />
-                        <p className="text-danger">{
-                          errors.encargado?.message && errors.encargado?.message
-                        }</p>
-                      </FormGroup>
-                    </Col>
+                              onChange={e => setValue('encargado', e.value)}
+                              options={usersSelector.map(data => ({
+                                value: data.id,
+                                label: `${data.firstname} ${data.lastname}`
+                              }))}
+                              isLoading={!usersSelector[0]}
+                              defaultValue={defaultValueState}
+                              classNamePrefix="select"
+                              theme={selectThemeColors}
+                              />}
+                              />
+                          <p className="text-danger">{
+                            errors.encargado?.message && errors.encargado?.message
+                          }</p>
+                        </FormGroup>
+                      </Col>
 
-                    <Col sm="12" className="mt-2">
-                      <Button
-                        type="submit"
-                        color="primary"
-                        className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-                        disabled={loadingImport}
-                      >
-                        {loadingImport && <Spinner color='white' size='sm' />}
-                        <span className={`${loadingImport && 'ml-50'}`}>
-                            {loadingImport ? 'Importando...' : 'Importar'}
-                        </span>
-                      </Button>
-                      <Button
-                        color="primary"
-                        className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-                        disabled={loadingImport}
-                        outline
-                      >
-                        Descargar Ejemplo
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              </CardBody>
-            </Card>
-          </Col>
-        }
+                      <Col sm="12" className="mt-2">
+                        <Button
+                          type="submit"
+                          color="primary"
+                          className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+                          disabled={loadingImport}
+                          >
+                          {loadingImport && <Spinner color='white' size='sm' />}
+                          <span className={`${loadingImport && 'ml-50'}`}>
+                              {loadingImport ? 'Importando...' : 'Importar'}
+                          </span>
+                        </Button>
+                        <Button
+                          color="primary"
+                          className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+                          disabled={loadingImport}
+                          outline
+                        >
+                          Descargar Ejemplo
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </>
+            }
 
-        <DropFile uppy={uppy} />
-
+            <CardBody>
+              <DropFile uppy={uppy} />
+            </CardBody>
+          </Card>
+        </Col>
       </Row>
     </>
   )

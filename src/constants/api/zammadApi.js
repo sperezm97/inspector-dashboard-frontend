@@ -23,6 +23,7 @@ export const zammadApi = {
   allRols: 'roles',
 
   organizations: 'organizations',
+  organizationsByAcronym: (acronym) => `organizations/search?query=acronimo:${acronym}`,
 
   groups: 'groups',
 }
