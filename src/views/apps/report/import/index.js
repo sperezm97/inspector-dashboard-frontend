@@ -37,6 +37,7 @@ import { ExampleTable } from './exampleTable'
 import { DropFile } from './dropFile'
 import { postTicketImport } from '../../../../services/zammad/ticketImport'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
+import Url from '../../../../constants/Url'
 
 
 const ErrorToast = function() {
@@ -56,7 +57,7 @@ const ErrorToast = function() {
   </>
 }
 
-const Import = function() {
+const Import = function({history}) {
 
   const dispatch = useDispatch()
 
@@ -105,8 +106,8 @@ const Import = function() {
       const wb = XLSX.read(fileData, { type: 'binary' })
 
       wb.SheetNames.forEach((sheetName) => {
-        const rowObj = XLSX.utils.sheet_to_row_object_array(
-          wb.Sheets[sheetName],
+        const rowObj = XLSX.utils.sheet_to_json(
+          wb.Sheets[sheetName], { raw: false }
         )
         getTableData(rowObj, result.successful[0].data.name)
       })
@@ -188,16 +189,27 @@ const Import = function() {
       owner_id: data.encargado,
     }
 
+    setLoadingImport(true)
+
     let newArrCsv = []
 
     tableData.map(async (dataCsv, index) => {
       newArrCsv = [...newArrCsv, Object.assign(dataCsv, objAddCsv)]
       const ticketAsync = await postTicketImport(dataCsv, objAddCsv)
-      if(ticketAsync.status !== 201){
+      if(ticketAsync.status === 201){
+        sweetAlert({
+          title: 'Tickets Importados',
+          text: 'Los Tickets se importaron con éxito.',
+          type: 'success'
+        })
+        history.push(Url.dashboardInbox)
+
+      }else {  
         sweetAlert({
           title: 'Ticket No creado',
           text: `Ocurrió un error al crear el Ticket de la línea ${(index + 2)} del archivo CSV.`,
         })
+        setLoadingImport(false)
       }
     })    
   }
