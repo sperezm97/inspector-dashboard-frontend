@@ -66,7 +66,7 @@ const Login = function(props) {
       )
       setLoadingLogin(true)
       const request = axios
-        .get('https://zammad.rgg.digital.gob.do/api/v1/users/me', {
+        .get('https://qa.zammad.rgg.digital.gob.do/api/v1/users/me', {
           headers: {
             'Access-Control-Allow-Origin': '*',
             Authorization: `Basic ${parseToBase}`,
