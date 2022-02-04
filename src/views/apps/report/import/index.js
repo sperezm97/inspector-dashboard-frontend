@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import Select from 'react-select'
 
-
 import XLSX from 'xlsx'
 import Uppy from '@uppy/core'
 import { X } from 'react-feather'
@@ -118,69 +117,6 @@ const Import = function({history}) {
       toast.error(<ErrorToast />, { hideProgressBar: true })
     }
   })
-
-  // const handleFilter = (e) => {
-  //   const data = tableData
-  //   let filteredData = []
-  //   const { value } = e.target
-  //   setValueI(value)
-
-  //   if (valueI.length) {
-  //     filteredData = data.filter((col) => {
-  //       const keys = Object.keys(col)
-
-  //       const startsWithCondition = keys.filter((key) =>
-  //         col[key].toString().toLowerCase().startsWith(value.toLowerCase()),
-  //       )
-
-  //       const includesCondition = keys.filter((key) =>
-  //         col[key].toString().toLowerCase().includes(value.toLowerCase()),
-  //       )
-
-  //       if (startsWithCondition.length) return col[startsWithCondition]
-  //       if (!startsWithCondition && includesCondition.length)
-  //         return col[includesCondition]
-  //       return null
-  //     })
-  //     setFilteredData(filteredData)
-  //     setValueI(value)
-  //   } else {
-  //     return null
-  //   }
-  // }
-  /*eslint-disable */
-  // const headArr = tableData.length
-  //   ? tableData.map((col, index) => {
-  //       if (index === 0) return [...Object.keys(col)]
-  //       else return null
-  //     })
-  //   : []
-  /* eslint-enable */
-  // const dataArr = valueI.length
-  //   ? filteredData
-  //   : tableData.length && !valueI.length
-  //   ? tableData
-  //   : null
-
-  // const renderTableBody = () => {
-  //   if (dataArr !== null && dataArr.length) {
-  //     return dataArr.map((col, index) => {
-  //       const keys = Object.keys(col)
-  //       const renderTd = keys.map((key, index) => (
-  //         <td key={index}>{col[key]}</td>
-  //       ))
-  //       return <tr key={index}>{renderTd}</tr>
-  //     })
-  //   }
-  //   return null
-  // }
-
-  // const renderTableHead = () => {
-  //   if (headArr.length) {
-  //     return headArr[0].map((head, index) => <th key={index}>{head}</th>)
-  //   }
-  //   return null
-  // }
 
   const onSubmit = (data) => {
     const objAddCsv = {

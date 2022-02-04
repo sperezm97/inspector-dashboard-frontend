@@ -236,7 +236,7 @@ const ReportCreate = function({history}) {
 
     setLoadingPost(true)
 
-    const ticketAsync = await postTicketValidateUser(data, previewArr)
+    const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
     if(ticketAsync.status === 201){
       sweetAlert({
         title: 'Ticket creado',
