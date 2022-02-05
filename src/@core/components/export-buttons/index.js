@@ -12,52 +12,9 @@ import {
     DropdownItem,
   } from 'reactstrap'
 
+import { downloadCSV } from '../../../utility/Utils'
+
 export const ExportButtons = ({newDataTable}) => {
-
-    const convertArrayOfObjectsToCSV = (array) => {
-        let result
-    
-        const columnDelimiter = ','
-        const lineDelimiter = '\n'
-        const keys = Object.keys(newDataTable[0])
-    
-        result = ''
-        result += keys.join(columnDelimiter)
-        result += lineDelimiter
-    
-        array.forEach((item) => {
-            let ctr = 0
-            keys.forEach((key) => {
-                if (ctr > 0) result += columnDelimiter
-        
-                result += item[key]
-        
-                ctr++
-            })
-            result += lineDelimiter
-        })
-    
-        return result
-    }
-
-    const downloadCSV = () => {
-        
-        if(newDataTable === []) return
-        
-        const link = document.createElement('a')
-        let csv = convertArrayOfObjectsToCSV(newDataTable)
-        if (csv === null) return
-
-        const filename = 'export.csv'
-    
-        if (!csv.match(/^data:text\/csv/i)) {
-          csv = `data:text/csv;charset=utf-8,${csv}`
-        }
-    
-        link.setAttribute('href', encodeURI(csv))
-        link.setAttribute('download', filename)
-        link.click()
-    }
 
     return (
         <UncontrolledButtonDropdown>
@@ -72,7 +29,7 @@ export const ExportButtons = ({newDataTable}) => {
                 </DropdownItem> */}
                 <DropdownItem
                     className="w-100"
-                    onClick={() => downloadCSV()}
+                    onClick={() => downloadCSV(newDataTable)}
                 >
                     <FileText size={15} />
                     <span className="align-middle ml-50">CSV</span>
