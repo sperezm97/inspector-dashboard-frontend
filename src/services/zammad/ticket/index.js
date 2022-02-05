@@ -35,6 +35,7 @@ export const postTicketValidateUser = async (dataObj, infoCedula, previewArr) =>
                 cedula: infoCedula.id,
                 firstname: infoCedula.names,
                 lastname: `${infoCedula.firstSurname} ${infoCedula.secondSurname}`,
+                zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}${dataObj.seccion}${dataObj.barrio.value}${dataObj.subBarrio.value}`,
                 phone: dataObj.telefono,
             }
             const requestUser = await postUser(objUserZammad)
@@ -43,12 +44,12 @@ export const postTicketValidateUser = async (dataObj, infoCedula, previewArr) =>
  
         dataCreateTicket = {
             customer_id: idUserCiudadano,
-            title: `${dataObj?.subCategoria.label} en ${dataObj.direccion}`,
+            title: `${dataObj?.subCategoria.label} en ${dataObj.subBarrio.label}`,
             group_id: dataObj.institucion,
             owner_id: idUserMe,
             state_id: 1,
             address: dataObj.direccion,
-            zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}${dataObj.seccion}${dataObj.barrio}${dataObj.subBarrio}`,
+            zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}${dataObj.seccion}${dataObj.barrio.value}${dataObj.subBarrio.value}`,
             article: {
                 subject: '',
                 body: dataObj.descripcion,
