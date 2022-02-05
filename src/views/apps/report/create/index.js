@@ -210,7 +210,7 @@ const ReportCreate = function({history}) {
   }
 
   const handleGetSubNeighborhoodByIdNeighborhood = (e) => {
-    setValue('barrio', e.value)
+    setValue('barrio', e)
     setNeighborhoodValueState(e)
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
@@ -558,7 +558,7 @@ const ReportCreate = function({history}) {
               name="subBarrio"
               render={({field}) => <Select 
                 {...field} 
-                onChange={e => setValue('subBarrio', e.value)}
+                onChange={e => setValue('subBarrio', e)}
                 options={optionsCodeValueSelect(subNeighborhoodState)}
                 isLoading={!subNeighborhoodState[0]}
                 defaultValue={subNeighborhoodValueState}

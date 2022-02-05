@@ -1,13 +1,13 @@
 import * as yup from 'yup'
 
 export const schemaYup = yup.object().shape({
-  incidente: yup.number().required('El Incidente es obligatorio'),
-  categoria: yup.number().required('La Categoría es obligatoria'),
+  incidente: yup.string().required('El Incidente es obligatorio'),
+  categoria: yup.string().required('La Categoría es obligatoria'),
   subCategoria: yup.object({
-    value: yup.number(),
+    value: yup.string(),
     label: yup.string(),
   }).default(null).nullable().required('La Sub-Categoría es obligatoria'),
-  institucion: yup.number().required('La Institución es obligatoria'),
+  institucion: yup.string().required('La Institución es obligatoria'),
   cedula: yup.string()
     .required('La Cédula es obligatoria')
     .length(11, 'Debe tener exactamente 11 dígitos'),
@@ -19,17 +19,16 @@ export const schemaYup = yup.object().shape({
   municipio: yup.string().required('El Municipio es obligatorio'),
   distrito: yup.string().required('El Distrito es obligatorio'),
   seccion: yup.string().required('La Sección es obligatoria'),
-  barrio: yup.string().required('El Barrio es obligatorio'),
-  subBarrio: yup.string().required('El Sub-Barrio es obligatorio'),
+  barrio: yup.object({
+    value: yup.string(),
+    label: yup.string(),
+  }).default(null).nullable().required('El Barrio es obligatorio'),
+  subBarrio: yup.object({
+    value: yup.string(),
+    label: yup.string(),
+  }).default(null).nullable().required('El Sub-Barrio es obligatorio'),
   direccion: yup.string().trim()
     .required('La Dirección es obligatoria'),
-  // archivo: yup.array().of(
-  //   yup.object().shape({
-  //     Data: yup.string(),
-  //     Filename: yup.string(),
-  //     MimeType: yup.string(),
-  //   })
-  // ),
   descripcion: yup.string().trim()
     .required('La Descripción es obligatoria'),
 })

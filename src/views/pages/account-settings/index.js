@@ -37,7 +37,7 @@ const schema = yup.object().shape({
   email: yup.string().required().trim().email(),
   // organization: yup.string().required().trim(),
   // rols: yup.string().required().trim(),
-  cedula: yup.number().required(),
+  cedula: yup.string().required(),
   phone: yup.number().required(),
   // zone: yup.string().required().trim(),
   password: yup.string().required().trim(),
