@@ -125,7 +125,7 @@ const Import = function({history}) {
       owner_id: data.encargado,
     }
 
-    let newArrCsv = []
+    const newArrCsv = []
 
     tableData.map((dataCsv) => newArrCsv.push(Object.assign(dataCsv, objAddCsv)))
   
@@ -157,7 +157,7 @@ const Import = function({history}) {
 
     setLoadingImport(true)
 
-    let newArrCsv = []
+    const newArrCsv = []
 
     const postAllTicket = await Promise.all(
       tableData.map(async (dataCsv) => {

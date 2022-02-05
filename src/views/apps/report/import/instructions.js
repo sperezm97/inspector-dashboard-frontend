@@ -1,6 +1,6 @@
 import { Row, Col } from 'reactstrap';
 
-export const Instructions = () => {
+export var Instructions = function() {
 
     const dataInstructions = [
         {
