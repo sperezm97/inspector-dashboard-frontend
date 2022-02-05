@@ -28,14 +28,14 @@ import { schemaYup } from './schemaYup'
 
 import { getTicketPriorities } from '../../../../services/zammad/ticketPriorities'
 import { getTicketStates } from '../../../../services/zammad/ticketStates'
-import { optionsNoteValueSelect, selectThemeColors } from '../../../../utility/Utils'
+import { downloadCSV, optionsNoteValueSelect, selectThemeColors } from '../../../../utility/Utils'
 import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
 
 import { Instructions } from './instructions'
 import { ExampleTable } from './exampleTable'
 import { DropFile } from './dropFile'
 import { postTicketImport } from '../../../../services/zammad/ticketImport'
-import { sweetAlert } from '../../../../@core/components/sweetAlert'
+import { sweetAlert, sweetAlertError } from '../../../../@core/components/sweetAlert'
 import Url from '../../../../constants/Url'
 
 
@@ -118,7 +118,37 @@ const Import = function({history}) {
     }
   })
 
-  const onSubmit = (data) => {
+  const handleDownloadCsv = (data) => {
+    const objAddCsv = {
+      priority_id: data.prioridad,
+      state_id: data.estado,
+      owner_id: data.encargado,
+    }
+
+    let newArrCsv = []
+
+    tableData.map((dataCsv) => newArrCsv.push(Object.assign(dataCsv, objAddCsv)))
+  
+    downloadCSV(newArrCsv)
+  }
+
+  const onSubmit = async (data) => {
+
+    const validateArrCSV = tableData.every(data => 
+      data?.ciudadano_id?.length > 0 && 
+      data?.reporte_zona_id?.length > 0 &&
+      data?.reporte_direccion?.length > 0 &&
+      data?.institucion?.length > 0
+    )
+
+    if(!validateArrCSV) {
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Si desea importar todos los tickets proporciona todos los campos de validación necesarios.',
+        type: 'warning'
+      })
+    }
+    
     const objAddCsv = {
       priority_id: data.prioridad,
       state_id: data.estado,
@@ -129,25 +159,41 @@ const Import = function({history}) {
 
     let newArrCsv = []
 
-    tableData.map(async (dataCsv, index) => {
-      newArrCsv = [...newArrCsv, Object.assign(dataCsv, objAddCsv)]
-      const ticketAsync = await postTicketImport(dataCsv, objAddCsv)
-      if(ticketAsync.status === 201){
-        sweetAlert({
-          title: 'Tickets Importados',
-          text: 'Los Tickets se importaron con éxito.',
-          type: 'success'
-        })
-        history.push(Url.dashboardInbox)
-
-      }else {  
-        sweetAlert({
-          title: 'Ticket No creado',
-          text: `Ocurrió un error al crear el Ticket de la línea ${(index + 2)} del archivo CSV.`,
-        })
-        setLoadingImport(false)
+    const postAllTicket = await Promise.all(
+      tableData.map(async (dataCsv) => {
+        newArrCsv.push(Object.assign(dataCsv, objAddCsv))
+        return await postTicketImport(dataCsv, objAddCsv)
+      })
+    ).then((res) => {
+        const validateRequestSome = res.some(data => data.status === 201)
+        const validateRequestEvery = res.every(data => data.status === 201)
+        console.log('res', res);
+        console.log('validateRequestSome', validateRequestSome);
+        console.log('validateRequestEvery', validateRequestEvery);
+        if(validateRequestEvery){
+          sweetAlert({
+            title: 'Tickets Importados',
+            text: 'Los Tickets se importaron con éxito.',
+            type: 'success'
+          })
+          history.push(Url.dashboardInbox)
+        }else if(!validateRequestEvery && validateRequestSome){
+          sweetAlert({
+            title: 'Algunos Tickets No creados',
+            text: `Ocurrió un error al crear algunos de los tickets del archivo CSV.`,
+            type: 'warning'
+          })
+          history.push(Url.dashboardInbox)
+        }else{
+          sweetAlert({
+            title: 'Tickets No creados',
+            text: `Ocurrió un error al crear los tickets del archivo CSV.`,
+          })
+        }
+      
       }
-    })    
+      ).catch(() => sweetAlertError()
+      ).finally(() => setLoadingImport(false))
   }
 
   return (
@@ -253,6 +299,7 @@ const Import = function({history}) {
                           color="primary"
                           className="mb-1 mb-sm-0 mr-0 mr-sm-1"
                           disabled={loadingImport}
+                          onClick={handleSubmit(handleDownloadCsv)}
                           outline
                         >
                           Descargar Ejemplo
