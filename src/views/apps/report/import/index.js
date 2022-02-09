@@ -157,11 +157,8 @@ const Import = function({history}) {
 
     setLoadingImport(true)
 
-    const newArrCsv = []
-
     const postAllTicket = await Promise.all(
       tableData.map(async (dataCsv) => {
-        newArrCsv.push(Object.assign(dataCsv, objAddCsv))
         return await postTicketImport(dataCsv, objAddCsv)
       })
     ).then((res) => {
