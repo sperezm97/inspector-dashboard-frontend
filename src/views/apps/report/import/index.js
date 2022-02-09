@@ -158,9 +158,7 @@ const Import = function({history}) {
     setLoadingImport(true)
 
     const postAllTicket = await Promise.all(
-      tableData.map(async (dataCsv) => {
-        return await postTicketImport(dataCsv, objAddCsv)
-      })
+      tableData.map(async (dataCsv) => await postTicketImport(dataCsv, objAddCsv))
     ).then((res) => {
         const validateRequestSome = res.some(data => data.status === 201)
         const validateRequestEvery = res.every(data => data.status === 201)
