@@ -25,6 +25,7 @@ import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/org
 import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import {
+  addAllGroupsToUser,
   optionsCodeValueSelect,
   optionsZammadIdValueSelect,
   selectThemeColors,
@@ -36,6 +37,7 @@ import { getInfoCedula } from '../../../../services/cedula'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
+import { getGroups } from '../../../../services/zammad/group'
 
 const UserCreate = function({history}) {
   const dispatch = useDispatch()
@@ -43,6 +45,8 @@ const UserCreate = function({history}) {
   const [loadingCreate, setLoadingCreate] = useState(false)
 
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  
+  const [ groupsState, setGroupsState ] = useState([])
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -59,6 +63,10 @@ const UserCreate = function({history}) {
     dispatch(getAllOrganizationsActions())
     dispatch(getAllRolsActions())
     dispatch(getAllRegionsActions())
+
+    getGroups()
+      .then((res) => setGroupsState(res.data))
+      .catch((err) => console.log(err))
   }, [])
 
   const dataTableOrganizations = useSelector(
@@ -124,7 +132,7 @@ const UserCreate = function({history}) {
   }
 
   const onSubmit = async (data) => {
-    // console.log('data', data)
+
     const objZammad = {
       cedula: data.cedula,
       firstname: infoCedulaState.names,
@@ -136,9 +144,12 @@ const UserCreate = function({history}) {
       role_ids: data.permisos.map((data) => data.value),
       zone: data.region + data.provincia + data.municipio + data.distrito,
       password: data.cPassword,
+      note: 'User created from the BackOffice',
+      group_ids: addAllGroupsToUser(groupsState)
     }
 
     console.log('objZammad', objZammad)
+    
     setLoadingCreate(true)
     postUser(objZammad)
       .then((res) => {
