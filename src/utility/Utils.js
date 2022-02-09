@@ -159,6 +159,14 @@ export const filterByStatusTickets = (tickets = [], label = '') =>
 export const filterByPriorityTickets = (tickets = [], label = '') =>
   tickets.filter((ticket) => ticket.priority === label)
 
+export const addAllGroupsToUser = (groupsState) => {
+  let newGroup = {}
+      
+  groupsState.map((group) => newGroup = {...newGroup, [group.id] : ["full"]} )
+
+  return newGroup
+}
+
 
 export const downloadCSV = (dataTable) => {
 
