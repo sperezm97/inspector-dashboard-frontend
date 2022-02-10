@@ -165,8 +165,8 @@ const Import = function({history}) {
     organizationData = await (await getOrganizations()).data
     groupData = await (await getGroups()).data
 
-    let arrTablaDataFilter = tableData.map(item => item.institucion)
-    let newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
+    const arrTablaDataFilter = tableData.map(item => item.institucion)
+    const newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
     console.log('newArrTablaDataFilter', newArrTablaDataFilter)
     const postAllOG = await Promise.all(
       newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
