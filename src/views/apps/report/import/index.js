@@ -34,9 +34,11 @@ import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
 import { Instructions } from './instructions'
 import { ExampleTable } from './exampleTable'
 import { DropFile } from './dropFile'
-import { postTicketImport } from '../../../../services/zammad/ticketImport'
+import { postTicketImport, postTicketImportOG } from '../../../../services/zammad/ticketImport'
 import { sweetAlert, sweetAlertError } from '../../../../@core/components/sweetAlert'
 import Url from '../../../../constants/Url'
+import { getOrganizations } from '../../../../services/zammad/organization'
+import { getGroups } from '../../../../services/zammad/group'
 
 
 const ErrorToast = function() {
@@ -156,6 +158,20 @@ const Import = function({history}) {
     }
 
     setLoadingImport(true)
+
+    let organizationData = []
+    let groupData = []
+    
+    organizationData = await (await getOrganizations()).data
+    groupData = await (await getGroups()).data
+
+    let arrTablaDataFilter = tableData.map(item => item.institucion)
+    let newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
+    console.log('newArrTablaDataFilter', newArrTablaDataFilter)
+    const postAllOG = await Promise.all(
+      newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
+    ).then(res => console.log('res', res))
+    .catch(err => console.log('err', err))
 
     const postAllTicket = await Promise.all(
       tableData.map(async (dataCsv) => await postTicketImport(dataCsv, objAddCsv))
