@@ -1,5 +1,6 @@
 import { zammadAxios } from "../../../configs/axios";
 import { zammadApi } from "../../../constants/api/zammadApi";
+import { addAllGroupsToUser } from "../../../utility/Utils";
 import { getUserByCedula, getUserMe, postUser, putUser } from "../user";
 
 export const putUpdateStatusTicket = async (dataObj) => await zammadAxios.put(`${zammadApi.tickets}/${dataObj.id}`, dataObj)
@@ -13,19 +14,23 @@ export const postTicket = async (dataObj) => await zammadAxios.post(zammadApi.ti
 export const postTicketValidateUser = async (dataObj, infoCedula, previewArr) => {
 
     let idUserMe = null
+    let groupData = null
     let dataCreateTicket = {}
     let dataUserUpdate = {}
     let idUserCiudadano = null
 
     try {
         const user = await getUserMe()
+        groupData = await getGroups()
         idUserMe = user.data.id
         const userCedula = await getUserByCedula(dataObj.cedula)
         if(userCedula.data[0]) {
             dataUserUpdate = {
                 id: userCedula.data[0].id,
                 phone: dataObj.telefono,
-                zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}`
+                zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}`,
+                note: 'User updated from the BackOffice (Ticket create)',
+                group_ids: addAllGroupsToUser(groupData)
             }
             const updateUser = await putUser(dataUserUpdate)
             idUserCiudadano = updateUser.data.id 
@@ -37,6 +42,9 @@ export const postTicketValidateUser = async (dataObj, infoCedula, previewArr) =>
                 lastname: `${infoCedula.firstSurname} ${infoCedula.secondSurname}`,
                 zone: `${dataObj.region}${dataObj.provincia}${dataObj.municipio}${dataObj.distrito}${dataObj.seccion}${dataObj.barrio.value}${dataObj.subBarrio.value}`,
                 phone: dataObj.telefono,
+                role_ids: [2, 3],
+                note: 'User created from the BackOffice (Ticket create)',
+                group_ids: addAllGroupsToUser(groupData)
             }
             const requestUser = await postUser(objUserZammad)
             idUserCiudadano = requestUser.data.id
