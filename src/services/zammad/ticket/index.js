@@ -1,6 +1,7 @@
 import { zammadAxios } from "../../../configs/axios";
 import { zammadApi } from "../../../constants/api/zammadApi";
 import { addAllGroupsToUser } from "../../../utility/Utils";
+import { getGroups } from "../group";
 import { getUserByCedula, getUserMe, postUser, putUser } from "../user";
 
 export const putUpdateStatusTicket = async (dataObj) => await zammadAxios.put(`${zammadApi.tickets}/${dataObj.id}`, dataObj)
@@ -21,7 +22,7 @@ export const postTicketValidateUser = async (dataObj, infoCedula, previewArr) =>
 
     try {
         const user = await getUserMe()
-        groupData = await getGroups()
+        groupData = await (await getGroups()).data
         idUserMe = user.data.id
         const userCedula = await getUserByCedula(dataObj.cedula)
         if(userCedula.data[0]) {
