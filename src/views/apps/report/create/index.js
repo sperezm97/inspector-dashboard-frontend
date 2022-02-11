@@ -41,6 +41,7 @@ import { getSubNeighborhoodByIdSectionByIdNeighborhood } from '../../../../servi
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
 import { postTicketValidateUser } from '../../../../services/zammad/ticket'
+import { postTicketArrTags } from '../../../../services/zammad/ticketTags'
 import Url from '../../../../constants/Url'
 
 const ReportCreate = function({history}) {
@@ -92,23 +93,23 @@ const ReportCreate = function({history}) {
     resolver: yupResolver(schemaYup),
   })
 
-  const getCategoryByIdService = ({value}) => {
-    setValue("incidente", value)
-    setHierarchies({...hierarchies, category: value})
+  const getCategoryByIdService = (e) => {
+    setValue("incidente", e)
+    setHierarchies({...hierarchies, category: e.value})
     setDataTableCategories([])
     setDataTableSubCategories([])
     setDataTableOrganizations([])
-    if(!value) return
-    getIncidentCategoryByIdService(value).then(({data}) => setDataTableCategories(data))
-    getIncidentOrganizationByIdService(value).then(({data}) => setDataTableOrganizations(data))
+    if(!e.value) return
+    getIncidentCategoryByIdService(e.value).then(({data}) => setDataTableCategories(data))
+    getIncidentOrganizationByIdService(e.value).then(({data}) => setDataTableOrganizations(data))
   }
 
-  const getSubCategoryByIdServiceByIdCategory = ({value}) => {
-    setValue("categoria", value)
+  const getSubCategoryByIdServiceByIdCategory = (e) => {
+    setValue("categoria", e)
     setDataTableSubCategories([])
-    if(!value) return
-    setHierarchies({...hierarchies, subCategory: value})
-    getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, value).then(({data}) => setDataTableSubCategories(data))
+    if(!e.value) return
+    setHierarchies({...hierarchies, subCategory: e.value})
+    getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({data}) => setDataTableSubCategories(data))
   }
 
   const handleDataCedula = ({target}) => {
@@ -237,7 +238,29 @@ const ReportCreate = function({history}) {
     setLoadingPost(true)
 
     const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
+    console.log('ticketAsync', ticketAsync)
     if(ticketAsync.status === 201){
+      let objTicketTags = {
+        object: "Ticket",
+        o_id: ticketAsync?.data?.id,
+      }
+      let objIncidente = {
+        item: data.incidente.label,
+        ...objTicketTags
+      }
+      let objCategoria = {
+        item: data.categoria.label,
+        ...objTicketTags
+      }
+      let objSubCategoria = {
+        item: data.subCategoria.label,
+        ...objTicketTags
+      }
+      
+      postTicketArrTags([objIncidente, objCategoria, objSubCategoria])
+        .then(res => console.log('res tags: ', res))
+        .catch(err => console.log('err tags: ', err))
+
       sweetAlert({
         title: 'Ticket creado',
         text: 'Ticket creado con éxito.',

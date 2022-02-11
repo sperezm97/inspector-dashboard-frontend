@@ -5,7 +5,7 @@ import profileImgPerson from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 import { statusPriority, statusTickets } from '../../../../@core/components/status'
 import { formatDate } from '../../../../utility/Utils'
 
-const CardProfile = function({dataTicket, dataUserOwner}) {
+const CardProfile = function({dataTicket, dataUserOwner, dataTicketTags}) {
   return <Card>
     <CardBody>
       <h2 className="mb-0">{dataTicket.group}</h2>
@@ -31,7 +31,19 @@ const CardProfile = function({dataTicket, dataUserOwner}) {
         </div>
       </div>
 
-      <hr className="mb-2" />
+      {dataTicketTags[0] &&
+        <>
+          <hr />
+          {dataTicketTags.map((tags, index) => (
+            <Badge key={index} style={{margin: '5px'}} color='light-secondary'>
+              {tags}
+            </Badge>
+          ))}
+        </>
+      }
+
+      <hr />
+
       {dataUserOwner &&
         <h4 className="mb-0 text-left">{dataUserOwner.firstname} {dataUserOwner.lastname}</h4>
       }

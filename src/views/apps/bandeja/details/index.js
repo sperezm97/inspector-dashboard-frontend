@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-// ** Third Party Components
-import axios from 'axios'
 import { Row, Col, Alert } from 'reactstrap'
 
-// ** Invoice Preview Components
 import CardChat from './CardChat'
 import CardProfile from './CardProfile'
 import CardUserInfo from './CardUserInfo'
@@ -18,12 +15,14 @@ import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinn
 import { getUserById, getUserMe } from '../../../../services/zammad/user'
 import { getTicketById } from '../../../../services/zammad/ticket'
 import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { getTicketsTags } from '../../../../services/zammad/ticketTags'
 
 const InvoicePreview = function() {
-  // ** Vars
+
   const { id } = useParams()
 
   const [dataTicketArticles, setDataTicketArticles] = useState(null)
+  const [dataTicketTags, setDataTicketTags] = useState(null)
   const [dataTicket, setDataTicket] = useState(null)
   const [dataUserMe, setDataUserMe] = useState(null)
   const [dataUserOwner, setDataUserOwner] = useState(null)
@@ -67,6 +66,10 @@ const InvoicePreview = function() {
     getUserMe()
       .then(res => setDataUserMe(res.data))
       .catch(err => console.log(err.response))
+
+    getTicketsTags(id)
+      .then(res => setDataTicketTags(res.data))
+      .catch(err => console.log(err.response))
   }, [])
 
   useEffect(() => {
@@ -103,6 +106,7 @@ const InvoicePreview = function() {
           <CardProfile
             dataTicket={dataTicket}
             dataUserOwner={dataUserOwner}
+            dataTicketTags={dataTicketTags.tags}
           />
           {/* <CardUserInfo /> */}
           {dataUserCustomer &&

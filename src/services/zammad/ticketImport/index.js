@@ -4,6 +4,7 @@ import { addAllGroupsToUser } from "../../../utility/Utils";
 import { getInfoCedula } from "../../cedula";
 import { getGroups, postGroup } from "../group";
 import { getOrganizationByAcronym, getOrganizations, postOrganization } from "../organization";
+import { postTicketArrTags } from "../ticketTags";
 import { getUserByCedula, postUser, putUser } from "../user";
 
 export const postTicketImportOG = async (dataOG) => {
@@ -109,6 +110,17 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
             }
         }
         const postTicketAsy = await postTicket(dataCreateTicket)
+
+        let newArrtags = arrIncidente.map(arr => {
+            return {
+                item: arr,
+                object: "Ticket",
+                o_id: postTicketAsy?.data?.id,
+            } 
+        })
+        postTicketArrTags(newArrtags)
+            .then(res => console.log('res tags: ', res))
+            .catch(err => console.log('err tags: ', err))
         
         return postTicketAsy
         

@@ -1,8 +1,14 @@
 import * as yup from 'yup'
 
 export const schemaYup = yup.object().shape({
-  incidente: yup.string().required('El Incidente es obligatorio'),
-  categoria: yup.string().required('La Categoría es obligatoria'),
+  incidente: yup.object({
+    value: yup.string(),
+    label: yup.string(),
+  }).default(null).nullable().required('El Incidente es obligatorio'),
+  categoria: yup.object({
+    value: yup.string(),
+    label: yup.string(),
+  }).default(null).nullable().required('La Categoría es obligatoria'),
   subCategoria: yup.object({
     value: yup.string(),
     label: yup.string(),
