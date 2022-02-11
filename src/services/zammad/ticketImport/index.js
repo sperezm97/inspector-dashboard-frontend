@@ -111,13 +111,11 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
         }
         const postTicketAsy = await postTicket(dataCreateTicket)
 
-        let newArrtags = arrIncidente.map(arr => {
-            return {
+        const newArrtags = arrIncidente.map(arr => ({
                 item: arr,
                 object: "Ticket",
                 o_id: postTicketAsy?.data?.id,
-            } 
-        })
+            }))
         postTicketArrTags(newArrtags)
             .then(res => console.log('res tags: ', res))
             .catch(err => console.log('err tags: ', err))

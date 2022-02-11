@@ -240,19 +240,19 @@ const ReportCreate = function({history}) {
     const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
     console.log('ticketAsync', ticketAsync)
     if(ticketAsync.status === 201){
-      let objTicketTags = {
+      const objTicketTags = {
         object: "Ticket",
         o_id: ticketAsync?.data?.id,
       }
-      let objIncidente = {
+      const objIncidente = {
         item: data.incidente.label,
         ...objTicketTags
       }
-      let objCategoria = {
+      const objCategoria = {
         item: data.categoria.label,
         ...objTicketTags
       }
-      let objSubCategoria = {
+      const objSubCategoria = {
         item: data.subCategoria.label,
         ...objTicketTags
       }
