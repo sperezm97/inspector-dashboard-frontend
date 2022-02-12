@@ -65,40 +65,6 @@ const institutionCreate = ({ history, match }) => {
     resolver: yupResolver(schemaYup),
   })
 
-  const onSubmit = async (data) => {
-    const objZammad = {
-      name: data.name,
-      acronimo: data.acronimo.toUpperCase(),
-      service: data.servicio,
-      phonenumber: data.phonenumber,
-      address: data.address,
-      email: data.email,
-      domain: data.website,
-      manager: data.encargado,
-    }
-    console.log(objZammad)
-    setLoadingState(true)
-    putOrganization(idParams, objZammad)
-      .then(response => {
-        if (response.status === 200) {
-          putGroup(dataGroups.id, {name: objZammad.name, acronimo: objZammad.acronimo})
-            .then(() => {
-              sweetAlertGood()
-              history.push(Url.institution)
-            })
-            .catch(() => {
-              sweetAlertError()
-              setLoadingState(false)
-            })
-        }
-      })
-      .catch((err) => {
-        console.log(err.message)
-        sweetAlertError()
-        setLoadingState(false)      
-      })
-  }
-
   useEffect(() => {
     if(servicesSelector[0] && Object.keys(dataInstitution)[0]){
       filterSelectServices(dataInstitution.service)
@@ -132,6 +98,39 @@ const institutionCreate = ({ history, match }) => {
     setValue('encargado', id)
   }
 
+  const onSubmit = async (data) => {
+    const objZammad = {
+      name: data.name,
+      acronimo: data.acronimo.toUpperCase(),
+      service: data.servicio,
+      phonenumber: data.phonenumber,
+      address: data.address,
+      email: data.email,
+      domain: data.website,
+      manager: data.encargado,
+    }
+    console.log(objZammad)
+    setLoadingState(true)
+    putOrganization(idParams, objZammad)
+      .then(response => {
+        if (response.status === 200) {
+          putGroup(dataGroups.id, {name: objZammad.name, acronimo: objZammad.acronimo})
+            .then(() => {
+              sweetAlertGood()
+              history.push(Url.institution)
+            })
+            .catch(() => {
+              sweetAlertError()
+              setLoadingState(false)
+            })
+        }
+      })
+      .catch((err) => {
+        console.log(err.message)
+        sweetAlertError()
+        setLoadingState(false)      
+      })
+  }
 
   return (
     <CardGrid cardHeaderTitle="Editar Institución">

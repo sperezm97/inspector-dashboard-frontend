@@ -76,7 +76,10 @@ export const columns = [
     minWidth: '172px',
     selector: 'roles',
     sortable: true,
-    cell: (row) => row.roles.map((rol, index) => getRol(rol, index)),
+    cell: (row) => {
+      let newRols = [...new Set(row.roles)]
+      return newRols.map((rol, index) => getRol(rol, index))
+    } 
   },
   {
     name: 'Acciones',
