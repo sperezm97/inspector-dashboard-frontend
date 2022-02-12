@@ -77,7 +77,7 @@ export const columns = [
     selector: 'roles',
     sortable: true,
     cell: (row) => {
-      let newRols = [...new Set(row.roles)]
+      const newRols = [...new Set(row.roles)]
       return newRols.map((rol, index) => getRol(rol, index))
     } 
   },
