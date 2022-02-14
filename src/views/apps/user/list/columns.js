@@ -4,6 +4,7 @@ import {
   rowClient,
   rowActions,
 } from '../../../../@core/components/table/commonColumns'
+import Url from '../../../../constants/Url'
 
 export const getRol = (rol, index) => (
   <span key={index} style={{ marginRight: '5px' }}>
@@ -84,6 +85,11 @@ export const columns = [
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => rowActions(row.id),
+    cell: (row) => {
+      const url = {
+        edit: Url.userEdit,
+      }
+      return rowActions(row.id, url)
+    },
   },
 ]
