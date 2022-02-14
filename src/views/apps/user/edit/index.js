@@ -102,9 +102,7 @@ const UserCreate = function({history, match}) {
       setValue('distrito', dataInfoUser?.zone.substr(6, 2))
       filterSelectsTerritories()
       setInfoCedulaState2(`${dataInfoUser?.firstname} ${dataInfoUser?.lastname}`)
-      setPermisosValueState(dataInfoUser.roles.map((data, index) => {
-        return {value: dataInfoUser.role_ids[index], label: data}
-      }))
+      setPermisosValueState(dataInfoUser.roles.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
     }
   }, [dataTableOrganizations, dataInfoUser])
 
