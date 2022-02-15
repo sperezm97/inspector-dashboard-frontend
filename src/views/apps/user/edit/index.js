@@ -114,22 +114,22 @@ const UserCreate = function({history, match}) {
 
   useEffect(() => {
     if(regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone?.length >= 2){
-      let regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
+      const regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
       setRegionValueState({value: regionValue?.code, label: regionValue?.name})      
     }
 
     if(provinceState[0] && executeState && dataInfoUser?.zone?.length >= 4){
-      let provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone.substr(2, 2))
+      const provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone.substr(2, 2))
       setProvinceValueState({value: provinceValue?.code, label: provinceValue?.name})
     }
 
     if(municipalityState[0] && executeState && dataInfoUser?.zone?.length >= 6){
-      let municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone.substr(4, 2))
+      const municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone.substr(4, 2))
       setMunicipalityValueState({value: municipalityValue?.code, label: municipalityValue?.name})      
     }
 
     if(districtState[0] && executeState && dataInfoUser?.zone?.length >= 8){
-      let districtValue = districtState.find(data => data.code === dataInfoUser?.zone.substr(6, 2))
+      const districtValue = districtState.find(data => data.code === dataInfoUser?.zone.substr(6, 2))
       setDistrictValueState({value: districtValue?.code, label: districtValue?.name})      
     }
 
