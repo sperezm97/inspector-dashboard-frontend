@@ -132,6 +132,7 @@ const ReportCreate = function({history}) {
   const handleSetInstitution = (e) => {
     const findInstitution = dataTableOrganizations.find(data => data.id === e.value)
     console.log('findInstitution', findInstitution)
+    if(!findInstitution) return
     const findedGroup = dataGroupState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
     const findedOrganization = dataOrganizationState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
     console.log('findedGroup', findedGroup)
