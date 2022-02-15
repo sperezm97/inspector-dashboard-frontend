@@ -188,6 +188,9 @@ const UserCreate = function({history, match}) {
 
   const handleGetProvinceByIdRegion = (e) => {
     setValue('region', e.value)
+    setValue('provincia', "")
+    setValue('municipio', "")
+    setValue('distrito', "")
     setRegionValueState(e)
     setProvinceValueState(defaultValueState)
     setProvinceState([])
@@ -201,6 +204,8 @@ const UserCreate = function({history, match}) {
 
   const handleGetMunicipalityByIdProvince = (e) => {
     setValue('provincia', e.value)
+    setValue('municipio', "")
+    setValue('distrito', "")
     setProvinceValueState(e)
     setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
@@ -212,6 +217,7 @@ const UserCreate = function({history, match}) {
 
   const handleGetDistrictByIdMunicipality = (e) => {
     setValue('municipio', e.value)
+    setValue('distrito', "")
     setMunicipalityValueState(e)
     setDistrictValueState(defaultValueState)
     setDistrictState([])
