@@ -34,7 +34,7 @@ import { getProvinceByIdRegion } from '../../../../services/territories/province
 import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
 import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
 import { getInfoCedula } from '../../../../services/cedula'
-import { sweetAlert } from '../../../../@core/components/sweetAlert'
+import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
 import { getGroups } from '../../../../services/zammad/group'
@@ -153,6 +153,7 @@ const UserCreate = function({history}) {
     setLoadingCreate(true)
     postUser(objZammad)
       .then((res) => {
+        sweetAlertGood()
         history.push(Url.user)
         console.log(res)
       })
