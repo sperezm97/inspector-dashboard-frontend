@@ -43,6 +43,8 @@ import { schemaYup } from './schemaYup'
 import { postTicketValidateUser } from '../../../../services/zammad/ticket'
 import { postTicketArrTags } from '../../../../services/zammad/ticketTags'
 import Url from '../../../../constants/Url'
+import { getOrganizations } from '../../../../services/zammad/organization'
+import { getGroups, postGroup } from '../../../../services/zammad/group'
 
 const ReportCreate = function({history}) {
   const dispatch = useDispatch()
@@ -58,11 +60,16 @@ const ReportCreate = function({history}) {
   const [ dataTableCategories, setDataTableCategories ] = useState([])
   const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
+  console.log('dataTableOrganizations', dataTableOrganizations)
 
   const [ previewArr, setPreviewArr ] = useState([])
-  console.log(previewArr);
   
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  
+  const [ dataOrganizationState, setDataOrganizationState ] = useState([])
+  console.log('dataOrganizationState', dataOrganizationState)
+  const [ dataGroupState, setDataGroupState ] = useState([])
+  console.log('dataGroupState', dataGroupState)
   
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -84,6 +91,14 @@ const ReportCreate = function({history}) {
   useEffect(() => {
     dispatch(getAllServicesActions())
     dispatch(getAllRegionsActions())
+
+    getOrganizations()
+      .then(res => setDataOrganizationState(res.data))
+      .catch(err => console.log(err))
+
+    getGroups()
+      .then(res => setDataGroupState(res.data))
+      .catch(err => console.log(err))
   }, [])
 
   const servicesSelector = useSelector((state) => state?.services?.services)
@@ -92,6 +107,8 @@ const ReportCreate = function({history}) {
   const { register, handleSubmit, errors, setValue, control, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
+
+  console.log(getValues())
 
   const getCategoryByIdService = (e) => {
     setValue("incidente", e)
@@ -110,6 +127,26 @@ const ReportCreate = function({history}) {
     if(!e.value) return
     setHierarchies({...hierarchies, subCategory: e.value})
     getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({data}) => setDataTableSubCategories(data))
+  }
+
+  const handleSetInstitution = (e) => {
+    const findInstitution = dataTableOrganizations.find(data => data.id === e.value)
+    console.log('findInstitution', findInstitution)
+    const findedGroup = dataGroupState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
+    const findedOrganization = dataOrganizationState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
+    console.log('findedGroup', findedGroup)
+    console.log('findedOrganization', findedOrganization)
+    if(Object.keys(findedGroup)[0]){
+      setValue("institucion", findedGroup.id)
+    }else {
+      postGroup({name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase()})
+        .then(res => setValue("institucion", res.data.id))
+        .catch(err => console.log(err))
+    }if(!Object.keys(findedOrganization)[0]){
+      postGroup({name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase()})
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
   }
 
   const handleDataCedula = ({target}) => {
@@ -362,7 +399,7 @@ const ReportCreate = function({history}) {
                 name="institucion"
                 render={({field}) => <Select 
                   {...field} 
-                  onChange={e => setValue("institucion", e.value)}
+                  onChange={e => handleSetInstitution(e)}
                   options={optionsIdValueSelect(dataTableOrganizations)}
                   isLoading={!dataTableOrganizations[0]}
                   defaultValue={defaultValueState}
