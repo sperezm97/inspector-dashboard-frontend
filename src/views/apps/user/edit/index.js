@@ -17,7 +17,7 @@ import CardGrid from '../../../../@core/components/card-grid'
 import FormApp from '../../../../@core/components/form'
 import InputApp from '../../../../@core/components/input'
 
-import { getUserById, postUser } from '../../../../services/zammad/user'
+import { getUserById, postUser, putUser } from '../../../../services/zammad/user'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
@@ -33,8 +33,8 @@ import {
 import { getProvinceByIdRegion } from '../../../../services/territories/province'
 import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
 import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
-import { getInfoCedula } from '../../../../services/cedula'
-import { sweetAlert, sweetAlertError } from '../../../../@core/components/sweetAlert'
+// import { getInfoCedula } from '../../../../services/cedula'
+import { sweetAlert, sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
 import { getGroups } from '../../../../services/zammad/group'
@@ -48,7 +48,7 @@ const UserCreate = function({history, match}) {
 
   const [loadingCreate, setLoadingCreate] = useState(false)
 
-  const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  // const [ infoCedulaState, setInfoCedulaState ] = useState(null)
   const [ infoCedulaState2, setInfoCedulaState2 ] = useState(null)
   const [ dataInfoUser, setDataInfoUser ] = useState([])
   
@@ -64,10 +64,12 @@ const UserCreate = function({history, match}) {
   const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
   const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
 
-  const [ regionState, setRegionState ] = useState([])
+  // const [ regionState, setRegionState ] = useState([])
   const [ provinceState, setProvinceState ] = useState([])
   const [ municipalityState, setMunicipalityState ] = useState([])
   const [ districtState, setDistrictState ] = useState([])
+
+  const [ executeState, setExecuteState ] = useState(true)
 
   useEffect(() => {
     dispatch(getAllOrganizationsActions())
@@ -94,7 +96,9 @@ const UserCreate = function({history, match}) {
       filterSelectInstitution(dataInfoUser.organization_id)
     }
     if(Object.keys(dataInfoUser)[0]){
-      setValue('permisos', dataInfoUser.role_ids.map((data) => data))
+      const newRols = [...new Set(dataInfoUser?.role_ids)]
+      const newRolsNames = [...new Set(dataInfoUser?.roles)]
+      setValue('permisos', newRols.map((data) => data))
       setValue('phone', dataInfoUser?.phone)
       setValue('region', dataInfoUser?.zone.substr(0, 2))
       setValue('provincia', dataInfoUser?.zone.substr(2, 2))
@@ -102,39 +106,49 @@ const UserCreate = function({history, match}) {
       setValue('distrito', dataInfoUser?.zone.substr(6, 2))
       filterSelectsTerritories()
       setInfoCedulaState2(`${dataInfoUser?.firstname} ${dataInfoUser?.lastname}`)
-      setPermisosValueState(dataInfoUser.roles.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
+      setPermisosValueState(newRolsNames.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
     }
   }, [dataTableOrganizations, dataInfoUser])
 
+  console.log(dataInfoUser?.zone?.length)
+
   useEffect(() => {
-    if(regionSelector[0] && Object.keys(dataInfoUser)[0]){
-      const regionZone = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
-      setRegionValueState({value: regionZone?.code, label: regionZone?.name})      
+    if(regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone?.length >= 2){
+      let regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
+      setRegionValueState({value: regionValue?.code, label: regionValue?.name})      
     }
 
-    if(provinceState[0]){
-      setProvinceValueState({value: provinceState[0].code, label: provinceState[0].name})      
+    if(provinceState[0] && executeState && dataInfoUser?.zone?.length >= 4){
+      let provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone.substr(2, 2))
+      setProvinceValueState({value: provinceValue?.code, label: provinceValue?.name})
     }
 
-    if(municipalityState[0]){
-      setMunicipalityValueState({value: municipalityState[0].code, label: municipalityState[0].name})      
+    if(municipalityState[0] && executeState && dataInfoUser?.zone?.length >= 6){
+      let municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone.substr(4, 2))
+      setMunicipalityValueState({value: municipalityValue?.code, label: municipalityValue?.name})      
     }
 
-    if(districtState[0]){
-      setDistrictValueState({value: districtState[0].code, label: districtState[0].name})      
+    if(districtState[0] && executeState && dataInfoUser?.zone?.length >= 8){
+      let districtValue = districtState.find(data => data.code === dataInfoUser?.zone.substr(6, 2))
+      setDistrictValueState({value: districtValue?.code, label: districtValue?.name})      
     }
-  },[dataInfoUser, regionSelector])
+
+    setTimeout(() => {
+      setExecuteState(false)
+    }, 2000)
+
+  },[dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
 
   const filterSelectsTerritories = () => {
     getProvinceByIdRegion(dataInfoUser?.zone.substr(0, 2))
       .then(res => {
-        setProvinceState(res.data.data.filter(data => data.code === dataInfoUser?.zone.substr(2, 2)))
+        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone.substr(0, 2)))
         getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone.substr(0, 2), dataInfoUser?.zone.substr(2, 2))
           .then(res => {
-            setMunicipalityState(res.data.data.filter(data => data.code === dataInfoUser?.zone.substr(4, 2)))
+            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone.substr(2, 2)))
             getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone.substr(0, 2), dataInfoUser?.zone.substr(2, 2), dataInfoUser?.zone.substr(4, 2))
               .then(res => {
-                setDistrictState(res.data.data.filter(data => data.code === dataInfoUser?.zone.substr(6, 2)))
+                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone.substr(4, 2)))
               })
           })
       })
@@ -147,30 +161,30 @@ const UserCreate = function({history, match}) {
     setValue('institucion', id)
   }
   
-  const { register, handleSubmit, errors, control, setValue, getValues } = useForm({
+  const { register, handleSubmit, errors, control, setError, setValue, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
   console.log(getValues())
 
-  const handleDataCedula = ({target}) => {
-    setInfoCedulaState(null)
-    if(target.value.length !== 11) return
-    getInfoCedula(target.value)
-      .then(({data}) => {
-        setInfoCedulaState2(`${data.payload.names} ${data.payload.firstSurname} ${data.payload.secondSurname}`)
-        setInfoCedulaState(data.payload)
-      })
-      .catch(err => {
-        console.log(err)
-        setInfoCedulaState(null)
-        setInfoCedulaState2(null)
-        sweetAlert({
-          title: 'Error!',
-          text: 'La Cédula ingresada no es válida',
-          type: 'error'
-        })
-      })
-  }
+  // const handleDataCedula = ({target}) => {
+  //   setInfoCedulaState(null)
+  //   if(target.value.length !== 11) return
+  //   getInfoCedula(target.value)
+  //     .then(({data}) => {
+  //       setInfoCedulaState2(`${data.payload.names} ${data.payload.firstSurname} ${data.payload.secondSurname}`)
+  //       setInfoCedulaState(data.payload)
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       setInfoCedulaState(null)
+  //       setInfoCedulaState2(null)
+  //       sweetAlert({
+  //         title: 'Error!',
+  //         text: 'La Cédula ingresada no es válida',
+  //         type: 'error'
+  //       })
+  //     })
+  // }
 
   const handleGetProvinceByIdRegion = (e) => {
     setValue('region', e.value)
@@ -206,14 +220,28 @@ const UserCreate = function({history, match}) {
     .then(res => setDistrictState(res.data.data))
   }
 
+  const handleSetDistrict = (e) => {
+    setValue('distrito', e.value)
+    setDistrictValueState(e)
+  }
+
   const onSubmit = async (data) => {
 
+    if(!permisosValueState[0]){
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Debes seleccionar al menos 1 Permiso',
+        type: 'warning'
+      })
+    }
+
     let objZammad = {
+      id: idParams,
       email: data.email,
       login: data.email,
       phone: data.phone,
       organization: parseInt(data.institucion),
-      role_ids: data.permisos.map((data) => data),
+      role_ids: permisosValueState.map((data) => data.value),
       zone: data.region + data.provincia + data.municipio + data.distrito,
       group_ids: addAllGroupsToUser(groupsState)
     }
@@ -222,11 +250,12 @@ const UserCreate = function({history, match}) {
       objZammad = {...objZammad, password: data.cPassword}
     }
 
-    return console.log('objZammad', objZammad)
+    console.log('objZammad', objZammad)
     
     setLoadingCreate(true)
-    postUser(objZammad)
+    putUser(objZammad)
       .then((res) => {
+        sweetAlertGood()
         history.push(Url.user)
         console.log(res)
       })
@@ -234,7 +263,7 @@ const UserCreate = function({history, match}) {
         setLoadingCreate(false)
         sweetAlert({
           title: 'Error!',
-          text: 'Ocurrió un error al crear el usuario.',
+          text: 'Ocurrió un error al editar el usuario.',
           type: 'error'
         })
       })
@@ -475,7 +504,7 @@ const UserCreate = function({history, match}) {
               name="distrito"
               render={({field}) => <Select 
                 {...field} 
-                onChange={e => setValue('distrito', e.value)}
+                onChange={e => handleSetDistrict(e)}
                 options={optionsCodeValueSelect(districtState)}
                 isLoading={!districtState[0]}
                 value={districtValueState}
