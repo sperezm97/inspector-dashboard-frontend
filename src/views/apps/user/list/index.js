@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Label } from 'reactstrap'
 import { columns } from './columns'
 
 // import DataTableList from '../../../../@core/components/table'
@@ -47,24 +47,11 @@ const UsersList = function() {
   )
   const rolSelector = useSelector((state) => state?.rols?.rols)
 
-  const rolRef = useRef({
-    value: '',
-    label: 'Seleccionar Rol',
-  })
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
-  const provinciaRef = useRef({
-    value: '',
-    label: 'Seleccionar Provincia',
-  })
-
-  const municipioRef = useRef({
-    value: '',
-    label: 'Seleccionar Municipio',
-  })
-
-  const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
-  const [municipioState, setMunicipioState] = useState(municipioRef.current)
-  const [rolState, setRolState] = useState(rolRef.current)
+  const [provinciaState, setProvinciaState] = useState(defaultValueState)
+  const [municipioState, setMunicipioState] = useState(defaultValueState)
+  const [rolState, setRolState] = useState(defaultValueState)
 
   const [dataTable, setDataTable] = useState([])
 
@@ -75,14 +62,14 @@ const UsersList = function() {
   const handleChangeProvinces = ({ value, label }) => {
     if (value) {
       setProvinciaState({ value, label })
-      setMunicipioState(municipioRef.current)
+      setMunicipioState(defaultValueState)
       filterZone(value, 2)
     } else {
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       setDataTable(dataTableUsers)
     }
-    setRolState(rolRef.current)
+    setRolState(defaultValueState)
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {
@@ -90,10 +77,10 @@ const UsersList = function() {
       setMunicipioState({ value, label })
       filterZone(provinciaState.value + value, 4)
     } else {
-      setMunicipioState(municipioRef.current)
+      setMunicipioState(defaultValueState)
       filterZone(provinciaState.value, 2)
     }
-    setRolState(rolRef.current)
+    setRolState(defaultValueState)
   }
 
   const handleChangeRols = ({ value, label }) => {
@@ -101,14 +88,15 @@ const UsersList = function() {
       setRolState({ value, label })
       filterRols(value)
     } else {
-      setRolState(rolRef.current)
+      setRolState(defaultValueState)
       setDataTable(dataTableUsers)
     }
-    setProvinciaState(provinciaRef.current)
-    setMunicipioState(municipioRef.current)
+    setProvinciaState(defaultValueState)
+    setMunicipioState(defaultValueState)
   }
 
   const filterZone = (value, positionToFind = 0) => {
+    console.log( value, positionToFind )
     const data = dataTableUsers.filter((users) => users.zone !== null)
     const dataValidated = data.filter(
       (users) => users.zone.substr(2, positionToFind) === value,
@@ -132,11 +120,12 @@ const UsersList = function() {
         (data.cedula || '').toLowerCase().includes(queryLowered),
     )
 
-  return dataTable[0] ? (
+  return (
     <>
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col className="my-md-0 my-1" md="4">
+            <Label>Provincia</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
@@ -148,6 +137,7 @@ const UsersList = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Municipio</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
@@ -164,6 +154,7 @@ const UsersList = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Permiso</Label>
             <Select
               isClearable={false}
               theme={selectThemeColors}
@@ -184,8 +175,6 @@ const UsersList = function() {
         showButtonAddUser
       />
     </>
-  ) : (
-    <ComponentSpinner />
   )
 }
 

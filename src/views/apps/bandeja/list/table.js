@@ -102,7 +102,6 @@ const DataTableList = function({
 
   useEffect(() => {
     setNewDataTable(dataTable.reverse())
-    console.log("passing")
   }, [dataTable])
 
 
@@ -145,6 +144,8 @@ const DataTableList = function({
             paginationRowsPerPageOptions={[10, 25, 50, 100]}
             data={newDataTable}
             noDataComponent="No hay registros para mostrar"
+            progressPending={dataTable[0] ? false : true}
+            progressComponent="Cargando..."
             subHeaderComponent={
               <CustomHeader
                 value={value}
