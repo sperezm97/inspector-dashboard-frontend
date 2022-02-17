@@ -21,7 +21,7 @@ import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
 import { putUpdateStatusTicket } from '../../../../services/zammad/ticket'
 import Url from '../../../../constants/Url'
 
-import { sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 
 
 const handleChangeStatus = (e, ticket) => {
