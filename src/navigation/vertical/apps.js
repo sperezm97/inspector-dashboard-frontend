@@ -13,6 +13,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: Url.user,
       },
+      {
+        id: 'create',
+        title: 'Crear',
+        icon: <Circle size={12} />,
+        navLink: Url.userCreate,
+      },
       // {
       //   id: 'reportero',
       //   title: 'Reportero',

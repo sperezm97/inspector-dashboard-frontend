@@ -9,10 +9,16 @@ export default [
     icon: <IconInstitutionNav size={20} />,
     children: [
       {
-        id: 'instituciones',
+        id: 'list',
         title: 'Lista',
         icon: <Circle size={12} />,
         navLink: Url.institution,
+      },
+      {
+        id: 'create',
+        title: 'Crear',
+        icon: <Circle size={12} />,
+        navLink: Url.institutionCreate,
       },
     ],
   },
