@@ -144,7 +144,7 @@ const DataTableList = function({
             paginationRowsPerPageOptions={[10, 25, 50, 100]}
             data={newDataTable}
             noDataComponent="No hay registros para mostrar"
-            progressPending={dataTable[0] ? false : true}
+            progressPending={!dataTable[0]}
             progressComponent="Cargando..."
             subHeaderComponent={
               <CustomHeader
