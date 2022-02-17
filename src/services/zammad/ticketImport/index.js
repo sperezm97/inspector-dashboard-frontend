@@ -62,12 +62,14 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
         // user
         const userCedula = await getUserByCedula(dataCsv.ciudadano_id)
         if(userCedula.data[0]) {
+            const newRols = [...new Set(userCedula.data[0].role_ids, 2, 3)]
             const requestUpdateUser = await putUser({
                 id: userCedula.data[0].id, 
                 group_ids: addAllGroupsToUser(groupData),
-                organization_id: idInstitucion,
-                organization: idInstitucion,
-                role_ids:  [...userCedula.data[0].role_ids, 2, 3]
+                organization_id: findedOrganization.id,
+                organization: findedOrganization.id,
+
+                role_ids: newRols
             })
             idUserCiudadano = requestUpdateUser.data.id
             await putUser({
@@ -81,8 +83,8 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
                 firstname: infoCedulaCiudadano.data.payload.names,
                 lastname: `${infoCedulaCiudadano.data.payload.firstSurname} ${infoCedulaCiudadano.data.payload.secondSurname}`,
                 zone: dataCsv.reporte_zona_id,
-                organization_id: idInstitucion,
-                organization: idInstitucion,
+                organization_id: findedOrganization.id,
+                organization: findedOrganization.id,
                 phone: dataCsv.ciudadano_telefono || '',
                 role_ids: [2, 3],
                 note: 'User created from the BackOffice (Ticket Import)',
