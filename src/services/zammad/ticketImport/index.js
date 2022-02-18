@@ -22,7 +22,7 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
     let organizationData = {}
     let idUserCiudadano = null
     let idInstitucion = null
-    const arrIncidente = dataCsv.incidente.split(',')
+    const arrIncidente = dataCsv?.incidente?.split(',') || ""
     const lengthIncidente = arrIncidente.length - 1
 
     const findGroup = (nameInstitucion) => groupData.find(group => group.acronimo.toUpperCase() === nameInstitucion.toUpperCase())
@@ -106,21 +106,12 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
             zone: dataCsv.reporte_zona_id,
             article: {
                 subject: '',
-                body: dataCsv.comentario,
+                body: dataCsv.comentario || "",
                 type: 'note',
                 attachments: []
             }
         }
         const postTicketAsy = await postTicket(dataCreateTicket)
-
-        const newArrtags = arrIncidente.map(arr => ({
-                item: arr,
-                object: "Ticket",
-                o_id: postTicketAsy?.data?.id,
-            }))
-        postTicketArrTags(newArrtags)
-            .then(res => console.log('res tags: ', res))
-            .catch(err => console.log('err tags: ', err))
         
         return postTicketAsy
         

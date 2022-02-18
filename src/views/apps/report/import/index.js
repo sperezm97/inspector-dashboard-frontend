@@ -39,6 +39,7 @@ import { sweetAlert, sweetAlertError } from '../../../../@core/components/sweetA
 import Url from '../../../../constants/Url'
 import { getOrganizations } from '../../../../services/zammad/organization'
 import { getGroups } from '../../../../services/zammad/group'
+import { postTicketArrTags } from '../../../../services/zammad/ticketTags'
 
 
 const ErrorToast = function() {
@@ -181,6 +182,8 @@ const Import = function({history}) {
       const postAllTicket = await postTicketImport(tableData[i], objAddCsv)
       if(postAllTicket?.status === 201){
         console.log("ok")
+        const arrIncidente = tableData[i]?.incidente?.split(',') || ""
+        postTicketArrTags(postAllTicket?.data?.id, arrIncidente)
         setTicketsCreated(i + 1)
       }else {
         console.log("no ok", i + 1)
