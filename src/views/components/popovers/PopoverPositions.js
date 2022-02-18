@@ -5,8 +5,8 @@ import {
   PopoverBody,
 } from 'reactstrap'
 
-const PopoverPositions = () => (
-  <div className="demo-inline-spacing">
+const PopoverPositions = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="primary" outline id="popTop">
       Top
     </Button.Ripple>
@@ -51,6 +51,6 @@ const PopoverPositions = () => (
       </PopoverBody>
     </UncontrolledPopover>
   </div>
-)
+}
 
 export default PopoverPositions

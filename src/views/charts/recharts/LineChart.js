@@ -73,7 +73,7 @@ const data = [
   },
 ]
 
-const CustomTooltip = ({ active, payload }) => {
+const CustomTooltip = function({ active, payload }) {
   if (active && payload) {
     return (
       <div className="recharts-custom-tooltip">
@@ -85,8 +85,8 @@ const CustomTooltip = ({ active, payload }) => {
   return null
 }
 
-const SimpleLineChart = ({ warning }) => (
-  <Card>
+const SimpleLineChart = function({ warning }) {
+  return <Card>
     <CardHeader>
       <div>
         <CardTitle tag="h4">Balance</CardTitle>
@@ -115,5 +115,5 @@ const SimpleLineChart = ({ warning }) => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SimpleLineChart

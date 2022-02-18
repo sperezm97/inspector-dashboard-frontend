@@ -9,7 +9,7 @@ import {
   Badge,
 } from 'reactstrap'
 
-const ApexLineChart = ({ direction, warning }) => {
+const ApexLineChart = function({ direction, warning }) {
   const options = {
     chart: {
       zoom: {

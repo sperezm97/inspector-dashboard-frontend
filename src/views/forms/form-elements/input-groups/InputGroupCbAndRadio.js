@@ -8,8 +8,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const InputGroupCbAndRadio = () => (
-  <Row>
+const InputGroupCbAndRadio = function() {
+  return <Row>
     <Col className="mb-md-0 mb-1" md="6" sm="12">
       <InputGroup>
         <InputGroupAddon addonType="prepend">
@@ -54,6 +54,6 @@ const InputGroupCbAndRadio = () => (
       </InputGroup>
     </Col>
   </Row>
-)
+}
 
 export default InputGroupCbAndRadio

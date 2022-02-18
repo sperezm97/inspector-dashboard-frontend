@@ -3,7 +3,7 @@ import Avatar from '@components/avatar'
 import { MoreVertical } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 
-const CardEmployeesTasks = ({ colors, trackBgColor }) => {
+const CardEmployeesTasks = function({ colors, trackBgColor }) {
   const employeesTasks = [
     {
       avatar: require('@src/assets/images/portrait/small/avatar-s-9.jpg')

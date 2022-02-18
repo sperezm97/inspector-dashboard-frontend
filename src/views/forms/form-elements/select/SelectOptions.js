@@ -101,7 +101,7 @@ const iconOptions = [
   },
 ]
 
-const OptionComponent = ({ data, ...props }) => {
+const OptionComponent = function({ data, ...props }) {
   const Icon = data.icon
 
   return (
@@ -162,7 +162,7 @@ const formatGroupLabel = (data) => (
   </div>
 )
 
-const SelectOptions = () => {
+const SelectOptions = function() {
   const [fixedValue, setFixedValue] = useState(
     orderOptions([colorOptions[0], colorOptions[1], colorOptions[3]]),
   )

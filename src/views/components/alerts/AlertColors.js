@@ -1,7 +1,7 @@
 import { Alert } from 'reactstrap'
 
-const AlertColors = () => (
-  <div className="demo-spacing-0">
+const AlertColors = function() {
+  return <div className="demo-spacing-0">
     <Alert color="primary">
       <h4 className="alert-heading">Primary</h4>
       <div className="alert-body">
@@ -52,5 +52,5 @@ const AlertColors = () => (
       </div>
     </Alert>
   </div>
-)
+}
 export default AlertColors

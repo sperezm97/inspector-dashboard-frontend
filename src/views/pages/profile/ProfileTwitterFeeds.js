@@ -3,7 +3,7 @@ import Avatar from '@components/avatar'
 import { CheckCircle, Star } from 'react-feather'
 import { Card, CardBody, CardText } from 'reactstrap'
 
-const ProfileTwitterFeeds = ({ data }) => {
+const ProfileTwitterFeeds = function({ data }) {
   const renderFeeds = () =>
     data.map((feed, index) => (
       <div

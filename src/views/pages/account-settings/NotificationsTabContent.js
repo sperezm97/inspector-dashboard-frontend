@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Row, Col, CustomInput, Button } from 'reactstrap'
 
-const NotificationsTabContent = ({ data }) => {
+const NotificationsTabContent = function({ data }) {
   const [followMe, setFollowMe] = useState(data.followMe)
   const [blogDigest, setBlogDigest] = useState(data.blogDigest)
   const [answerOnForm, setAnswerOnForm] = useState(data.answerOnForm)

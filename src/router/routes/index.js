@@ -8,7 +8,8 @@ import DashboardRoutes from './Dashboards'
 import UiElementRoutes from './UiElements'
 import ExtensionsRoutes from './Extensions'
 import PageLayoutsRoutes from './PageLayouts'
-import Institution from './Institution'
+import InstitutionRoutes from './Institution'
+import IncidentsRoutes from './incidents'
 
 import Url from '../../constants/Url'
 
@@ -29,7 +30,8 @@ const Routes = [
   ...FormRoutes,
   ...TablesRoutes,
   ...ChartMapsRoutes,
-  ...Institution,
+  ...InstitutionRoutes,
+  ...IncidentsRoutes,
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }

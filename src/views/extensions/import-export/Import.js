@@ -22,8 +22,8 @@ import 'uppy/dist/uppy.css'
 import '@uppy/status-bar/dist/style.css'
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 
-const ErrorToast = () => (
-  <>
+const ErrorToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="danger" icon={<X size={12} />} />
@@ -39,9 +39,9 @@ const ErrorToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const Import = () => {
+const Import = function() {
   const [tableData, setTableData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [value, setValue] = useState('')
@@ -63,7 +63,7 @@ const Import = () => {
       const fileData = reader.result
       const wb = XLSX.read(fileData, { type: 'binary' })
 
-      wb.SheetNames.forEach(function (sheetName) {
+      wb.SheetNames.forEach((sheetName) => {
         const rowObj = XLSX.utils.sheet_to_row_object_array(
           wb.Sheets[sheetName],
         )

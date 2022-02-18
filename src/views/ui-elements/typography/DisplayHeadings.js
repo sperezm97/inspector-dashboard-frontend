@@ -7,8 +7,8 @@ import {
   Table,
 } from 'reactstrap'
 
-const DisplayHeadings = () => (
-  <Card>
+const DisplayHeadings = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Display Headings</CardTitle>
     </CardHeader>
@@ -46,5 +46,5 @@ const DisplayHeadings = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 export default DisplayHeadings

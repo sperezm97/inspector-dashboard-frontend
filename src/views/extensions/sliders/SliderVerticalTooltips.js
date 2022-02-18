@@ -2,8 +2,8 @@ import Nouislider from 'nouislider-react'
 import wNumb from 'wnumb'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderTooltips = ({ direction }) => (
-  <Card>
+const SliderTooltips = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Tooltips</CardTitle>
     </CardHeader>
@@ -30,6 +30,6 @@ const SliderTooltips = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderTooltips

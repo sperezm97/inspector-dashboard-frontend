@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap'
 
-const PopoverControlled = () => {
+const PopoverControlled = function() {
   const [popoverOpen, setPopoverOpen] = useState(false)
 
   return (

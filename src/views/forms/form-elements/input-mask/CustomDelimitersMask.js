@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const CustomDelimitersMask = () => {
+const CustomDelimitersMask = function() {
   const options = {
     delimiters: ['.', '.', '-'],
     blocks: [3, 3, 3, 2],

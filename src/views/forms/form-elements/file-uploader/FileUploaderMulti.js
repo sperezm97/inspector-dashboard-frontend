@@ -4,7 +4,7 @@ import thumbnailGenerator from '@uppy/thumbnail-generator'
 import { DragDrop } from '@uppy/react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const FileUploaderMulti = () => {
+const FileUploaderMulti = function() {
   const [previewArr, setPreviewArr] = useState([])
 
   const uppy = new Uppy({

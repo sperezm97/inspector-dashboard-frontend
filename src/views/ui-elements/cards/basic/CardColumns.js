@@ -9,8 +9,9 @@ import {
 import img1 from '@src/assets/images/slider/06.jpg'
 import img2 from '@src/assets/images/slider/01.jpg'
 import img3 from '@src/assets/images/slider/02.jpg'
-const CardColumnsComponent = () => (
-  <CardColumns>
+
+const CardColumnsComponent = function() {
+  return <CardColumns>
     <Card className="position-static">
       <CardImg top src={img1} alt="card1" />
       <CardBody>
@@ -105,6 +106,6 @@ const CardColumnsComponent = () => (
       </CardBody>
     </Card>
   </CardColumns>
-)
+}
 
 export default CardColumnsComponent

@@ -1,7 +1,7 @@
 import { Alert } from 'reactstrap'
 
-const AlertTitle = () => (
-  <div className="demo-spacing-0">
+const AlertTitle = function() {
+  return <div className="demo-spacing-0">
     <Alert color="warning">
       <h4 className="alert-heading">Lorem ipsum dolor sit amet</h4>
       <div className="alert-body">
@@ -13,5 +13,5 @@ const AlertTitle = () => (
       </div>
     </Alert>
   </div>
-)
+}
 export default AlertTitle

@@ -34,7 +34,7 @@ const images = [
   },
 ]
 
-const CarouselCaptions = () => {
+const CarouselCaptions = function() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [animating, setAnimating] = useState(0)
 

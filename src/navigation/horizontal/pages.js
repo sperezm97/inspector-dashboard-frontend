@@ -11,6 +11,7 @@ import {
   Mail,
   File,
 } from 'react-feather'
+
 export default [
   {
     id: 'pages',

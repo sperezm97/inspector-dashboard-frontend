@@ -1,8 +1,8 @@
 import { Row, Col } from 'reactstrap'
 import AppCollapse from '@components/app-collapse'
 
-const PricingFaqs = ({ data }) => (
-  <div className="pricing-faq">
+const PricingFaqs = function({ data }) {
+  return <div className="pricing-faq">
     <h3 className="text-center">FAQ's</h3>
     <p className="text-center">Let us help answer the most common questions.</p>
     <Row className="my-2">
@@ -17,6 +17,6 @@ const PricingFaqs = ({ data }) => (
       </Col>
     </Row>
   </div>
-)
+}
 
 export default PricingFaqs

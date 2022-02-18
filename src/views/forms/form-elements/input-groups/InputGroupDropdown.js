@@ -12,7 +12,7 @@ import {
 } from 'reactstrap'
 import { Edit } from 'react-feather'
 
-const InputGroupDropdowns = () => {
+const InputGroupDropdowns = function() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [dropdownIcon, setDropdownIcon] = useState(false)
   const [dropdownRight, setDropdownRight] = useState(false)

@@ -1,6 +1,7 @@
 import { Progress } from 'reactstrap'
-const ProgressBasic = () => (
-  <div className="demo-vertical-spacing">
+
+const ProgressBasic = function() {
+  return <div className="demo-vertical-spacing">
     <div>
       <span>Reticulating splines… 0%</span>
       <Progress />
@@ -22,5 +23,5 @@ const ProgressBasic = () => (
       <Progress value="100" />
     </div>
   </div>
-)
+}
 export default ProgressBasic

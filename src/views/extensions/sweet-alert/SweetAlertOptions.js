@@ -5,7 +5,7 @@ import alertImg from '@src/assets/images/slider/04.jpg'
 
 const MySwal = withReactContent(Swal)
 
-const SweetAlertOptions = () => {
+const SweetAlertOptions = function() {
   const handleImageAlert = () =>
     MySwal.fire({
       title: 'Sweet!',
@@ -26,7 +26,7 @@ const SweetAlertOptions = () => {
       timer: 2000,
       onBeforeOpen() {
         Swal.showLoading()
-        timerInterval = setInterval(function () {
+        timerInterval = setInterval(() => {
           Swal.getContent().querySelector('strong').textContent =
             Swal.getTimerLeft()
         }, 100)
@@ -34,7 +34,7 @@ const SweetAlertOptions = () => {
       onClose() {
         clearInterval(timerInterval)
       },
-    }).then(function (result) {
+    }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
         console.log('I was closed by the timer')
       }
@@ -63,7 +63,7 @@ const SweetAlertOptions = () => {
       },
     })
       .queue(['Question 1', 'Question 2', 'Question 3'])
-      .then(function (result) {
+      .then((result) => {
         if (result.value) {
           MySwal.fire({
             title: 'All done!',
@@ -93,17 +93,17 @@ const SweetAlertOptions = () => {
       showLoaderOnConfirm: true,
       preConfirm(login) {
         return fetch(`//api.github.com/users/${login}`)
-          .then(function (response) {
+          .then((response) => {
             if (!response.ok) {
               throw new Error(response.statusText)
             }
             return response.json()
           })
-          .catch(function (error) {
+          .catch((error) => {
             MySwal.showValidationMessage(`Request failed:  ${error}`)
           })
       },
-    }).then(function (result) {
+    }).then((result) => {
       if (result.value) {
         MySwal.fire({
           title: `${result.value.login}'s avatar`,

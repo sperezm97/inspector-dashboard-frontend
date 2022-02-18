@@ -11,8 +11,8 @@ import img1 from '@src/assets/images/slider/01.jpg'
 import img2 from '@src/assets/images/slider/05.jpg'
 import img3 from '@src/assets/images/slider/03.jpg'
 
-const CardGroupComponent = () => (
-  <CardGroup>
+const CardGroupComponent = function() {
+  return <CardGroup>
     <Card>
       <CardImg top src={img1} alt="card1" />
       <CardBody>
@@ -54,6 +54,6 @@ const CardGroupComponent = () => (
       </CardFooter>
     </Card>
   </CardGroup>
-)
+}
 
 export default CardGroupComponent

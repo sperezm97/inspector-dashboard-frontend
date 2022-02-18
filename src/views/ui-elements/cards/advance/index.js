@@ -16,7 +16,7 @@ import CardTransactions from './CardTransactions'
 import CardEmployeesTasks from './CardEmployeesTask'
 import CardCongratulations from './CardCongratulations'
 
-const Cards = () => {
+const Cards = function() {
   const { colors } = useContext(ThemeColors)
   const trackBgColor = '#e9ecef'
   return (

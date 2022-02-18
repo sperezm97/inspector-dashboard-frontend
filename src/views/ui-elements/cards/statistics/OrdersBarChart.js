@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import TinyChartStats from '@components/widgets/stats/TinyChartStats'
 
-const OrdersBarChart = ({ warning }) => {
+const OrdersBarChart = function({ warning }) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

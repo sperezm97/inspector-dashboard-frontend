@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts'
 import { Card, CardTitle, CardText, CardBody, Row, Col } from 'reactstrap'
 
-const Earnings = ({ success }) => {
+const Earnings = function({ success }) {
   const options = {
     chart: {
       toolbar: {

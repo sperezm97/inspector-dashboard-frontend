@@ -6,8 +6,8 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const DropdownOutline = () => (
-  <div className="demo-inline-spacing">
+const DropdownOutline = function() {
+  return <div className="demo-inline-spacing">
     <UncontrolledButtonDropdown>
       <DropdownToggle outline color="primary" caret>
         Primary
@@ -22,7 +22,7 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -37,7 +37,7 @@ const DropdownOutline = () => (
         className="dropdown-toggle-split"
         color="secondary"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -48,7 +48,7 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -68,7 +68,7 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -88,7 +88,7 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -103,7 +103,7 @@ const DropdownOutline = () => (
         className="dropdown-toggle-split"
         color="warning"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -114,7 +114,7 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -134,13 +134,13 @@ const DropdownOutline = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledButtonDropdown>
   </div>
-)
+}
 
 export default DropdownOutline

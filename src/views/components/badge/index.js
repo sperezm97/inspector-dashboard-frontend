@@ -18,7 +18,7 @@ import {
   badgeBlock,
 } from './BadgeSourceCode'
 
-const Badges = () => {
+const Badges = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

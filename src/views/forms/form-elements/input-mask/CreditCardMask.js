@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Cleave from 'cleave.js/react'
 
-const CreditCardMask = () => {
+const CreditCardMask = function() {
   const options = { creditCard: true }
 
   return (

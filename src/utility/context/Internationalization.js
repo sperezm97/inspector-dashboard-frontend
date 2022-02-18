@@ -27,7 +27,7 @@ const menuMessages = {
 // ** Create Context
 const Context = createContext()
 
-const IntlProviderWrapper = ({ children }) => {
+const IntlProviderWrapper = function({ children }) {
   // ** States
   const [locale, setLocale] = useState('en')
   const [messages, setMessages] = useState(menuMessages.en)

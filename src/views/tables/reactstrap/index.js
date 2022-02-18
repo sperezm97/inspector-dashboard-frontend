@@ -31,7 +31,7 @@ import {
   tableResponsive,
 } from './TableSourceCode'
 
-const Tables = () => {
+const Tables = function() {
   useEffect(() => {
     prism.highlightAll()
   })

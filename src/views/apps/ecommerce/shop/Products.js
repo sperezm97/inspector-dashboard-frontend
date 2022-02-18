@@ -10,7 +10,7 @@ import ProductsSearchbar from './ProductsSearchbar'
 
 // ** Third Party Components
 
-const ProductsPage = (props) => {
+const ProductsPage = function(props) {
   // ** Props
   const {
     activeView,
@@ -84,7 +84,7 @@ const ProductsPage = (props) => {
             show: sidebarOpen,
           })}
           onClick={() => setSidebarOpen(false)}
-        ></div>
+         />
         <ProductsSearchbar
           dispatch={dispatch}
           getProducts={getProducts}
@@ -115,7 +115,7 @@ const ProductsPage = (props) => {
                 <PaginationLink
                   href="/"
                   onClick={(e) => e.preventDefault()}
-                ></PaginationLink>
+                 />
               </PaginationItem>
               {renderPageItems()}
               <PaginationItem
@@ -129,7 +129,7 @@ const ProductsPage = (props) => {
                 <PaginationLink
                   href="/"
                   onClick={(e) => e.preventDefault()}
-                ></PaginationLink>
+                 />
               </PaginationItem>
             </Pagination>
           </>

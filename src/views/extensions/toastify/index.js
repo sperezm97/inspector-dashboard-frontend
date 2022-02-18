@@ -6,8 +6,8 @@ import ToastrPositions from './ToastPositions'
 import ToastrAnimations from './ToastrAnimations'
 import ToastrOptions from './ToastifyOptions'
 
-const Toastr = () => (
-  <>
+const Toastr = function() {
+  return <>
     <ExtensionsHeader
       title="React Toastify"
       subTitle="React Toastify makes notification easy 🚀 !"
@@ -29,6 +29,6 @@ const Toastr = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Toastr

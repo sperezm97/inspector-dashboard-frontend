@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-const ListGroupTag = () => (
-  <ListGroup tag="div">
+const ListGroupTag = function() {
+  return <ListGroup tag="div">
     <ListGroupItem tag="a" href="#" active>
       Cras justo odio
     </ListGroupItem>
@@ -21,5 +21,5 @@ const ListGroupTag = () => (
       Vestibulum at eros
     </ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupTag

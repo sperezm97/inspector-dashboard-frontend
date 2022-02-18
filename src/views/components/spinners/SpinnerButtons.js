@@ -1,7 +1,7 @@
 import { Button, Spinner } from 'reactstrap'
 
-const SpinnerButton = () => (
-  <div className="demo-inline-spacing">
+const SpinnerButton = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="primary" outline disabled>
       <Spinner size="sm" />
     </Button.Ripple>
@@ -20,5 +20,5 @@ const SpinnerButton = () => (
       <span className="ml-50">Loading...</span>
     </Button.Ripple>
   </div>
-)
+}
 export default SpinnerButton

@@ -92,8 +92,8 @@ const data = [
   },
 ]
 
-const UserTimeline = () => (
-  <Card className="card-user-timeline">
+const UserTimeline = function() {
+  return <Card className="card-user-timeline">
     <CardHeader>
       <div className="d-flex align-items-center">
         <List className="user-timeline-title-icon" />
@@ -105,6 +105,6 @@ const UserTimeline = () => (
       <Timeline className="ml-50 mb-0" data={data} />
     </CardBody>
   </Card>
-)
+}
 
 export default UserTimeline

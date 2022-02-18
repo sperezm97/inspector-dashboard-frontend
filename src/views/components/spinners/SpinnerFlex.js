@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { Spinner } from 'reactstrap'
 
-const SpinnerFlex = () => (
-  <>
+const SpinnerFlex = function() {
+  return <>
     <div className="d-flex justify-content-center my-1">
       <Spinner />
     </div>
@@ -12,5 +12,5 @@ const SpinnerFlex = () => (
       <Spinner />
     </div>
   </>
-)
+}
 export default SpinnerFlex

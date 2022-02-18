@@ -7,8 +7,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const RadioColors = () => (
-  <Card>
+const RadioColors = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Colors</CardTitle>
     </CardHeader>
@@ -68,5 +68,5 @@ const RadioColors = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default RadioColors

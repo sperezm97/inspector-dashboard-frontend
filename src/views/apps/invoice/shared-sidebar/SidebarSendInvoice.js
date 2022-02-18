@@ -5,8 +5,8 @@ import Sidebar from '@components/sidebar'
 import { Link } from 'react-feather'
 import { Form, FormGroup, Input, Label, Badge, Button } from 'reactstrap'
 
-const SidebarSendInvoice = ({ open, toggleSidebar }) => (
-  <Sidebar
+const SidebarSendInvoice = function({ open, toggleSidebar }) {
+  return <Sidebar
     size="lg"
     open={open}
     title="Send Invoice"
@@ -80,6 +80,6 @@ We would appreciate payment of this invoice by 05/11/2019`}
       </FormGroup>
     </Form>
   </Sidebar>
-)
+}
 
 export default SidebarSendInvoice

@@ -2,8 +2,8 @@
 import { Row, Col, CardText } from 'reactstrap'
 import { Award, Clock, Shield } from 'react-feather'
 
-const ItemFeatures = () => (
-  <div className="item-features">
+const ItemFeatures = function() {
+  return <div className="item-features">
     <Row className="text-center">
       <Col className="mb-4 mb-md-0" md="4" xs="12">
         <div className="w-75 mx-auto">
@@ -36,6 +36,6 @@ const ItemFeatures = () => (
       </Col>
     </Row>
   </div>
-)
+}
 
 export default ItemFeatures

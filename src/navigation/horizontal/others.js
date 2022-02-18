@@ -7,6 +7,7 @@ import {
   LifeBuoy,
   Shield,
 } from 'react-feather'
+
 export default [
   {
     id: 'misc',

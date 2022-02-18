@@ -1,7 +1,7 @@
 import { Radar } from 'react-chartjs-2'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const ChartjsRadarChart = ({ gridLineColor, labelColor }) => {
+const ChartjsRadarChart = function({ gridLineColor, labelColor }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -28,7 +28,7 @@ const ChartjsRadarChart = ({ gridLineColor, labelColor }) => {
             tooltipEl.innerHTML = tooltip.body[0].lines[0]
           }
         } else {
-          setTimeout(function () {
+          setTimeout(() => {
             tooltipEl.style.display = 'none'
           }, 500)
         }

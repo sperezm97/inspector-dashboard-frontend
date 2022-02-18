@@ -24,7 +24,7 @@ import {
   spinnerTextAlignment,
 } from './SpinnerSourceCode'
 
-const Spinners = () => {
+const Spinners = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

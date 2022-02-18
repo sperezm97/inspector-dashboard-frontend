@@ -15,8 +15,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const NumberInputCustomIcons = () => (
-  <Card>
+const NumberInputCustomIcons = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Custom Icons</CardTitle>
     </CardHeader>
@@ -41,6 +41,6 @@ const NumberInputCustomIcons = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputCustomIcons

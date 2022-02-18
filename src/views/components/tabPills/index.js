@@ -20,7 +20,7 @@ import {
   pillThemes,
 } from './TabPillsSourceCode'
 
-const PillTabs = () => {
+const PillTabs = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

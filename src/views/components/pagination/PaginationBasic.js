@@ -1,7 +1,7 @@
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
-const PaginationBasic = () => (
-  <Pagination className="d-flex mt-3">
+const PaginationBasic = function() {
+  return <Pagination className="d-flex mt-3">
     <PaginationItem>
       <PaginationLink href="#">1</PaginationLink>
     </PaginationItem>
@@ -24,5 +24,5 @@ const PaginationBasic = () => (
       <PaginationLink href="#">7</PaginationLink>
     </PaginationItem>
   </Pagination>
-)
+}
 export default PaginationBasic

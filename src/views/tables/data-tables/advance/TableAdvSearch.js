@@ -24,7 +24,7 @@ import { data, advSearchColumns } from '../data'
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const DataTableAdvSearch = () => {
+const DataTableAdvSearch = function() {
   // ** States
   const [Picker, setPicker] = useState('')
   const [searchName, setSearchName] = useState('')
@@ -54,8 +54,8 @@ const DataTableAdvSearch = () => {
   }
 
   // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
+  const CustomPagination = function() {
+  return <ReactPaginate
       previousLabel=""
       nextLabel=""
       forcePage={currentPage}
@@ -75,7 +75,7 @@ const DataTableAdvSearch = () => {
       breakLinkClassName="page-link"
       containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1"
     />
-  )
+}
 
   // ** Function to handle name filter
   const handleNameFilter = (e) => {
@@ -320,8 +320,7 @@ const DataTableAdvSearch = () => {
   }
 
   return (
-    <>
-      <Card>
+    <Card>
         <CardHeader className="border-bottom">
           <CardTitle tag="h4">Advance Search</CardTitle>
         </CardHeader>
@@ -409,7 +408,6 @@ const DataTableAdvSearch = () => {
           data={dataToRender()}
         />
       </Card>
-    </>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Spinner } from 'reactstrap'
 
-const SpinnerColors = () => (
-  <div className="demo-inline-spacing">
+const SpinnerColors = function() {
+  return <div className="demo-inline-spacing">
     <Spinner color="primary" />
     <Spinner color="secondary" />
     <Spinner color="success" />
@@ -11,5 +11,5 @@ const SpinnerColors = () => (
     <Spinner color="light" />
     <Spinner color="dark" />
   </div>
-)
+}
 export default SpinnerColors

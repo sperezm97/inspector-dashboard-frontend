@@ -4,8 +4,8 @@ import { Card, CardBody, CardText } from 'reactstrap'
 import decorationLeft from '@src/assets/images/elements/decore-left.png'
 import decorationRight from '@src/assets/images/elements/decore-right.png'
 
-const CardCongratulations = () => (
-  <Card className="card-congratulations">
+const CardCongratulations = function() {
+  return <Card className="card-congratulations">
     <CardBody className="text-center">
       <img
         className="congratulations-img-left"
@@ -32,6 +32,6 @@ const CardCongratulations = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 
 export default CardCongratulations

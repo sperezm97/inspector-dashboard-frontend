@@ -2,7 +2,8 @@ import { Fragment, useState } from 'react'
 
 import { Home, Settings, EyeOff, User } from 'react-feather'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
-const TabsIcons = () => {
+
+const TabsIcons = function() {
   const [active, setActive] = useState('1')
 
   const toggle = (tab) => {

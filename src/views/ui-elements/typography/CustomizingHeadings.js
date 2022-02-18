@@ -7,8 +7,8 @@ import {
   Table,
 } from 'reactstrap'
 
-const CustomizingHeadings = () => (
-  <Card>
+const CustomizingHeadings = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         Customizing headings <small className="text-muted">Default</small>
@@ -75,5 +75,5 @@ const CustomizingHeadings = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 export default CustomizingHeadings

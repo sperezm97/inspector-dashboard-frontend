@@ -1,18 +1,24 @@
 import { Circle } from 'react-feather'
-import { IconInstitution } from '../../@core/components/icons'
+import { IconInstitutionNav } from '../../@core/components/icons'
 import Url from '../../constants/Url'
 
 export default [
   {
     id: 'institution',
     title: 'Institución',
-    icon: <IconInstitution size={20} />,
+    icon: <IconInstitutionNav size={20} />,
     children: [
       {
-        id: 'instituciones',
+        id: 'list',
         title: 'Lista',
         icon: <Circle size={12} />,
         navLink: Url.institution,
+      },
+      {
+        id: 'create',
+        title: 'Crear',
+        icon: <Circle size={12} />,
+        navLink: Url.institutionCreate,
       },
     ],
   },

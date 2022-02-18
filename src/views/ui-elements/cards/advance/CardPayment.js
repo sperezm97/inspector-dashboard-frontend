@@ -13,8 +13,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const CardPayment = () => (
-  <Card className="card-payment">
+const CardPayment = function() {
+  return <Card className="card-payment">
     <CardHeader>
       <CardTitle tag="h4">Pay Amount</CardTitle>
       <CardTitle className="text-primary" tag="h4">
@@ -71,6 +71,6 @@ const CardPayment = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 
 export default CardPayment

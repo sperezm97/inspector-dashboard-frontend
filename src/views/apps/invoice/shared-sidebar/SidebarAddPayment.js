@@ -12,7 +12,7 @@ import Sidebar from '@components/sidebar'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/base/pages/app-invoice.scss'
 
-const SidebarAddPayment = ({ open, toggleSidebar }) => {
+const SidebarAddPayment = function({ open, toggleSidebar }) {
   // ** States
   const [picker, setPicker] = useState(new Date())
 

@@ -12,7 +12,7 @@ import {
   breadcrumbsStyles,
 } from './BreadCrumbsSourceCode'
 
-const BreadCrumbs = () => {
+const BreadCrumbs = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

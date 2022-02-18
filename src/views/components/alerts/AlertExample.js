@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Alert, FormGroup, Label, Input } from 'reactstrap'
 import { AlertCircle } from 'react-feather'
 
-const AlertExample = () => {
+const AlertExample = function() {
   const [inputTerm, setInputTerm] = useState('')
   const [visible, setVisible] = useState(true)
 

@@ -25,7 +25,7 @@ import {
 // ** Styles
 import '@styles/react/apps/app-email.scss'
 
-const EmailApp = () => {
+const EmailApp = function() {
   // ** States
   const [query, setQuery] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -70,7 +70,7 @@ const EmailApp = () => {
               show: sidebarOpen,
             })}
             onClick={() => setSidebarOpen(false)}
-          ></div>
+           />
           <Mails
             store={store}
             query={query}

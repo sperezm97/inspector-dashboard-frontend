@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-const MapDraggableMarker = () => {
+const MapDraggableMarker = function() {
   const [center] = useState({
     lat: 51.505,
     lng: -0.09,

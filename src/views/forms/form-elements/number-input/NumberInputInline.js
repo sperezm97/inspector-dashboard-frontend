@@ -9,8 +9,8 @@ import {
   FormGroup,
 } from 'reactstrap'
 
-const NumberInputInline = () => (
-  <Card>
+const NumberInputInline = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Inline</CardTitle>
     </CardHeader>
@@ -25,6 +25,6 @@ const NumberInputInline = () => (
       </FormGroup>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputInline

@@ -13,7 +13,7 @@ import {
 } from 'reactstrap'
 import Chart from 'react-apexcharts'
 
-const RevenueReport = (props) => {
+const RevenueReport = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -130,11 +130,11 @@ const RevenueReport = (props) => {
             <CardTitle className="mb-50 mb-sm-0">Revenue Report</CardTitle>
             <div className="d-flex align-items-center">
               <div className="d-flex align-items-center mr-2">
-                <span className="bullet bullet-primary mr-50 cursor-pointer"></span>
+                <span className="bullet bullet-primary mr-50 cursor-pointer" />
                 <span>Earning</span>
               </div>
               <div className="d-flex align-items-center">
-                <span className="bullet bullet-warning mr-50 cursor-pointer"></span>
+                <span className="bullet bullet-warning mr-50 cursor-pointer" />
                 <span>Expense</span>
               </div>
             </div>

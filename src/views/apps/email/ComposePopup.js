@@ -45,7 +45,7 @@ import img6 from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const ComposePopup = (props) => {
+const ComposePopup = function(props) {
   // ** Props & Custom Hooks
   const [skin, setSkin] = useSkin()
   const { composeOpen, toggleCompose } = props
@@ -64,14 +64,14 @@ const ComposePopup = (props) => {
     { value: 'Rachel', label: 'Rachel Green', img: img6 },
   ]
 
-  const SelectComponent = ({ data, ...props }) => (
-    <components.Option {...props}>
+  const SelectComponent = function({ data, ...props }) {
+  return <components.Option {...props}>
       <div className="d-flex flex-wrap align-items-center">
         <Avatar className="my-0 mr-50" size="sm" img={data.img} />
         {data.label}
       </div>
     </components.Option>
-  )
+}
 
   // ** CC Toggle Function
   const toggleCC = (e) => {
@@ -232,7 +232,7 @@ const ComposePopup = (props) => {
                   className="dropdown-toggle-split"
                   color="primary"
                   caret
-                ></DropdownToggle>
+                 />
                 <DropdownMenu right>
                   <DropdownItem href="/" tag="a" onClick={togglePopUp}>
                     Schedule Send

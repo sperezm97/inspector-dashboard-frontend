@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableHover = () => (
-  <Table hover responsive>
+const TableHover = function() {
+  return <Table hover responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableHover = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableHover

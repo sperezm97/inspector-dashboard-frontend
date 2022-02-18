@@ -16,7 +16,7 @@ import { getUserProfile, getChatContacts } from './store/actions'
 import '@styles/base/pages/app-chat.scss'
 import '@styles/base/pages/app-chat-list.scss'
 
-const AppChat = () => {
+const AppChat = function() {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.chat)
@@ -66,7 +66,7 @@ const AppChat = () => {
                   userSidebarLeft === true,
               })}
               onClick={handleOverlayClick}
-            ></div>
+             />
             <Chat
               store={store}
               handleUser={handleUser}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Card, CardHeader, CardTitle, CardBody, Input, Label } from 'reactstrap'
 import classnames from 'classnames'
 
-const TextareaCounter = () => {
+const TextareaCounter = function() {
   const [value, setValue] = useState('')
 
   return (

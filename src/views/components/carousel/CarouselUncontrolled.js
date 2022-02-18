@@ -24,7 +24,7 @@ const items = [
   },
 ]
 
-const CarouselUncontrolled = () => (
-  <UncontrolledCarousel items={items} keyboard={false} />
-)
+const CarouselUncontrolled = function() {
+  return <UncontrolledCarousel items={items} keyboard={false} />
+}
 export default CarouselUncontrolled

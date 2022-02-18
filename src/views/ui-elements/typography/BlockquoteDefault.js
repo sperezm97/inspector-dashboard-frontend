@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardText, CardBody } from 'reactstrap'
 
-const BlockquoteDefault = () => (
-  <Card>
+const BlockquoteDefault = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         Blockquotes <small className="text-muted">Default</small>
@@ -22,5 +22,5 @@ const BlockquoteDefault = () => (
       </blockquote>
     </CardBody>
   </Card>
-)
+}
 export default BlockquoteDefault

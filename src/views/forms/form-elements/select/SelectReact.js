@@ -18,8 +18,8 @@ const colourOptions = [
   { value: 'orange', label: 'Orange' },
 ]
 
-const SelectReact = () => (
-  <Card>
+const SelectReact = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">React Select</CardTitle>
     </CardHeader>
@@ -92,5 +92,5 @@ const SelectReact = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default SelectReact

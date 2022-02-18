@@ -11,7 +11,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
 
-const SweetAlertTypes = () => {
+const SweetAlertTypes = function() {
   const handleSuccess = () =>
     MySwal.fire({
       title: 'Good job!',

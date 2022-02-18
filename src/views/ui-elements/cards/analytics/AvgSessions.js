@@ -15,7 +15,7 @@ import {
 } from 'reactstrap'
 import Chart from 'react-apexcharts'
 
-const AvgSessions = (props) => {
+const AvgSessions = function(props) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

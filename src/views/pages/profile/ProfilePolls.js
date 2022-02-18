@@ -9,7 +9,7 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap'
 
-const ProfilePolls = ({ data }) => {
+const ProfilePolls = function({ data }) {
   const renderOptions = () =>
     data.map((option) => (
       <div key={option.name} className="profile-polls-info mt-2">

@@ -10,7 +10,7 @@ import {
   CardText,
 } from 'reactstrap'
 
-const ListGroupNavigation = () => {
+const ListGroupNavigation = function() {
   const [activeList, setActiveLIst] = useState('1')
 
   const toggleList = (list) => {

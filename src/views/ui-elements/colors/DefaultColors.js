@@ -8,8 +8,8 @@ import {
   Alert,
 } from 'reactstrap'
 
-const DefaultColors = () => (
-  <Card>
+const DefaultColors = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Default Colors</CardTitle>
     </CardHeader>
@@ -136,5 +136,5 @@ const DefaultColors = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default DefaultColors

@@ -202,6 +202,8 @@ const Customizer = props => {
   // ** Get Current Transition
   const transitionValue = transitionOptions.find(i => i.value === transition)
 
+  return null
+
   return (
     <div
       className={classnames('customizer d-none d-md-block', {

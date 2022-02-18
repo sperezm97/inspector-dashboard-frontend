@@ -92,7 +92,7 @@ const initialData = [
   },
 ]
 
-const ExportSelected = () => {
+const ExportSelected = function() {
   const [data] = useState(initialData)
   const [filteredData, setFilteredData] = useState([])
   const [dataToExport, setDataToExport] = useState([])

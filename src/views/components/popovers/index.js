@@ -14,7 +14,7 @@ import {
   popoverTriggers,
 } from './PopoverSourceCode'
 
-const Popover = () => {
+const Popover = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

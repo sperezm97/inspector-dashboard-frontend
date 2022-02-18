@@ -1,8 +1,38 @@
+import { useSelector } from 'react-redux'
+import { Badge } from 'reactstrap'
 import {
   rowClient,
-  iconRoleTable,
   rowActions,
 } from '../../../../@core/components/table/commonColumns'
+import Url from '../../../../constants/Url'
+
+export const getRol = (rol, index) => (
+  <span key={index} style={{ marginRight: '5px' }}>
+    <Badge color="light-primary">{rol}</Badge>
+  </span>
+)
+
+export const getProvinces = (id) => {
+  const provincesSelector = useSelector(
+    (state) => state?.provinces?.allProvinces,
+  )
+  const validatedId = id || ''
+
+  return provincesSelector.find(
+    (obj) => obj.identifier.substr(2, 2) === validatedId.substr(2, 2),
+  )?.name
+}
+
+export const getMunicipality = (id) => {
+  const municipalitiesSelector = useSelector(
+    (state) => state?.municipalities?.allMunicipalities,
+  )
+  const validatedId = id || ''
+
+  return municipalitiesSelector.find(
+    (obj) => obj.identifier === validatedId.substr(0, 6),
+  )?.name
+}
 
 export const columns = [
   {
@@ -12,10 +42,10 @@ export const columns = [
     sortable: true,
     cell: (row) => {
       const userInfo = {
-        reporterId: row.id,
-        reporterFirstName: row.firstname,
-        reporterLastName: row.lastname,
-        reporterCedula: row.cedula,
+        id: row.id,
+        firstName: row.firstname,
+        lastName: row.lastname,
+        cedula: row.cedula,
       }
 
       return rowClient(userInfo)
@@ -31,29 +61,35 @@ export const columns = [
   {
     name: 'Provincia',
     minWidth: '235px',
-    selector: 'provincia',
+    selector: 'zone',
     sortable: true,
-    // cell: row => row.provincia
-    cell: (row) => 'Santo Domingo',
+    cell: (row) => getProvinces(row.zone),
   },
   {
     name: 'Municipio',
     minWidth: '235px',
-    selector: 'municipio',
+    selector: 'zone',
     sortable: true,
-    // cell: row => row.municipio
-    cell: (row) => 'Los Alcarrizos',
+    cell: (row) => getMunicipality(row.zone),
   },
   {
     name: 'Rol',
     minWidth: '172px',
-    selector: 'rol',
+    selector: 'roles',
     sortable: true,
-    cell: (row) => iconRoleTable(row.rol),
+    cell: (row) => {
+      const newRols = [...new Set(row.roles)]
+      return newRols.map((rol, index) => getRol(rol, index))
+    } 
   },
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => rowActions(row.id),
+    cell: (row) => {
+      const url = {
+        edit: Url.userEdit,
+      }
+      return rowActions(row.id, url)
+    },
   },
 ]

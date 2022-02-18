@@ -17,8 +17,8 @@ import LogoIcon from '@src/assets/images/logo/icon.png'
 
 import '@styles/base/pages/page-auth.scss'
 
-const RegisterV1 = () => (
-  <div className="auth-wrapper auth-v1 px-2" style={{ background: '#044386' }}>
+const RegisterV1 = function() {
+  return <div className="auth-wrapper auth-v1 px-2" style={{ background: '#044386' }}>
     <div className="auth-inner auth-inner-two py-2">
       <Card className="mb-0">
         <CardBody>
@@ -166,6 +166,6 @@ const RegisterV1 = () => (
       </Card>
     </div>
   </div>
-)
+}
 
 export default RegisterV1

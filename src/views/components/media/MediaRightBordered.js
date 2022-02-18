@@ -3,8 +3,8 @@ import mediaImg1 from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 import mediaImg2 from '@src/assets/images/portrait/small/avatar-s-14.jpg'
 import mediaImg3 from '@src/assets/images/portrait/small/avatar-s-21.jpg'
 
-const MediaRightBordered = () => (
-  <div className="media-list media-bordered">
+const MediaRightBordered = function() {
+  return <div className="media-list media-bordered">
     <Media>
       <Media className="text-right" body>
         <Media heading>Oat cake</Media>
@@ -61,6 +61,6 @@ const MediaRightBordered = () => (
       </Media>
     </Media>
   </div>
-)
+}
 
 export default MediaRightBordered

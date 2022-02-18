@@ -1,8 +1,8 @@
 import { Button } from 'reactstrap'
 import { Home, Star, Check } from 'react-feather'
 
-const ButtonsIcon = () => (
-  <div className="demo-inline-spacing">
+const ButtonsIcon = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple outline color="primary">
       <Home size={14} />
       <span className="align-middle ml-25">Home</span>
@@ -20,5 +20,5 @@ const ButtonsIcon = () => (
       <span className="align-middle ml-25">Home</span>
     </Button.Ripple>
   </div>
-)
+}
 export default ButtonsIcon

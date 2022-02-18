@@ -2,7 +2,7 @@ import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { Card, CardTitle, CardBody, CardText, Badge, Button } from 'reactstrap'
 
-const CardAppDesign = () => {
+const CardAppDesign = function() {
   const avatarArr = [
     {
       img: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default,

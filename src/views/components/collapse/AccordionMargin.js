@@ -57,8 +57,8 @@ const data = [
   },
 ]
 
-const AccordionMargin = () => (
-  <AppCollapse data={data} type="margin" accordion />
-)
+const AccordionMargin = function() {
+  return <AppCollapse data={data} type="margin" accordion />
+}
 
 export default AccordionMargin

@@ -13,8 +13,8 @@ const params = {
   },
 }
 
-const SwiperProgress = () => (
-  <Card>
+const SwiperProgress = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Progress</CardTitle>
     </CardHeader>
@@ -38,6 +38,6 @@ const SwiperProgress = () => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperProgress

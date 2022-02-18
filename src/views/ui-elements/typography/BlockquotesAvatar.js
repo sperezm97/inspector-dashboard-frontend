@@ -9,8 +9,8 @@ import {
   Media,
 } from 'reactstrap'
 
-const BlockquotesAvatar = () => (
-  <Card>
+const BlockquotesAvatar = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Blockquotes with avatar</CardTitle>
     </CardHeader>
@@ -68,5 +68,5 @@ const BlockquotesAvatar = () => (
       </blockquote>
     </CardBody>
   </Card>
-)
+}
 export default BlockquotesAvatar

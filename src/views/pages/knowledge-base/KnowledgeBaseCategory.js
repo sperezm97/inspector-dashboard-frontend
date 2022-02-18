@@ -9,7 +9,7 @@ import KnowledgeBaseHeader from './KnowledgeBaseHeader'
 
 import '@styles/base/pages/page-knowledge-base.scss'
 
-const KnowledgeBaseCategory = () => {
+const KnowledgeBaseCategory = function() {
   const [data, setData] = useState(null)
   const [filteredData, setFilteredData] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -20,7 +20,7 @@ const KnowledgeBaseCategory = () => {
 
   const params = useParams()
 
-  const Content = ({ item }) => {
+  const Content = function({ item }) {
     const IconTag = Icon[item.icon]
     return (
       <Col className="kb-search-content" md="4" sm="6">

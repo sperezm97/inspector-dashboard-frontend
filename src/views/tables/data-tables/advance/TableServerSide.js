@@ -14,7 +14,7 @@ import { Card, CardHeader, CardTitle, Input, Label, Row, Col } from 'reactstrap'
 import { getData } from '../store/actions'
 import { serverSideColumns } from '../data'
 
-const DataTableServerSide = () => {
+const DataTableServerSide = function() {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.dataTables)
@@ -73,7 +73,7 @@ const DataTableServerSide = () => {
   }
 
   // ** Custom Pagination
-  const CustomPagination = () => {
+  const CustomPagination = function() {
     const count = Number((store.total / rowsPerPage).toFixed(0))
 
     return (
@@ -106,9 +106,7 @@ const DataTableServerSide = () => {
       q: searchValue,
     }
 
-    const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
+    const isFiltered = Object.keys(filters).some((k) => filters[k].length > 0)
 
     if (store.data.length > 0) {
       return store.data
@@ -120,8 +118,7 @@ const DataTableServerSide = () => {
   }
 
   return (
-    <>
-      <Card>
+    <Card>
         <CardHeader className="border-bottom">
           <CardTitle tag="h4">Server Side</CardTitle>
         </CardHeader>
@@ -174,7 +171,6 @@ const DataTableServerSide = () => {
           data={dataToRender()}
         />
       </Card>
-    </>
   )
 }
 

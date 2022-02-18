@@ -22,7 +22,7 @@ import {
 // ** Styles
 import '@styles/base/pages/app-ecommerce.scss'
 
-const Shop = () => {
+const Shop = function() {
   // ** States
   const [activeView, setActiveView] = useState('grid')
   const [sidebarOpen, setSidebarOpen] = useState(false)

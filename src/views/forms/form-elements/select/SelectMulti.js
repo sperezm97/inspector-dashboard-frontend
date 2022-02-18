@@ -11,8 +11,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const SelectReactstrap = () => (
-  <Card>
+const SelectReactstrap = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Reactstrap Multi Select</CardTitle>
     </CardHeader>
@@ -68,5 +68,5 @@ const SelectReactstrap = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 export default SelectReactstrap

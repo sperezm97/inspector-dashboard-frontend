@@ -9,8 +9,8 @@ import AddActions from './AddActions'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/base/pages/app-invoice.scss'
 
-const InvoiceAdd = () => (
-  <div className="invoice-add-wrapper">
+const InvoiceAdd = function() {
+  return <div className="invoice-add-wrapper">
     <Row className="invoice-add">
       <Col xl={9} md={8} sm={12}>
         <AddCard />
@@ -20,6 +20,6 @@ const InvoiceAdd = () => (
       </Col>
     </Row>
   </div>
-)
+}
 
 export default InvoiceAdd

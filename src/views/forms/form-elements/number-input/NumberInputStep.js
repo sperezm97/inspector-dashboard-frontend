@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const NumberInputStep = () => (
-  <Card>
+const NumberInputStep = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Step</CardTitle>
     </CardHeader>
@@ -24,6 +24,6 @@ const NumberInputStep = () => (
       <NumberInput id="step-number-input" max={10} step={0.25} />
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputStep

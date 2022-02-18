@@ -2,20 +2,20 @@ import { Fragment } from 'react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-const MyPopupMarker = ({ position, content }) => (
-  <Marker position={position}>
+const MyPopupMarker = function({ position, content }) {
+  return <Marker position={position}>
     <Popup>{content}</Popup>
   </Marker>
-)
+}
 
-const MyMarkersList = ({ markers }) => {
+const MyMarkersList = function({ markers }) {
   const items = markers.map(({ key, ...props }) => (
     <MyPopupMarker key={key} {...props} />
   ))
   return <>{items}</>
 }
 
-const MapMarkerList = () => {
+const MapMarkerList = function() {
   const markers = [
     { key: 'marker1', position: [51.52, -0.1], content: 'My first popup' },
     { key: 'marker2', position: [51.51, -0.1], content: 'My second popup' },

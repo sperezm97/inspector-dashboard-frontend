@@ -9,7 +9,7 @@ const areaColors = {
   series1: '#2bdac7',
 }
 
-const ApexAreaCharts = ({ direction }) => {
+const ApexAreaCharts = function({ direction }) {
   const options = {
     chart: {
       parentHeightOffset: 0,

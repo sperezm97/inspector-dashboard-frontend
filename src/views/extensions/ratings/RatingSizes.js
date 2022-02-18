@@ -2,8 +2,8 @@ import Rating from 'react-rating'
 import { Star } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingSizes = ({ filledColor, dir }) => (
-  <Card>
+const RatingSizes = function({ filledColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Sizes</CardTitle>
     </CardHeader>
@@ -28,6 +28,6 @@ const RatingSizes = ({ filledColor, dir }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingSizes

@@ -18,7 +18,7 @@ import {
   dividerText,
 } from './DividerSourceCode'
 
-const Divider = () => {
+const Divider = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

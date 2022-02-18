@@ -1,199 +1,418 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Select from 'react-select'
+
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
-import classnames from 'classnames'
-import Flatpickr from 'react-flatpickr'
 import { User, MapPin } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
-import { useForm, Controller } from 'react-hook-form'
-import {
-  Row,
-  Col,
-  Button,
-  Label,
-  FormGroup,
-  Input,
-  CustomInput,
-  Form,
-} from 'reactstrap'
+import { Col, FormGroup, Label } from 'reactstrap'
 
-import { rolArray } from '../../../../constants/Rol/rol'
 import CardGrid from '../../../../@core/components/card-grid'
+import FormApp from '../../../../@core/components/form'
+import InputApp from '../../../../@core/components/input'
+
+import { postUser } from '../../../../services/zammad/user'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { getAllOrganizationsActions } from '../../../../redux/actions/zammad/organizations'
+import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
+import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
+import {
+  addAllGroupsToUser,
+  optionsCodeValueSelect,
+  optionsZammadIdValueSelect,
+  selectThemeColors,
+} from '../../../../utility/Utils'
+import { getProvinceByIdRegion } from '../../../../services/territories/province'
+import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
+import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
+import { getInfoCedula } from '../../../../services/cedula'
+import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { schemaYup } from './schemaYup'
+import Url from '../../../../constants/Url'
+import { getGroups } from '../../../../services/zammad/group'
 
-const UserCreate = () => {
-  // ** State
-  const [data, setData] = useState(null)
+const UserCreate = function({history}) {
+  const dispatch = useDispatch()
 
-  // ** React hook form vars
-  const { register, errors, handleSubmit, control, setValue, trigger } =
-    useForm({
-      defaultValues: { gender: 'gender-female', dob: null },
-    })
+  const [loadingCreate, setLoadingCreate] = useState(false)
+
+  const [ infoCedulaState, setInfoCedulaState ] = useState(null)
+  
+  const [ groupsState, setGroupsState ] = useState([])
+
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+
+  const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
+  const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
+  const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
+  const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
+
+  const [ provinceState, setProvinceState ] = useState([])
+  const [ municipalityState, setMunicipalityState ] = useState([])
+  const [ districtState, setDistrictState ] = useState([])
+
+  useEffect(() => {
+    dispatch(getAllOrganizationsActions())
+    dispatch(getAllRolsActions())
+    dispatch(getAllRegionsActions())
+
+    getGroups()
+      .then((res) => setGroupsState(res.data))
+      .catch((err) => console.log(err))
+  }, [])
+
+  const dataTableOrganizations = useSelector(
+    (state) => state?.organizations?.organizations,
+  )
+  const rolSelector = useSelector((state) => state?.rols?.rols)
+  const regionSelector = useSelector((state) => state?.regions?.regions)
+  
+  const { register, handleSubmit, errors, control, getValues, setValue } = useForm({
+    resolver: yupResolver(schemaYup),
+  })
+
+  console.log(getValues())
+
+  const handleDataCedula = ({target}) => {
+    setInfoCedulaState(null)
+    if(target.value.length !== 11) return
+    getInfoCedula(target.value)
+      .then(({data}) => setInfoCedulaState(data.payload))
+      .catch(err => {
+        console.log(err)
+        setInfoCedulaState(null)
+        sweetAlert({
+          title: 'Error!',
+          text: 'La Cédula ingresada no es válida',
+          type: 'error'
+        })
+      })
+  }
+
+  const handleGetProvinceByIdRegion = (e) => {
+    setValue('region', e.value)
+    setRegionValueState(e)
+    setProvinceValueState(defaultValueState)
+    setProvinceState([])
+    setMunicipalityValueState(defaultValueState)
+    setMunicipalityState([])
+    setDistrictValueState(defaultValueState)
+    setDistrictState([])
+    if(!e.value) return
+    getProvinceByIdRegion(e.value).then(res => setProvinceState(res.data.data))
+  }
+
+  const handleGetMunicipalityByIdProvince = (e) => {
+    setValue('provincia', e.value)
+    setProvinceValueState(e)
+    setMunicipalityValueState(defaultValueState)
+    setMunicipalityState([])
+    setDistrictValueState(defaultValueState)
+    setDistrictState([])
+    if(!e.value) return
+    getMunicipalityByIdRegionByIdProvince(regionValueState.value, e.value).then(res => setMunicipalityState(res.data.data))
+  }
+
+  const handleGetDistrictByIdMunicipality = (e) => {
+    setValue('municipio', e.value)
+    setMunicipalityValueState(e)
+    setDistrictValueState(defaultValueState)
+    setDistrictState([])
+    if(!e.value) return
+    getDistrictByIdProvinceByIdMunicipality(regionValueState.value, provinceValueState.value, e.value)
+    .then(res => setDistrictState(res.data.data))
+  }
+
+  const onSubmit = async (data) => {
+
+    const objZammad = {
+      cedula: data.cedula,
+      firstname: infoCedulaState.names,
+      lastname: `${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
+      email: data.email,
+      login: data.email,
+      phone: data.phone,
+      organization: parseInt(data.institucion),
+      role_ids: data.permisos.map((data) => data.value),
+      zone: data.region + data.provincia + data.municipio + data.distrito,
+      password: data.cPassword,
+      note: 'User created from the BackOffice',
+      group_ids: addAllGroupsToUser(groupsState)
+    }
+
+    console.log('objZammad', objZammad)
+    
+    setLoadingCreate(true)
+    postUser(objZammad)
+      .then((res) => {
+        sweetAlertGood()
+        history.push(Url.user)
+        console.log(res)
+      })
+      .catch(() => {
+        setLoadingCreate(false)
+        sweetAlert({
+          title: 'Error!',
+          text: 'Ocurrió un error al crear el usuario.',
+          type: 'error'
+        })
+      })
+  }
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nuevo Usuario">
-      <Form
-        onSubmit={handleSubmit((data) => {
-          trigger()
-          setData(data)
-        })}
+      <FormApp
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        loading={loadingCreate}
       >
-        <Row className="mt-1">
-          <Col sm="12">
-            <h4 className="mb-1">
-              <User size={20} className="mr-50" />
-              <span className="align-middle">Información Personal</span>
-            </h4>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label className="d-block" for="dob">
-                Cédula de Identidad
-              </Label>
-              <Input
-                type="text"
-                id="statee"
-                defaultValue="001-0000000-0"
-                placeholder="Cédula de Identidad"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="Nombre">Nombre</Label>
-              <Input
-                type="text"
-                id="Nombre"
-                defaultValue="John"
-                placeholder="Nombre"
-                readOnly
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="Apellido">Apellido</Label>
-              <Input
-                type="text"
-                id="Apellido"
-                defaultValue="Doe"
-                placeholder="Apellido"
-                readOnly
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Nacionalidad</Label>
-              <Input
-                type="select"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="Dominicana"
-              >
-                <option value="Dominicana">Dominicana</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Teléfono Móvil</Label>
-              <Input
-                type="text"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="809-220-1111"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Correo Electrónico</Label>
-              <Input
-                type="email"
-                id="state"
-                defaultValue="johndoe@email.com"
-                placeholder="Correo Electrónico"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <label className="d-block mb-1">Género</label>
-              <FormGroup>
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Masculino"
-                      value="Masculino"
-                      id="gender-male"
-                      name={props.name}
-                      onChange={() => setValue('gender', 'Masculino')}
-                    />
-                  )}
+        <Col sm="12">
+          <h4 className="mb-1">
+            <User size={20} className="mr-50" />
+            <span className="align-middle">Información Personal</span>
+          </h4>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Cédula de Identidad</Label>
+            <Controller
+              control={control}
+              name="cedula"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe la Cédula"
+                onChange={e => setValue("cedula", e.target.value)}
+                onBlur={e => handleDataCedula(e)}
+                options={{ blocks: [11], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.cedula?.message && errors.cedula?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <InputApp
+          label="Nombre Completo"
+          name="nombreC"
+          register={register}
+          placeholder="Digita la cédula..."
+          disabled
+          defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
+          messageError={errors.cedula?.message && 'El Nombre es obligatorio'}
+        />
+
+        <InputApp
+          type="email"
+          label="Correo Electrónico"
+          name="email"
+          register={register}
+          placeholder="Escribe el Correo Electrónico"
+          messageError={
+            errors.email?.message && errors.email?.message
+          }
+        />
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Teléfono</Label>
+            <Controller
+              control={control}
+              name="phone"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe el Teléfono"
+                onChange={e => setValue("phone", e.target.value)}
+                options={{ blocks: [10], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.phone?.message && errors.phone?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Institución</Label>
+            <Controller
+              control={control}
+              name="institucion"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('institucion', e.value)}
+                options={optionsZammadIdValueSelect(dataTableOrganizations)}
+                isLoading={!dataTableOrganizations[0]}
+                defaultValue={defaultValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.institucion?.message && errors.institucion?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Permisos</Label>
+            <Controller
+              control={control}
+              name="permisos"
+              onChange={register}
+              render={({ onChange, name }) => (
+                <Select
+                  isMulti
+                  name={name}
+                  theme={selectThemeColors}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={onChange}
+                  options={rolSelector.map((dataMap) => ({
+                    value: dataMap.id,
+                    label: dataMap.name,
+                  }))}
+                  isLoading={!rolSelector[0]}
+                  placeholder={defaultValueState.label}
                 />
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Femenino"
-                      value="Femenino"
-                      id="gender-female"
-                      name={props.name}
-                      defaultChecked
-                      onChange={() => setValue('gender', 'Femenino')}
-                    />
-                  )}
-                />
-              </FormGroup>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="zonaid">Zona ID</Label>
-              <Input type="text" name="zonaid" id="zonaid" defaultValue="05" />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="organizacion">Organización</Label>
-              <Input
-                type="select"
-                name="organizacion"
-                id="organizacion"
-                defaultValue="Organización"
-              >
-                <option value="Organización">Organización</option>
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="d-flex flex-sm-row flex-column mt-2">
-            <Button
-              type="submit"
-              color="primary"
-              className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            >
-              Crear
-            </Button>
-            <Button type="reset" color="primary" outline>
-              Limpiar
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+              )}
+            />
+            <p className="text-danger">{
+              errors.permisos?.message && errors.permisos?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <InputApp
+          type="password"
+          label="Contraseña"
+          name="password"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.password?.message && errors.password?.message
+          }
+        />
+
+        <InputApp
+          type="password"
+          label="Confirmar Contraseña"
+          name="cPassword"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.cPassword?.message && errors.cPassword?.message
+          }
+        />
+
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <MapPin size={20} className="mr-50" />
+            <span className="align-middle">Detalles de Zona</span>
+          </h4>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Región</Label>
+            <Controller
+              control={control}
+              name="region"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetProvinceByIdRegion(e)}
+                options={optionsCodeValueSelect(regionSelector)}
+                isLoading={!regionSelector[0]}
+                defaultValue={regionValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.region?.message && errors.region?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Provincia</Label>
+            <Controller
+              control={control}
+              name="provincia"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetMunicipalityByIdProvince(e)}
+                options={optionsCodeValueSelect(provinceState)}
+                isLoading={!provinceState[0]}
+                defaultValue={provinceValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.provincia?.message && errors.provincia?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Municipio</Label>
+            <Controller
+              control={control}
+              name="municipio"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => handleGetDistrictByIdMunicipality(e)}
+                options={optionsCodeValueSelect(municipalityState)}
+                isLoading={!municipalityState[0]}
+                defaultValue={municipalityValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.municipio?.message && errors.municipio?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Distrito</Label>
+            <Controller
+              control={control}
+              name="distrito"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('distrito', e.value)}
+                options={optionsCodeValueSelect(districtState)}
+                isLoading={!districtState[0]}
+                defaultValue={districtValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.distrito?.message && errors.distrito?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+      </FormApp>
     </CardGrid>
   )
 }

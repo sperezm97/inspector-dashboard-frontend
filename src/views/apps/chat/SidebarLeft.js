@@ -26,7 +26,7 @@ import {
 } from 'reactstrap'
 import { selectChat } from './store/actions'
 
-const SidebarLeft = (props) => {
+const SidebarLeft = function(props) {
   // ** Props & Store
   const {
     store,

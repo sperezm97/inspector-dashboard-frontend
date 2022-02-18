@@ -57,6 +57,8 @@ const data = [
   },
 ]
 
-const Accordion = () => <AppCollapse data={data} accordion />
+const Accordion = function() {
+  return <AppCollapse data={data} accordion />
+}
 
 export default Accordion

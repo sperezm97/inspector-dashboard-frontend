@@ -57,8 +57,8 @@ const data = [
   },
 ]
 
-const AccordionBorder = () => (
-  <AppCollapse data={data} type="border" accordion />
-)
+const AccordionBorder = function() {
+  return <AppCollapse data={data} type="border" accordion />
+}
 
 export default AccordionBorder

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Form, FormGroup, Row, Col, Button } from 'reactstrap'
 import InputPasswordToggle from '@components/input-password-toggle'
 
-const PasswordTabContent = () => {
+const PasswordTabContent = function() {
   const SignupSchema = yup.object().shape({
     'old-password': yup.string().required(),
     'new-password': yup.string().required(),

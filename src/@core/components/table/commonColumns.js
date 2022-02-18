@@ -23,7 +23,7 @@ const renderClient = row => {
     if (row?.avatar?.length) {
     return <Avatar className='mr-1' img={row.avatar} width='32' height='32' />
     } else {
-    return <Avatar color={color || 'primary'} className='mr-1' content={row.reporterFirstName ? row.reporterFirstName : 'X'} initials />
+    return <Avatar color={color || 'primary'} className='mr-1' content={row.firstName ? row.firstName : 'X'} initials />
     }
 }
 
@@ -33,12 +33,12 @@ export const rowClient = (row) => (
             {renderClient(row)}
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.user}/${row.reporterId}`}
+                    to={`${Url.user}/${row.id}`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.reporterFirstName ? `${row.reporterFirstName} ${row.reporterLastName}` : ''}</span>
+                    <span className='font-weight-bold'>{row.firstName ? `${row.firstName} ${row.lastName}` : ''}</span>
                 </Link>
-                <small className='text-truncate text-muted mb-0' style={{marginTop: '4px'}}>{row.reporterCedula && row.reporterCedula}</small>
+                <small className='text-truncate text-muted mb-0' style={{marginTop: '4px'}}>{row.cedula && row.cedula}</small>
             </div>
         </div>
 )
@@ -48,44 +48,44 @@ export const rowInstitution = row => (
         <div className='d-flex justify-content-left align-items-center'>
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.institution}/${row.institutionId}`}
+                    to={`${Url.institution}/${row.id}`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.institutionAcronym ? row.institutionAcronym : 'No definido'}</span>
+                    <span className='font-weight-bold'>{row.acronym ? row.acronym : 'No definido'}</span>
                 </Link>
                 <small className='text-muted mb-0' style={{marginTop: '4px'}}>
-                    {row.institutionName ? row.institutionName : 'No definido'}
+                    {row.name ? row.name : 'No definido'}
                 </small>
             </div>
         </div>
 )
 
-export const rowActions = rowId => (
+export const rowActions = (rowId=0, url) => (
     <UncontrolledDropdown>
         <DropdownToggle tag="div" className="btn btn-sm">
             <MoreVertical size={14} className="cursor-pointer" />
         </DropdownToggle>
         <DropdownMenu right>
-            <DropdownItem
+            {/* <DropdownItem
                 tag={Link}
-                to={`${Url.dashboardInbox}/${rowId}`}
+                to={`${url?.details}/${rowId}`}
                 className="w-100"
                 >
                 <FileText size={14} className="mr-50" />
                 <span className="align-middle">Detalles</span>
-            </DropdownItem>
+            </DropdownItem> */}
             <DropdownItem
                 tag={Link}
-                to={`/apps/user/edit/${rowId}`}
+                to={`${url?.edit}/${rowId}`}
                 className="w-100"
                 >
                 <Archive size={14} className="mr-50" />
                 <span className="align-middle">Editar</span>
             </DropdownItem>
-            <DropdownItem className="w-100">
+            {/* <DropdownItem className="w-100">
                 <Trash2 size={14} className="mr-50" />
                 <span className="align-middle">Borrar</span>
-            </DropdownItem>
+            </DropdownItem> */}
         </DropdownMenu>
     </UncontrolledDropdown>
 )

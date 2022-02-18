@@ -2,8 +2,8 @@ import { Media } from 'reactstrap'
 import mediaImg1 from '@src/assets/images/portrait/small/avatar-s-12.jpg'
 import mediaImg2 from '@src/assets/images/portrait/small/avatar-s-13.jpg'
 
-const MediaNested = () => (
-  <Media>
+const MediaNested = function() {
+  return <Media>
     <Media left href="#">
       <Media
         className="mr-1"
@@ -41,5 +41,5 @@ const MediaNested = () => (
       </Media>
     </Media>
   </Media>
-)
+}
 export default MediaNested

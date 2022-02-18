@@ -3,8 +3,8 @@ import mediaImg1 from '@src/assets/images/portrait/small/avatar-s-10.jpg'
 import mediaImg2 from '@src/assets/images/portrait/small/avatar-s-7.jpg'
 import mediaImg3 from '@src/assets/images/portrait/small/avatar-s-2.jpg'
 
-const MediaRight = () => (
-  <div className="media-list">
+const MediaRight = function() {
+  return <div className="media-list">
     <Media>
       <Media className="text-right" body>
         <Media heading>Oat cake</Media>
@@ -61,6 +61,6 @@ const MediaRight = () => (
       </Media>
     </Media>
   </div>
-)
+}
 
 export default MediaRight

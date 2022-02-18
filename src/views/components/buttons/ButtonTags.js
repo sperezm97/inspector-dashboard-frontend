@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Alert } from 'reactstrap'
 
-const ButtonTags = () => (
-  <>
+const ButtonTags = function() {
+  return <>
     <Alert color="warning">
       <div className="alert-body">
         <strong>Note:</strong> Link button will redirect you to another page
@@ -30,5 +30,5 @@ const ButtonTags = () => (
       <input className="btn btn-primary" type="submit" value="Submit" />
     </div>
   </>
-)
+}
 export default ButtonTags

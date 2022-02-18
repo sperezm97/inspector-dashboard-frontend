@@ -7,8 +7,8 @@ import {
   Table,
 } from 'reactstrap'
 
-const LightBoldHeadings = () => (
-  <Card>
+const LightBoldHeadings = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Light / Bold Headings</CardTitle>
     </CardHeader>
@@ -80,5 +80,5 @@ const LightBoldHeadings = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 export default LightBoldHeadings

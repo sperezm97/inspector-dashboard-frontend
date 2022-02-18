@@ -2,8 +2,8 @@ import Rating from 'react-rating'
 import { Star } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const RatingFractional = ({ filledColor, dir }) => (
-  <Card>
+const RatingFractional = function({ filledColor, dir }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Fractional</CardTitle>
     </CardHeader>
@@ -17,6 +17,6 @@ const RatingFractional = ({ filledColor, dir }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default RatingFractional

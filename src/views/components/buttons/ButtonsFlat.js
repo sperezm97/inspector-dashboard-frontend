@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const FlatButtons = () => (
-  <div className="demo-inline-spacing">
+const FlatButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple color="flat-primary">Primary</Button.Ripple>
     <Button.Ripple color="flat-secondary">Secondary</Button.Ripple>
     <Button.Ripple color="flat-success">Success</Button.Ripple>
@@ -10,5 +10,5 @@ const FlatButtons = () => (
     <Button.Ripple color="flat-info">Info</Button.Ripple>
     <Button.Ripple color="flat-dark">Dark</Button.Ripple>
   </div>
-)
+}
 export default FlatButtons

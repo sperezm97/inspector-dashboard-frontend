@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPlayer from 'react-player'
 
-const MediaPlayerVideo = () => (
-  <Card>
+const MediaPlayerVideo = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Video</CardTitle>
     </CardHeader>
@@ -15,6 +15,6 @@ const MediaPlayerVideo = () => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default MediaPlayerVideo

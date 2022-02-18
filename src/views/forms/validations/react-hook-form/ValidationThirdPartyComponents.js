@@ -37,7 +37,7 @@ const defaultValues = {
   reactFlatpickr: null,
 }
 
-const ValidationThirdPartyComponents = () => {
+const ValidationThirdPartyComponents = function() {
   const [data, setData] = useState(null)
 
   const { handleSubmit, control } = useForm({ defaultValues })

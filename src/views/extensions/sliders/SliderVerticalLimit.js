@@ -1,8 +1,8 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderLimit = ({ direction }) => (
-  <Card>
+const SliderLimit = function({ direction }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Limit</CardTitle>
     </CardHeader>
@@ -24,6 +24,6 @@ const SliderLimit = ({ direction }) => (
       />
     </CardBody>
   </Card>
-)
+}
 
 export default SliderLimit

@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationWarning = () => (
-  <Card>
+const PaginationWarning = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Warning</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const PaginationWarning = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default PaginationWarning

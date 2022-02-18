@@ -11,7 +11,7 @@ import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
 
-const SweetAlertPositions = () => {
+const SweetAlertPositions = function() {
   const handleTopStart = () =>
     MySwal.fire({
       position: 'top-start',

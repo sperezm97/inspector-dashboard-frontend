@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 
-const PillCentered = () => {
+const PillCentered = function() {
   const [active, setActive] = useState('1')
 
   const toggle = (tab) => {

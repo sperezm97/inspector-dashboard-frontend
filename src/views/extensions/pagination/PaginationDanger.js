@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import ReactPaginate from 'react-paginate'
 
-const PaginationDanger = () => (
-  <Card>
+const PaginationDanger = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Danger</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const PaginationDanger = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default PaginationDanger

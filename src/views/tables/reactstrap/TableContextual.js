@@ -227,8 +227,8 @@ const avatarGroupData10 = [
   },
 ]
 
-const TableContextual = () => (
-  <Table responsive>
+const TableContextual = function() {
+  return <Table responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -675,6 +675,6 @@ const TableContextual = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableContextual

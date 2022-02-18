@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Button, Tooltip } from 'reactstrap'
 
-const TooltipControlled = () => {
+const TooltipControlled = function() {
   const [tooltipOpen, setTooltipOpen] = useState(false)
 
   return (

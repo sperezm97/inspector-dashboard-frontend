@@ -7,25 +7,32 @@ export const statusTickets = (status) => {
 
     const changeColorLabel = () => {
         switch (status) {
-            case statusTicketsObj.new.id:
+            // case statusTicketsObj.new.id:
+            case 1:
                 return statusTicketsObj.new
 
-            case statusTicketsObj.open.id:
+            // case statusTicketsObj.open.id:
+            case 2:
                 return statusTicketsObj.open
 
-            case statusTicketsObj.pendingReminder.id:
+            // case statusTicketsObj.pendingReminder.id:
+            case 3:
                 return statusTicketsObj.pendingReminder
 
-            case statusTicketsObj.closed.id:
+            // case statusTicketsObj.closed.id:
+            case 4:
                 return statusTicketsObj.closed
 
-            case statusTicketsObj.merged.id:
+            // case statusTicketsObj.merged.id:
+            case 5:
                 return statusTicketsObj.merged
 
-            case statusTicketsObj.inProgress.id:
+            // case statusTicketsObj.inProgress.id:
+            case 6:
                 return statusTicketsObj.inProgress
 
-            case statusTicketsObj.pendingClose.id:
+            // case statusTicketsObj.pendingClose.id:
+            case 7:
                 return statusTicketsObj.pendingClose
             
             default: 

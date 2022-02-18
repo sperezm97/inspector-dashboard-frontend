@@ -26,7 +26,7 @@ import {
   dropdownVariations,
 } from './DropdownsSourceCode'
 
-const Dropdowns = () => {
+const Dropdowns = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

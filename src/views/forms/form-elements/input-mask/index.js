@@ -11,8 +11,8 @@ import CreditCardMask from './CreditCardMask'
 import CustomDelimitersMask from './CustomDelimitersMask'
 import NumeralFormattingMask from './NumeralFormattingMask'
 
-const InputMask = () => (
-  <>
+const InputMask = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Input Mask"
       breadCrumbParent="Form Elements"
@@ -59,5 +59,5 @@ const InputMask = () => (
       </Col>
     </Row>
   </>
-)
+}
 export default InputMask

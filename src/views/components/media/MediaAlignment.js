@@ -3,8 +3,8 @@ import mediaImg1 from '@src/assets/images/portrait/small/avatar-s-4.jpg'
 import mediaImg2 from '@src/assets/images/portrait/small/avatar-s-1.jpg'
 import mediaImg3 from '@src/assets/images/portrait/small/avatar-s-16.jpg'
 
-const MediaAlignment = () => (
-  <div className="media-list media-bordered">
+const MediaAlignment = function() {
+  return <div className="media-list media-bordered">
     <Media>
       <Media left href="#">
         <Media
@@ -95,5 +95,5 @@ const MediaAlignment = () => (
       </Media>
     </Media>
   </div>
-)
+}
 export default MediaAlignment

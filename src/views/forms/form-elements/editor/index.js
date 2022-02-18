@@ -6,8 +6,8 @@ import EditorUncontrolled from './EditorUncontrolled'
 
 import '@styles/react/libs/editor/editor.scss'
 
-const Editor = () => (
-  <>
+const Editor = function() {
+  return <>
     <ExtensionsHeader
       title="React Draft Wysiwyg"
       subTitle="A Wysiwyg Built on ReactJS and DraftJS"
@@ -23,6 +23,6 @@ const Editor = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Editor

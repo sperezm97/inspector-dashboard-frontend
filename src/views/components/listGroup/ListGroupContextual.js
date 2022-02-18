@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-const ListGroupContextual = () => (
-  <ListGroup>
+const ListGroupContextual = function() {
+  return <ListGroup>
     <ListGroupItem color="primary">
       A simple primary list group item
     </ListGroupItem>
@@ -20,5 +20,5 @@ const ListGroupContextual = () => (
     <ListGroupItem color="info">A simple info list group item</ListGroupItem>
     <ListGroupItem color="dark">A simple dark list group item</ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupContextual

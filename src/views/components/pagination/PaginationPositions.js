@@ -6,8 +6,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const PaginationPositions = () => (
-  <Row>
+const PaginationPositions = function() {
+  return <Row>
     <Col xl="4" lg="12">
       <h5 className="text-left">Left Aligned</h5>
       <Pagination className="d-flex justify-content-start mt-2">
@@ -69,5 +69,5 @@ const PaginationPositions = () => (
       </Pagination>
     </Col>
   </Row>
-)
+}
 export default PaginationPositions

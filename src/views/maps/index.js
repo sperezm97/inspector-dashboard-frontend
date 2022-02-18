@@ -19,8 +19,8 @@ import MapDrggableMarker from './MapDraggableMarker'
 // ** Styles
 import '@styles/react/libs/maps/map-leaflet.scss'
 
-const Maps = () => (
-  <>
+const Maps = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="React Leaflet Maps"
       breadCrumbParent="Charts & Maps"
@@ -65,6 +65,6 @@ const Maps = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Maps

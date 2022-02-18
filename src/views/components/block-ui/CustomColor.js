@@ -9,7 +9,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const CustomColorBlocking = () => {
+const CustomColorBlocking = function() {
   const [block, setBlock] = useState(false)
 
   const handleBlock = () => {

@@ -39,7 +39,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
 // ** Modal Header
-const ModalHeader = (props) => {
+const ModalHeader = function(props) {
   // ** Props
   const {
     children,
@@ -90,7 +90,7 @@ const ModalHeader = (props) => {
   )
 }
 
-const TaskSidebar = (props) => {
+const TaskSidebar = function(props) {
   // ** Props
   const {
     open,
@@ -137,8 +137,8 @@ const TaskSidebar = (props) => {
   ]
 
   // ** Custom Assignee Component
-  const AssigneeComponent = ({ data, ...props }) => (
-    <components.Option {...props}>
+  const AssigneeComponent = function({ data, ...props }) {
+  return <components.Option {...props}>
       <Media className="align-items-center">
         <img
           className="d-block rounded-circle mr-50"
@@ -152,7 +152,7 @@ const TaskSidebar = (props) => {
         </Media>
       </Media>
     </components.Option>
-  )
+}
 
   // ** Returns sidebar title
   const handleSidebarTitle = () => {

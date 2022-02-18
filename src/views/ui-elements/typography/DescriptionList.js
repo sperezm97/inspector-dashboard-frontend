@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, Row, Col } from 'reactstrap'
 
-const DescriptionList = () => (
-  <Card>
+const DescriptionList = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         Description lists <small className="text-muted">Horizontal</small>
@@ -56,5 +56,5 @@ const DescriptionList = () => (
       </dl>
     </CardBody>
   </Card>
-)
+}
 export default DescriptionList

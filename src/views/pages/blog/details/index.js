@@ -40,7 +40,7 @@ import Sidebar from '../BlogSidebar'
 
 import '@styles/base/pages/page-blog.scss'
 
-const BlogDetails = () => {
+const BlogDetails = function() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -146,7 +146,7 @@ const BlogDetails = () => {
                         dangerouslySetInnerHTML={{
                           __html: data.blog.content,
                         }}
-                      ></div>
+                       />
                       <Media>
                         <Avatar
                           img={cmtImg}

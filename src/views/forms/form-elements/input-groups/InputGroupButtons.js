@@ -8,8 +8,8 @@ import {
 } from 'reactstrap'
 import { Search } from 'react-feather'
 
-const InputGroupButtons = () => (
-  <Row>
+const InputGroupButtons = function() {
+  return <Row>
     <Col className="mb-1" md="6" sm="12">
       <InputGroup>
         <Input placeholder="Button on right side" />
@@ -36,6 +36,6 @@ const InputGroupButtons = () => (
       </InputGroup>
     </Col>
   </Row>
-)
+}
 
 export default InputGroupButtons

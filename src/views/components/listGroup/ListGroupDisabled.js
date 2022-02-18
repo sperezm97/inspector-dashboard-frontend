@@ -1,12 +1,12 @@
 import { ListGroup, ListGroupItem } from 'reactstrap'
 
-const ListGroupDisabled = () => (
-  <ListGroup>
+const ListGroupDisabled = function() {
+  return <ListGroup>
     <ListGroupItem disabled>Cras justo odio</ListGroupItem>
     <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
     <ListGroupItem>Morbi leo risus</ListGroupItem>
     <ListGroupItem>Porta ac consectetur ac</ListGroupItem>
     <ListGroupItem>Vestibulum at eros</ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupDisabled

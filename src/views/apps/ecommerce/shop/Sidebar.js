@@ -11,7 +11,7 @@ import { Card, CardBody, Row, Col, CustomInput, Button } from 'reactstrap'
 // ** Styles
 import '@styles/react/libs/noui-slider/noui-slider.scss'
 
-const Sidebar = (props) => {
+const Sidebar = function(props) {
   // ** Props
   const { sidebarOpen } = props
 

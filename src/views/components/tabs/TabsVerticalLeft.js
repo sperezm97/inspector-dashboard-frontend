@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 
-const TabsVerticalLeft = () => {
+const TabsVerticalLeft = function() {
   const [active, setActive] = useState('1')
 
   const toggle = (tab) => {

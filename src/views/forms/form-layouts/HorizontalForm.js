@@ -12,8 +12,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const HorizontalForm = () => (
-  <Card>
+const HorizontalForm = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Horizontal Form</CardTitle>
     </CardHeader>
@@ -95,5 +95,5 @@ const HorizontalForm = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default HorizontalForm

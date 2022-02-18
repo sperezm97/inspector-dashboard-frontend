@@ -5,18 +5,16 @@ import { Check } from 'react-feather'
 import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
 import { Menu, Item, useContextMenu } from 'react-contexify'
 
-const ToastContent = ({ text }) => (
-  <>
-    <div className="toastify-header pb-0">
+const ToastContent = function({ text }) {
+  return <div className="toastify-header pb-0">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check />} />
         <h6 className="toast-title">Clicked {text}</h6>
       </div>
     </div>
-  </>
-)
+}
 
-const ContextMenuLeftClick = () => {
+const ContextMenuLeftClick = function() {
   const { show } = useContextMenu({
     id: 'menu_left',
   })

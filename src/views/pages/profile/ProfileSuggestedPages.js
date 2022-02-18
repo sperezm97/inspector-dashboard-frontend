@@ -3,7 +3,7 @@ import { Star } from 'react-feather'
 import Avatar from '@components/avatar'
 import { Card, CardBody } from 'reactstrap'
 
-const ProfileSuggestedPages = ({ data }) => {
+const ProfileSuggestedPages = function({ data }) {
   const renderSuggestions = () =>
     data.map((suggestion, index) => (
       <div

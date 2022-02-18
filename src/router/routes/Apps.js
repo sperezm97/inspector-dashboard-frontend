@@ -22,6 +22,11 @@ const AppRoutes = [
     component: lazy(() => import('../../views/apps/report/create')),
   },
   {
+    path: Url.reportImport,
+    exact: true,
+    component: lazy(() => import('../../views/apps/report/import')),
+  },
+  {
     path: Url.user,
     component: lazy(() => import('../../views/apps/user/list')),
     exact: true,
@@ -60,21 +65,8 @@ const AppRoutes = [
     component: lazy(() => import('../../views/apps/user/zonales')),
   },
   {
-    path: Url.userEdit,
-    exact: true,
-    component: () => <Redirect to="/apps/user/edit/1" />,
-  },
-  {
     path: `${Url.userEdit}/:id`,
     component: lazy(() => import('../../views/apps/user/edit')),
-    exact: true,
-    meta: {
-      navLink: Url.userEdit,
-    },
-  },
-  {
-    path: `${Url.user}/:id`,
-    component: lazy(() => import('../../views/apps/user/view')),
     exact: true,
     meta: {
       navLink: Url.user,

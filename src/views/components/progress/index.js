@@ -18,7 +18,7 @@ import {
   progressStriped,
 } from './ProgressSourceCode'
 
-const Progress = () => {
+const Progress = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

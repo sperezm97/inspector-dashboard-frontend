@@ -5,8 +5,9 @@ import RepeatingForm from './RepeatingForm'
 import RepeatingFormAnimated from './RepeatingFormAnimated'
 
 import 'react-slidedown/lib/slidedown.css'
-const FormRepeater = () => (
-  <>
+
+const FormRepeater = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Form Repeater"
       breadCrumbParent="Form"
@@ -21,6 +22,6 @@ const FormRepeater = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default FormRepeater

@@ -19,7 +19,7 @@ import {
 // ** Custom Components
 import NumberInput from '@components/number-input'
 
-const Cart = (props) => {
+const Cart = function(props) {
   // ** Props
   const {
     products,

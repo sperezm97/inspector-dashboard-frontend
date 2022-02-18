@@ -14,7 +14,7 @@ import {
 } from 'reactstrap'
 import { X, Plus } from 'react-feather'
 
-const RepeatingForm = () => {
+const RepeatingForm = function() {
   const [count, setCount] = useState(1)
 
   const increaseCount = () => {

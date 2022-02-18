@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = (obj) => Object.keys(obj).length === 0
 
@@ -7,6 +9,17 @@ export const kFormatter = (num) =>
 
 // ** Converts HTML to string
 export const htmlToString = (html) => html.replace(/<\/?[^>]+(>|$)/g, '')
+
+export const dateToday = (f) => moment().format(f || 'DD/MM/YYYY')
+export const dateBeforeDay = ({ day = 1, dayMonthsAgo = 'days', f }) =>
+  moment()
+    .subtract(day, dayMonthsAgo)
+    .format(f || 'DD/MM/YYYY')
+
+export const toMs = (dateStr) => {
+  const parts = dateStr.split('/')
+  return new Date(parts[2], parts[1] - 1, parts[0]).getTime()
+}
 
 // ** Checks if the passed date is today
 const isToday = (date) => {
@@ -82,10 +95,54 @@ export const selectThemeColors = (theme) => ({
   },
 })
 
-export const optionsValueSelect = (dataSelect = null) => {
+export const optionsCodeValueSelect = (dataSelect = null) => {
   const data = dataSelect
     ? dataSelect.map((dataMap) => ({
         value: dataMap.code,
+        label: dataMap.name,
+      }))
+    : []
+
+  return data
+}
+
+export const optionsIdValueSelect = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.id,
+        label: dataMap.name,
+      }))
+    : []
+
+  return data
+}
+
+export const optionsNoteValueSelect = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.id,
+        label: dataMap.note,
+      }))
+    : []
+
+  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+}
+
+export const optionsZammadIdValueSelect = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.id,
+        label: dataMap.name,
+      }))
+    : []
+
+  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+}
+
+export const optionsIdentifierValueSelect = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.identifier,
         label: dataMap.name,
       }))
     : []
@@ -98,3 +155,61 @@ export const noOptionsMessageSelect = (inputValue, label) =>
 
 export const filterByStatusTickets = (tickets = [], label = '') =>
   tickets.filter((ticket) => ticket.status === label)
+
+export const filterByPriorityTickets = (tickets = [], label = '') =>
+  tickets.filter((ticket) => ticket.priority === label)
+
+export const addAllGroupsToUser = (groupsState) => {
+  let newGroup = {}
+      
+  groupsState.map((group) => newGroup = {...newGroup, [group.id] : ["full"]} )
+
+  return newGroup
+}
+
+
+export const downloadCSV = (dataTable) => {
+
+  const convertArrayOfObjectsToCSV = (array) => {
+    let result
+
+    const columnDelimiter = ','
+    const lineDelimiter = '\n'
+    const keys = Object.keys(dataTable[0])
+
+    result = ''
+    result += keys.join(columnDelimiter)
+    result += lineDelimiter
+
+    array.forEach((item) => {
+        let ctr = 0
+        keys.forEach((key) => {
+            if (ctr > 0) result += columnDelimiter
+    
+            result += item[key]
+    
+            ctr++
+
+        })
+        result += lineDelimiter
+    })
+
+    return result
+  }
+
+  if(dataTable === []) return
+        
+  const link = document.createElement('a')
+  let csv = convertArrayOfObjectsToCSV(dataTable)
+  if (csv === null) return
+
+  const filename = 'export.csv'
+
+  if (!csv.match(/^data:text\/csv/i)) {
+    csv = `data:text/csv;charset=utf-8,${csv}`
+  }
+
+  link.setAttribute('href', encodeURI(csv))
+  link.setAttribute('download', filename)
+  link.click()
+}

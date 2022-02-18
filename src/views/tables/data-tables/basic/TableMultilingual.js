@@ -21,7 +21,7 @@ import {
 } from 'reactstrap'
 import { data, multiLingColumns } from '../data'
 
-const DataTableWithButtons = () => {
+const DataTableWithButtons = function() {
   // ** State
   const [currentPage, setCurrentPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
@@ -82,26 +82,22 @@ const DataTableWithButtons = () => {
   }
 
   // ** Pagination Previous Component
-  const Previous = () => (
-    <>
-      <span className="align-middle d-none d-md-inline-block">
+  const Previous = function() {
+  return <span className="align-middle d-none d-md-inline-block">
         <FormattedMessage id="Prev" />
       </span>
-    </>
-  )
+}
 
   // ** Pagination Next Component
-  const Next = () => (
-    <>
-      <span className="align-middle d-none d-md-inline-block">
+  const Next = function() {
+  return <span className="align-middle d-none d-md-inline-block">
         <FormattedMessage id="Next" />
       </span>
-    </>
-  )
+}
 
   // ** Custom Pagination Component
-  const CustomPagination = () => (
-    <ReactPaginate
+  const CustomPagination = function() {
+  return <ReactPaginate
       previousLabel={<Previous size={15} />}
       nextLabel={<Next size={15} />}
       forcePage={currentPage}
@@ -123,7 +119,7 @@ const DataTableWithButtons = () => {
       breakLinkClassName="page-link"
       containerClassName="pagination react-paginate pagination-sm justify-content-end pr-1 mt-1"
     />
-  )
+}
 
   return (
     <Card>

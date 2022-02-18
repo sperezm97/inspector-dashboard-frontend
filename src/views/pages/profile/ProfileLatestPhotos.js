@@ -1,6 +1,6 @@
 import { Card, CardBody, Row, Col } from 'reactstrap'
 
-const ProfileLatestPhotos = ({ data }) => {
+const ProfileLatestPhotos = function({ data }) {
   const renderPhotos = () =>
     data.map((item, index) => (
       <Col key={index} md="4" xs="6" className="profile-latest-img">

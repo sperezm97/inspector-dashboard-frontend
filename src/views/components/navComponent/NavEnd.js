@@ -1,7 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const NavEnd = () => (
-  <Nav className="justify-content-end">
+const NavEnd = function() {
+  return <Nav className="justify-content-end">
     <NavItem>
       <NavLink href="#" active>
         Active
@@ -19,5 +19,5 @@ const NavEnd = () => (
       </NavLink>
     </NavItem>
   </Nav>
-)
+}
 export default NavEnd

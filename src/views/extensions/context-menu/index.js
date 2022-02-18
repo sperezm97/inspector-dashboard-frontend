@@ -10,8 +10,8 @@ import ContextMenuAnimation from './ContextMenuAnimation'
 import 'react-contexify/dist/ReactContexify.min.css'
 import '@styles/react/libs/context-menu/context-menu.scss'
 
-const Contexify = () => (
-  <>
+const Contexify = function() {
+  return <>
     <ExtensionsHeader
       title="React Contexify"
       subTitle="Adds a context menu to your react app with ease"
@@ -35,6 +35,6 @@ const Contexify = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Contexify

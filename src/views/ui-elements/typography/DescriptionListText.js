@@ -8,8 +8,8 @@ import {
   CardText,
 } from 'reactstrap'
 
-const DescriptionListtext = () => (
-  <Card>
+const DescriptionListtext = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         Description lists <small className="text-muted">Text Alignment</small>
@@ -88,5 +88,5 @@ const DescriptionListtext = () => (
       </dl>
     </CardBody>
   </Card>
-)
+}
 export default DescriptionListtext

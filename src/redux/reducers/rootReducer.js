@@ -16,10 +16,16 @@ import auth from './auth'
 
 import tickets from './zammad/tickets'
 import users from './zammad/users'
+import rols from './zammad/rols'
+import organizations from './zammad/organizations'
 
 import regions from './territories/regions'
 import provinces from './territories/provinces'
 import municipalities from './territories/municipalities'
+
+import services from './incidents/services'
+import categories from './incidents/categories'
+import subCategories from './incidents/subCategories'
 
 const rootReducer = combineReducers({
   auth,
@@ -33,12 +39,19 @@ const rootReducer = combineReducers({
   calendar,
   ecommerce,
   dataTables,
+
   tickets,
   users,
+  rols,
+  organizations,
 
   regions,
   provinces,
   municipalities,
+
+  services,
+  categories,
+  subCategories,
 })
 
 export default rootReducer

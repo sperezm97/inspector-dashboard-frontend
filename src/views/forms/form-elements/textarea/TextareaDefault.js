@@ -7,8 +7,8 @@ import {
   Input,
 } from 'reactstrap'
 
-const TextareaDefault = () => (
-  <Card>
+const TextareaDefault = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Default</CardTitle>
     </CardHeader>
@@ -27,5 +27,5 @@ const TextareaDefault = () => (
       />
     </CardBody>
   </Card>
-)
+}
 export default TextareaDefault

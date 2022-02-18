@@ -8,7 +8,7 @@ import Avatar from '@components/avatar'
 import { Card, CardBody, CardText, Button, Row, Col } from 'reactstrap'
 import { Mail, User, Check, Phone, Globe } from 'react-feather'
 
-const UserInfoCard = ({ selectedUser }) => {
+const UserInfoCard = function({ selectedUser }) {
   // ** render user img
   const renderUserImg = () => {
     if (selectedUser !== null && selectedUser.avatar.length) {

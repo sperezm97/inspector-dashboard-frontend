@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const RoundButtons = () => (
-  <div className="demo-inline-spacing">
+const RoundButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button.Ripple className="round" color="primary" outline>
       Primary
     </Button.Ripple>
@@ -24,5 +24,5 @@ const RoundButtons = () => (
       Dark
     </Button.Ripple>
   </div>
-)
+}
 export default RoundButtons

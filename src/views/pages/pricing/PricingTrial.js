@@ -1,8 +1,8 @@
 import { Row, Col, Button } from 'reactstrap'
 import trialSvg from '@src/assets/images/illustration/pricing-Illustration.svg'
 
-const PricingTrial = () => (
-  <div className="pricing-free-trial">
+const PricingTrial = function() {
+  return <div className="pricing-free-trial">
     <Row>
       <Col className="mx-auto" lg={{ size: 10, offset: 3 }} sm="12">
         <div className="pricing-trial-content d-flex justify-content-between">
@@ -31,6 +31,6 @@ const PricingTrial = () => (
       </Col>
     </Row>
   </div>
-)
+}
 
 export default PricingTrial

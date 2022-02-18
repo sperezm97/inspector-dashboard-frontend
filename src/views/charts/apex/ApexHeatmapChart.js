@@ -19,7 +19,7 @@ function generateDataHeat(count, yrange) {
   return series
 }
 
-const ApexHeatmapChart = () => {
+const ApexHeatmapChart = function() {
   const options = {
     chart: {
       parentHeightOffset: 0,

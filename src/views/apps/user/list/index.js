@@ -7,32 +7,37 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Label } from 'reactstrap'
 import { columns } from './columns'
 
 // import DataTableList from '../../../../@core/components/table'
 import DataTableList from '../../bandeja/list/table'
 import CardGrid from '../../../../@core/components/card-grid'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
+import { getAllRolsActions } from '../../../../redux/actions/zammad/rols'
 import { getAllProvincesActions } from '../../../../redux/actions/territories/provinces'
 import { getAllMunicipalitiesActions } from '../../../../redux/actions/territories/municipalities'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import { optionsValueSelect } from '../../../../utility/Utils'
+import {
+  optionsIdValueSelect,
+  optionsCodeValueSelect,
+} from '../../../../utility/Utils'
 
-const UsersList = () => {
+const UsersList = function() {
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getAllUsersActions())
+    dispatch(getAllRolsActions())
     dispatch(getAllProvincesActions())
     dispatch(getAllMunicipalitiesActions())
   }, [dispatch])
 
   const dataTableUsers = useSelector((state) => state?.users?.users)
-  console.log(dataTableUsers)
 
   const provincesSelector = useSelector(
     (state) => state?.provinces?.allProvinces,
@@ -40,26 +45,13 @@ const UsersList = () => {
   const municipalitiesSelector = useSelector(
     (state) => state?.municipalities?.allMunicipalities,
   )
-  // const rolSelector = useSelector((state) => state?.regions?.regions)
+  const rolSelector = useSelector((state) => state?.rols?.rols)
 
-  const regionRef = useRef({
-    value: '',
-    label: 'Seleccionar Rol',
-  })
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
-  const provinciaRef = useRef({
-    value: '',
-    label: 'Seleccionar Provincia',
-  })
-
-  const municipioRef = useRef({
-    value: '',
-    label: 'Seleccionar Municipio',
-  })
-
-  const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
-  const [municipioState, setMunicipioState] = useState(municipioRef.current)
-  const [rolState, setRegionState] = useState(regionRef.current)
+  const [provinciaState, setProvinciaState] = useState(defaultValueState)
+  const [municipioState, setMunicipioState] = useState(defaultValueState)
+  const [rolState, setRolState] = useState(defaultValueState)
 
   const [dataTable, setDataTable] = useState([])
 
@@ -70,107 +62,118 @@ const UsersList = () => {
   const handleChangeProvinces = ({ value, label }) => {
     if (value) {
       setProvinciaState({ value, label })
-      // filterTickets(regionState.value + value, 4)
+      setMunicipioState(defaultValueState)
+      filterZone(value, 2)
     } else {
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
-      // filterTickets(regionState.value, 2)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
+      setDataTable(dataTableUsers)
     }
-
-    // dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, value))
+    setRolState(defaultValueState)
   }
 
   const handleChangeMunicipalities = ({ value, label }) => {
     if (value) {
       setMunicipioState({ value, label })
-      filterTickets(regionState.value + provinciaState.value + value, 6)
+      filterZone(provinciaState.value + value, 4)
     } else {
-      setMunicipioState(municipioRef.current)
-      filterTickets(regionState.value + provinciaState.value, 4)
+      setMunicipioState(defaultValueState)
+      filterZone(provinciaState.value, 2)
     }
+    setRolState(defaultValueState)
   }
 
-  // const filterTickets = (value, positionToFind = 0) => {
+  const handleChangeRols = ({ value, label }) => {
+    if (value) {
+      setRolState({ value, label })
+      filterRols(value)
+    } else {
+      setRolState(defaultValueState)
+      setDataTable(dataTableUsers)
+    }
+    setProvinciaState(defaultValueState)
+    setMunicipioState(defaultValueState)
+  }
 
-  //   let data = dataTableUsers.filter(tickets => tickets.zone.substr(0, positionToFind) === value)
-  //   setDataTable(data)
-  // }
+  const filterZone = (value, positionToFind = 0) => {
+    console.log( value, positionToFind )
+    const data = dataTableUsers.filter((users) => users.zone !== null)
+    const dataValidated = data.filter(
+      (users) => users.zone.substr(2, positionToFind) === value,
+    )
+    setDataTable(dataValidated)
+  }
 
-  // // ** User filter options
-  // const planOptions = [
-  //   { value: '', label: 'Seleccionar Provincia' },
-  //   { value: 'basic', label: 'Basic' },
-  //   { value: 'company', label: 'Company' },
-  //   { value: 'enterprise', label: 'Enterprise' },
-  //   { value: 'team', label: 'Team' },
-  // ]
+  const filterRols = (value) => {
+    console.log(value)
+    const data = dataTableUsers.filter((rols) => rols.role_ids[0] === value)
+    console.log(data)
+    setDataTable(data)
+  }
 
-  const statusOptions = [
-    { value: '', label: 'Seleccionar Municipio', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 },
-  ]
-
-  const roleOptions = [
-    { value: '', label: 'Seleccionar Rol' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' },
-  ]
+  const searchTable = (data, queryLowered) =>
+    data.filter(
+      (data) =>
+        (data.firstname || '').toLowerCase().includes(queryLowered) ||
+        (data.lastname || '').toLowerCase().includes(queryLowered) ||
+        (data.phone || '').toLowerCase().includes(queryLowered) ||
+        (data.cedula || '').toLowerCase().includes(queryLowered),
+    )
 
   return (
     <>
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col className="my-md-0 my-1" md="4">
+            <Label>Provincia</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsValueSelect(provincesSelector)}
+              options={optionsCodeValueSelect(provincesSelector)}
               onChange={handleChangeProvinces}
             />
           </Col>
           <Col md="4">
+            <Label>Municipio</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(
+              options={optionsCodeValueSelect(
                 municipalitiesSelector.filter(
                   (municipality) =>
                     municipality.provinceCode === provinciaState.value,
                 ),
               )}
+              onChange={handleChangeMunicipalities}
             />
           </Col>
           <Col md="4">
+            <Label>Permiso</Label>
             <Select
               isClearable={false}
               theme={selectThemeColors}
               className="react-select"
               classNamePrefix="select"
-              options={roleOptions}
               value={rolState}
+              options={optionsIdValueSelect(rolSelector)}
+              onChange={handleChangeRols}
             />
           </Col>
         </Row>
       </CardGrid>
 
-      {dataTable && (
-        <DataTableList
-          columnsTable={columns}
-          dataTable={dataTable}
-          showButtonAddUser
-        />
-      )}
+      <DataTableList
+        columnsTable={columns}
+        dataTable={dataTable}
+        searchTable={searchTable}
+        showButtonAddUser
+      />
     </>
   )
 }

@@ -11,8 +11,8 @@ import SweetAlertCallback from './SweetAlertCallback'
 import 'animate.css/animate.css'
 import '@styles/base/plugins/extensions/ext-component-sweet-alerts.scss'
 
-const SweetAlert = () => (
-  <>
+const SweetAlert = function() {
+  return <>
     <ExtensionsHeader
       title="Sweet Alerts2"
       subTitle="A React implementation of SweetAlert2"
@@ -39,6 +39,6 @@ const SweetAlert = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default SweetAlert

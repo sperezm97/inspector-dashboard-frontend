@@ -2,10 +2,18 @@ import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useState, useEffect } from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Send, FileText } from 'react-feather'
-import { Card, CardHeader, Form, InputGroup, Input, Button } from 'reactstrap'
+import { Send, FileText, Image } from 'react-feather'
+import { Row, Col, Card, CardHeader, Form, InputGroup, Input, Button, UncontrolledCollapse, Modal, ModalHeader, ModalBody, Spinner } from 'reactstrap'
 
+import FileUploader from './FileUploader'
+
+import 'uppy/dist/uppy.css'
+import '@styles/react/libs/file-uploader/file-uploader.scss'
 import '@styles/base/pages/app-chat-list.scss'
+
+import { formatDate } from '../../../../utility/Utils'
+import { getTicketArticleAttachment } from '../../../../services/zammad/ticketArticles'
+import { sweetAlert } from '../../../../@core/components/sweetAlert'
 
 const data = {
   chat: {
@@ -72,10 +80,44 @@ const data = {
   },
 }
 
-const CardChat = () => {
-  const [msg, setMsg] = useState('')
+const CardChat = function({
+  dataTicketArticles, 
+  dataTicketId, 
+  dataUserMe, 
+  handlePostTicketArticles, 
+  loadingPost, 
+  msg, 
+  setMsg,
+  previewArr, 
+  setPreviewArr,
+  previewUpload, 
+  setPreviewUpload}) {
+
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
+
+  const [modal, setModal] = useState(null)
+
+  const [dataImage, setDataImage] = useState(null)
+  const [dataImageBase, setDataImageBase] = useState(null)
+
+  useEffect(() => {
+    if(dataImage?.status === 200){
+      setDataImageBase(Buffer.from(dataImage?.data, 'binary').toString('base64'))
+    }
+  }, [dataImage])
+
+  const toggleModal = (id, idArticleTicket) => {
+    console.log(idArticleTicket)
+    if (modal !== id) {
+      setModal(id)
+      setDataImage(null)
+      getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
+        .then(res => setDataImage(res))
+    } else {
+      setModal(null)
+    }
+  }
 
   //* * Formats chat data based on sender
   const formattedChatData = () => {
@@ -85,31 +127,37 @@ const CardChat = () => {
     }
 
     const formattedChatLog = []
-    let chatMessageSenderId = chatLog[0] ? chatLog[0].senderId : undefined
+    let chatMessageSenderId = dataTicketArticles[0] ? dataUserMe.id : undefined
     let msgGroup = {
       senderId: chatMessageSenderId,
       messages: [],
     }
-    chatLog.forEach((msg, index) => {
-      if (chatMessageSenderId === msg.senderId) {
+    dataTicketArticles.forEach((msg, index) => {
+      if (chatMessageSenderId === msg.created_by_id) {
         msgGroup.messages.push({
-          msg: msg.message,
-          time: msg.time,
+          id: msg.id,
+          from: msg.from,
+          msg: msg.body,
+          attachments: msg.attachments,
+          time: formatDate(msg.created_at),
         })
       } else {
-        chatMessageSenderId = msg.senderId
+        chatMessageSenderId = msg.created_by_id
         formattedChatLog.push(msgGroup)
         msgGroup = {
-          senderId: msg.senderId,
+          senderId: msg.created_by_id,
           messages: [
             {
-              msg: msg.message,
-              time: msg.time,
+              id: msg.id,
+              from: msg.from,
+              msg: msg.body,
+              attachments: msg.attachments,
+              time: formatDate(msg.created_at),
             },
           ],
         }
       }
-      if (index === chatLog.length - 1) formattedChatLog.push(msgGroup)
+      if (index === dataTicketArticles.length - 1) formattedChatLog.push(msgGroup)
     })
     return formattedChatLog
   }
@@ -117,51 +165,133 @@ const CardChat = () => {
   //* * Renders user chat
   const renderChats = () =>
     formattedChatData().map((item, index) => (
-      <div
-        key={index}
-        className={classnames('chat', {
-          'chat-left ': item.senderId !== 11,
-        })}
-      >
-        <div className="chat-avatar header-profile-sidebar adove">
-          {item.senderId !== 11 && (
-            <>
-              <Avatar
-                className=" cursor-pointer"
-                img={item.senderId !== 11 && chatData.contact.avatar}
-              />
-              <span className="font-weight-bolder align-text-top">
-                {item.senderId !== 11 && chatData.contact.rol}
-              </span>
-              .
-              <span className="align-text-top mr-3 user-post">
-                {' '}
-                {item.senderId !== 11 && chatData.contact.fullName}
-              </span>
-            </>
-          )}
-        </div>
-
         <div
-          className={classnames('chat-body', {
-            'chat-body below mt-3': item.senderId !== 11,
+          key={index}
+          className={classnames('chat', {
+            'chat-left ': item.senderId !== dataUserMe.id,
           })}
         >
-          {item.messages.map((chat) => (
-            <div key={chat.msg} className="chat-content">
-              <p className="mb-1">{chat.msg}</p>
-              <small
-                className={classnames('', {
-                  'position-left': item.senderId !== 11,
-                })}
-              >
-                {chat.time}
-              </small>
-            </div>
-          ))}
+          {/* <div className="chat-avatar header-profile-sidebar adove">
+            {item.senderId !== 352 && (
+              <>
+                <Avatar
+                  className=" cursor-pointer"
+                  img={item.senderId !== 11 && chatData.contact.avatar}
+                />
+                <span className="font-weight-bolder align-text-top">
+                  asd left
+                </span>
+                .
+                <span className="align-text-top mr-3 user-post">
+                  {' '}
+                  {item.senderId !== 11 && chatData.contact.fullName}
+                </span>
+              </>
+            )}
+          </div> */}
+
+          <div
+            className={classnames('chat-body', {
+              'chat-body below': item.senderId !== dataUserMe.id,
+            })}
+          >
+            {item.messages.map((chat) => (
+              <div key={chat.msg} className="row d-flex">
+                {item.senderId !== dataUserMe.id &&
+                  <div className="col-12" style={{marginBottom: '5px'}}>
+                    <span className="font-weight-bolder align-text-top">
+                      {chat.from}
+                    </span>
+                  </div>
+                }
+                <div className="col-12">
+                  <div className="chat-content">
+                    <p className="mb-1">{chat.msg}</p>
+                    {chat.attachments[0] &&
+                      <>
+                        <Button.Ripple 
+                          size="sm" 
+                          // className='round'
+                          color="primary" 
+                          id={`toggler${chat.id}`} 
+                          outline={item.senderId !== dataUserMe.id}
+                        >
+                          Mostrar adjuntos
+                        </Button.Ripple >
+                        <UncontrolledCollapse toggler={`toggler${chat.id}`}>
+                          <div className="mt-1 bg-white px-1 rounded">
+                            {chat.attachments.map((att) => (
+                              <div 
+                                key={att.id}
+                                className="py-1"
+                              >
+                                {/* <Share2 size={17} /> */}
+                                <h6 
+                                  // color='flat-primary' 
+                                  style={{cursor: 'pointer'}}
+                                  className="text-primary mb-0"
+                                  onClick={() => toggleModal(att.id, chat.id)} 
+                                >
+                                  {att.filename}
+                                </h6>
+                                <Modal
+                                  isOpen={modal === att.id}
+                                  toggle={() => toggleModal(att.id, chat.id)}
+                                  className="modal-dialog-centered modal-lg"
+                                >
+                                  <ModalHeader toggle={() => toggleModal(att.id, chat.id)}>
+                                    {att.filename}
+                                  </ModalHeader>
+                                  <ModalBody>
+                                    {dataImage ?
+                                      dataImage.headers['content-type'].includes('video')
+                                        ? 
+                                        <div key={index}>
+                                          <video 
+                                            key={index} 
+                                            className="rounded"
+                                            width="100%"
+                                            controls
+                                          >
+                                            <source src={`data:video/mp4;base64,${dataImageBase}`} type="video/mp4"/>
+                                          </video>
+                                        </div>
+                                        :
+                                          <div key={index}>
+                                            <img 
+                                              key={index}
+                                              className="rounded" 
+                                              width="100%"
+                                              src={`data:image/jpeg;base64,${dataImageBase}`}
+                                              alt="Adjunto de prueba" 
+                                            />
+                                          </div>
+                                      : <div className="d-flex justify-content-center"><Spinner color='primary' /></div> 
+                                    }
+                                  </ModalBody>
+                                </Modal>
+                              </div>
+                            ))}
+                          </div>
+                        </UncontrolledCollapse>
+                      </>
+                    }
+                    <div className='mt-1'>
+                      <p
+                        className={classnames('text-muted', {
+                          'position-left': item.senderId !== dataUserMe.id,
+                        })}
+                        >
+                        {chat.time}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    ))
+      ))
 
   //* * Scroll to chat bottom
   const scrollToBottom = () => {
@@ -172,21 +302,28 @@ const CardChat = () => {
     if (chatRef !== null) {
       scrollToBottom()
     }
-  }, [chatRef, chatData.chat.chat.length])
+  }, [chatRef, dataTicketArticles])
 
   const handleSendMsg = (e) => {
     e.preventDefault()
-    if (msg.trim().length) {
-      const newMsg = chatData
 
-      newMsg.chat.chat.push({
-        message: msg,
-        time: Date.now(),
-        senderId: 11,
+    if(previewArr[0] && !msg.trim().length){
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Debes escribir un mensaje.',
+        type: 'warning'
       })
+    }
 
-      setChatData(newMsg)
-      setMsg('')
+    if (msg.trim().length) {
+      const dataObj = {
+        ticket_id: dataTicketId,
+        subject: null,
+        body: msg,
+        type: 'note',
+        attachments: previewArr
+      }
+      handlePostTicketArticles(dataObj)
     }
   }
 
@@ -195,7 +332,7 @@ const CardChat = () => {
       <CardHeader>
         <div className="d-flex align-items-center">
           <FileText />
-          <h5 className="mb-0 ml-1">Información del reporte</h5>
+          <h5 className="mb-0 ml-1">Información del Reporte</h5>
         </div>
       </CardHeader>
       <div className="chat-app-window">
@@ -207,6 +344,15 @@ const CardChat = () => {
           <div className="chats">{renderChats()}</div>
         </PerfectScrollbar>
         <Form className="chat-app-form" onSubmit={(e) => handleSendMsg(e)}>
+          <div>
+            <Button.Ripple 
+              className="btn-icon" 
+              color="flat-primary"
+              id="togglerAttachments" 
+            >
+              <Image size={16} />
+            </Button.Ripple>
+          </div>
           <InputGroup className="input-group-merge mr-1 form-send-message">
             <Input
               value={msg}
@@ -215,12 +361,34 @@ const CardChat = () => {
               placeholder="Escribir mensaje..."
             />
           </InputGroup>
-          <Button className="send" color="primary">
-            <Send size={14} className="d-lg-none" />
-            <span className="d-none d-lg-block">Enviar</span>
+          <Button className="send" color="primary" disabled={!!loadingPost}>
+            {loadingPost
+              ? <Spinner color="white" size='sm' />
+              :
+                <>
+                  <Send size={14} className="d-lg-none" />
+                  <span className="d-none d-lg-block">
+                    Enviar
+                  </span>
+                </>
+            }
           </Button>
         </Form>
       </div>
+      <UncontrolledCollapse 
+        toggler="togglerAttachments"
+      >
+        <div className="row p-1">
+          <div className="col-12">
+            <FileUploader 
+              previewArr={previewArr}
+              setPreviewArr={setPreviewArr}
+              previewUpload={previewUpload}
+              setPreviewUpload={setPreviewUpload}
+            />
+          </div>
+        </div>
+      </UncontrolledCollapse>
     </Card>
   )
 }

@@ -1,75 +1,47 @@
-// ** React Imports
-import { Link } from 'react-router-dom'
-
-// ** Custom Components
-import Avatar from '@components/avatar'
-
-// ** Third Party Components
 import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap'
-import { MoreVertical, FileText, Trash2, Archive } from 'react-feather'
-
-import { rowInstitution } from '../../../../../@core/components/table/commonColumns'
+  rowActions,
+  rowInstitution,
+} from '../../../../../@core/components/table/commonColumns'
 import Url from '../../../../../constants/Url'
 
 export const columns = [
   {
     name: 'Institución',
-    minWidth: '360px',
-    selector: 'institucion',
+    minWidth: '450px',
+    selector: 'name',
     sortable: true,
-    cell: (row) => rowInstitution(row),
+    cell: (row) => {
+      const data = {
+        id: row.id,
+        name: row.name,
+        acronym: row.acronimo,
+      }
+      return rowInstitution(data)
+    },
   },
   {
     name: 'Teléfono',
     minWidth: '160px',
-    selector: 'telephone',
+    selector: 'phonenumber',
     sortable: true,
-    // cell: row => row.telephone
-    cell: (row) => '809-220-1111',
+    cell: (row) => row.phonenumber,
   },
   {
     name: 'DIRECCIÓN',
     minWidth: '172px',
-    selector: 'direccion',
+    selector: 'address',
     sortable: true,
-    cell: (row) => '27 de Febrero #419',
+    cell: (row) => row.address,
   },
   {
     name: 'Acciones',
     minWidth: '50px',
-    cell: (row) => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag="div" className="btn btn-sm">
-          <MoreVertical size={14} className="cursor-pointer" />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`${Url.institution}/${row.id}`}
-            className="w-100"
-          >
-            <FileText size={14} className="mr-50" />
-            <span className="align-middle">Detalles</span>
-          </DropdownItem>
-          <DropdownItem
-            tag={Link}
-            to={`/apps/user/instituciones/${row.id}`}
-            className="w-100"
-          >
-            <Archive size={14} className="mr-50" />
-            <span className="align-middle">Editar</span>
-          </DropdownItem>
-          <DropdownItem className="w-100">
-            <Trash2 size={14} className="mr-50" />
-            <span className="align-middle">Borrar</span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    ),
+    cell: (row) => {
+      const url = {
+        details: Url.institution,
+        edit: Url.institutionEdit,
+      }
+      return rowActions(row.id, url)
+    },
   },
 ]

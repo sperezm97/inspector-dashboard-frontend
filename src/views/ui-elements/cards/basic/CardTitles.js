@@ -14,8 +14,8 @@ import img1 from '@src/assets/images/slider/04.jpg'
 import img2 from '@src/assets/images/slider/03.jpg'
 import img3 from '@src/assets/images/slider/06.jpg'
 
-const CardTitles = () => (
-  <Row className="match-height">
+const CardTitles = function() {
+  return <Row className="match-height">
     <Col lg="4" md="6">
       <Card>
         <CardImg top src={img1} alt="Card cap" />
@@ -70,6 +70,6 @@ const CardTitles = () => (
       </Card>
     </Col>
   </Row>
-)
+}
 
 export default CardTitles

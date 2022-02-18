@@ -12,7 +12,7 @@ import RatingCustomSvg from './RatingCustomSvg'
 import RatingFractional from './RatingFractional'
 import RatingControlled from './RatingControlled'
 
-const Rating = () => {
+const Rating = function() {
   const [isRtl, setIsRtl] = useRTL()
   const themeColors = useContext(ThemeColors)
   return (

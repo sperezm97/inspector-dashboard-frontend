@@ -79,8 +79,8 @@ export const basicColumns = [
 ]
 
 // ** Expandable table component
-const ExpandableTable = ({ data }) => (
-  <div className="expandable-content p-2">
+const ExpandableTable = function({ data }) {
+  return <div className="expandable-content p-2">
     <p>
       <span className="font-weight-bold">City:</span> {data.city}
     </p>
@@ -91,7 +91,7 @@ const ExpandableTable = ({ data }) => (
       <span className="font-weight-bold">Post:</span> {data.post}
     </p>
   </div>
-)
+}
 
 // ** Table Common Column
 export const columns = [

@@ -2,8 +2,11 @@ export const Url = {
   home: '/dashboard/reporte',
 
   dashboardReport: '/dashboard/reporte',
-  dashboardInbox: '/dashboard/bandeja',
-  dashboardInboxCreate: '/dashboard/bandeja/crear',
+  dashboardInbox: '/tickets/lista',
+  dashboardInboxCreate: '/tickets/crear',
+
+  reportCreate: '/reporte/crear',
+  reportImport: '/tickets/importar',
 
   user: '/usuario',
   userCreate: '/usuario/crear',
@@ -17,13 +20,21 @@ export const Url = {
   userMunicipalDistrict: '/usuario/distrito-municipal',
   userZonal: '/usuario/zonales',
 
-  userReporter: '/usuario/reportero',
-  userOfficial: '/usuario/oficial',
-
   institution: '/institucion',
   institutionCreate: '/institucion/crear',
+  institutionEdit: '/institucion/editar',
 
-  reportCreate: '/reporte/crear',
+  services: '/servicio',
+  servicesCreate: '/servicio/crear',
+  servicesEdit: '/servicio/editar',
+
+  category: '/categoria',
+  categoryCreate: '/categoria/crear',
+  categoryEdit: '/categoria/editar',
+
+  subCategory: '/sub-categoria',
+  subCategoryCreate: '/sub-categoria/crear',
+  subCategoryEdit: '/sub-categoria/editar',
 }
 
 export default Url

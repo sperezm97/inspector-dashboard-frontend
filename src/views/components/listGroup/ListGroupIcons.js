@@ -1,8 +1,8 @@
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import { Facebook, Instagram, Twitter } from 'react-feather'
 
-const ListGroupIcons = () => (
-  <ListGroup>
+const ListGroupIcons = function() {
+  return <ListGroup>
     <ListGroupItem className="d-flex">
       <span className="mr-1">
         <Instagram size={16} />
@@ -22,5 +22,5 @@ const ListGroupIcons = () => (
       <span>Bonbon macaroon gummies pie jelly.</span>
     </ListGroupItem>
   </ListGroup>
-)
+}
 export default ListGroupIcons

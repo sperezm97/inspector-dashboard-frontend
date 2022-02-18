@@ -20,8 +20,8 @@ const params = {
   navigation: true,
 }
 
-const SwiperAutoplay = ({ isRtl }) => (
-  <Card>
+const SwiperAutoplay = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Autoplay</CardTitle>
     </CardHeader>
@@ -48,6 +48,6 @@ const SwiperAutoplay = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperAutoplay

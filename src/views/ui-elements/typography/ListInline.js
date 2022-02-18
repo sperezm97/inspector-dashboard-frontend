@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap'
 
-const ListInline = () => (
-  <Card>
+const ListInline = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Inline Lists</CardTitle>
     </CardHeader>
@@ -30,5 +30,5 @@ const ListInline = () => (
       </ul>
     </CardBody>
   </Card>
-)
+}
 export default ListInline

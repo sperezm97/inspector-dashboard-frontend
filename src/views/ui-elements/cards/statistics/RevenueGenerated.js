@@ -3,7 +3,7 @@ import axios from 'axios'
 import { CreditCard } from 'react-feather'
 import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 
-const RevenueGenerated = ({ kFormatter, success }) => {
+const RevenueGenerated = function({ kFormatter, success }) {
   const [data, setData] = useState(null)
 
   const options = {

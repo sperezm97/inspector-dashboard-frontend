@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Package } from 'react-feather'
 import StatsWithAreaChart from '@components/widgets/stats/StatsWithAreaChart'
 
-const OrdersReceived = ({ kFormatter, warning }) => {
+const OrdersReceived = function({ kFormatter, warning }) {
   const [data, setData] = useState(null)
 
   const options = {

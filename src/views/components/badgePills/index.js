@@ -18,7 +18,7 @@ import {
   badgePillNotification,
 } from './BadgePillSourceCode'
 
-const BadgePill = () => {
+const BadgePill = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

@@ -21,7 +21,7 @@ import {
 // ** Styles
 import '@styles/base/pages/app-ecommerce.scss'
 
-const Wishlist = () => {
+const Wishlist = function() {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.ecommerce)

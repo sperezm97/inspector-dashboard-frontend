@@ -8,8 +8,8 @@ import {
   Button,
 } from 'reactstrap'
 
-const PlanCard = ({ selectedUser }) => (
-  <Card className="plan-card border-primary">
+const PlanCard = function({ selectedUser }) {
+  return <Card className="plan-card border-primary">
     <CardHeader className="d-flex justify-content-between align-items-center pt-75 pb-1">
       <h5 className="mb-0">Current Plan</h5>
       <Badge id="plan-expiry-date" color="light-secondary">
@@ -39,6 +39,6 @@ const PlanCard = ({ selectedUser }) => (
       </Button.Ripple>
     </CardBody>
   </Card>
-)
+}
 
 export default PlanCard

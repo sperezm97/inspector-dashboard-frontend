@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 
-const DividerColors = () => (
-  <>
+const DividerColors = function() {
+  return <>
     <div className="divider">
       <div className="divider-text">Default</div>
     </div>
@@ -27,5 +27,5 @@ const DividerColors = () => (
       <div className="divider-text">Dark</div>
     </div>
   </>
-)
+}
 export default DividerColors

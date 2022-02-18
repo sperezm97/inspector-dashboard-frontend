@@ -1,371 +1,228 @@
-// ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-// ** Third Party Components
-import classnames from 'classnames'
-import Flatpickr from 'react-flatpickr'
-import { User, Edit, Trash2 } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { useForm, Controller } from 'react-hook-form'
-import {
-  Media,
-  Row,
-  Col,
-  Button,
-  Label,
-  FormGroup,
-  Input,
-  CustomInput,
-  Form,
-} from 'reactstrap'
+import { yupResolver } from '@hookform/resolvers/yup'
+import Select from 'react-select'
+import Cleave from 'cleave.js/react'
 
-import Avatar from '../../../../../@core/components/avatar'
-import { rolArray } from '../../../../../constants/Rol/rol'
+import { Col, FormGroup, Label , Button } from 'reactstrap'
+import { Plus } from 'react-feather'
+
+import FormApp from '../../../../../@core/components/form'
+import InputApp from '../../../../../@core/components/input'
 import CardGrid from '../../../../../@core/components/card-grid'
 import { IconInstitution } from '../../../../../@core/components/icons'
+import { optionsZammadIdValueSelect, selectThemeColors } from '../../../../../utility/Utils'
+import Url from '../../../../../constants/Url'
+import { postOrganization } from '../../../../../services/zammad/organization'
+import { getAllServicesActions } from '../../../../../redux/actions/incidents/services'
+import { getAllUsersActions } from '../../../../../redux/actions/zammad/users'
+import { sweetAlertError, sweetAlertGood } from '../../../../../@core/components/sweetAlert'
+import { schemaYup } from './schemaYup'
 
-// ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { postGroup } from '../../../../../services/zammad/group'
 
-const UserCreate = () => {
-  // ** State
-  const [data, setData] = useState(null)
-  const [img, setImg] = useState(null)
+const institutionCreate = ({ history }) => {
 
-  // ** React hook form vars
-  const { register, errors, handleSubmit, control, setValue, trigger } =
-    useForm({
-      defaultValues: { gender: 'gender-female', dob: null },
-    })
+  const dispatch = useDispatch()
 
-  const renderUserAvatar = () => {
-    if (img === null) {
-      const stateNum = Math.floor(Math.random() * 6)
-      const states = [
-        'light-success',
-        'light-danger',
-        'light-warning',
-        'light-info',
-        'light-primary',
-        'light-secondary',
-      ]
-      const color = states[stateNum]
-      return (
-        <Avatar
-          initials
-          color={color}
-          className="rounded mr-2 my-25"
-          content="Subir Logotipo"
-          contentStyles={{
-            borderRadius: 0,
-            fontSize: 'calc(36px)',
-            width: '100%',
-            height: '100%',
-          }}
-          style={{
-            height: '90px',
-            width: '90px',
-          }}
-        />
-      )
+  const [loadingState, setLoadingState] = useState(false)
+
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+
+  useEffect(() => {
+    dispatch(getAllServicesActions())
+    dispatch(getAllUsersActions())
+  }, [])
+
+  const usersSelector = useSelector((state) => state?.users?.users)
+  const servicesSelector = useSelector((state) => state?.services?.services)
+
+  const { register, handleSubmit, errors, setValue, control } = useForm({
+    resolver: yupResolver(schemaYup),
+  })
+
+  const onSubmit = async (data) => {
+    const objZammad = {
+      name: data.name,
+      acronimo: data.acronimo.toUpperCase(),
+      service: data.servicio,
+      phonenumber: data.phonenumber,
+      address: data.address,
+      email: data.email,
+      domain: data.website,
+      manager: data.encargado,
     }
-    return (
-      <img
-        className="user-avatar rounded mr-2 my-25 cursor-pointer"
-        src={img}
-        alt="user profile avatar"
-        height="90"
-        width="90"
-      />
-    )
+    console.log(objZammad)
+    setLoadingState(true)
+    postOrganization(objZammad)
+      .then(response => {
+        if (response.status === 201) {
+          postGroup({name: objZammad.name, acronimo: objZammad.acronimo})
+            .then(() => {
+              history.push(Url.institution)
+              sweetAlertGood()
+            })
+            .catch(() => sweetAlertError())
+            .finally(() => setLoadingState(false))
+        }
+      })
+      .catch((err) => {
+        console.log(err.message)
+        sweetAlertError()      
+      })
+      .finally(() => setLoadingState(false))
   }
 
   return (
     <CardGrid cardHeaderTitle="Añadir Nueva Institución">
-      <Form
-        onSubmit={handleSubmit((data) => {
-          trigger()
-          setData(data)
-        })}
+      <FormApp
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        loading={loadingState}
       >
-        <Row className="mt-1">
-          <Col sm="12">
-            <h4 className="mb-1">
-              <IconInstitution size={20} className="mr-50" />
-              <span className="align-middle">Información</span>
-            </h4>
-          </Col>
-          <Col sm="12">
-            <Media className="mb-2">
-              {renderUserAvatar()}
-              <Media className="mt-50" body>
-                <Label>Subir el Logotipo</Label>
-                <div className="d-flex flex-wrap mt-1 px-0">
-                  <Button.Ripple
-                    id="change-img"
-                    tag={Label}
-                    className="mr-75 mb-0"
-                    color="primary"
-                  >
-                    <span className="d-none d-sm-block">Cargar</span>
-                    <span className="d-block d-sm-none">
-                      <Edit size={14} />
-                    </span>
-                    <input
-                      type="file"
-                      hidden
-                      id="change-img"
-                      accept="image/*"
-                    />
-                  </Button.Ripple>
-                  <Button.Ripple color="primary" outline>
-                    <span className="d-none d-sm-block">Remover</span>
-                    <span className="d-block d-sm-none">
-                      <Trash2 size={14} />
-                    </span>
-                  </Button.Ripple>
-                </div>
-              </Media>
-            </Media>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label className="d-block" for="nombreInst">
-                Nombre de la Institución
-              </Label>
-              <Input
-                type="text"
-                id="nombreInst"
-                defaultValue="Ministerio de Obras Públicas y Comunicaciones"
-                placeholder="Nombre de la Institución"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="Acrónimo">Acrónimo</Label>
-              <Input
-                type="text"
-                id="Acrónimo"
-                defaultValue="MOPC"
-                placeholder="Acrónimo"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6" sm="12">
-            <FormGroup>
-              <Label for="Telefono">Teléfono</Label>
-              <Input
-                type="text"
-                name="Telefono"
-                id="Telefono"
-                defaultValue="809-220-1111"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="email">Correo Electrónico</Label>
-              <Input
-                type="email"
-                id="email"
-                defaultValue="johndoe@email.com"
-                placeholder="Correo Electrónico"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6" sm="12">
-            <FormGroup>
-              <Label for="web">Sitio Web</Label>
-              <Input
-                type="text"
-                name="web"
-                id="web"
-                defaultValue="www.ejemplo.com"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12">
-            <h4 className="mb-1 mt-2">
-              <User size={20} className="mr-50" />
-              <span className="align-middle">Encargado</span>
-            </h4>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label className="d-block" for="dob">
-                Cédula de Identidad
-              </Label>
-              <Input
-                type="text"
-                id="state"
-                defaultValue="001-0000000-0"
-                placeholder="Cédula de Identidad"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Nombre Completo</Label>
-              <Input
-                type="text"
-                id="state"
-                defaultValue="John Doe"
-                placeholder="Nombre Completo"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6" sm="12">
-            <FormGroup>
-              <Label for="role">Rol</Label>
-              <Input type="select" name="role" id="role" defaultValue="Admin">
-                {rolArray.map((rolArray, index) => (
-                  <option value={rolArray} key={index}>
-                    {rolArray}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="languages">Fecha de Nacimiento</Label>
-              <Controller
-                id="dob"
-                name="dob"
-                as={Flatpickr}
-                control={control}
-                placeholder="DD-MM-YYYY"
-                options={{ dateFormat: 'd-m-y' }}
-                className={classnames('form-control', {
-                  'is-invalid': errors.dob,
-                })}
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Teléfono Móvil</Label>
-              <Input
-                type="text"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="809-220-1111"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="mobileNumber">Correo Electrónico</Label>
-              <Input
-                type="email"
-                id="state"
-                defaultValue="johndoe@email.com"
-                placeholder="Correo Electrónico"
-              />
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <Label for="nacionalidad">Nacionalidad</Label>
-              <Input
-                type="select"
-                name="nacionalidad"
-                id="nacionalidad"
-                defaultValue="Dominicana"
+        <Col sm="12">
+          <h4 className="mb-1">
+            <IconInstitution size={20} className="mr-50" />
+            <span className="align-middle">Información</span>
+          </h4>
+        </Col>
+
+        <InputApp
+          label="Nombre de la Institución"
+          name="name"
+          register={register}
+          placeholder="Escribe la Institución"
+          messageError={errors.name?.message && errors.name?.message}
+        />
+
+        <InputApp
+          label="Acrónimo"
+          name="acronimo"
+          register={register}
+          placeholder="Escribe el Acrónimo"
+          messageError={
+            errors.acronimo?.message && 'El Acrónimo es obligatorio'
+          }
+        />
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Servicio</Label>
+            <Controller
+              control={control}
+              name="servicio"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('servicio', e.value)}
+                options={optionsZammadIdValueSelect(servicesSelector)}
+                isLoading={!servicesSelector[0]}
+                defaultValue={defaultValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.servicio?.message && errors.servicio?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Teléfono</Label>
+            <Controller
+              control={control}
+              name="phonenumber"
+              render={({field}) => <Cleave
+                {...field}
+                className="form-control"
+                placeholder="Escribe el Teléfono"
+                onChange={e => setValue("phonenumber", e.target.value)}
+                options={{ blocks: [10], numericOnly: true }}
+              />}
+            />
+            <p className="text-danger">{
+              errors.phonenumber?.message && errors.phonenumber?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <InputApp
+          label="Dirección"
+          name="address"
+          register={register}
+          placeholder="Escribe la Dirección"
+          messageError={
+            errors.address?.message && errors.address?.message
+          }
+        />
+
+        <InputApp
+          label="Correo Electrónico"
+          name="email"
+          register={register}
+          placeholder="Escribe el Correo Electrónico"
+          messageError={
+            errors.email?.message && errors.email?.message
+          }
+        />
+
+        <InputApp
+          label="Sitio Web"
+          name="website"
+          register={register}
+          placeholder="Escribe el Sitio Web"
+          messageError={
+            errors.website?.message && errors.website?.message
+          }
+        />
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label>Encargado</Label>
+            <Controller
+              control={control}
+              name="encargado"
+              render={({field}) => <Select 
+                {...field} 
+                onChange={e => setValue('encargado', e.value)}
+                options={usersSelector.map(data => ({
+                  value: data.id,
+                  label: `${data.firstname} ${data.lastname}`
+                }))}
+                isLoading={!usersSelector[0]}
+                defaultValue={defaultValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
+            <p className="text-danger">{
+              errors.encargado?.message && errors.encargado?.message
+            }</p>
+          </FormGroup>
+        </Col>
+
+        <Col lg="4" md="6" sm="12">
+          <FormGroup>
+            <Label />
+            <div>
+              <Button.Ripple 
+                outline 
+                color='primary'
+                onClick={() => history.push(Url.userCreate)}  
               >
-                <option value="Dominicana">Dominicana</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <label className="d-block mb-1">Género</label>
-              <FormGroup>
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Masculino"
-                      value="Masculino"
-                      id="gender-male"
-                      name={props.name}
-                      onChange={() => setValue('gender', 'Masculino')}
-                    />
-                  )}
-                />
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={(props) => (
-                    <CustomInput
-                      inline
-                      type="radio"
-                      label="Femenino"
-                      value="Femenino"
-                      id="gender-female"
-                      name={props.name}
-                      defaultChecked
-                      onChange={() => setValue('gender', 'Femenino')}
-                    />
-                  )}
-                />
-              </FormGroup>
-            </FormGroup>
-          </Col>
-          <Col lg="4" md="6">
-            <FormGroup>
-              <label className="d-block mb-1">Opciones de Contacto</label>
-              <FormGroup>
-                <CustomInput
-                  inline
-                  type="checkbox"
-                  name="terms"
-                  id="emailTerms"
-                  value="Correo"
-                  label="Correo"
-                  defaultChecked
-                />
-                <CustomInput
-                  inline
-                  type="checkbox"
-                  name="terms"
-                  id="msgTerms"
-                  value="Mensajes"
-                  label="Mensajes"
-                  defaultChecked
-                />
-                <CustomInput
-                  inline
-                  type="checkbox"
-                  name="terms"
-                  id="phoneTerms"
-                  value="Teléfono"
-                  label="Teléfono"
-                />
-              </FormGroup>
-            </FormGroup>
-          </Col>
-          <Col className="d-flex flex-sm-row flex-column mt-2">
-            <Button
-              type="submit"
-              color="primary"
-              className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-            >
-              Crear
-            </Button>
-            <Button type="reset" color="primary" outline>
-              Limpiar
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+                <Plus size={14} />
+                <span className='align-middle ml-25'>Añadir Usuario</span>
+              </Button.Ripple>
+            </div>
+          </FormGroup>
+        </Col>
+
+      </FormApp>
     </CardGrid>
   )
 }
-export default UserCreate
+export default institutionCreate

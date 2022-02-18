@@ -1,4 +1,3 @@
-import Chart from 'react-apexcharts'
 import { MoreVertical } from 'react-feather'
 import {
   Card,
@@ -11,280 +10,55 @@ import {
   DropdownItem,
   DropdownToggle,
 } from 'reactstrap'
+import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const CardBrowserState = ({ colors, trackBgColor }) => {
-  const statesArr = [
-    {
-      avatar: require('@src/assets/images/icons/1.png').default,
-      title: 'Ministerio de Obras Públicas y Comunicaciones',
-      value: '54.4%',
-      chart: {
-        type: 'radialBar',
-        series: [54.4],
-        height: 30,
-        width: 30,
-        options: {
-          grid: {
-            show: false,
-            padding: {
-              left: -15,
-              right: -15,
-              top: -12,
-              bottom: -15,
-            },
-          },
-          colors: [colors.primary.main],
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: '22%',
-              },
-              track: {
-                background: trackBgColor,
-              },
-              dataLabels: {
-                showOn: 'always',
-                name: {
-                  show: false,
-                },
-                value: {
-                  show: false,
-                },
-              },
-            },
-          },
-          stroke: {
-            lineCap: 'round',
-          },
-        },
-      },
-    },
-    {
-      avatar: require('@src/assets/images/icons/2.png').default,
-      title: 'Alcaldía del Distrito Nacional',
-      value: '6.1%',
-      chart: {
-        type: 'radialBar',
-        series: [6.1],
-        height: 30,
-        width: 30,
-        options: {
-          grid: {
-            show: false,
-            padding: {
-              left: -15,
-              right: -15,
-              top: -12,
-              bottom: -15,
-            },
-          },
-          colors: [colors.warning.main],
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: '22%',
-              },
-              track: {
-                background: trackBgColor,
-              },
-              dataLabels: {
-                showOn: 'always',
-                name: {
-                  show: false,
-                },
-                value: {
-                  show: false,
-                },
-              },
-            },
-          },
-          stroke: {
-            lineCap: 'round',
-          },
-        },
-      },
-    },
-    {
-      avatar: require('@src/assets/images/icons/3.png').default,
-      title: 'Empresa Distribuidora de Electricidad del Este',
-      value: '14.6%',
-      chart: {
-        type: 'radialBar',
-        series: [14.6],
-        height: 30,
-        width: 30,
-        options: {
-          grid: {
-            show: false,
-            padding: {
-              left: -15,
-              right: -15,
-              top: -12,
-              bottom: -15,
-            },
-          },
-          colors: [colors.secondary.main],
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: '22%',
-              },
-              track: {
-                background: trackBgColor,
-              },
-              dataLabels: {
-                showOn: 'always',
-                name: {
-                  show: false,
-                },
-                value: {
-                  show: false,
-                },
-              },
-            },
-          },
-          stroke: {
-            lineCap: 'round',
-          },
-        },
-      },
-    },
-    {
-      avatar: require('@src/assets/images/icons/4.png').default,
-      title: 'Instituto Nacional de Aguas Potables y Alcantarillados',
-      value: '4.2%',
-      chart: {
-        type: 'radialBar',
-        series: [4.2],
-        height: 30,
-        width: 30,
-        options: {
-          grid: {
-            show: false,
-            padding: {
-              left: -15,
-              right: -15,
-              top: -12,
-              bottom: -15,
-            },
-          },
-          colors: [colors.info.main],
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: '22%',
-              },
-              track: {
-                background: trackBgColor,
-              },
-              dataLabels: {
-                showOn: 'always',
-                name: {
-                  show: false,
-                },
-                value: {
-                  show: false,
-                },
-              },
-            },
-          },
-          stroke: {
-            lineCap: 'round',
-          },
-        },
-      },
-    },
-    {
-      avatar: require('@src/assets/images/icons/5.png').default,
-      title: 'Ayuntamiento Santo Domingo Este',
-      value: '8.4%',
-      chart: {
-        type: 'radialBar',
-        series: [8.4],
-        height: 30,
-        width: 30,
-        options: {
-          grid: {
-            show: false,
-            padding: {
-              left: -15,
-              right: -15,
-              top: -12,
-              bottom: -15,
-            },
-          },
-          colors: [colors.danger.main],
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: '22%',
-              },
-              track: {
-                background: trackBgColor,
-              },
-              dataLabels: {
-                showOn: 'always',
-                name: {
-                  show: false,
-                },
-                value: {
-                  show: false,
-                },
-              },
-            },
-          },
-          stroke: {
-            lineCap: 'round',
-          },
-        },
-      },
-    },
-  ]
-
+const CardBrowserState = function({ organizations, listTickets }) {
   const renderStates = () =>
-    statesArr.map((state) => (
-      <div key={state.title} className="browser-states">
-        <Media>
-          <img
-            className="rounded mr-1"
-            src={state.avatar}
-            height="30"
-            alt={state.title}
-          />
-          <h6 className="align-self-center mb-0">{state.title}</h6>
-        </Media>
-        <div className="d-flex align-items-center">
-          <div className="font-weight-bold text-body-heading mr-1">9,999</div>
-          <Chart
-            options={state.chart.options}
-            series={state.chart.series}
-            type={state.chart.type}
-            height={state.chart.height}
-            width={state.chart.width}
-          />
+    organizations.map((state) => {
+      const ticketLength =
+        listTickets.filter((ticket) => ticket.institutionId === state.id)
+          .length || 0
+
+      return (
+        <div key={state.id} className="browser-states">
+          <div className="flex-grow-1">
+            <Media>
+              {/* <img
+                className="rounded mr-1"
+                src={require('@src/assets/images/icons/1.png').default}
+                height="30"
+                alt={state.acronimo}
+              /> */}
+              <h6 className="align-self-center text-primary mb-0">
+                {state.acronimo}
+              </h6>
+            </Media>
+            <small>{state.name}</small>
+          </div>
+          <div>
+            <div className="font-weight-bold text-body-heading mx-1">
+              {!listTickets[0] ? <LoadingData size='sm' /> : ticketLength}
+            </div>
+          </div>
         </div>
-      </div>
-    ))
+      )
+    })
 
   return (
     <Card className="card-browser-states">
       <CardHeader className="pb-0">
-        <div>
-          <CardTitle tag="h4">Instituciones</CardTitle>
+        <div className="flex-grow-1">
+          <CardTitle tag="h4" className="mb-1">
+            Instituciones
+          </CardTitle>
         </div>
-        <UncontrolledDropdown className="chart-dropdown">
-          <DropdownToggle
-            color=""
-            className="bg-transparent btn-sm border-0 p-50"
-          >
-            <MoreVertical size={18} className="cursor-pointer" />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem className="w-100">Last 28 Days</DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
+        <div>{/* <p className="text-muted">Últimos 28 días</p> */}</div>
       </CardHeader>
-      <CardBody>{renderStates()}</CardBody>
+      <CardBody>
+        <div className="overflow-auto" style={{ height: '310px' }}>
+          {renderStates()}
+        </div>
+      </CardBody>
     </Card>
   )
 }

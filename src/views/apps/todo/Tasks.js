@@ -25,7 +25,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap'
 
-const Tasks = (props) => {
+const Tasks = function(props) {
   // ** Props
   const {
     query,

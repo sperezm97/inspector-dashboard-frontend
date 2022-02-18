@@ -8,8 +8,9 @@ import CardContentTypes from './CardContentTypes'
 import CardTextAlignment from './CardTextAlignment'
 import CardStyleVariation from './CardStyleVariation'
 import CardLayout from './CardLayout'
-const BasicCards = () => (
-  <>
+
+const BasicCards = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Basic Cards"
       breadCrumbParent="Card"
@@ -24,6 +25,6 @@ const BasicCards = () => (
     <CardStyleVariation />
     <CardLayout />
   </>
-)
+}
 
 export default BasicCards

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AutoComplete from '@components/autocomplete'
 
-const AutoCompleteDefaultSuggestions = () => {
+const AutoCompleteDefaultSuggestions = function() {
   const [suggestions] = useState([
     {
       title: 'React.js',

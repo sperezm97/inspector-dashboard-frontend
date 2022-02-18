@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { Card, CardBody, CardTitle, CardText, Row, Col } from 'reactstrap'
 
-const CardStyleVariation = () => (
-  <>
+const CardStyleVariation = function() {
+  return <>
     <h5 className="mt-3 mb-2">Style variation</h5>
     <Row>
       <Col md="6" xl="4">
@@ -141,6 +141,6 @@ const CardStyleVariation = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default CardStyleVariation

@@ -1,7 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
 
-const NavVerticalBorder = () => (
-  <Nav vertical className="wrap-border">
+const NavVerticalBorder = function() {
+  return <Nav vertical className="wrap-border">
     <NavItem>
       <NavLink href="#" active>
         Active
@@ -19,5 +19,5 @@ const NavVerticalBorder = () => (
       </NavLink>
     </NavItem>
   </Nav>
-)
+}
 export default NavVerticalBorder

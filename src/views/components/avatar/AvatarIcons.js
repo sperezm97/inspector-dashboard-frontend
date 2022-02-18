@@ -1,8 +1,8 @@
 import Avatar from '@components/avatar'
 import { GitHub, Calendar, Inbox, Camera, Award, Star } from 'react-feather'
 
-const AvatarIcons = () => (
-  <div className="demo-inline-spacing">
+const AvatarIcons = function() {
+  return <div className="demo-inline-spacing">
     <Avatar color="primary" icon={<Calendar size={14} />} />
     <Avatar color="secondary" icon={<GitHub size={14} />} />
     <Avatar color="success" icon={<Inbox size={14} />} />
@@ -10,5 +10,5 @@ const AvatarIcons = () => (
     <Avatar color="light-warning" icon={<Award size={14} />} />
     <Avatar color="light-info" icon={<Star size={14} />} />
   </div>
-)
+}
 export default AvatarIcons

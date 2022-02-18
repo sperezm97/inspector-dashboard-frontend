@@ -10,7 +10,7 @@ import {
   InputGroupText,
 } from 'reactstrap'
 
-const FaqFilter = ({ searchTerm, setSearchTerm, getFAQData }) => {
+const FaqFilter = function({ searchTerm, setSearchTerm, getFAQData }) {
   const handleFaqFilter = (e) => {
     setSearchTerm(e.target.value)
     getFAQData(e.target.value)

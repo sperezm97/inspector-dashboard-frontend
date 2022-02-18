@@ -1,7 +1,7 @@
 import { Button } from 'reactstrap'
 
-const ReliefButtons = () => (
-  <div className="demo-inline-spacing">
+const ReliefButtons = function() {
+  return <div className="demo-inline-spacing">
     <Button color="relief-primary">Primary</Button>
     <Button color="relief-secondary">Secondary</Button>
     <Button color="relief-success">Success</Button>
@@ -10,5 +10,5 @@ const ReliefButtons = () => (
     <Button color="relief-info">Info</Button>
     <Button color="relief-dark">Dark</Button>
   </div>
-)
+}
 export default ReliefButtons

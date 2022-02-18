@@ -6,8 +6,8 @@ import DataTable from 'react-data-table-component'
 import { Card, CardHeader, CardTitle } from 'reactstrap'
 import { data, basicColumns } from '../data'
 
-const DataTablesBasic = () => (
-  <Card>
+const DataTablesBasic = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Zero Configuration</CardTitle>
     </CardHeader>
@@ -21,6 +21,6 @@ const DataTablesBasic = () => (
       paginationRowsPerPageOptions={[10, 25, 50, 100]}
     />
   </Card>
-)
+}
 
 export default DataTablesBasic

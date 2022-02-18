@@ -10,7 +10,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const MessageBlocking = () => {
+const MessageBlocking = function() {
   const [block, setBlock] = useState(false)
 
   const handleBlock = () => {
@@ -21,12 +21,12 @@ const MessageBlocking = () => {
     }, 3000)
   }
 
-  const Loader = () => (
-    <>
+  const Loader = function() {
+  return <>
       <Spinner />
       <CardText className="mb-0 mt-3 text-white">Please Wait...</CardText>
     </>
-  )
+}
 
   return (
     <UILoader blocking={block} loader={<Loader />}>

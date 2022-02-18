@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-const BreadcrumbsAlignment = () => (
-  <>
+const BreadcrumbsAlignment = function() {
+  return <>
     <div className="d-flex justify-content-start breadcrumb-wrapper">
       <Breadcrumb>
         <BreadcrumbItem>
@@ -44,5 +44,5 @@ const BreadcrumbsAlignment = () => (
       </Breadcrumb>
     </div>
   </>
-)
+}
 export default BreadcrumbsAlignment

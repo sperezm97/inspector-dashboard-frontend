@@ -10,7 +10,7 @@ import DataTable from 'react-data-table-component'
 import { Card, CardHeader, CardTitle } from 'reactstrap'
 import ExpandableTable, { data, columns } from '../data'
 
-const DataTableWithButtons = () => {
+const DataTableWithButtons = function() {
   // ** State
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -20,8 +20,8 @@ const DataTableWithButtons = () => {
   }
 
   // ** Custom Pagination
-  const CustomPagination = () => (
-    <ReactPaginate
+  const CustomPagination = function() {
+  return <ReactPaginate
       previousLabel=""
       nextLabel=""
       forcePage={currentPage}
@@ -41,7 +41,7 @@ const DataTableWithButtons = () => {
       breakLinkClassName="page-link"
       containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1"
     />
-  )
+}
 
   return (
     <Card>

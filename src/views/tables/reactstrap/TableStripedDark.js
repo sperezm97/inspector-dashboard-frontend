@@ -99,8 +99,8 @@ const avatarGroupData4 = [
     imgWidth: 26,
   },
 ]
-const TableStripedDark = () => (
-  <Table striped dark responsive>
+const TableStripedDark = function() {
+  return <Table striped dark responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -287,6 +287,6 @@ const TableStripedDark = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableStripedDark

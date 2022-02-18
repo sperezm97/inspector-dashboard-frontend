@@ -16,8 +16,8 @@ import TableMultilingual from './TableMultilingual'
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-const Tables = () => (
-  <>
+const Tables = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Datatables"
       breadCrumbParent="Home"
@@ -38,6 +38,6 @@ const Tables = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Tables

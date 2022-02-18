@@ -17,8 +17,8 @@ import Logo from '@src/assets/images/logo/logo.png'
 
 import '@styles/base/pages/page-auth.scss'
 
-const LoginV1 = ({ history }) => (
-  <div className="auth-wrapper auth-v1 px-2">
+const LoginV1 = function({ history }) {
+  return <div className="auth-wrapper auth-v1 px-2">
     <div className="auth-inner py-2">
       <Card className="mb-0">
         <CardBody>
@@ -80,6 +80,6 @@ const LoginV1 = ({ history }) => (
       </Card>
     </div>
   </div>
-)
+}
 
 export default LoginV1

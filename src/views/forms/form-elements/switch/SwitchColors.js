@@ -7,8 +7,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const SwitchColors = () => (
-  <Card>
+const SwitchColors = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Colors</CardTitle>
     </CardHeader>
@@ -97,5 +97,5 @@ const SwitchColors = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SwitchColors

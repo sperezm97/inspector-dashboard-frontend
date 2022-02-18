@@ -7,7 +7,7 @@ import ToastTranslucent from './ToastTranslucent'
 import ToastHeaderIcons from './ToastHeaderIcons'
 import { toastHeaderIcons, toastTranslucent } from './ToastSourceCode'
 
-const Toasts = () => {
+const Toasts = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

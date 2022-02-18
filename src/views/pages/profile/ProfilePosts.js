@@ -42,7 +42,7 @@ const ProfilePosts = ({ data }) => {
             <iframe
               src="https://www.youtube.com/embed/6stlCkUDG_s"
               className="w-100 rounded height-250 mb-50 border-0"
-            ></iframe>
+             />
           ) : null}
           <Row className="d-flex justify-content-start align-items-center flex-wrap pb-50 post-actions">
             <Col
@@ -102,7 +102,7 @@ const ProfilePosts = ({ data }) => {
                 <MessageSquare
                   size={18}
                   className="text-body mr-50"
-                ></MessageSquare>
+                 />
                 <span className="text-muted mr-1">{post.comments}</span>
               </a>
               <a
@@ -110,7 +110,7 @@ const ProfilePosts = ({ data }) => {
                 className="text-nowrap share-post"
                 onClick={(e) => e.preventDefault()}
               >
-                <Share2 size={18} className="text-body mx-50"></Share2>
+                <Share2 size={18} className="text-body mx-50" />
                 <span className="text-muted mr-1">{post.share}</span>
               </a>
             </Col>

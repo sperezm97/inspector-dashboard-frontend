@@ -1,8 +1,8 @@
 import { Fragment } from 'react'
 import { InputGroup, InputGroupAddon, Input } from 'reactstrap'
 
-const InputGroupSizes = () => (
-  <>
+const InputGroupSizes = function() {
+  return <>
     <InputGroup className="mb-1" size="lg">
       <InputGroupAddon addonType="prepend">@</InputGroupAddon>
       <Input placeholder="username" />
@@ -18,6 +18,6 @@ const InputGroupSizes = () => (
       <Input placeholder="username" />
     </InputGroup>
   </>
-)
+}
 
 export default InputGroupSizes

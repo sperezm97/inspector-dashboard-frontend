@@ -41,7 +41,7 @@ import {
 } from 'react-feather'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-const MailDetails = (props) => {
+const MailDetails = function(props) {
   // ** Props
   const {
     mail,
@@ -175,7 +175,7 @@ const MailDetails = (props) => {
         <div
           className="mail-message"
           dangerouslySetInnerHTML={{ __html: obj.message }}
-        ></div>
+         />
       </CardBody>
       {obj.attachments && obj.attachments.length ? (
         <CardFooter>

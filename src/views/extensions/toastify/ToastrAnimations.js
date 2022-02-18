@@ -4,8 +4,8 @@ import { toast, Slide, Zoom, Flip, Bounce } from 'react-toastify'
 import { Check, X, AlertTriangle, Info } from 'react-feather'
 import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
 
-const SuccessToast = () => (
-  <>
+const SuccessToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check size={12} />} />
@@ -17,10 +17,10 @@ const SuccessToast = () => (
       <span>I do not think that word means what you think it means.</span>
     </div>
   </>
-)
+}
 
-const WarningToast = () => (
-  <>
+const WarningToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="warning" icon={<AlertTriangle size={12} />} />
@@ -32,10 +32,10 @@ const WarningToast = () => (
       <span>I do not think that word means what you think it means.</span>
     </div>
   </>
-)
+}
 
-const ErrorToast = () => (
-  <>
+const ErrorToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="danger" icon={<X size={12} />} />
@@ -47,10 +47,10 @@ const ErrorToast = () => (
       <span>I do not think that word means what you think it means.</span>
     </div>
   </>
-)
+}
 
-const InfoToast = () => (
-  <>
+const InfoToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="info" icon={<Info size={12} />} />
@@ -62,9 +62,9 @@ const InfoToast = () => (
       <span>I do not think that word means what you think it means.</span>
     </div>
   </>
-)
+}
 
-const ToastAnimations = () => {
+const ToastAnimations = function() {
   const notifyBounce = () =>
     toast.success(<SuccessToast />, {
       transition: Bounce,

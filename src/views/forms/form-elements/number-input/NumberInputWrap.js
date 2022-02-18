@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const NumberInputWrap = () => (
-  <Card>
+const NumberInputWrap = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Number Wrapping</CardTitle>
     </CardHeader>
@@ -23,6 +23,6 @@ const NumberInputWrap = () => (
       <NumberInput id="wrap-number-input" max={10} wrap />
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputWrap

@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { Play, DollarSign, HelpCircle, FileText, Archive } from 'react-feather'
 
-const SwiperCenterSlidesStyle = ({ isRtl }) => {
+const SwiperCenterSlidesStyle = function({ isRtl }) {
   const params = {
     className: 'swiper-centered-slides p-1',
     slidesPerView: 'auto',

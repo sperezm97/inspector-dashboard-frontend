@@ -16,7 +16,7 @@ import CompanyTable from './CompanyTable'
 import '@styles/react/libs/charts/apex-charts.scss'
 import '@styles/base/pages/dashboard-ecommerce.scss'
 
-const EcommerceDashboard = () => {
+const EcommerceDashboard = function() {
   const { colors } = useContext(ThemeColors)
   const trackBgColor = '#e9ecef'
 

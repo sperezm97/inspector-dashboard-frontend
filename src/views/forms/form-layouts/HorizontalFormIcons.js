@@ -16,8 +16,8 @@ import {
 } from 'reactstrap'
 import { User, Mail, Smartphone, Lock } from 'react-feather'
 
-const HorizontalFormIcons = () => (
-  <Card>
+const HorizontalFormIcons = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Horizontal Form with Icons</CardTitle>
     </CardHeader>
@@ -136,5 +136,5 @@ const HorizontalFormIcons = () => (
       </Form>
     </CardBody>
   </Card>
-)
+}
 export default HorizontalFormIcons

@@ -9,8 +9,8 @@ import {
   FormGroup,
 } from 'reactstrap'
 
-const NumberInputSizes = () => (
-  <Card>
+const NumberInputSizes = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Sizes</CardTitle>
     </CardHeader>
@@ -35,6 +35,6 @@ const NumberInputSizes = () => (
       </FormGroup>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputSizes

@@ -1,84 +1,61 @@
 import Avatar from '@components/avatar'
 import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
+import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const CardTransactions = () => {
-  const transactionsArr = [
-    {
-      title: 'San Francisco de Macorís',
-      color: 'light-primary',
-      subtitle: 'Encargado Provincial',
-      amount: '541',
-      Icon: Icon.Pocket,
-    },
-    {
-      title: 'Santiago Rodríguez',
-      color: 'light-success',
-      subtitle: 'Encargado Provincial',
-      amount: '511',
-      Icon: Icon.Check,
-    },
-    {
-      title: 'San Francisco de Macorís',
-      color: 'light-danger',
-      subtitle: 'Encargado Provincial',
-      amount: '433',
-      Icon: Icon.DollarSign,
-    },
-    {
-      title: 'Santiago Rodríguez',
-      color: 'light-warning',
-      subtitle: 'Encargado Provincial',
-      amount: '432',
-      Icon: Icon.CreditCard,
-    },
-    {
-      title: 'San Francisco de Macorís',
-      color: 'light-info',
-      subtitle: 'Encargado Provincial',
-      amount: '365',
-      Icon: Icon.TrendingUp,
-    },
-    {
-      title: 'San Francisco de Macorís',
-      color: 'light-danger',
-      subtitle: 'Encargado Provincial',
-      amount: '255',
-      Icon: Icon.DollarSign,
-    },
-  ]
-
+const CardTransactions = function({ provinces, listTickets }) {
   const renderTransactions = () =>
-    transactionsArr.map((item, index) => (
-      <div key={index} className="transaction-item">
-        <Media>
-          <Avatar
-            className="rounded"
-            color={item.color}
-            icon={<item.Icon size={18} />}
-          />
-          <Media body>
-            <h6 className="transaction-title">{item.title}</h6>
-            <small>{item.subtitle}</small>
+    provinces.map((state) => {
+      const ticketLength =
+        listTickets.filter(
+          (ticket) => ticket.zone.substr(0, 4) === state.identifier,
+        ).length || 0
+
+      const stateNum = Math.floor(Math.random() * 6)
+      const states = [
+        'light-success',
+        'light-danger',
+        'light-warning',
+        'light-info',
+        'light-primary',
+        'light-secondary',
+      ]
+      const color = states[stateNum]
+
+      return (
+        <div key={state.identifier} className="transaction-item">
+          <Media>
+            <Avatar
+              color={color || 'primary'}
+              className="mr-1"
+              content={state.name ? state.name : 'X'}
+              initials
+            />
+            <h6 className="align-self-center mb-0">{state.name}</h6>
+            {/* <small>{item.subtitle}</small> */}
           </Media>
-        </Media>
-        <div
-          className={`font-weight-bolder ${
-            item.down ? 'text-danger' : 'text-success'
-          }`}
-        >
-          {item.amount}
+          <div className="font-weight-bold text-body-heading mx-1">
+            {!listTickets[0] ? <LoadingData size='sm' /> : ticketLength}
+          </div>
         </div>
-      </div>
-    ))
+      )
+    })
 
   return (
     <Card className="card-transaction">
-      <CardHeader>
-        <CardTitle tag="h4">Provincias</CardTitle>
-        <Icon.MoreVertical size={18} className="cursor-pointer" />
+      <CardHeader className="pb-0">
+        <div className="flex-grow-1">
+          <CardTitle tag="h4" className="mb-1">
+            Provincias
+          </CardTitle>
+        </div>
+        <div>{/* <p className="text-muted">Últimos 28 días</p> */}</div>
       </CardHeader>
-      <CardBody>{renderTransactions()}</CardBody>
+      <CardBody>
+        <div className="overflow-auto" style={{ height: '350px' }}>
+          {renderTransactions()}
+        </div>
+      </CardBody>
     </Card>
   )
 }

@@ -8,8 +8,8 @@ import {
   Label,
 } from 'reactstrap'
 
-const SlidersBootstrap = () => (
-  <Card>
+const SlidersBootstrap = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Default Bootstrap 4 slider</CardTitle>
     </CardHeader>
@@ -24,6 +24,6 @@ const SlidersBootstrap = () => (
       </FormGroup>
     </CardBody>
   </Card>
-)
+}
 
 export default SlidersBootstrap

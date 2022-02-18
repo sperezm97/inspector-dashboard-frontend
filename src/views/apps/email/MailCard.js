@@ -5,7 +5,7 @@ import Avatar from '@components/avatar'
 import { Star, Paperclip } from 'react-feather'
 import { CustomInput, Media } from 'reactstrap'
 
-const MailCard = (props) => {
+const MailCard = function(props) {
   // ** Props
   const {
     mail,
@@ -26,7 +26,7 @@ const MailCard = (props) => {
         <span
           key={label}
           className={`bullet bullet-${labelColors[label]} bullet-sm mx-50`}
-        ></span>
+         />
       ))
     }
   }
@@ -75,7 +75,7 @@ const MailCard = (props) => {
               onClick={(e) => {
                 e.stopPropagation()
               }}
-            ></label>
+             />
           </div>
           <div
             className="email-favorite"

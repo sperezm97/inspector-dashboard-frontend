@@ -12,7 +12,7 @@ import {
   Media,
 } from 'reactstrap'
 
-const StatsCard = ({ cols }) => {
+const StatsCard = function({ cols }) {
   const data = [
     {
       title: '230k',

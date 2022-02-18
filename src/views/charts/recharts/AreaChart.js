@@ -92,7 +92,7 @@ const data = [
   },
 ]
 
-const CustomTooltip = (data) => {
+const CustomTooltip = function(data) {
   if (data.active && data.payload) {
     return (
       <div className="recharts-custom-tooltip">
@@ -106,7 +106,7 @@ const CustomTooltip = (data) => {
                 style={{
                   backgroundColor: i.fill,
                 }}
-              ></span>
+               />
               <span className="align-middle text-capitalize mr-75">
                 {i.dataKey} : {i.payload[i.dataKey]}
               </span>
@@ -120,8 +120,8 @@ const CustomTooltip = (data) => {
   return null
 }
 
-const SimpleAreaChart = ({ primary }) => (
-  <Card>
+const SimpleAreaChart = function({ primary }) {
+  return <Card>
     <CardHeader className="flex-sm-row flex-column justify-content-sm-between justify-content-center align-items-sm-center align-items-start">
       <CardTitle tag="h4">Website Data</CardTitle>
       <div className="d-flex align-items-center">
@@ -139,21 +139,21 @@ const SimpleAreaChart = ({ primary }) => (
     <CardBody>
       <div className="d-flex align-items-center mb-2">
         <div className="mr-2">
-          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50"></span>
+          <span className="bullet bullet-sm bullet-primary bullet-bordered mr-50" />
           <span className="align-middle">Clicks</span>
         </div>
         <div className="mr-2">
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: 'rgba(115, 103, 240, .5)' }}
-          ></span>
+           />
           <span className="align-middle mr-75">Sales</span>
         </div>
         <div>
           <span
             className="bullet bullet-sm bullet-bordered mr-50"
             style={{ backgroundColor: 'rgba(115, 103, 240, .2)' }}
-          ></span>
+           />
           <span className="align-middle">Visits</span>
         </div>
       </div>
@@ -187,5 +187,5 @@ const SimpleAreaChart = ({ primary }) => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default SimpleAreaChart

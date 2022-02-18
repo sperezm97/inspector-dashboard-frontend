@@ -6,15 +6,15 @@ import {
   DropdownToggle,
 } from 'reactstrap'
 
-const DropdownSplit = () => (
-  <div className="demo-inline-spacing">
+const DropdownSplit = function() {
+  return <div className="demo-inline-spacing">
     <UncontrolledButtonDropdown>
       <Button color="primary">Primary</Button>
       <DropdownToggle
         className="dropdown-toggle-split"
         color="primary"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -25,7 +25,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -37,7 +37,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="secondary"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -48,7 +48,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -60,7 +60,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="success"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem header>Header</DropdownItem>
         <DropdownItem href="/" tag="a">
@@ -69,7 +69,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 2
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -81,7 +81,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="danger"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -92,7 +92,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -104,7 +104,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="warning"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -115,7 +115,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -127,7 +127,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="info"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -138,7 +138,7 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
@@ -150,7 +150,7 @@ const DropdownSplit = () => (
         className="dropdown-toggle-split"
         color="dark"
         caret
-      ></DropdownToggle>
+       />
       <DropdownMenu right>
         <DropdownItem href="/" tag="a">
           Option 1
@@ -161,12 +161,12 @@ const DropdownSplit = () => (
         <DropdownItem href="/" tag="a">
           Option 3
         </DropdownItem>
-        <DropdownItem divider></DropdownItem>
+        <DropdownItem divider />
         <DropdownItem href="/" tag="a">
           Separated Link
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledButtonDropdown>
   </div>
-)
+}
 export default DropdownSplit

@@ -53,6 +53,8 @@ const data = [
   },
 ]
 
-const CollapseDefault = () => <AppCollapse data={data} />
+const CollapseDefault = function() {
+  return <AppCollapse data={data} />
+}
 
 export default CollapseDefault

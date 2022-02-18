@@ -34,22 +34,25 @@ const UserDropdown = () => {
   }, [])
 
   //** Vars
-  const userAvatar = (userData && userData.avatar) || defaultAvatar
+  const userAvatar = (userData && userData?.zammadUser?.image) || null
 
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name font-weight-bold'>{(userData && userData['username']) || 'John Doe'}</span>
-          <span className='user-status'>{(userData && userData.role) || 'Admin'}</span>
+          <span className='user-name font-weight-bold'>{(userData && userData['username']) || ''}</span>
+          <span className='user-status'>{(userData && userData.cedula) || ''}</span>
         </div>
-        <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+        {userAvatar 
+          ? <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+          : <User />
+        }
       </DropdownToggle>
       <DropdownMenu right>
-        <DropdownItem tag={Link} to='/pages/profile'>
+        {/* <DropdownItem tag={Link} to='/pages/profile'>
           <User size={14} className='mr-75' />
           <span className='align-middle'>Perfil</span>
-        </DropdownItem>
+        </DropdownItem> */}
         {/* <DropdownItem tag={Link} to='/apps/email'>
           <Mail size={14} className='mr-75' />
           <span className='align-middle'>Inbox</span>
@@ -62,7 +65,7 @@ const UserDropdown = () => {
           <MessageSquare size={14} className='mr-75' />
           <span className='align-middle'>Chats</span>
         </DropdownItem> */}
-        <DropdownItem divider />
+        {/* <DropdownItem divider /> */}
         <DropdownItem tag={Link} to='/pages/account-settings'>
           <Settings size={14} className='mr-75' />
           <span className='align-middle'>Ajustes</span>

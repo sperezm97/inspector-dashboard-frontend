@@ -11,7 +11,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const ModalDestructuring = () => {
+const ModalDestructuring = function() {
   const [visibility, setVisibility] = useState(false)
   const [unmountOnClose, setUnmountOnClose] = useState(true)
 

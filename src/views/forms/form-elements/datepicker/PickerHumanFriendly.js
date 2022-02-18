@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Label } from 'reactstrap'
 import Flatpickr from 'react-flatpickr'
 
-const PickerHumanFriendly = () => {
+const PickerHumanFriendly = function() {
   const [picker, setPicker] = useState(new Date())
   return (
     <>

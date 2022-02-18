@@ -22,7 +22,7 @@ const Icon2 = new L.Icon({
   shadowAnchor: [7, 40],
 })
 
-const MapCustomIcon = () => {
+const MapCustomIcon = function() {
   const lat = 51.505
   const lng = -0.09
   const zoom = 15

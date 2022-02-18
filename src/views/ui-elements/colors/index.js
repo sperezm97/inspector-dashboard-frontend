@@ -6,8 +6,8 @@ import GradientColors from './GradientColors'
 
 import '@styles/base/pages/ui-colors.scss'
 
-const Colors = () => (
-  <>
+const Colors = function() {
+  return <>
     <Breadcrumbs
       breadCrumbTitle="Colors"
       breadCrumbParent="UI"
@@ -22,6 +22,6 @@ const Colors = () => (
       </Col>
     </Row>
   </>
-)
+}
 
 export default Colors

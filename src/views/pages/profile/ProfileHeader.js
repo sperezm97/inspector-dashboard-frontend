@@ -11,7 +11,7 @@ import {
   Button,
 } from 'reactstrap'
 
-const ProfileHeader = ({ data }) => {
+const ProfileHeader = function({ data }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = () => setIsOpen(!isOpen)

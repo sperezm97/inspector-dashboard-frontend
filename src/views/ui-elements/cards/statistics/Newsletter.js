@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Mail } from 'react-feather'
 import StatsWithLineChart from '@components/widgets/stats/StatsWithLineChart'
 
-const Newsletter = ({ warning }) => {
+const Newsletter = function({ warning }) {
   const [data, setData] = useState(null)
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import SocialLinks from './steps-with-validation/SocialLinks'
 import PersonalInfo from './steps-with-validation/PersonalInfo'
 import AccountDetails from './steps-with-validation/AccountDetails'
 
-const WizardHorizontal = () => {
+const WizardHorizontal = function() {
   const [stepper, setStepper] = useState(null)
   const ref = useRef(null)
 

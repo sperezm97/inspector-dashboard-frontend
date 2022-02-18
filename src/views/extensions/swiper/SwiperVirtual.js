@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardBody, Button } from 'reactstrap'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-const SwiperVirtual = ({ isRtl }) => {
+const SwiperVirtual = function({ isRtl }) {
   const slides = []
   for (let i = 0; i < 10; i += 1) {
     slides.push(<SwiperSlide key={`slide-${i + 1}`}>Slide {i + 1}</SwiperSlide>)

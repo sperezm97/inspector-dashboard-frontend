@@ -24,7 +24,7 @@ import {
 // ** Styles
 import '@styles/react/apps/app-todo.scss'
 
-const TODO = () => {
+const TODO = function() {
   // ** States
   const [sort, setSort] = useState('')
   const [query, setQuery] = useState('')
@@ -80,7 +80,7 @@ const TODO = () => {
                 show: mainSidebar === true,
               })}
               onClick={handleMainSidebar}
-            ></div>
+             />
 
             {store ? (
               <Tasks

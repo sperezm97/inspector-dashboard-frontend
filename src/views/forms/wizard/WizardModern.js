@@ -6,7 +6,7 @@ import SocialLinks from './steps/SocialLinks'
 import PersonalInfo from './steps/PersonalInfo'
 import AccountDetails from './steps/AccountDetails'
 
-const WizardModern = () => {
+const WizardModern = function() {
   const [stepper, setStepper] = useState(null)
   const ref = useRef(null)
 

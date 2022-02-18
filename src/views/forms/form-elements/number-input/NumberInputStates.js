@@ -10,8 +10,8 @@ import {
   Col,
 } from 'reactstrap'
 
-const NumberInputStates = () => (
-  <Card>
+const NumberInputStates = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Disabled & Readonly states</CardTitle>
     </CardHeader>
@@ -34,6 +34,6 @@ const NumberInputStates = () => (
       </Row>
     </CardBody>
   </Card>
-)
+}
 
 export default NumberInputStates

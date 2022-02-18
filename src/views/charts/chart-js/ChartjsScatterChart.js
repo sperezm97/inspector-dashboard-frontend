@@ -9,14 +9,14 @@ import {
   Button,
 } from 'reactstrap'
 
-const ChartjsScatterChart = ({
+const ChartjsScatterChart = function({
   labelColor,
   tooltipShadow,
   gridLineColor,
   primary,
   yellowColor,
   successColorShade,
-}) => {
+}) {
   const [active, setActive] = useState('daily')
 
   const options = {

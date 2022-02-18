@@ -7,7 +7,7 @@ import FaqContact from './FaqContact'
 
 import '@styles/base/pages/page-faq.scss'
 
-const Faq = () => {
+const Faq = function() {
   const [data, setData] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
 

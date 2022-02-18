@@ -15,7 +15,7 @@ import SliderVerticalTooltip from './SliderVerticalTooltips'
 
 import '@styles/react/libs/noui-slider/noui-slider.scss'
 
-const Slider = () => {
+const Slider = function() {
   const [isRtl, setIsRtl] = useRTL()
 
   return (

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Alert } from 'reactstrap'
 
-const AlertDismissable = () => {
+const AlertDismissable = function() {
   const [visible, setVisible] = useState(true)
 
   return (

@@ -7,8 +7,8 @@ import {
   Table,
 } from 'reactstrap'
 
-const HTMLHeadings = () => (
-  <Card>
+const HTMLHeadings = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">
         HTML headings <small className="text-muted">Default</small>
@@ -72,5 +72,5 @@ const HTMLHeadings = () => (
       </tbody>
     </Table>
   </Card>
-)
+}
 export default HTMLHeadings

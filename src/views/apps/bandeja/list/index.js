@@ -3,21 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'reactstrap'
 import Select from 'react-select'
 
-import { kFormatter, selectThemeColors } from '@utils'
+import { selectThemeColors } from '@utils'
 
-import SubscribersGained from './SubscribersGained'
-import { dataInfoChart } from './dataInfoChart'
 import { columns } from './columns'
 import DataTableList from './table'
 import CardGrid from '../../../../@core/components/card-grid'
-// import { ButtonRipple } from '../../../../@core/components/button'
-// import Url from '../../../../constants/Url'
+import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
+
 import { getAllTicketsActions } from '../../../../redux/actions/zammad/tickets'
 import { getAllRegionsActions } from '../../../../redux/actions/territories/regions'
 import { territoriesLabel } from '../../../../constants/label/territories'
 import {
   noOptionsMessageSelect,
-  optionsValueSelect,
+  optionsCodeValueSelect,
 } from '../../../../utility/Utils'
 import { getProvincesByRegionActions } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/actions/territories/municipalities'
@@ -25,19 +23,28 @@ import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { getAllTickets } from '../../../../services/zammad/ticket'
+import { ticketNewObjectFiltered } from '../../../../utility/zammad/filterData'
 
-const Bandeja = () => {
+const Bandeja = function() {
   const dispatch = useDispatch()
 
+  const [ dataTableTickets, setDataTableTickets ] = useState([])
+  console.log(dataTableTickets)
+
   useEffect(() => {
-    dispatch(getAllTicketsActions())
+    // dispatch(getAllTicketsActions())
+    getAllTickets()
+      .then(res => {
+        setDataTableTickets(
+          ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets)
+        )
+      })
+
     dispatch(getAllRegionsActions())
   }, [dispatch])
 
-  const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
-
-  const usersState = useSelector((state) => state?.tickets?.tickets?.User)
-  const newUsersState = usersState && Object.values(usersState)
+  // const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 
   const regionsSelector = useSelector((state) => state?.regions?.regions)
   const provincesSelector = useSelector((state) => state?.provinces?.provinces)
@@ -45,26 +52,11 @@ const Bandeja = () => {
     (state) => state?.municipalities?.municipalities,
   )
 
-  const infoChart = dataInfoChart(dataTableTickets, newUsersState?.length)
+  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
-  const regionRef = useRef({
-    value: '',
-    label: 'Seleccionar Región',
-  })
-
-  const provinciaRef = useRef({
-    value: '',
-    label: 'Seleccionar Provincia',
-  })
-
-  const municipioRef = useRef({
-    value: '',
-    label: 'Seleccionar Municipio',
-  })
-
-  const [regionState, setRegionState] = useState(regionRef.current)
-  const [provinciaState, setProvinciaState] = useState(provinciaRef.current)
-  const [municipioState, setMunicipioState] = useState(municipioRef.current)
+  const [regionState, setRegionState] = useState(defaultValueState)
+  const [provinciaState, setProvinciaState] = useState(defaultValueState)
+  const [municipioState, setMunicipioState] = useState(defaultValueState)
 
   const [dataTable, setDataTable] = useState([])
 
@@ -77,9 +69,9 @@ const Bandeja = () => {
       setRegionState({ value, label })
       filterTickets(value, 2)
     } else {
-      setRegionState(regionRef.current)
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
+      setRegionState(defaultValueState)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       setDataTable(dataTableTickets)
     }
 
@@ -91,8 +83,8 @@ const Bandeja = () => {
       setProvinciaState({ value, label })
       filterTickets(regionState.value + value, 4)
     } else {
-      setProvinciaState(provinciaRef.current)
-      setMunicipioState(municipioRef.current)
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       filterTickets(regionState.value, 2)
     }
 
@@ -106,7 +98,7 @@ const Bandeja = () => {
       setMunicipioState({ value, label })
       filterTickets(regionState.value + provinciaState.value + value, 6)
     } else {
-      setMunicipioState(municipioRef.current)
+      setMunicipioState(defaultValueState)
       filterTickets(regionState.value + provinciaState.value, 4)
     }
   }
@@ -118,19 +110,23 @@ const Bandeja = () => {
     setDataTable(data)
   }
 
-  return (
-    <>
-      <Row className="match-height">
-        {infoChart.map((dataInfoChart, index) => (
-          <Col lg="3" sm="6" key={index}>
-            <SubscribersGained
-              kFormatter={kFormatter}
-              dataInfoChart={dataInfoChart}
-            />
-          </Col>
-        ))}
-      </Row>
+  const searchTable = (data, queryLowered) =>
+    data.filter(
+      (data) =>
+        (data.title || '').toLowerCase().includes(queryLowered) ||
+        (data.address || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerFirstName || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerLastName || '').toLowerCase().includes(queryLowered) ||
+        (data.ownerCedula || '').toLowerCase().includes(queryLowered) ||
+        (data.customerFirstName || '').toLowerCase().includes(queryLowered) ||
+        (data.customerLastName || '').toLowerCase().includes(queryLowered) ||
+        (data.customerCedula || '').toLowerCase().includes(queryLowered) ||
+        (data.institutionName || '').toLowerCase().includes(queryLowered) ||
+        (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
+    )
 
+  return dataTableTickets[0] ? (
+    <>
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col md="4">
@@ -140,7 +136,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={regionState}
-              options={optionsValueSelect(regionsSelector)}
+              options={optionsCodeValueSelect(regionsSelector)}
               onChange={handleChangeRegions}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -157,7 +153,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsValueSelect(provincesSelector)}
+              options={optionsCodeValueSelect(provincesSelector)}
               onChange={handleChangeProvinces}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -174,7 +170,7 @@ const Bandeja = () => {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsValueSelect(municipalitiesSelector)}
+              options={optionsCodeValueSelect(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -191,10 +187,13 @@ const Bandeja = () => {
         <DataTableList
           columnsTable={columns}
           dataTable={dataTable}
+          searchTable={searchTable}
           showButtonAddReport
         />
       )}
     </>
+  ) : (
+    <ComponentSpinner />
   )
 }
 

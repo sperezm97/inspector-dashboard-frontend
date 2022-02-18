@@ -1,9 +1,8 @@
 import { Fragment } from 'react'
 import { Button, Row, Col } from 'reactstrap'
 
-const ButtonBlock = () => (
-  <>
-    <Row>
+const ButtonBlock = function() {
+  return <Row>
       <Col className="mb-1 mb-lg-0" lg={6} md={12}>
         <Button.Ripple block color="primary">
           Block Level Button
@@ -15,7 +14,6 @@ const ButtonBlock = () => (
         </Button.Ripple>
       </Col>
     </Row>
-  </>
-)
+}
 
 export default ButtonBlock

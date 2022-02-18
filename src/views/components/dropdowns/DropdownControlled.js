@@ -6,7 +6,7 @@ import {
   DropdownItem,
 } from 'reactstrap'
 
-const DropdownControlled = () => {
+const DropdownControlled = function() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const toggleDropdown = () => {

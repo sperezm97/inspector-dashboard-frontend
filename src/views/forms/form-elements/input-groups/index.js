@@ -18,7 +18,7 @@ import {
   inputGroupDropdowns,
 } from './InputGroupSourceCode'
 
-const InputGroups = () => {
+const InputGroups = function() {
   useEffect(() => {
     Prism.highlightAll()
   })

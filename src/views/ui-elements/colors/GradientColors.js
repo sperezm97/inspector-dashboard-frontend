@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import { ChevronsRight } from 'react-feather'
 
-const GradientColors = () => (
-  <Card>
+const GradientColors = function() {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">Gradient Colors</CardTitle>
     </CardHeader>
@@ -59,5 +59,5 @@ const GradientColors = () => (
       </div>
     </CardBody>
   </Card>
-)
+}
 export default GradientColors

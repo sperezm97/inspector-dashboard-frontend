@@ -1,9 +1,8 @@
 import { Fragment } from 'react'
 import { Button, Row, Col } from 'reactstrap'
 
-const ButtonSizes = () => (
-  <>
-    <Row>
+const ButtonSizes = function() {
+  return <Row>
       <Col md={6} sm={12}>
         <div className="demo-inline-spacing">
           <Button.Ripple color="primary" size="lg">
@@ -29,6 +28,5 @@ const ButtonSizes = () => (
         </div>
       </Col>
     </Row>
-  </>
-)
+}
 export default ButtonSizes

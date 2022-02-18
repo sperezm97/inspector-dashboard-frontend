@@ -3,8 +3,8 @@ import { Search } from 'react-feather'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap'
 
-const InputGroupMerged = () => (
-  <>
+const InputGroupMerged = function() {
+  return <>
     <InputGroup className="input-group-merge mb-2">
       <InputGroupAddon addonType="prepend">
         <InputGroupText>
@@ -49,6 +49,6 @@ const InputGroupMerged = () => (
       <Input type="textarea" />
     </InputGroup>
   </>
-)
+}
 
 export default InputGroupMerged

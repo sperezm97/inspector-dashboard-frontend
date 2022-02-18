@@ -3,7 +3,7 @@ import Avatar from '@components/avatar'
 import { UserPlus } from 'react-feather'
 import { Card, CardBody, Button } from 'reactstrap'
 
-const ProfileFriendsSuggestions = ({ data }) => {
+const ProfileFriendsSuggestions = function({ data }) {
   const renderSuggestion = () =>
     data.map((suggestion, index) => (
       <div

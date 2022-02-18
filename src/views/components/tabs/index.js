@@ -21,7 +21,7 @@ import {
   tabsVerticalRight,
 } from './TabSourceCode'
 
-const Tabs = () => {
+const Tabs = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

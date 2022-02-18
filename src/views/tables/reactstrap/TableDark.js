@@ -100,8 +100,8 @@ const avatarGroupData4 = [
   },
 ]
 
-const TableDark = () => (
-  <Table dark responsive>
+const TableDark = function() {
+  return <Table dark responsive>
     <thead>
       <tr>
         <th>Project</th>
@@ -288,6 +288,6 @@ const TableDark = () => (
       </tr>
     </tbody>
   </Table>
-)
+}
 
 export default TableDark

@@ -4,8 +4,8 @@ import Avatar from '@components/avatar'
 import { Bell, Check, X, AlertTriangle, Info } from 'react-feather'
 import { Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap'
 
-const PrimaryToast = () => (
-  <>
+const PrimaryToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="primary" icon={<Bell size={12} />} />
@@ -19,10 +19,10 @@ const PrimaryToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const SuccessToast = () => (
-  <>
+const SuccessToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check size={12} />} />
@@ -36,10 +36,10 @@ const SuccessToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const ErrorToast = () => (
-  <>
+const ErrorToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="danger" icon={<X size={12} />} />
@@ -53,10 +53,10 @@ const ErrorToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const WarningToast = () => (
-  <>
+const WarningToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="warning" icon={<AlertTriangle size={12} />} />
@@ -70,10 +70,10 @@ const WarningToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const InfoToast = () => (
-  <>
+const InfoToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="info" icon={<Info size={12} />} />
@@ -87,10 +87,10 @@ const InfoToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const SuccessProgressToast = () => (
-  <>
+const SuccessProgressToast = function() {
+  return <>
     <div className="toastify-header">
       <div className="title-wrapper">
         <Avatar size="sm" color="success" icon={<Check size={12} />} />
@@ -104,9 +104,9 @@ const SuccessProgressToast = () => (
       </span>
     </div>
   </>
-)
+}
 
-const ToastTypes = () => {
+const ToastTypes = function() {
   const notifyDefault = () => toast(<PrimaryToast />, { hideProgressBar: true })
   const notifySuccess = () =>
     toast.success(<SuccessToast />, { hideProgressBar: true })

@@ -25,7 +25,8 @@ import {
   listGroupNavigation,
   listGroupTag,
 } from './ListGroupSourceCode'
-const ListGroup = () => {
+
+const ListGroup = function() {
   useEffect(() => {
     Prism.highlightAll()
   }, [])

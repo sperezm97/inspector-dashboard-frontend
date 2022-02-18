@@ -10,7 +10,7 @@ import {
   InputGroupText,
 } from 'reactstrap'
 
-const FaqFilter = ({ searchTerm, setSearchTerm, handleFilter }) => {
+const FaqFilter = function({ searchTerm, setSearchTerm, handleFilter }) {
   const onChange = (e) => {
     if (handleFilter) {
       handleFilter(e)

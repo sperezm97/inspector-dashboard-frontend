@@ -1,7 +1,7 @@
 import Nouislider from 'nouislider-react'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 
-const SliderValues = ({ direction }) => {
+const SliderValues = function({ direction }) {
   const colorOptions = {
     start: [40, 60],
     connect: true,

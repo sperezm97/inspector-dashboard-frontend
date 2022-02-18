@@ -1,9 +1,9 @@
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
-const PaginationSeparated = () => (
-  <Pagination className="d-flex mt-3">
+const PaginationSeparated = function() {
+  return <Pagination className="d-flex mt-3">
     <PaginationItem className="prev-item">
-      <PaginationLink href="#"></PaginationLink>
+      <PaginationLink href="#" />
     </PaginationItem>
     <PaginationItem>
       <PaginationLink href="#">1</PaginationLink>
@@ -27,8 +27,8 @@ const PaginationSeparated = () => (
       <PaginationLink href="#">7</PaginationLink>
     </PaginationItem>
     <PaginationItem className="next-item">
-      <PaginationLink href="#"></PaginationLink>
+      <PaginationLink href="#" />
     </PaginationItem>
   </Pagination>
-)
+}
 export default PaginationSeparated

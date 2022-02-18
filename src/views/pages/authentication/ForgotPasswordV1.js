@@ -16,8 +16,8 @@ import LogoAuth from '../../../@core/components/logo-auth'
 
 import '@styles/base/pages/page-auth.scss'
 
-const ForgotPasswordV1 = () => (
-  <div className="auth-wrapper auth-v1 px-2">
+const ForgotPasswordV1 = function() {
+  return <div className="auth-wrapper auth-v1 px-2">
     <div className="auth-inner py-2">
       <Card className="mb-0">
         <CardBody>
@@ -58,6 +58,6 @@ const ForgotPasswordV1 = () => (
       </Card>
     </div>
   </div>
-)
+}
 
 export default ForgotPasswordV1

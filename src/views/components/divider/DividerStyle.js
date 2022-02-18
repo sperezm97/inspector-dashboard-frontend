@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 
-const DividerStyle = () => (
-  <>
+const DividerStyle = function() {
+  return <>
     <div className="divider divider-dotted">
       <div className="divider-text">Dotted</div>
     </div>
@@ -14,5 +14,5 @@ const DividerStyle = () => (
       <div className="divider-text">Solid</div>
     </div>
   </>
-)
+}
 export default DividerStyle

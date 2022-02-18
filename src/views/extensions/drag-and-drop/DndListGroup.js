@@ -51,7 +51,7 @@ const listItems = [
   },
 ]
 
-const DndListGroup = () => {
+const DndListGroup = function() {
   const [listArr, setListArr] = useState(listItems)
   return (
     <Card>

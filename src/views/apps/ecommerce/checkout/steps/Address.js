@@ -19,7 +19,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const Address = (props) => {
+const Address = function(props) {
   // ** Props
   const { stepper } = props
 

@@ -11,7 +11,8 @@ import {
 import ExtensionsHeader from '@components/extensions-header'
 import { FormattedMessage } from 'react-intl'
 import { IntlContext } from '../../../utility/context/Internationalization'
-const I18nExtension = () => {
+
+const I18nExtension = function() {
   const context = useContext(IntlContext)
   return (
     <>

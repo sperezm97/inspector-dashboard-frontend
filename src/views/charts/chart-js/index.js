@@ -28,7 +28,7 @@ import HorizontalBarChart from './ChartjsHorizontalBar'
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const ChartJS = () => {
+const ChartJS = function() {
   // ** Context, Hooks & Vars
   const { colors } = useContext(ThemeColors)
   const [skin, setSkin] = useSkin()

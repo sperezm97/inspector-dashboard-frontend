@@ -20,7 +20,7 @@ import {
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-const AddNewModal = ({ open, handleModal }) => {
+const AddNewModal = function({ open, handleModal }) {
   // ** State
   const [Picker, setPicker] = useState(new Date())
 

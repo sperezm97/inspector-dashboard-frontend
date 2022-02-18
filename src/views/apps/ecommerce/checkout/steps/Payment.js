@@ -13,8 +13,8 @@ import {
   CustomInput,
 } from 'reactstrap'
 
-const Payment = () => (
-  <Form
+const Payment = function() {
+  return <Form
     className="list-view product-checkout"
     onSubmit={(e) => {
       e.preventDefault()
@@ -125,6 +125,6 @@ const Payment = () => (
       </Card>
     </div>
   </Form>
-)
+}
 
 export default Payment

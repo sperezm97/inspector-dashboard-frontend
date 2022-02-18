@@ -24,7 +24,7 @@ import {
 
 import '@styles/base/pages/app-ecommerce-details.scss'
 
-const Details = () => {
+const Details = function() {
   // ** Vars
   const params = useParams().product
   const productId = params.substring(params.lastIndexOf('-') + 1)

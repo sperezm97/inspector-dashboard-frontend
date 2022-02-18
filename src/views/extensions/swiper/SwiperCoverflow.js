@@ -27,8 +27,8 @@ const params = {
   },
 }
 
-const SwiperFade = ({ isRtl }) => (
-  <Card>
+const SwiperFade = function({ isRtl }) {
+  return <Card>
     <CardHeader>
       <CardTitle tag="h4">3d Effect Coverflow Effect</CardTitle>
     </CardHeader>
@@ -64,6 +64,6 @@ const SwiperFade = ({ isRtl }) => (
       </Swiper>
     </CardBody>
   </Card>
-)
+}
 
 export default SwiperFade

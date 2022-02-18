@@ -1,8 +1,8 @@
 import { Row, Col, Card, CardBody } from 'reactstrap'
 import { PhoneCall, Mail } from 'react-feather'
 
-const FaqContact = () => (
-  <div id="faq-contact">
+const FaqContact = function() {
+  return <div id="faq-contact">
     <Row className="mt-5 pt-75">
       <Col className="text-center" sm="12">
         <h2>You still have a question?</h2>
@@ -35,6 +35,6 @@ const FaqContact = () => (
       </Col>
     </Row>
   </div>
-)
+}
 
 export default FaqContact
