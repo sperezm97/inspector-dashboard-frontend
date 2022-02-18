@@ -178,7 +178,7 @@ const Import = function({history}) {
 
     for(let i = 0; i <= tableData.length - 1; i++){
       console.log(i)
-      let postAllTicket = await postTicketImport(tableData[i], objAddCsv)
+      const postAllTicket = await postTicketImport(tableData[i], objAddCsv)
       if(postAllTicket?.status === 201){
         console.log("ok")
         setTicketsCreated(i + 1)
