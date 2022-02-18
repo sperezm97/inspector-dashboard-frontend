@@ -71,6 +71,9 @@ const Import = function({history}) {
   const [ticketPriorities, setTicketPriorities] = useState([])
   const [ticketStates, setTicketStates] = useState([])
 
+  const [ticketsCreated, setTicketsCreated] = useState(0)
+  console.log('ticketsCreated', ticketsCreated)
+  
   const usersSelector = useSelector((state) => state?.users?.users)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
@@ -173,38 +176,33 @@ const Import = function({history}) {
     ).then(res => console.log('res', res))
     .catch(err => console.log('err', err))
 
-    const postAllTicket = await Promise.all(
-      tableData.map(async (dataCsv) => await postTicketImport(dataCsv, objAddCsv))
-    ).then((res) => {
-        const validateRequestSome = res.some(data => data.status === 201)
-        const validateRequestEvery = res.every(data => data.status === 201)
-        console.log('res', res);
-        console.log('validateRequestSome', validateRequestSome);
-        console.log('validateRequestEvery', validateRequestEvery);
-        if(validateRequestEvery){
-          sweetAlert({
-            title: 'Tickets Importados',
-            text: 'Los Tickets se importaron con éxito.',
-            type: 'success'
-          })
-          history.push(Url.dashboardInbox)
-        }else if(!validateRequestEvery && validateRequestSome){
-          sweetAlert({
-            title: 'Algunos Tickets No creados',
-            text: `Ocurrió un error al crear algunos de los tickets del archivo CSV.`,
-            type: 'warning'
-          })
-          history.push(Url.dashboardInbox)
-        }else{
-          sweetAlert({
-            title: 'Tickets No creados',
-            text: `Ocurrió un error al crear los tickets del archivo CSV.`,
-          })
-        }
-      
+    for(let i = 0; i <= tableData.length - 1; i++){
+      console.log(i)
+      let postAllTicket = await postTicketImport(tableData[i], objAddCsv)
+      if(postAllTicket?.status === 201){
+        console.log("ok")
+        setTicketsCreated(i + 1)
+      }else {
+        console.log("no ok", i + 1)
+        sweetAlert({
+          title: 'Algunos Tickets No creados',
+          text: `Se produjo un error al crear el ticket ${i + 1} del archivo CSV, verifíquelo o inténtelo de nuevo sin los tickets anteriores a este`,
+          type: 'warning'
+        })
+        setTableData([])
+        setTicketsCreated(0)
+        setLoadingImport(false)
+        break
       }
-      ).catch(() => sweetAlertError()
-      ).finally(() => setLoadingImport(false))
+      if(i === tableData.length - 1){
+        sweetAlert({
+          title: 'Tickets Importados',
+          text: 'Los Tickets se importaron con éxito.',
+          type: 'success'
+        })
+        history.push(Url.dashboardInbox)
+      }
+    }
   }
 
   return (
@@ -303,7 +301,7 @@ const Import = function({history}) {
                           >
                           {loadingImport && <Spinner color='white' size='sm' />}
                           <span className={`${loadingImport && 'ml-50'}`}>
-                              {loadingImport ? 'Importando...' : 'Importar'}
+                            {loadingImport ? `Importados: ${ticketsCreated} de ${tableData.length}...` : 'Importar'}
                           </span>
                         </Button>
                         <Button
