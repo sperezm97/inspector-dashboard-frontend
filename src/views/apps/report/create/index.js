@@ -57,6 +57,7 @@ const ReportCreate = function({history}) {
   }
 
   const [hierarchies, setHierarchies] = useState(initialHierarchies)
+
   const [ dataTableCategories, setDataTableCategories ] = useState([])
   const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
   const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
@@ -73,6 +74,11 @@ const ReportCreate = function({history}) {
   
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
+  const [incidentValueState, setIncidentValueState] = useState(defaultValueState)
+  const [categoryValueState, setCategoryValueState] = useState(defaultValueState)
+  const [subCategoryValueState, setSubCategoryValueState] = useState(defaultValueState)
+  const [institutionValueState, setInstitutionValueState] = useState(defaultValueState)
+  
   const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
   const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
   const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
@@ -112,7 +118,14 @@ const ReportCreate = function({history}) {
 
   const getCategoryByIdService = (e) => {
     setValue("incidente", e)
+    setValue("categoria", "")
+    setValue("subCategoria", "")
+    setValue("institucion", "")
     setHierarchies({...hierarchies, category: e.value})
+    setIncidentValueState(e)
+    setCategoryValueState(defaultValueState)
+    setSubCategoryValueState(defaultValueState)
+    setInstitutionValueState(defaultValueState)
     setDataTableCategories([])
     setDataTableSubCategories([])
     setDataTableOrganizations([])
@@ -123,13 +136,22 @@ const ReportCreate = function({history}) {
 
   const getSubCategoryByIdServiceByIdCategory = (e) => {
     setValue("categoria", e)
+    setValue("subCategoria", "")
+    setCategoryValueState(e)
+    setSubCategoryValueState(defaultValueState)
     setDataTableSubCategories([])
     if(!e.value) return
     setHierarchies({...hierarchies, subCategory: e.value})
     getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({data}) => setDataTableSubCategories(data))
   }
 
+  const handleSubCategory = (e) => {
+    setValue("subCategoria", e)
+    setSubCategoryValueState(e)
+  }
+
   const handleSetInstitution = (e) => {
+    setInstitutionValueState(e)
     const findInstitution = dataTableOrganizations.find(data => data.id === e.value)
     console.log('findInstitution', findInstitution)
     if(!findInstitution) return
@@ -167,6 +189,12 @@ const ReportCreate = function({history}) {
 
   const handleGetProvinceByIdRegion = (e) => {
     setValue('region', e.value)
+    setValue('provincia', "")
+    setValue('municipio', "")
+    setValue('distrito', "")
+    setValue('seccion', "")
+    setValue('barrio', "")
+    setValue('subBarrio', "")
     setRegionValueState(e)
     setProvinceValueState(defaultValueState)
     setProvinceState([])
@@ -186,6 +214,11 @@ const ReportCreate = function({history}) {
 
   const handleGetMunicipalityByIdProvince = (e) => {
     setValue('provincia', e.value)
+    setValue('municipio', "")
+    setValue('distrito', "")
+    setValue('seccion', "")
+    setValue('barrio', "")
+    setValue('subBarrio', "")
     setProvinceValueState(e)
     setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
@@ -203,6 +236,10 @@ const ReportCreate = function({history}) {
 
   const handleGetDistrictByIdMunicipality = (e) => {
     setValue('municipio', e.value)
+    setValue('distrito', "")
+    setValue('seccion', "")
+    setValue('barrio', "")
+    setValue('subBarrio', "")
     setMunicipalityValueState(e)
     setDistrictValueState(defaultValueState)
     setDistrictState([])
@@ -219,6 +256,9 @@ const ReportCreate = function({history}) {
 
   const handleGetSectionByIdDistrict = (e) => {
     setValue('distrito', e.value)
+    setValue('seccion', "")
+    setValue('barrio', "")
+    setValue('subBarrio', "")
     setDistrictValueState(e)
     setSectionValueState(defaultValueState)
     setSectionState([])
@@ -233,6 +273,8 @@ const ReportCreate = function({history}) {
 
   const handleGetNeighborhoodByIdSection = (e) => {
     setValue('seccion', e.value)
+    setValue('barrio', "")
+    setValue('subBarrio', "")
     setSectionValueState(e)
     setNeighborhoodValueState(defaultValueState)
     setNeighborhoodState([])
@@ -250,6 +292,7 @@ const ReportCreate = function({history}) {
 
   const handleGetSubNeighborhoodByIdNeighborhood = (e) => {
     setValue('barrio', e)
+    setValue('subBarrio', "")
     setNeighborhoodValueState(e)
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
@@ -262,6 +305,11 @@ const ReportCreate = function({history}) {
       sectionValueState.value,
       e.value
     ).then(res => setSubNeighborhoodState(res.data.data))
+  }
+
+  const handleSubNeighborhood = (e) => {
+    setValue('subBarrio', e)
+    setSubNeighborhoodValueState(e)
   }
 
   const onSubmit = async (data) => {
@@ -278,24 +326,8 @@ const ReportCreate = function({history}) {
     const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
     console.log('ticketAsync', ticketAsync)
     if(ticketAsync.status === 201){
-      const objTicketTags = {
-        object: "Ticket",
-        o_id: ticketAsync?.data?.id,
-      }
-      const objIncidente = {
-        item: data.incidente.label,
-        ...objTicketTags
-      }
-      const objCategoria = {
-        item: data.categoria.label,
-        ...objTicketTags
-      }
-      const objSubCategoria = {
-        item: data.subCategoria.label,
-        ...objTicketTags
-      }
       
-      postTicketArrTags([objIncidente, objCategoria, objSubCategoria])
+      postTicketArrTags(ticketAsync?.data?.id, [data.incidente.label, data.categoria.label, data.subCategoria.label])
         .then(res => console.log('res tags: ', res))
         .catch(err => console.log('err tags: ', err))
 
@@ -337,7 +369,7 @@ const ReportCreate = function({history}) {
                   onChange={e => getCategoryByIdService(e)}
                   options={optionsIdValueSelect(servicesSelector)}
                   isLoading={!servicesSelector[0]}
-                  defaultValue={defaultValueState}
+                  defaultValue={incidentValueState}
                   classNamePrefix="select"
                   theme={selectThemeColors}
                 />}
@@ -359,7 +391,7 @@ const ReportCreate = function({history}) {
                   onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
                   options={optionsIdValueSelect(dataTableCategories)}
                   isLoading={!dataTableCategories[0]}
-                  defaultValue={defaultValueState}
+                  value={categoryValueState}
                   classNamePrefix="select"
                   theme={selectThemeColors}
                 />}
@@ -378,10 +410,10 @@ const ReportCreate = function({history}) {
                 name="subCategoria"
                 render={({field}) => <Select 
                   {...field} 
-                  onChange={e => setValue("subCategoria", e)}
+                  onChange={e => handleSubCategory(e)}
                   options={optionsIdValueSelect(dataTableSubCategories)}
                   isLoading={!dataTableSubCategories[0]}
-                  defaultValue={defaultValueState}
+                  value={subCategoryValueState}
                   classNamePrefix="select"
                   theme={selectThemeColors}
                 />}
@@ -403,7 +435,7 @@ const ReportCreate = function({history}) {
                   onChange={e => handleSetInstitution(e)}
                   options={optionsIdValueSelect(dataTableOrganizations)}
                   isLoading={!dataTableOrganizations[0]}
-                  defaultValue={defaultValueState}
+                  value={institutionValueState}
                   classNamePrefix="select"
                   theme={selectThemeColors}
                 />}
@@ -512,7 +544,7 @@ const ReportCreate = function({history}) {
                 onChange={e => handleGetMunicipalityByIdProvince(e)}
                 options={optionsCodeValueSelect(provinceState)}
                 isLoading={!provinceState[0]}
-                defaultValue={provinceValueState}
+                value={provinceValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -534,7 +566,7 @@ const ReportCreate = function({history}) {
                 onChange={e => handleGetDistrictByIdMunicipality(e)}
                 options={optionsCodeValueSelect(municipalityState)}
                 isLoading={!municipalityState[0]}
-                defaultValue={municipalityValueState}
+                value={municipalityValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -556,7 +588,7 @@ const ReportCreate = function({history}) {
                 onChange={e => handleGetSectionByIdDistrict(e)}
                 options={optionsCodeValueSelect(districtState)}
                 isLoading={!districtState[0]}
-                defaultValue={districtValueState}
+                value={districtValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -578,7 +610,7 @@ const ReportCreate = function({history}) {
                 onChange={e => handleGetNeighborhoodByIdSection(e)}
                 options={optionsCodeValueSelect(sectionState)}
                 isLoading={!sectionState[0]}
-                defaultValue={sectionValueState}
+                value={sectionValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -600,7 +632,7 @@ const ReportCreate = function({history}) {
                 onChange={e => handleGetSubNeighborhoodByIdNeighborhood(e)}
                 options={optionsCodeValueSelect(neighborhoodState)}
                 isLoading={!neighborhoodState[0]}
-                defaultValue={neighborhoodValueState}
+                value={neighborhoodValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -619,10 +651,10 @@ const ReportCreate = function({history}) {
               name="subBarrio"
               render={({field}) => <Select 
                 {...field} 
-                onChange={e => setValue('subBarrio', e)}
+                onChange={e => handleSubNeighborhood(e)}
                 options={optionsCodeValueSelect(subNeighborhoodState)}
                 isLoading={!subNeighborhoodState[0]}
-                defaultValue={subNeighborhoodValueState}
+                value={subNeighborhoodValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}

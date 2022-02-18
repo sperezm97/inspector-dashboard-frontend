@@ -32,7 +32,8 @@ export const schemaYup = yup.object().shape({
   subBarrio: yup.object({
     value: yup.string(),
     label: yup.string(),
-  }).default(null).nullable().required('El Sub-Barrio es obligatorio'),
+  }).default(null).nullable(),
+// }).default(null).nullable().required('El Sub-Barrio es obligatorio'),
   direccion: yup.string().trim()
     .required('La Dirección es obligatoria'),
   descripcion: yup.string().trim()

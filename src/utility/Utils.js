@@ -103,7 +103,7 @@ export const optionsCodeValueSelect = (dataSelect = null) => {
       }))
     : []
 
-  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+  return data
 }
 
 export const optionsIdValueSelect = (dataSelect = null) => {
@@ -114,7 +114,7 @@ export const optionsIdValueSelect = (dataSelect = null) => {
       }))
     : []
 
-  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+  return data
 }
 
 export const optionsNoteValueSelect = (dataSelect = null) => {
