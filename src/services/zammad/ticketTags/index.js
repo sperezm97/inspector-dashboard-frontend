@@ -15,9 +15,9 @@ export const postTicketArrTags = async (idTicket, dataIncident) => {
         return await Promise.all(newArrtags.map(async (arr) => await postTicketTags(arr)))
             .then(res => console.log('res tags: ', res))
             .catch(err => console.log('err tags: ', err))
-    }else{
-        return null
     }
+        return null
+    
 }
 
 export const getTicketsTags = async (id) => await zammadAxios.get(zammadApi.ticketTags(id))
