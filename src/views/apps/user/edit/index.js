@@ -133,9 +133,9 @@ const UserCreate = function({history, match}) {
       setDistrictValueState({value: districtValue?.code, label: districtValue?.name})      
     }
 
-    setTimeout(() => {
+    if(regionSelector[0] && provinceState[0] && municipalityState[0] && districtState[0]){
       setExecuteState(false)
-    }, 2000)
+    }
 
   },[dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
 
