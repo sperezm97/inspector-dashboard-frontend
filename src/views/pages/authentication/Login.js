@@ -66,7 +66,7 @@ const Login = function(props) {
       )
       setLoadingLogin(true)
       const request = axios
-        .get(`${process.env.REACT_APP_API_ZAMMAD}users/me`, {
+        .get(`${process.env.REACT_APP_API_URL}users/me`, {
           headers: {
             'Access-Control-Allow-Origin': '*',
             Authorization: `Basic ${parseToBase}`,
