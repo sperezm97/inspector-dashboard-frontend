@@ -106,6 +106,17 @@ export const optionsCodeValueSelect = (dataSelect = null) => {
   return data
 }
 
+export const optionsCodeValueSelectNoData = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.code,
+        label: dataMap.name,
+      }))
+    : []
+
+  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+}
+
 export const optionsIdValueSelect = (dataSelect = null) => {
   const data = dataSelect
     ? dataSelect.map((dataMap) => ({
@@ -115,6 +126,17 @@ export const optionsIdValueSelect = (dataSelect = null) => {
     : []
 
   return data
+}
+
+export const optionsIdValueSelectNoData = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.id,
+        label: dataMap.name,
+      }))
+    : []
+
+  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
 }
 
 export const optionsNoteValueSelect = (dataSelect = null) => {

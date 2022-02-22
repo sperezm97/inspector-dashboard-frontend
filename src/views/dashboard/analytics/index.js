@@ -34,14 +34,32 @@ import {
 import { getAllOrganizationsActions } from '../../../redux/actions/zammad/organizations'
 import { getAllProvincesActions } from '../../../redux/actions/territories/provinces'
 import { getAllUsersActions } from '../../../redux/actions/zammad/users'
+import { getAllTickets } from '../../../services/zammad/ticket'
+import { ticketNewObjectFiltered } from '../../../utility/zammad/filterData'
+import { sweetAlertError } from '../../../@core/components/sweetAlert'
 
 const AnalyticsDashboard = function() {
   const dispatch = useDispatch()
 
   const { colors } = useContext(ThemeColors)
 
+  const [dataTableTicketsTwo, setDataTableTicketsTwo] = useState([])
+  const [loadingTicket, setLoadingTicket] = useState(true)
+  console.log('dataTableTicketsTwo', dataTableTicketsTwo)
+
   useEffect(() => {
-    dispatch(getAllTicketsActions())
+
+    getAllTickets()
+      .then(res => {
+        setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.Ticket, res.data))
+      })
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingTicket(false))
+
+    // dispatch(getAllTicketsActions())
     // dispatch(
     //   getTicketsByTwoDateActions(
     //     dateBeforeDay({ day: 28, f: 'YYYY-MM-DD' }),
@@ -53,9 +71,10 @@ const AnalyticsDashboard = function() {
     dispatch(getAllUsersActions())
   }, [])
 
-  const dataTableTicketsTwo = useSelector(
-    (state) => state?.tickets?.listTickets,
-  )
+  // const dataTableTicketsTwo = useSelector(
+  //   (state) => state?.tickets?.listTickets,
+  // )
+
   // const dataTableTicketsTwo = useSelector(
   //   (state) => state?.tickets?.ticketsTwoDate?.Ticket,
   // )
@@ -153,6 +172,7 @@ const AnalyticsDashboard = function() {
               newDataTableTicketsTwo={newDataTableTicketsTwo}
               dataInfoChart={dataInfoChart}
               series={[{ name: dataInfoChart.title, data: null }]}
+              loadingTicket={loadingTicket}
             />
           </Col>
         ))}
@@ -166,6 +186,7 @@ const AnalyticsDashboard = function() {
                 type="bar"
                 title="Casos por Día"
                 total={casesDayState.firstDay}
+                loadingTicket={loadingTicket}
                 series={[
                   {
                     name: 'Casos',
@@ -185,6 +206,7 @@ const AnalyticsDashboard = function() {
                 type="line"
                 title="Casos por Semana"
                 total={casesWeekState.firstWeek}
+                loadingTicket={loadingTicket}
                 series={[
                   {
                     name: 'Casos',
@@ -212,22 +234,29 @@ const AnalyticsDashboard = function() {
           <GoalOverview
             dataTableTickets={newDataTableTicketsTwo}
             success={colors.success.main}
+            loadingTicket={loadingTicket}
           />
         </Col>
         <Col lg="6" md="6" xs="12">
           <CardBrowserStates
             organizations={organizationsState}
             listTickets={newDataTableTicketsTwo}
+            loadingTicket={loadingTicket}
           />
         </Col>
         <Col lg="4" md="6" xs="12">
           <CardTransactions
             provinces={provincesState}
             listTickets={newDataTableTicketsTwo}
+            loadingTicket={loadingTicket}
           />
         </Col>
         <Col lg="8" xs="12">
-          <AvgSessions colors={colors} listTickets={newDataTableTicketsTwo} />
+          <AvgSessions 
+            colors={colors} 
+            listTickets={newDataTableTicketsTwo} 
+            loadingTicket={loadingTicket}  
+          />
         </Col>
       </Row>
     </div>

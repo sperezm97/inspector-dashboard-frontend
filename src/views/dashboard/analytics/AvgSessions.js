@@ -17,7 +17,7 @@ import Chart from 'react-apexcharts'
 import { filterByPriorityTickets } from '../../../utility/Utils'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const AvgSessions = function({ colors, listTickets }) {
+const AvgSessions = function({ colors, listTickets, loadingTicket }) {
   const lowPriority = filterByPriorityTickets(listTickets, 1).length || 0
   const normalPriority = filterByPriorityTickets(listTickets, 2).length || 0
   const highPriority = filterByPriorityTickets(listTickets, 3).length || 0
@@ -73,7 +73,7 @@ const AvgSessions = function({ colors, listTickets }) {
             className="d-flex justify-content-between flex-column mt-lg-0 mt-2"
           >
             <div className="session-info mb-1 mb-lg-0">
-              <h2 className="font-weight-bold mb-25">{!listTickets[0] ? <LoadingData /> : totalPriority}</h2>
+              <h2 className="font-weight-bold mb-25">{loadingTicket ? <LoadingData /> : totalPriority}</h2>
               <CardText className="mb-2">Casos nuevos</CardText>
             </div>
           </Col>

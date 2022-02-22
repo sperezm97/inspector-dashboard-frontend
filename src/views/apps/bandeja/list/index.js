@@ -25,11 +25,14 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { getAllTickets } from '../../../../services/zammad/ticket'
 import { ticketNewObjectFiltered } from '../../../../utility/zammad/filterData'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const Bandeja = function() {
   const dispatch = useDispatch()
 
   const [ dataTableTickets, setDataTableTickets ] = useState([])
+  const [loadingTicket, setLoadingTicket] = useState(true)
+
   console.log(dataTableTickets)
 
   useEffect(() => {
@@ -40,6 +43,11 @@ const Bandeja = function() {
           ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets)
         )
       })
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingTicket(false))
 
     dispatch(getAllRegionsActions())
   }, [dispatch])
@@ -125,7 +133,7 @@ const Bandeja = function() {
         (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
     )
 
-  return dataTableTickets[0] ? (
+  return (
     <>
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
@@ -189,11 +197,10 @@ const Bandeja = function() {
           dataTable={dataTable}
           searchTable={searchTable}
           showButtonAddReport
+          loadingTable={loadingTicket}
         />
       )}
     </>
-  ) : (
-    <ComponentSpinner />
   )
 }
 

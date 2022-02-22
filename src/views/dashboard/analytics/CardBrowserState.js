@@ -12,7 +12,7 @@ import {
 } from 'reactstrap'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const CardBrowserState = function({ organizations, listTickets }) {
+const CardBrowserState = function({ organizations, listTickets, loadingTicket }) {
   const renderStates = () =>
     organizations.map((state) => {
       const ticketLength =
@@ -37,7 +37,7 @@ const CardBrowserState = function({ organizations, listTickets }) {
           </div>
           <div>
             <div className="font-weight-bold text-body-heading mx-1">
-              {!listTickets[0] ? <LoadingData size='sm' /> : ticketLength}
+              {loadingTicket ? <LoadingData size='sm' /> : ticketLength}
             </div>
           </div>
         </div>
