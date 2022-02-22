@@ -51,7 +51,7 @@ const AnalyticsDashboard = function() {
 
     getAllTickets()
       .then(res => {
-        setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.Ticket, res.data))
+        setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets))
       })
       .catch(err => {
         console.log(err)

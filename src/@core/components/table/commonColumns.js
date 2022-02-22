@@ -33,7 +33,8 @@ export const rowClient = (row) => (
             {renderClient(row)}
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.user}/${row.id}`}
+                    // to={`${Url.user}/${row.id}`}
+                    to={`#`}
                     className='user-name text-truncate mb-0'
                 >
                     <span className='font-weight-bold'>{row.firstName ? `${row.firstName} ${row.lastName}` : ''}</span>
@@ -48,7 +49,8 @@ export const rowInstitution = row => (
         <div className='d-flex justify-content-left align-items-center'>
             <div className='d-flex flex-column'>
                 <Link
-                    to={`${Url.institution}/${row.id}`}
+                    // to={`${Url.institution}/${row.id}`}
+                    to={`#`}
                     className='user-name text-truncate mb-0'
                 >
                     <span className='font-weight-bold'>{row.acronym ? row.acronym : 'No definido'}</span>

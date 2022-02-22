@@ -79,11 +79,11 @@ const GoalOverview = function({ success, dataTableTickets, loadingTicket }) {
   }
 
   const ticketsClosed =
-    filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.id)
+    filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.idN)
       .length || '0'
   const ticketsNoClosed =
     dataTableTickets.filter(
-      (tickets) => tickets.status !== statusTicketsObj.closed.id,
+      (tickets) => tickets.status !== statusTicketsObj.closed.idN,
     ).length || '0'
   const series = parseInt((ticketsClosed * 100) / ticketsNoClosed) || '0'
 

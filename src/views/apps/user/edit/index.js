@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
-import { User, MapPin } from 'react-feather'
+import { User, MapPin, Lock } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { Col, FormGroup, Label } from 'reactstrap'
 
@@ -407,28 +407,6 @@ const UserCreate = function({history, match}) {
           </FormGroup>
         </Col>
 
-        <InputApp
-          type="password"
-          label="Contraseña"
-          name="password"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.password?.message && errors.password?.message
-          }
-        />
-
-        <InputApp
-          type="password"
-          label="Confirmar Contraseña"
-          name="cPassword"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.cPassword?.message && errors.cPassword?.message
-          }
-        />
-
         <Col sm="12">
           <h4 className="mb-1 mt-2">
             <MapPin size={20} className="mr-50" />
@@ -523,6 +501,35 @@ const UserCreate = function({history, match}) {
             }</p>
           </FormGroup>
         </Col>
+
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <Lock size={20} className="mr-50" />
+            <span className="align-middle">Seguridad</span>
+          </h4>
+        </Col>
+
+        <InputApp
+          type="password"
+          label="Contraseña"
+          name="password"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.password?.message && errors.password?.message
+          }
+        />
+
+        <InputApp
+          type="password"
+          label="Confirmar Contraseña"
+          name="cPassword"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.cPassword?.message && errors.cPassword?.message
+          }
+        />
 
       </FormApp>
     </CardGrid>
