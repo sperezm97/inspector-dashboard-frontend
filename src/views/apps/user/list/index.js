@@ -23,21 +23,33 @@ import { getAllMunicipalitiesActions } from '../../../../redux/actions/territori
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import {
-  optionsIdValueSelect,
-  optionsCodeValueSelect,
+  optionsIdValueSelectNoData,
+  optionsCodeValueSelectNoData,
 } from '../../../../utility/Utils'
+import { getAllUsers } from '../../../../services/zammad/user'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const UsersList = function() {
   const dispatch = useDispatch()
 
+  const [ userState, setUserState ] = useState([])
+  const [ userLoading, setUserLoading ] = useState(true)
+
   useEffect(() => {
-    dispatch(getAllUsersActions())
+    // dispatch(getAllUsersActions())
+    getAllUsers()
+      .then(res => setUserState(res.data))
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setUserLoading(false))
     dispatch(getAllRolsActions())
     dispatch(getAllProvincesActions())
     dispatch(getAllMunicipalitiesActions())
   }, [dispatch])
 
-  const dataTableUsers = useSelector((state) => state?.users?.users)
+  // const userState = useSelector((state) => state?.users?.users)
 
   const provincesSelector = useSelector(
     (state) => state?.provinces?.allProvinces,
@@ -56,8 +68,8 @@ const UsersList = function() {
   const [dataTable, setDataTable] = useState([])
 
   useEffect(() => {
-    setDataTable(dataTableUsers)
-  }, [dataTableUsers])
+    setDataTable(userState)
+  }, [userState])
 
   const handleChangeProvinces = ({ value, label }) => {
     if (value) {
@@ -67,7 +79,7 @@ const UsersList = function() {
     } else {
       setProvinciaState(defaultValueState)
       setMunicipioState(defaultValueState)
-      setDataTable(dataTableUsers)
+      setDataTable(userState)
     }
     setRolState(defaultValueState)
   }
@@ -89,7 +101,7 @@ const UsersList = function() {
       filterRols(value)
     } else {
       setRolState(defaultValueState)
-      setDataTable(dataTableUsers)
+      setDataTable(userState)
     }
     setProvinciaState(defaultValueState)
     setMunicipioState(defaultValueState)
@@ -97,7 +109,7 @@ const UsersList = function() {
 
   const filterZone = (value, positionToFind = 0) => {
     console.log( value, positionToFind )
-    const data = dataTableUsers.filter((users) => users.zone !== null)
+    const data = userState.filter((users) => users.zone !== null)
     const dataValidated = data.filter(
       (users) => users.zone.substr(2, positionToFind) === value,
     )
@@ -106,7 +118,7 @@ const UsersList = function() {
 
   const filterRols = (value) => {
     console.log(value)
-    const data = dataTableUsers.filter((rols) => rols.role_ids[0] === value)
+    const data = userState.filter((rols) => rols.role_ids[0] === value)
     console.log(data)
     setDataTable(data)
   }
@@ -132,7 +144,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsCodeValueSelect(provincesSelector)}
+              isLoading={!provincesSelector[0]}
+              options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
             />
           </Col>
@@ -144,7 +157,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsCodeValueSelect(
+              isLoading={!municipalitiesSelector[0]}
+              options={optionsCodeValueSelectNoData(
                 municipalitiesSelector.filter(
                   (municipality) =>
                     municipality.provinceCode === provinciaState.value,
@@ -161,7 +175,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={rolState}
-              options={optionsIdValueSelect(rolSelector)}
+              isLoading={!rolSelector[0]}
+              options={optionsIdValueSelectNoData(rolSelector)}
               onChange={handleChangeRols}
             />
           </Col>
@@ -173,6 +188,7 @@ const UsersList = function() {
         dataTable={dataTable}
         searchTable={searchTable}
         showButtonAddUser
+        loadingTable={userLoading}
       />
     </>
   )

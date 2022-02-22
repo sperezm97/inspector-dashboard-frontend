@@ -9,17 +9,29 @@ import { getAllOrganizationsActions } from '../../../../../redux/actions/zammad/
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { getOrganizations } from '../../../../../services/zammad/organization'
+import { sweetAlertError } from '../../../../../@core/components/sweetAlert'
 
 const Instituciones = function() {
   const dispatch = useDispatch()
 
+  const [ organizationState, setOrganizationState ] = useState([])
+  const [ loadingOrganization, setLoadingOrganization ] = useState(true)
+
   useEffect(() => {
-    dispatch(getAllOrganizationsActions())
+    // dispatch(getAllOrganizationsActions())
+    getOrganizations()
+      .then(res => setOrganizationState(res.data))
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingOrganization(false))
   }, [])
 
-  const dataTableTickets = useSelector(
-    (state) => state?.organizations?.organizations,
-  )
+  // const organizationState = useSelector(
+  //   (state) => state?.organizations?.organizations,
+  // )
 
   const searchTable = (data, queryLowered) =>
     data.filter(
@@ -28,16 +40,15 @@ const Instituciones = function() {
         (data.name || '').toLowerCase().includes(queryLowered),
     )
 
-  return dataTableTickets[0] ? (
+  return (
     <DataTableList
       columnsTable={columns}
-      dataTable={dataTableTickets}
+      dataTable={organizationState}
       dataTableTitle="Instituciones"
       searchTable={searchTable}
       showButtonAddInstitution
+      loadingTable={loadingOrganization}
     />
-  ) : (
-    <ComponentSpinner />
   )
 }
 

@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
-import { User, MapPin } from 'react-feather'
+import { User, MapPin, Lock } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { Col, FormGroup, Label } from 'reactstrap'
 
@@ -99,6 +99,9 @@ const UserCreate = function({history}) {
 
   const handleGetProvinceByIdRegion = (e) => {
     setValue('region', e.value)
+    setValue('provincia', "")
+    setValue('municipio', "")
+    setValue('distrito', "")
     setRegionValueState(e)
     setProvinceValueState(defaultValueState)
     setProvinceState([])
@@ -112,6 +115,8 @@ const UserCreate = function({history}) {
 
   const handleGetMunicipalityByIdProvince = (e) => {
     setValue('provincia', e.value)
+    setValue('municipio', "")
+    setValue('distrito', "")
     setProvinceValueState(e)
     setMunicipalityValueState(defaultValueState)
     setMunicipalityState([])
@@ -123,12 +128,18 @@ const UserCreate = function({history}) {
 
   const handleGetDistrictByIdMunicipality = (e) => {
     setValue('municipio', e.value)
+    setValue('distrito', "")
     setMunicipalityValueState(e)
     setDistrictValueState(defaultValueState)
     setDistrictState([])
     if(!e.value) return
     getDistrictByIdProvinceByIdMunicipality(regionValueState.value, provinceValueState.value, e.value)
     .then(res => setDistrictState(res.data.data))
+  }
+
+  const handleSetDistrict = (e) => {
+    setValue('distrito', e.value)
+    setDistrictValueState(e)
   }
 
   const onSubmit = async (data) => {
@@ -295,28 +306,6 @@ const UserCreate = function({history}) {
           </FormGroup>
         </Col>
 
-        <InputApp
-          type="password"
-          label="Contraseña"
-          name="password"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.password?.message && errors.password?.message
-          }
-        />
-
-        <InputApp
-          type="password"
-          label="Confirmar Contraseña"
-          name="cPassword"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.cPassword?.message && errors.cPassword?.message
-          }
-        />
-
         <Col sm="12">
           <h4 className="mb-1 mt-2">
             <MapPin size={20} className="mr-50" />
@@ -335,7 +324,7 @@ const UserCreate = function({history}) {
                 onChange={e => handleGetProvinceByIdRegion(e)}
                 options={optionsCodeValueSelect(regionSelector)}
                 isLoading={!regionSelector[0]}
-                defaultValue={regionValueState}
+                value={regionValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -357,7 +346,7 @@ const UserCreate = function({history}) {
                 onChange={e => handleGetMunicipalityByIdProvince(e)}
                 options={optionsCodeValueSelect(provinceState)}
                 isLoading={!provinceState[0]}
-                defaultValue={provinceValueState}
+                value={provinceValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -379,7 +368,7 @@ const UserCreate = function({history}) {
                 onChange={e => handleGetDistrictByIdMunicipality(e)}
                 options={optionsCodeValueSelect(municipalityState)}
                 isLoading={!municipalityState[0]}
-                defaultValue={municipalityValueState}
+                value={municipalityValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -398,10 +387,10 @@ const UserCreate = function({history}) {
               name="distrito"
               render={({field}) => <Select 
                 {...field} 
-                onChange={e => setValue('distrito', e.value)}
+                onChange={e => handleSetDistrict(e)}
                 options={optionsCodeValueSelect(districtState)}
                 isLoading={!districtState[0]}
-                defaultValue={districtValueState}
+                value={districtValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -411,6 +400,35 @@ const UserCreate = function({history}) {
             }</p>
           </FormGroup>
         </Col>
+
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <Lock size={20} className="mr-50" />
+            <span className="align-middle">Seguridad</span>
+          </h4>
+        </Col>
+
+        <InputApp
+          type="password"
+          label="Contraseña"
+          name="password"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.password?.message && errors.password?.message
+          }
+        />
+
+        <InputApp
+          type="password"
+          label="Confirmar Contraseña"
+          name="cPassword"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.cPassword?.message && errors.cPassword?.message
+          }
+        />
 
       </FormApp>
     </CardGrid>

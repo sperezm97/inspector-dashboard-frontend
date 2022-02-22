@@ -80,7 +80,7 @@ const institutionCreate = ({ history, match }) => {
 
   useEffect(() => {
     if(allGroups[0] && Object.keys(dataInstitution)[0]){
-      setDataGroups(allGroups.find(group => group.acronimo.toUpperCase() === dataInstitution.acronimo.toUpperCase()))
+      setDataGroups(allGroups.find(group => group?.acronimo?.toUpperCase() === dataInstitution?.acronimo?.toUpperCase()))
     }
   }, [allGroups, dataInstitution])
   

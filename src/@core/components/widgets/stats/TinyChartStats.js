@@ -6,7 +6,7 @@ import LoadingData from '../../spinner/loadingData'
 
 const TinyChartStats = props => {
   // ** Props
-  const { title, newDataTableTicketsTwo, total, series, type, height } = props
+  const { title, newDataTableTicketsTwo, total, series, type, height, loadingTicket } = props
 
   const { colors } = useContext(ThemeColors)
 
@@ -75,7 +75,7 @@ const TinyChartStats = props => {
     <Card className='card-tiny-line-stats'>
       <CardBody className='pb-50'>
         <h6>{title}</h6>
-        <h2 className='font-weight-bolder mb-1'>{!newDataTableTicketsTwo[0] ? <LoadingData /> : total}</h2>
+        <h2 className='font-weight-bolder mb-1'>{loadingTicket ? <LoadingData /> : total}</h2>
         {series &&
           <Chart options={options} series={series} type={type} height={height} />
         }

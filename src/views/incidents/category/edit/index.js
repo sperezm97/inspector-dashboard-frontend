@@ -20,6 +20,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Url from '../../../../constants/Url'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getIncidentCategoryId } from '../../../../services/incidents/category'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -34,7 +35,12 @@ const categoryEdit = ({ match }) => {
   const [loadingState, setLoadingState] = useState(false)
 
   useEffect( () => {
-    getIncidentCategoryId(idParams).then(({data}) => setDataCategory(data))
+    getIncidentCategoryId(idParams)
+      .then(({data}) => setDataCategory(data))
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
   }, [])
 
   const { register, handleSubmit, errors } = useForm({

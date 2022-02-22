@@ -20,6 +20,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Url from '../../../../constants/Url'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getIncidentServiceId } from '../../../../services/incidents/service'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -34,7 +35,12 @@ const serviceEdit = ({ match }) => {
   const [loadingState, setLoadingState] = useState(false)
 
   useEffect(() => {
-    getIncidentServiceId(idParams).then(({data}) => setDataService(data))
+    getIncidentServiceId(idParams)
+      .then(res => setDataService(res.data.data))
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
   }, [])
 
   const { register, handleSubmit, errors } = useForm({

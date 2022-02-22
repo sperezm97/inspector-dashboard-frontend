@@ -14,3 +14,5 @@ export const getIncidentSubCategoryByIdServiceByIdCategory = async (hierarchies,
 
     return data
 }
+
+export const getSubCategories = async () => await incidentsAxios.get(incidentsApi.subcategories)

@@ -6,35 +6,46 @@ import DataTableList from '../../../apps/bandeja/list/table'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getAllCategoriesActions } from '../../../../redux/actions/incidents/categories'
 import Url from '../../../../constants/Url'
+import { getCategories } from '../../../../services/incidents/category'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const categoria = () => {
   const dispatch = useDispatch()
 
+  const [categoriesState, setCategoriesState] = useState([])
+  const [loadingCategories, setLoadingCategories] = useState(true)
+
   useEffect(() => {
-    dispatch(getAllCategoriesActions())
+    // dispatch(getAllCategoriesActions())
+    getCategories()
+      .then(res => setCategoriesState(res.data.data))
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingCategories(false))
   }, [])
 
-  const dataTableCategories = useSelector(
-    (state) => state?.categories?.categories,
-  )
+  // const categoriesState = useSelector(
+  //   (state) => state?.categories?.categories,
+  // )
 
   const searchTable = (data, queryLowered) =>
     data.filter((data) =>
       (data.name || '').toLowerCase().includes(queryLowered),
     )
 
-  return dataTableCategories[0] ? (
+  return (
     <DataTableList
       columnsTable={columns}
-      dataTable={dataTableCategories}
+      dataTable={categoriesState}
       dataTableTitle="Categorías"
       searchTable={searchTable}
       showButton
       labelButton="Añadir Nueva Categoría"
       urlButton={Url.categoryCreate}
+      loadingTable={loadingCategories}
     />
-  ) : (
-    <ComponentSpinner />
   )
 }
 

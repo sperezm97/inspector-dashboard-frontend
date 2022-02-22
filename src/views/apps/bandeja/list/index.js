@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Label } from 'reactstrap'
 import Select from 'react-select'
 
 import { selectThemeColors } from '@utils'
@@ -15,7 +15,7 @@ import { getAllRegionsActions } from '../../../../redux/actions/territories/regi
 import { territoriesLabel } from '../../../../constants/label/territories'
 import {
   noOptionsMessageSelect,
-  optionsCodeValueSelect,
+  optionsCodeValueSelectNoData,
 } from '../../../../utility/Utils'
 import { getProvincesByRegionActions } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/actions/territories/municipalities'
@@ -25,11 +25,14 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { getAllTickets } from '../../../../services/zammad/ticket'
 import { ticketNewObjectFiltered } from '../../../../utility/zammad/filterData'
+import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 
 const Bandeja = function() {
   const dispatch = useDispatch()
 
   const [ dataTableTickets, setDataTableTickets ] = useState([])
+  const [loadingTicket, setLoadingTicket] = useState(true)
+
   console.log(dataTableTickets)
 
   useEffect(() => {
@@ -40,6 +43,11 @@ const Bandeja = function() {
           ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets)
         )
       })
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingTicket(false))
 
     dispatch(getAllRegionsActions())
   }, [dispatch])
@@ -67,6 +75,8 @@ const Bandeja = function() {
   const handleChangeRegions = ({ value, label }) => {
     if (value) {
       setRegionState({ value, label })
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       filterTickets(value, 2)
     } else {
       setRegionState(defaultValueState)
@@ -125,18 +135,20 @@ const Bandeja = function() {
         (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
     )
 
-  return dataTableTickets[0] ? (
+  return (
     <>
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col md="4">
+            <Label>Región</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={regionState}
-              options={optionsCodeValueSelect(regionsSelector)}
+              isLoading={!regionsSelector[0]}
+              options={optionsCodeValueSelectNoData(regionsSelector)}
               onChange={handleChangeRegions}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -147,13 +159,15 @@ const Bandeja = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Provincia</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsCodeValueSelect(provincesSelector)}
+              isLoading={!provincesSelector[0]}
+              options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -164,13 +178,15 @@ const Bandeja = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Municipio</Label>
             <Select
               isClearable={false}
               theme={selectThemeColors}
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsCodeValueSelect(municipalitiesSelector)}
+              isLoading={!municipalitiesSelector[0]}
+              options={optionsCodeValueSelectNoData(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -189,11 +205,10 @@ const Bandeja = function() {
           dataTable={dataTable}
           searchTable={searchTable}
           showButtonAddReport
+          loadingTable={loadingTicket}
         />
       )}
     </>
-  ) : (
-    <ComponentSpinner />
   )
 }
 

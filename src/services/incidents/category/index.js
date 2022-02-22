@@ -14,3 +14,5 @@ export const getIncidentCategoryByIdService = async (id) => {
 
     return data
 }
+
+export const getCategories = async () => await incidentsAxios.get(incidentsApi.categories)

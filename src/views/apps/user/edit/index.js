@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import Cleave from 'cleave.js/react'
 
 // ** Third Party Components
-import { User, MapPin } from 'react-feather'
+import { User, MapPin, Lock } from 'react-feather'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { Col, FormGroup, Label } from 'reactstrap'
 
@@ -100,10 +100,10 @@ const UserCreate = function({history, match}) {
       const newRolsNames = [...new Set(dataInfoUser?.roles)]
       setValue('permisos', newRols.map((data) => data))
       setValue('phone', dataInfoUser?.phone)
-      setValue('region', dataInfoUser?.zone.substr(0, 2))
-      setValue('provincia', dataInfoUser?.zone.substr(2, 2))
-      setValue('municipio', dataInfoUser?.zone.substr(4, 2))
-      setValue('distrito', dataInfoUser?.zone.substr(6, 2))
+      setValue('region', dataInfoUser?.zone?.substr(0, 2))
+      setValue('provincia', dataInfoUser?.zone?.substr(2, 2))
+      setValue('municipio', dataInfoUser?.zone?.substr(4, 2))
+      setValue('distrito', dataInfoUser?.zone?.substr(6, 2))
       filterSelectsTerritories()
       setInfoCedulaState2(`${dataInfoUser?.firstname} ${dataInfoUser?.lastname}`)
       setPermisosValueState(newRolsNames.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
@@ -140,15 +140,15 @@ const UserCreate = function({history, match}) {
   },[dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
 
   const filterSelectsTerritories = () => {
-    getProvinceByIdRegion(dataInfoUser?.zone.substr(0, 2))
+    getProvinceByIdRegion(dataInfoUser?.zone?.substr(0, 2))
       .then(res => {
-        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone.substr(0, 2)))
-        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone.substr(0, 2), dataInfoUser?.zone.substr(2, 2))
+        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone?.substr(0, 2)))
+        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2))
           .then(res => {
-            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone.substr(2, 2)))
-            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone.substr(0, 2), dataInfoUser?.zone.substr(2, 2), dataInfoUser?.zone.substr(4, 2))
+            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone?.substr(2, 2)))
+            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2), dataInfoUser?.zone?.substr(4, 2))
               .then(res => {
-                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone.substr(4, 2)))
+                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone?.substr(4, 2)))
               })
           })
       })
@@ -407,28 +407,6 @@ const UserCreate = function({history, match}) {
           </FormGroup>
         </Col>
 
-        <InputApp
-          type="password"
-          label="Contraseña"
-          name="password"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.password?.message && errors.password?.message
-          }
-        />
-
-        <InputApp
-          type="password"
-          label="Confirmar Contraseña"
-          name="cPassword"
-          register={register}
-          placeholder="Escribe la Contraseña"
-          messageError={
-            errors.cPassword?.message && errors.cPassword?.message
-          }
-        />
-
         <Col sm="12">
           <h4 className="mb-1 mt-2">
             <MapPin size={20} className="mr-50" />
@@ -523,6 +501,35 @@ const UserCreate = function({history, match}) {
             }</p>
           </FormGroup>
         </Col>
+
+        <Col sm="12">
+          <h4 className="mb-1 mt-2">
+            <Lock size={20} className="mr-50" />
+            <span className="align-middle">Seguridad</span>
+          </h4>
+        </Col>
+
+        <InputApp
+          type="password"
+          label="Contraseña"
+          name="password"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.password?.message && errors.password?.message
+          }
+        />
+
+        <InputApp
+          type="password"
+          label="Confirmar Contraseña"
+          name="cPassword"
+          register={register}
+          placeholder="Escribe la Contraseña"
+          messageError={
+            errors.cPassword?.message && errors.cPassword?.message
+          }
+        />
 
       </FormApp>
     </CardGrid>
