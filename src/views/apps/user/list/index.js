@@ -144,6 +144,7 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
+              isLoading={!provincesSelector[0]}
               options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
             />
@@ -156,6 +157,7 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
+              isLoading={!municipalitiesSelector[0]}
               options={optionsCodeValueSelectNoData(
                 municipalitiesSelector.filter(
                   (municipality) =>
@@ -173,6 +175,7 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={rolState}
+              isLoading={!rolSelector[0]}
               options={optionsIdValueSelectNoData(rolSelector)}
               onChange={handleChangeRols}
             />

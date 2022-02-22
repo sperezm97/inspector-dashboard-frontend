@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Label } from 'reactstrap'
 import Select from 'react-select'
 
 import { selectThemeColors } from '@utils'
@@ -15,7 +15,7 @@ import { getAllRegionsActions } from '../../../../redux/actions/territories/regi
 import { territoriesLabel } from '../../../../constants/label/territories'
 import {
   noOptionsMessageSelect,
-  optionsCodeValueSelect,
+  optionsCodeValueSelectNoData,
 } from '../../../../utility/Utils'
 import { getProvincesByRegionActions } from '../../../../redux/actions/territories/provinces'
 import { getMunicipalitiesByprovincesByRegionsActions } from '../../../../redux/actions/territories/municipalities'
@@ -75,6 +75,8 @@ const Bandeja = function() {
   const handleChangeRegions = ({ value, label }) => {
     if (value) {
       setRegionState({ value, label })
+      setProvinciaState(defaultValueState)
+      setMunicipioState(defaultValueState)
       filterTickets(value, 2)
     } else {
       setRegionState(defaultValueState)
@@ -138,13 +140,15 @@ const Bandeja = function() {
       <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col md="4">
+            <Label>Región</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={regionState}
-              options={optionsCodeValueSelect(regionsSelector)}
+              isLoading={!regionsSelector[0]}
+              options={optionsCodeValueSelectNoData(regionsSelector)}
               onChange={handleChangeRegions}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -155,13 +159,15 @@ const Bandeja = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Provincia</Label>
             <Select
               theme={selectThemeColors}
               isClearable={false}
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              options={optionsCodeValueSelect(provincesSelector)}
+              isLoading={!provincesSelector[0]}
+              options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
@@ -172,13 +178,15 @@ const Bandeja = function() {
             />
           </Col>
           <Col md="4">
+            <Label>Municipio</Label>
             <Select
               isClearable={false}
               theme={selectThemeColors}
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              options={optionsCodeValueSelect(municipalitiesSelector)}
+              isLoading={!municipalitiesSelector[0]}
+              options={optionsCodeValueSelectNoData(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
