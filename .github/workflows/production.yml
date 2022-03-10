@@ -65,7 +65,7 @@ jobs:
           tags: ${{ env.GAR_BASE }}/${{env.PROJECT_NAME}}/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}:${{ env.GITHUB_HEAD_REF_SLUG || env.GITHUB_REF_SLUG }}
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
-            DEV_REACT_APP_API_URL=${{ secrets.DEV_REACT_APP_API_URL }}
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
             SKIP_PREFLIGHT_CHECK=true
             DISABLE_ESLINT_PLUGIN=false
           push: true
@@ -98,7 +98,7 @@ jobs:
           region: ${{ secrets.GCP_REGION }}
           env_vars: |
             NODE_ENV=${{ env.NODE_ENV }},
-            DEV_REACT_APP_API_URL=${{ secrets.DEV_REACT_APP_API_URL }}
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
 
       - name: Testing Service with curl
         run: curl "${{ steps.deploy.outputs.url }}"
