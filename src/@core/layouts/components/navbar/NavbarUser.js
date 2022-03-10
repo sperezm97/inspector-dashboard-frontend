@@ -27,7 +27,7 @@ const NavbarUser = props => {
       {/* <IntlDropdown /> */}
       <NavItem className='d-none d-lg-block'>
         <NavLink className='nav-link-style'>
-          <ThemeToggler />
+          {/* <ThemeToggler /> */}
         </NavLink>
       </NavItem>
       {/* <NavbarSearch /> */}
