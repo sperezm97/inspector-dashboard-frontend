@@ -1,5 +1,5 @@
 import { Row, Col, Card, CardHeader, CardTitle, Table } from 'reactstrap';
-
+ 
 export var ExampleTable = function() {
   return <Col sm="12">
         <Card>
