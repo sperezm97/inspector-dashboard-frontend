@@ -57,6 +57,8 @@ const Login = function(props) {
 
   const { register, errors, handleSubmit } = useForm()
 
+  console.log('la variable: ', process.env.REACT_APP_API_URL)
+
   const onSubmit = (data) => {
     if (isObjEmpty(errors)) {
       const parseToBase = window.btoa(
