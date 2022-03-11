@@ -41,20 +41,12 @@ jobs:
   build:
     needs: ['test']
     runs-on: ubuntu-latest
+    environment: Dev
     if: github.event_name == 'pull_request'
 
     steps:
       - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      ### Show Backend URL
-      - name: Show Backend URL
-        env:
-            BACKEND_APP_URL: ${{ secrets.REACT_APP_API_URL }}
-        run: |
-            echo ---------------------------------------------------------------------
-            echo BACKEND_APP_URL= $BACKEND_APP_URL 
-            echo ---------------------------------------------------------------------
+        uses: rlespinasse/github-slug-action@v3.x        
 
       ### Build the Docker image and Push it
       - name: Set up Docker Buildx
@@ -97,6 +89,7 @@ jobs:
   deploy:
     needs: ["build"]
     runs-on: ubuntu-latest
+    environment: Dev
     if: github.event_name == 'pull_request'
 
     steps:
