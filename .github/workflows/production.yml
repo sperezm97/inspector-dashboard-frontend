@@ -32,6 +32,7 @@ jobs:
   build:
     needs: ['versioning']
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - name: Inject slug/short variables
@@ -78,6 +79,7 @@ jobs:
   deploy:
     needs: ["build", "versioning"]
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - name: Inject slug/short variables
