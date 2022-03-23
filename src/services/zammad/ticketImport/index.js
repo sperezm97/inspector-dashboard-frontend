@@ -68,7 +68,6 @@ export const postTicketImport = async (dataCsv, objAddCsv) => {
                 group_ids: addAllGroupsToUser(groupData),
                 organization_id: findedOrganization.id,
                 organization: findedOrganization.id,
-
                 role_ids: newRols
             })
             idUserCiudadano = requestUpdateUser.data.id

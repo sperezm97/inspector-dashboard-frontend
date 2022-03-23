@@ -64,6 +64,7 @@ const Import = function({history}) {
   const dispatch = useDispatch()
 
   const [tableData, setTableData] = useState([])
+  console.log(tableData)
   // const [filteredData, setFilteredData] = useState([])
   // const [valueI, setValueI] = useState('')
   const [name, setName] = useState('')
@@ -118,7 +119,7 @@ const Import = function({history}) {
       })
     }
     if (result.successful[0].extension === 'csv') {
-      reader.readAsBinaryString(result.successful[0].data)
+      reader.readAsText(result.successful[0].data, 'UTF-8')
     } else {
       toast.error(<ErrorToast />, { hideProgressBar: true })
     }
