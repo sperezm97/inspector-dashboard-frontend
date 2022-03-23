@@ -11,6 +11,7 @@ export const Url = {
   user: '/usuario',
   userCreate: '/usuario/crear',
   userEdit: '/usuario/editar',
+  userImport: '/usuario/importar',
 
   userReporter: '/usuario/reportero',
   userOfficial: '/usuario/oficial',

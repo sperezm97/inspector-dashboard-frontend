@@ -19,6 +19,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: Url.userCreate,
       },
+      {
+        id: 'import',
+        title: 'Importar',
+        icon: <Circle size={12} />,
+        navLink: Url.userImport,
+      },
       // {
       //   id: 'reportero',
       //   title: 'Reportero',

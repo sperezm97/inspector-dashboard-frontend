@@ -37,6 +37,11 @@ const AppRoutes = [
     exact: true,
   },
   {
+    path: Url.userImport,
+    component: lazy(() => import('../../views/apps/user/import')),
+    exact: true,
+  },
+  {
     path: Url.userReporter,
     component: lazy(() => import('../../views/apps/user/reportero')),
   },
