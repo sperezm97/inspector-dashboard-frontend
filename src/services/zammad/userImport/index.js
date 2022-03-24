@@ -63,7 +63,7 @@ export const postUserImport = async (dataCsv) => {
             console.log('requestUpdateUser', requestUpdateUser)
             return requestUpdateUser
 
-        }else{
+        }
             const infoCedulaCiudadano = await getInfoCedula(dataCsv.cedula)
             const objZammad = {
                 cedula: infoCedulaCiudadano.data.payload.id,
@@ -84,7 +84,7 @@ export const postUserImport = async (dataCsv) => {
 
             console.log('requestUser', requestUser)
             return requestUser
-        }
+        
         
     } catch (error) {
         console.log('error: ', error.message)
