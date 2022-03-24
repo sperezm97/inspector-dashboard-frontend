@@ -16,6 +16,8 @@ import { getUserById, getUserMe } from '../../../../services/zammad/user'
 import { getTicketById } from '../../../../services/zammad/ticket'
 import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 import { getTicketsTags } from '../../../../services/zammad/ticketTags'
+import { destructZone } from '../../../../utility/Utils'
+import { getDistrictByIdentifier, getMunicipalityByIdentifier, getNeighborhoodByIdentifier, getProvinceByIdentifier, getRegionByIdentifier, getSectionByIdentifier, getSubNeighborhoodByIdentifier } from '../../../../services/territories/identifier'
 
 const InvoicePreview = function() {
 
@@ -27,6 +29,9 @@ const InvoicePreview = function() {
   const [dataUserMe, setDataUserMe] = useState(null)
   const [dataUserOwner, setDataUserOwner] = useState(null)
   const [dataUserCustomer, setDataUserCustomer] = useState(null)
+
+  const [zonesState, setZonesState] = useState(null)
+  console.log("zonesState", zonesState)
   
   const [msg, setMsg] = useState('')
   const [ previewArr, setPreviewArr ] = useState([])
@@ -81,12 +86,57 @@ const InvoicePreview = function() {
       getUserById(dataTicket.customer_id)
         .then(res => setDataUserCustomer(res.data))
         .catch(err => console.log(err.response))
+
+      const zones = destructZone(dataTicket?.zone)
+      console.log("zones", zones)
+      getRegionByIdentifier(zones?.region)
+        .then(res => {
+          setZonesState({region: res.data.data.name})
+          
+          getProvinceByIdentifier(zones?.province)
+            .then(res => {
+              setZonesState((zonesState) => ({...zonesState, province: res.data.data.name}))
+              
+              getMunicipalityByIdentifier(zones?.municipality)
+                .then(res => {
+                  setZonesState((zonesState) => ({...zonesState, municipality: res.data.data.name}))
+                  
+                  getDistrictByIdentifier(zones?.district)
+                    .then(res => {
+                      setZonesState((zonesState) => ({...zonesState, district: res.data.data.name}))
+                      
+                      getSectionByIdentifier(zones?.section)
+                        .then(res => {
+                          setZonesState((zonesState) => ({...zonesState, section: res.data.data.name}))
+                      
+                          getNeighborhoodByIdentifier(zones?.neighborhood)
+                            .then(res => {
+                              setZonesState((zonesState) => ({...zonesState, neighborhood: res.data.data.name}))
+                              
+                              getSubNeighborhoodByIdentifier(zones?.subNeighborhood)
+                                .then(res => {
+                                  setZonesState((zonesState) => ({...zonesState, subNeighborhood: res.data.data.name}))
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+
     }
   }, [dataTicket])
 
   return (dataTicketArticles && dataUserMe && dataTicket) ? (
     <div className="invoice-preview-wrapper">
       <Row className="invoice-preview">
+        <Col sm={12}>
+          {dataUserCustomer &&
+            <CardContact 
+              dataUserCustomer={dataUserCustomer}
+            />
+          }
+        </Col>
         <Col xl={7} md={7} sm={12}>
           <CardChat 
             dataTicketArticles={dataTicketArticles}
@@ -107,13 +157,9 @@ const InvoicePreview = function() {
             dataTicket={dataTicket}
             dataUserOwner={dataUserOwner}
             dataTicketTags={dataTicketTags.tags}
+            zonesState={zonesState}
           />
           {/* <CardUserInfo /> */}
-          {dataUserCustomer &&
-            <CardContact 
-              dataUserCustomer={dataUserCustomer}
-            />
-          }
         </Col>
       </Row>
     </div>

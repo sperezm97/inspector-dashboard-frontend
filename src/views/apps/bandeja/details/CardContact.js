@@ -9,8 +9,6 @@ const CardProfile = function({dataUserCustomer}) {
         <h3>Datos del ciudadano</h3>
         <h6 className="text-muted text-capitalize">{dataUserCustomer.firstname} {dataUserCustomer.lastname}</h6>
       </div>
-    </CardHeader>
-    <CardBody>
       <hr className="mt-0" />
       <div className="d-flex justify-content-between align-items-center">
         <div className="user-info-wrapper">
@@ -44,7 +42,7 @@ const CardProfile = function({dataUserCustomer}) {
           </div>
         </div>
       </div>
-    </CardBody>
+    </CardHeader>
   </Card>
 }
 

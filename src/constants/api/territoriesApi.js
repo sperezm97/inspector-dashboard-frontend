@@ -3,6 +3,14 @@ export const territoriesApi = {
   provinces: 'provinces',
   municipalities: 'municipalities',
 
+  regionByIdentifier: (id) => `regions?identifier=${id}`,
+  provinceByIdentifier: (id) => `provinces?identifier=${id}`,
+  municipalityByIdentifier: (id) => `municipalities?identifier=${id}`,
+  districtByIdentifier: (id) => `districts?identifier=${id}`,
+  sectionByIdentifier: (id) => `sections?identifier=${id}`,
+  neighborhoodByIdentifier: (id) => `neighborhoods?identifier=${id}`,
+  subNeighborhoodByIdentifier: (id) => `sub-neighborhoods?identifier=${id}`,
+
   provincesByRegion: (id) => `regions/${id}/provinces`,
 
   municipalitiesByprovincesByRegions: (idRegions, idProvinces) =>

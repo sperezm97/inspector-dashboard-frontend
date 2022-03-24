@@ -5,7 +5,7 @@ import profileImgPerson from '@src/assets/images/portrait/small/avatar-s-9.jpg'
 import { statusPriority, statusTickets } from '../../../../@core/components/status'
 import { formatDate } from '../../../../utility/Utils'
 
-const CardProfile = function({dataTicket, dataUserOwner, dataTicketTags}) {
+const CardProfile = function({dataTicket, dataUserOwner, dataTicketTags, zonesState}) {
   return <Card>
     <CardBody>
       <h2 className="mb-0">{dataTicket.group}</h2>
@@ -25,9 +25,20 @@ const CardProfile = function({dataTicket, dataUserOwner, dataTicketTags}) {
         </span>
         <div className="mt-1">
           <h3>{dataTicket.title}</h3>
+          
           <small tag="span" className="font-weight-bolder">
             {dataTicket.address}
           </small>
+
+          <hr />
+
+          {zonesState?.region && <p className="m-0"><small><span className="font-weight-bolder">Región:</span> {zonesState?.region}</small></p>}
+          {zonesState?.province && <p className="m-0"><small><span className="font-weight-bolder">Provincia:</span> {zonesState?.province}</small></p>}
+          {zonesState?.municipality && <p className="m-0"><small><span className="font-weight-bolder">Municipio:</span> {zonesState?.municipality}</small></p>}
+          {zonesState?.district && <p className="m-0"><small><span className="font-weight-bolder">Distrito:</span> {zonesState?.district}</small></p>}
+          {zonesState?.section && <p className="m-0"><small><span className="font-weight-bolder">Sección:</span> {zonesState?.section}</small></p>}
+          {zonesState?.neighborhood && <p className="m-0"><small><span className="font-weight-bolder">Barrio:</span> {zonesState?.neighborhood}</small></p>}
+          {zonesState?.subNeighborhood && <p className="m-0"><small><span className="font-weight-bolder">Sub-Barrio:</span> {zonesState?.subNeighborhood}</small></p>}
         </div>
       </div>
 

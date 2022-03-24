@@ -189,6 +189,33 @@ export const addAllGroupsToUser = (groupsState) => {
   return newGroup
 }
 
+export const destructZone = (zoneId) => {
+  let zone = {}
+
+  if(zoneId.length >= 2) {
+    zone = {...zone, region: zoneId.substr(0, 2)}
+  }
+  if(zoneId.length >= 4) {
+    zone = {...zone, province: zoneId.substr(0, 4)}
+  }
+  if(zoneId.length >= 6) {
+    zone = {...zone, municipality: zoneId.substr(0, 6)}
+  }
+  if(zoneId.length >= 8) {
+    zone = {...zone, district: zoneId.substr(0, 8)}
+  }
+  if(zoneId.length >= 10) {
+    zone = {...zone, section: zoneId.substr(0, 10)}
+  }
+  if(zoneId.length >= 13) {
+    zone = {...zone, neighborhood: zoneId.substr(0, 13)}
+  }
+  if(zoneId.length >= 15) {
+    zone = {...zone, subNeighborhood: zoneId.substr(0, 15)}
+  }
+
+  return zone
+}
 
 export const downloadCSV = (dataTable) => {
 
