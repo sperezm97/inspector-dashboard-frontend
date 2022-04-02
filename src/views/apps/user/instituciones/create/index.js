@@ -24,6 +24,7 @@ import { schemaYup } from './schemaYup'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { postGroup } from '../../../../../services/zammad/group'
+import { RequiredInput } from '../../../../../@core/components/requiredInput'
 
 const institutionCreate = ({ history }) => {
 
@@ -92,6 +93,7 @@ const institutionCreate = ({ history }) => {
         </Col>
 
         <InputApp
+          required
           label="Nombre de la Institución"
           name="name"
           register={register}
@@ -100,6 +102,7 @@ const institutionCreate = ({ history }) => {
         />
 
         <InputApp
+          required
           label="Acrónimo"
           name="acronimo"
           register={register}
@@ -110,7 +113,7 @@ const institutionCreate = ({ history }) => {
         />
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Servicio</Label>
+            <Label>Servicio<RequiredInput /></Label>
             <Controller
               control={control}
               name="servicio"
@@ -132,7 +135,7 @@ const institutionCreate = ({ history }) => {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Teléfono</Label>
+            <Label>Teléfono<RequiredInput /></Label>
             <Controller
               control={control}
               name="phonenumber"
@@ -151,6 +154,7 @@ const institutionCreate = ({ history }) => {
         </Col>
 
         <InputApp
+          required
           label="Dirección"
           name="address"
           register={register}
@@ -161,6 +165,7 @@ const institutionCreate = ({ history }) => {
         />
 
         <InputApp
+          required
           label="Correo Electrónico"
           name="email"
           register={register}
@@ -171,6 +176,7 @@ const institutionCreate = ({ history }) => {
         />
 
         <InputApp
+          required
           label="Sitio Web"
           name="website"
           register={register}
@@ -182,7 +188,7 @@ const institutionCreate = ({ history }) => {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Encargado</Label>
+            <Label>Encargado<RequiredInput /></Label>
             <Controller
               control={control}
               name="encargado"

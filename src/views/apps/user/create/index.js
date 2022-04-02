@@ -38,6 +38,7 @@ import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAl
 import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
 import { getGroups } from '../../../../services/zammad/group'
+import { RequiredInput } from '../../../../@core/components/requiredInput'
 
 const UserCreate = function({history}) {
   const dispatch = useDispatch()
@@ -194,7 +195,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Cédula de Identidad</Label>
+            <Label>Cédula de Identidad<RequiredInput /></Label>
             <Controller
               control={control}
               name="cedula"
@@ -214,6 +215,7 @@ const UserCreate = function({history}) {
         </Col>
 
         <InputApp
+          required
           label="Nombre Completo"
           name="nombreC"
           register={register}
@@ -224,6 +226,7 @@ const UserCreate = function({history}) {
         />
 
         <InputApp
+          required
           type="email"
           label="Correo Electrónico"
           name="email"
@@ -236,7 +239,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Teléfono</Label>
+            <Label>Teléfono<RequiredInput /></Label>
             <Controller
               control={control}
               name="phone"
@@ -256,7 +259,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Institución</Label>
+            <Label>Institución<RequiredInput /></Label>
             <Controller
               control={control}
               name="institucion"
@@ -278,7 +281,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Permisos</Label>
+            <Label>Permisos<RequiredInput /></Label>
             <Controller
               control={control}
               name="permisos"
@@ -315,7 +318,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Región</Label>
+            <Label>Región<RequiredInput /></Label>
             <Controller
               control={control}
               name="region"
@@ -337,7 +340,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Provincia</Label>
+            <Label>Provincia<RequiredInput /></Label>
             <Controller
               control={control}
               name="provincia"
@@ -359,7 +362,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Municipio</Label>
+            <Label>Municipio<RequiredInput /></Label>
             <Controller
               control={control}
               name="municipio"
@@ -381,7 +384,7 @@ const UserCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Distrito</Label>
+            <Label>Distrito<RequiredInput /></Label>
             <Controller
               control={control}
               name="distrito"
@@ -409,6 +412,7 @@ const UserCreate = function({history}) {
         </Col>
 
         <InputApp
+          required
           type="password"
           label="Contraseña"
           name="password"
@@ -420,6 +424,7 @@ const UserCreate = function({history}) {
         />
 
         <InputApp
+          required
           type="password"
           label="Confirmar Contraseña"
           name="cPassword"

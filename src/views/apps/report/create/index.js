@@ -45,6 +45,7 @@ import { postTicketArrTags } from '../../../../services/zammad/ticketTags'
 import Url from '../../../../constants/Url'
 import { getOrganizations } from '../../../../services/zammad/organization'
 import { getGroups, postGroup } from '../../../../services/zammad/group'
+import { RequiredInput } from '../../../../@core/components/requiredInput'
 
 const ReportCreate = function({history}) {
   const dispatch = useDispatch()
@@ -360,12 +361,12 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Incidente</Label>
+            <Label>Incidente<RequiredInput /></Label>
               <Controller
                 control={control}
                 name="incidente"
                 render={({field}) => <Select 
-                  {...field} 
+                  {...field}
                   onChange={e => getCategoryByIdService(e)}
                   options={optionsIdValueSelect(servicesSelector)}
                   isLoading={!servicesSelector[0]}
@@ -382,7 +383,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Categoría</Label>
+            <Label>Categoría<RequiredInput /></Label>
               <Controller
                 control={control}
                 name="categoria"
@@ -404,7 +405,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Sub-Categorías</Label>
+            <Label>Sub-Categorías<RequiredInput /></Label>
               <Controller
                 control={control}
                 name="subCategoria"
@@ -426,7 +427,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Institución</Label>
+            <Label>Institución<RequiredInput /></Label>
               <Controller
                 control={control}
                 name="institucion"
@@ -455,7 +456,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Cédula de Identidad</Label>
+            <Label>Cédula de Identidad<RequiredInput /></Label>
             <Controller
               control={control}
               name="cedula"
@@ -475,6 +476,7 @@ const ReportCreate = function({history}) {
         </Col>
 
         <InputApp
+          required
           label="Nombre Completo"
           name="nombreC"
           register={register}
@@ -486,7 +488,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Teléfono</Label>
+            <Label>Teléfono<RequiredInput /></Label>
             <Controller
               control={control}
               name="telefono"
@@ -513,7 +515,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Región</Label>
+            <Label>Región<RequiredInput /></Label>
             <Controller
               control={control}
               name="region"
@@ -535,7 +537,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Provincia</Label>
+            <Label>Provincia<RequiredInput /></Label>
             <Controller
               control={control}
               name="provincia"
@@ -557,7 +559,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Municipio</Label>
+            <Label>Municipio<RequiredInput /></Label>
             <Controller
               control={control}
               name="municipio"
@@ -579,7 +581,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Distrito</Label>
+            <Label>Distrito<RequiredInput /></Label>
             <Controller
               control={control}
               name="distrito"
@@ -601,7 +603,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Sección</Label>
+            <Label>Sección<RequiredInput /></Label>
             <Controller
               control={control}
               name="seccion"
@@ -623,7 +625,7 @@ const ReportCreate = function({history}) {
 
         <Col lg="4" md="6" sm="12">
           <FormGroup>
-            <Label>Barrio</Label>
+            <Label>Barrio<RequiredInput /></Label>
             <Controller
               control={control}
               name="barrio"
@@ -666,6 +668,7 @@ const ReportCreate = function({history}) {
         </Col>
 
         <InputApp
+          required
           label="Residencial, calle, número"
           name="direccion"
           type="text"
@@ -690,7 +693,7 @@ const ReportCreate = function({history}) {
 
         <Col sm="12">
           <FormGroup>
-            <Label for="descripcion">Descripción</Label>
+            <Label for="descripcion">Descripción<RequiredInput /></Label>
             <Input
               type="text"
               id="descripcion"

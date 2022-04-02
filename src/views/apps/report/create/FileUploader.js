@@ -5,6 +5,7 @@ import { X } from 'react-feather'
 import { useState } from 'react'
 import { Label } from 'reactstrap'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
+import { RequiredInput } from '../../../../@core/components/requiredInput'
 
 const FileUploader = function({previewArr, setPreviewArr}) {
 
@@ -74,7 +75,7 @@ const FileUploader = function({previewArr, setPreviewArr}) {
 
   return (
     <div className="mb-2">
-      <Label>Cargar pruebas</Label>
+      <Label>Cargar pruebas<RequiredInput /></Label>
       <DragDrop
         uppy={uppy}
         // note={previewArr[0] && `${previewArr.length} Adjunto${previewArr.length > 1 ? 's' : ''}`}

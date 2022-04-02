@@ -10,11 +10,12 @@ import {
     Label,
     Input,
   } from 'reactstrap'
+import { RequiredInput } from '../requiredInput'
 
-const InputApp = ({ label, type="text", select=false, selectOptions=[], control, name, register, placeholder="", messageError="", defaultValue=null, disabled=false }) => (
+const InputApp = ({ required, label, type="text", select=false, selectOptions=[], control, name, register, placeholder="", messageError="", defaultValue=null, disabled=false }) => (
     <Col lg="4" md="6" sm="12">
         <FormGroup>
-            <Label>{label}</Label>
+            <Label>{label}{required && <RequiredInput />}</Label>
             {select 
                 ?
                     <Controller
