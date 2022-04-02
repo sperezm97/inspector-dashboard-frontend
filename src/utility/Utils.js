@@ -158,7 +158,7 @@ export const optionsZammadIdValueSelect = (dataSelect = null) => {
       }))
     : []
 
-  return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+  return data
 }
 
 export const optionsIdentifierValueSelect = (dataSelect = null) => {
@@ -170,6 +170,17 @@ export const optionsIdentifierValueSelect = (dataSelect = null) => {
     : []
 
   return [{ value: '', label: 'Sin Seleccionar' }, ...data]
+}
+
+export const optionsIncidentsZammadIdValueSelect = (dataSelect = null) => {
+  const data = dataSelect
+    ? dataSelect.map((dataMap) => ({
+        value: dataMap.zammadId,
+        label: dataMap.name,
+      }))
+    : []
+
+  return data
 }
 
 export const noOptionsMessageSelect = (inputValue, label) =>
