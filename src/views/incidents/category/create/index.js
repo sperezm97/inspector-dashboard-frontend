@@ -100,7 +100,7 @@ const categoryCreate = ({ history }) => {
             name="servicio"
             onChange={e => handleSetService(e)}
             optionsRender={optionsIncidentsZammadIdValueSelect(incidentsState)}
-            defaultValue={incidentValueState}
+            value={incidentValueState}
             error={errors.servicio?.message}
           />
         </Col>

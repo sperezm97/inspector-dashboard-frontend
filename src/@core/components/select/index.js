@@ -5,9 +5,7 @@ import Select from 'react-select'
 import { RequiredInput } from "../requiredInput"
 import { selectThemeColors } from "../../../utility/Utils"
 
-const SelectApp = ({label= "", notRequired, control, name, onChange, optionsRender, defaultValue, error}) => {
-
-    console.log(defaultValue)
+const SelectApp = ({label= "", notRequired, control, name, onChange, optionsRender, value, error}) => {
 
     return (
         <FormGroup>
@@ -20,7 +18,7 @@ const SelectApp = ({label= "", notRequired, control, name, onChange, optionsRend
                             onChange={(e) => onChange(e)}
                             options={optionsRender}
                             isLoading={!optionsRender[0]}
-                            defaultValue={defaultValue}
+                            value={value}
                             classNamePrefix="select"
                             theme={selectThemeColors}
                             loadingMessage={() => "No hay datos para mostrar"}

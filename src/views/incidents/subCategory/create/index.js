@@ -118,7 +118,7 @@ const subCategoryCreate = ({ history }) => {
             name="servicio"
             onChange={e => handleSetService(e)}
             optionsRender={optionsZammadIdValueSelect(incidentsState)}
-            defaultValue={incidentValueState}
+            value={incidentValueState}
             error={errors.servicio?.message}
           />
         </Col>
@@ -130,7 +130,7 @@ const subCategoryCreate = ({ history }) => {
             name="categoria"
             onChange={e => handleSetCategory(e)}
             optionsRender={optionsIncidentsZammadIdValueSelect(categoryState)}
-            defaultValue={categoryValueState}
+            value={categoryValueState}
             error={errors.categoria?.message}
           />
         </Col>
