@@ -20,8 +20,9 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { getIncidents } from '../../../../services/incidents/service'
 import { optionsIncidentsZammadIdValueSelect, optionsZammadIdValueSelect } from '../../../../utility/Utils'
 import { getTagsByName, postTags } from '../../../../services/zammad/tags'
-import { getIncidentCategoryByIdService, postCategory } from '../../../../services/incidents/category'
+import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
 import SelectApp from '../../../../@core/components/select'
+import { postSubCategory } from '../../../../services/incidents/subCategory'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -80,7 +81,7 @@ const subCategoryCreate = ({ history }) => {
         getTagsByName(data?.name)
           .then(res => {
             console.log(res?.data[0]?.id)
-            postCategory({categoryId: categoryValueState.value, zammadId: res?.data[0]?.id})
+            postSubCategory({categoryId: categoryValueState.value, zammadId: res?.data[0]?.id})
               .then(res => {
                 console.log(res)
               })
