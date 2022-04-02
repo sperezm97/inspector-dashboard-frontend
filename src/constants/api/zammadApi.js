@@ -10,6 +10,9 @@ export const zammadApi = {
   
   ticketStates: 'ticket_states',
   
+  postTags: 'tag_list',
+  tagsByName: (name) => `tag_search?term=${name}`,
+  
   postTicketTags: 'tags/add',
   ticketTags: (id) => `tags?object=Ticket&o_id=${id}`,
 
