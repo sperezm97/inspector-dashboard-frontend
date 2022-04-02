@@ -17,6 +17,8 @@ import CardGrid from '../../../../@core/components/card-grid'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { getTagsByName, postTags } from '../../../../services/zammad/tags'
+import { postIncidents } from '../../../../services/incidents/service'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -30,7 +32,29 @@ const servicesCreate = ({ history }) => {
   })
 
   const onSubmit = async (data) => {
+    
     console.log(data)
+    postTags(data)
+      .then(res => {
+        console.log(res)
+        getTagsByName(data?.name)
+          .then(res => {
+            console.log(res?.data[0]?.id)
+            postIncidents({zammadId: res?.data[0]?.id})
+              .then(res => {
+                console.log(res)
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
