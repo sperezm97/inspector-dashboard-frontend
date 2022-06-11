@@ -27,9 +27,9 @@ strapiAxios.interceptors.request.use((config) => {
   if(token){
     jwt = token
   }
-  config.headers["Authorization"] = `Bearer ${jwt}`
+  config.headers.Authorization = `Bearer ${jwt}`
   return config;
-},(error) => {
+},(error) => 
   // Do something with request error
-  return console.log("error: ", error);
-})
+   console.log("error: ", error)
+)
