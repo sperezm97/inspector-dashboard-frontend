@@ -49,7 +49,7 @@ export const columns = [
     minWidth: '260px',
     selector: 'title',
     sortable: true,
-    cell: (row) => row.attributes.Title,
+    cell: (row) => row.attributes.title,
   },
   {
     name: 'ESTADO',
