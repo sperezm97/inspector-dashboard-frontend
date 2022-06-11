@@ -49,7 +49,7 @@ export const columns = [
     minWidth: '260px',
     selector: 'title',
     sortable: true,
-    cell: (row) => row.title,
+    cell: (row) => row.attributes.Title,
   },
   {
     name: 'ESTADO',
@@ -64,8 +64,8 @@ export const columns = [
           theme={selectThemeColors}
           className="react-select"
           classNamePrefix="select"
-          defaultValue={statusTicketsArray[row.status - 1]}
-          onChange={(e) => handleChangeStatus(e, row.id)}
+          defaultValue={statusTicketsArray[row.attributes.state - 1]}
+          onChange={(e) => handleChangeStatus(e, row.attributes.id)}
           options={statusTicketsArray.map((dataMap) => ({
             value: dataMap.id,
             label: dataMap.label,
@@ -80,68 +80,68 @@ export const columns = [
     minWidth: '260px',
     selector: 'address',
     sortable: true,
-    cell: (row) => row.address,
+    cell: (row) => row.attributes.address,
   },
   {
     name: 'FECHA SLA',
     minWidth: '150px',
     selector: 'createDate',
     sortable: true,
-    cell: (row) => formatDate(row.createDate),
+    cell: (row) => formatDate(row.attributes.createdAt),
   },
-  {
-    name: 'Oficial',
-    minWidth: '400px',
-    selector: 'ownerFirstName',
-    sortable: true,
-    cell: (row) => {
-      const userInfo = {
-        id: row.ownerId,
-        firstName: row.ownerFirstName,
-        lastName: row.ownerLastName,
-        cedula: row.ownerCedula,
-      }
+  // {
+  //   name: 'Oficial',
+  //   minWidth: '400px',
+  //   selector: 'ownerFirstName',
+  //   sortable: true,
+  //   cell: (row) => {
+  //     const userInfo = {
+  //       id: row.ownerId,
+  //       firstName: row.ownerFirstName,
+  //       lastName: row.ownerLastName,
+  //       cedula: row.ownerCedula,
+  //     }
 
-      return rowClient(userInfo)
-    },
-  },
-  {
-    name: 'INSTITUCIÓN',
-    minWidth: '400px',
-    selector: 'institutionName',
-    sortable: true,
-    cell: (row) => {
-      const institutionInfo = {
-        id: row.institutionId,
-        acronym: row.institutionAcronym,
-        name: row.institutionName
-      }
+  //     return rowClient(userInfo)
+  //   },
+  // },
+  // {
+  //   name: 'INSTITUCIÓN',
+  //   minWidth: '400px',
+  //   selector: 'institutionName',
+  //   sortable: true,
+  //   cell: (row) => {
+  //     const institutionInfo = {
+  //       id: row.institutionId,
+  //       acronym: row.institutionAcronym,
+  //       name: row.institutionName
+  //     }
       
-      return rowInstitution(institutionInfo)
-    }
-  },
-  {
-    name: 'Cliente',
-    minWidth: '400px',
-    selector: 'customerFirstName',
-    sortable: true,
-    cell: (row) => {
-      const userInfo = {
-        id: row.customerId,
-        firstName: row.customerFirstName,
-        lastName: row.customerLastName,
-        cedula: row.customerCedula,
-      }
+  //     return rowInstitution(institutionInfo)
+  //   }
+  // },
+  // {
+  //   name: 'Cliente',
+  //   minWidth: '400px',
+  //   selector: 'customerFirstName',
+  //   sortable: true,
+  //   cell: (row) => {
+  //     const userInfo = {
+  //       id: row.customerId,
+  //       firstName: row.customerFirstName,
+  //       lastName: row.customerLastName,
+  //       cedula: row.customerCedula,
+  //     }
 
-      return rowClient(userInfo)
-    },
-  },
+  //     return rowClient(userInfo)
+  //   },
+  // },
   {
     name: 'PRIORIDAD',
     minWidth: '150px',
     selector: 'priority',
     sortable: true,
-    cell: (row) => statusPriority(row.priority),
+    cell: (row) => statusPriority(row.attributes.priority),
   },
   {
     name: 'Acciones',

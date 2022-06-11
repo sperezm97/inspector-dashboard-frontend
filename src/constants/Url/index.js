@@ -7,6 +7,7 @@ export const Url = {
 
   reportCreate: '/reporte/crear',
   reportImport: '/tickets/importar',
+  ticketBeneficiaries: '/tickets/beneficiarios',
 
   user: '/usuario',
   userCreate: '/usuario/crear',

@@ -13,8 +13,8 @@ export const columns = [
     cell: (row) => {
       const data = {
         id: row.id,
-        name: row.name,
-        acronym: row.acronimo,
+        name: row.attributes.name,
+        acronym: row.attributes.acronym,
       }
       return rowInstitution(data)
     },
@@ -22,16 +22,16 @@ export const columns = [
   {
     name: 'Teléfono',
     minWidth: '160px',
-    selector: 'phonenumber',
+    selector: 'phone',
     sortable: true,
-    cell: (row) => row.phonenumber,
+    cell: (row) => row.attributes.phone,
   },
   {
     name: 'DIRECCIÓN',
     minWidth: '172px',
     selector: 'address',
     sortable: true,
-    cell: (row) => row.address,
+    cell: (row) => row.attributes.address,
   },
   {
     name: 'Acciones',

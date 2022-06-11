@@ -46,11 +46,13 @@ const UsersList = function() {
     //     sweetAlertError()
     //   })
     //   .finally(() => setUserLoading(false))
-    // dispatch(getAllRolsActions())
-    dispatch(getAllProvincesActions())
-    dispatch(getAllMunicipalitiesActions())
 
-    strapiGetUsers()
+    /*more later*/
+    // dispatch(getAllRolsActions())
+    // dispatch(getAllProvincesActions())
+    // dispatch(getAllMunicipalitiesActions())
+
+    strapiGetBeneficiaries()
       .then(res => setUserState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setUserLoading(false))
@@ -65,7 +67,7 @@ const UsersList = function() {
   const municipalitiesSelector = useSelector(
     (state) => state?.municipalities?.allMunicipalities,
   )
-  // const rolSelector = useSelector((state) => state?.rols?.rols)
+  const rolSelector = useSelector((state) => state?.rols?.rols)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -149,8 +151,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              isLoading={[]}
-              options={optionsCodeValueSelectNoData([])}
+              isLoading={!provincesSelector[0]}
+              options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
             />
           </Col>
@@ -162,8 +164,13 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              isLoading={[]}
-              options={optionsCodeValueSelectNoData([])}
+              isLoading={!municipalitiesSelector[0]}
+              options={optionsCodeValueSelectNoData(
+                municipalitiesSelector.filter(
+                  (municipality) =>
+                    municipality.provinceCode === provinciaState.value,
+                ),
+              )}
               onChange={handleChangeMunicipalities}
             />
           </Col>
@@ -175,8 +182,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={rolState}
-              isLoading={[]}
-              options={optionsIdValueSelectNoData([])}
+              isLoading={!rolSelector[0]}
+              options={optionsIdValueSelectNoData(rolSelector)}
               onChange={handleChangeRols}
             />
           </Col>
@@ -185,7 +192,7 @@ const UsersList = function() {
 
       <DataTableList
         columnsTable={columns}
-        dataTable={dataTable}
+        dataTable={dataTable.data}
         searchTable={searchTable}
         showButtonAddUser
         loadingTable={userLoading}

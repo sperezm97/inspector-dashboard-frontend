@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const { accessToken } = JSON.parse(localStorage.getItem('userData'))
+const { accessToken } = JSON.parse(localStorage.getItem('userData')) || []
 
 export const zammadAxios = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -10,9 +10,26 @@ export const zammadAxios = axios.create({
 })
 
 export const territoriesAxios = axios.create({
-  baseURL: 'https://api.digital.gob.do/v1/territories/',
+  baseURL: process.env.REACT_APP_API_TERRITORIES,
 })
 
 export const incidentsAxios = axios.create({
-  baseURL: 'https://api.digital.gob.do/v2/incidents/',
+  baseURL: process.env.REACT_APP_API_INCIDENTS,
+})
+
+export const strapiAxios = axios.create({
+  baseURL: process.env.REACT_APP_API_STRAPI
+})
+
+strapiAxios.interceptors.request.use((config) => {
+  const { token } = JSON.parse(localStorage.getItem('user')) || []
+  let jwt = ""
+  if(token){
+    jwt = token
+  }
+  config.headers["Authorization"] = `Bearer ${jwt}`
+  return config;
+},(error) => {
+  // Do something with request error
+  return console.log("error: ", error);
 })

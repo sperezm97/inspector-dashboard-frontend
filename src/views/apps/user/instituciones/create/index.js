@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Select from 'react-select'
 import Cleave from 'cleave.js/react'
 
-import { Col, FormGroup, Label , Button } from 'reactstrap'
+import { Col, FormGroup, Label, Button } from 'reactstrap'
 import { Plus } from 'react-feather'
 
 import FormApp from '../../../../../@core/components/form'
@@ -25,57 +25,81 @@ import { schemaYup } from './schemaYup'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { postGroup } from '../../../../../services/zammad/group'
 import { RequiredInput } from '../../../../../@core/components/requiredInput'
+import { strapiPostInstitutions } from '../../../../../services/strapi/institutions'
+import { strapiGetUsers } from '../../../../../services/strapi/users'
+import { strapiGetServices } from '../../../../../services/strapi/services'
 
 const institutionCreate = ({ history }) => {
 
   const dispatch = useDispatch()
 
   const [loadingState, setLoadingState] = useState(false)
+  
+  const [ userState, setUserState ] = useState([])
+  const [ serviceState, setServiceState ] = useState({data: []})
+  console.log(serviceState)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
 
   useEffect(() => {
     dispatch(getAllServicesActions())
-    dispatch(getAllUsersActions())
+    // dispatch(getAllUsersActions())
+    strapiGetUsers()
+    .then(res => setUserState(res.data))
+    .catch(() => sweetAlertError())
+
+    strapiGetServices()
+    .then(res => setServiceState(res.data))
+    .catch(() => sweetAlertError())
+
   }, [])
 
-  const usersSelector = useSelector((state) => state?.users?.users)
-  const servicesSelector = useSelector((state) => state?.services?.services)
+  // const usersSelector = useSelector((state) => state?.users?.users)
+  // const servicesSelector = useSelector((state) => state?.services?.services)
 
   const { register, handleSubmit, errors, setValue, control } = useForm({
     resolver: yupResolver(schemaYup),
   })
 
   const onSubmit = async (data) => {
-    const objZammad = {
-      name: data.name,
-      acronimo: data.acronimo.toUpperCase(),
-      service: data.servicio,
-      phonenumber: data.phonenumber,
-      address: data.address,
-      email: data.email,
-      domain: data.website,
-      manager: data.encargado,
+    const obj = {
+      data: {
+        name: data.name,
+        acronym: data.acronimo.toUpperCase(),
+        services: [data.servicio],
+        phone: data.phonenumber,
+        address: data.address,
+        email: data.email,
+        website: data.website,
+        owner: data.encargado,
+      }
     }
-    console.log(objZammad)
-    setLoadingState(true)
-    postOrganization(objZammad)
-      .then(response => {
-        if (response.status === 201) {
-          postGroup({name: objZammad.name, acronimo: objZammad.acronimo})
-            .then(() => {
-              history.push(Url.institution)
-              sweetAlertGood()
-            })
-            .catch(() => sweetAlertError())
-            .finally(() => setLoadingState(false))
-        }
+    console.log(obj)
+    strapiPostInstitutions(obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.institution)
       })
-      .catch((err) => {
-        console.log(err.message)
-        sweetAlertError()      
-      })
+      .catch(() => sweetAlertError())
       .finally(() => setLoadingState(false))
+    // setLoadingState(true)
+    // postOrganization(obj)
+    //   .then(response => {
+    //     if (response.status === 201) {
+    //       postGroup({name: obj.name, acronimo: obj.acronimo})
+    //         .then(() => {
+    //           history.push(Url.institution)
+    //           sweetAlertGood()
+    //         })
+    //         .catch(() => sweetAlertError())
+    //         .finally(() => setLoadingState(false))
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message)
+    //     sweetAlertError()      
+    //   })
+    //   .finally(() => setLoadingState(false))
   }
 
   return (
@@ -117,11 +141,14 @@ const institutionCreate = ({ history }) => {
             <Controller
               control={control}
               name="servicio"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => setValue('servicio', e.value)}
-                options={optionsZammadIdValueSelect(servicesSelector)}
-                isLoading={!servicesSelector[0]}
+                options={serviceState.data.map(data => ({
+                  value: data.id,
+                  label: data.attributes.name
+                }))}
+                isLoading={!serviceState.data[0]}
                 defaultValue={defaultValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
@@ -139,7 +166,7 @@ const institutionCreate = ({ history }) => {
             <Controller
               control={control}
               name="phonenumber"
-              render={({field}) => <Cleave
+              render={({ field }) => <Cleave
                 {...field}
                 className="form-control"
                 placeholder="Escribe el Teléfono"
@@ -192,14 +219,14 @@ const institutionCreate = ({ history }) => {
             <Controller
               control={control}
               name="encargado"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => setValue('encargado', e.value)}
-                options={usersSelector.map(data => ({
+                options={userState.map(data => ({
                   value: data.id,
                   label: `${data.firstname} ${data.lastname}`
                 }))}
-                isLoading={!usersSelector[0]}
+                isLoading={!userState[0]}
                 defaultValue={defaultValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
@@ -215,10 +242,10 @@ const institutionCreate = ({ history }) => {
           <FormGroup>
             <Label />
             <div>
-              <Button.Ripple 
-                outline 
+              <Button.Ripple
+                outline
                 color='primary'
-                onClick={() => history.push(Url.userCreate)}  
+                onClick={() => history.push(Url.userCreate)}
               >
                 <Plus size={14} />
                 <span className='align-middle ml-25'>Añadir Usuario</span>

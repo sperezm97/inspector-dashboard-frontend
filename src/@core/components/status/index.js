@@ -64,7 +64,7 @@ export const statusPriority = (statusId) => {
         case 1:
             return <Badge color="light-success">Baja</Badge>
 
-        case 2:
+        case 'normal':
             return <Badge color="light-warning">Normal</Badge>
 
         case 3:

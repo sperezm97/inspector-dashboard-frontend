@@ -1,5 +1,4 @@
 import { lazy } from 'react'
-import { Redirect } from 'react-router-dom'
 import Url from '../../constants/Url'
 
 const AppRoutes = [
@@ -15,6 +14,11 @@ const AppRoutes = [
     meta: {
       navLink: Url.dashboardInbox,
     },
+  },
+  {
+    path: Url.ticketBeneficiaries,
+    exact: true,
+    component: lazy(() => import('../../views/apps/bandeja/beneficiaries')),
   },
   {
     path: Url.reportCreate,

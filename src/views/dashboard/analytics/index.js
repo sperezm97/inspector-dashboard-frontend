@@ -44,20 +44,19 @@ const AnalyticsDashboard = function() {
   const { colors } = useContext(ThemeColors)
 
   const [dataTableTicketsTwo, setDataTableTicketsTwo] = useState([])
-  const [loadingTicket, setLoadingTicket] = useState(true)
-  console.log('dataTableTicketsTwo', dataTableTicketsTwo)
+  const [loadingTicket, setLoadingTicket] = useState(false)
 
   useEffect(() => {
 
-    getAllTickets()
-      .then(res => {
-        setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets))
-      })
-      .catch(err => {
-        console.log(err)
-        sweetAlertError()
-      })
-      .finally(() => setLoadingTicket(false))
+    // getAllTickets()
+    //   .then(res => {
+    //     setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets))
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //     sweetAlertError()
+    //   })
+    //   .finally(() => setLoadingTicket(false))
 
     // dispatch(getAllTicketsActions())
     // dispatch(
@@ -66,9 +65,9 @@ const AnalyticsDashboard = function() {
     //     dateToday('YYYY-MM-DD'),
     //   ),
     // )
-    dispatch(getAllOrganizationsActions())
-    dispatch(getAllProvincesActions())
-    dispatch(getAllUsersActions())
+    // dispatch(getAllOrganizationsActions())
+    // dispatch(getAllProvincesActions())
+    // dispatch(getAllUsersActions())
   }, [])
 
   // const dataTableTicketsTwo = useSelector(

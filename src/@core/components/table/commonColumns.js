@@ -37,7 +37,7 @@ export const rowClient = (row) => (
                     to={`#`}
                     className='user-name text-truncate mb-0'
                 >
-                    <span className='font-weight-bold'>{row.firstName ? `${row.firstName} ${row.lastName}` : ''}</span>
+                    <span className='font-weight-bold'>{row.firstName ? `${row.firstName}` : ''}</span>
                 </Link>
                 <small className='text-truncate text-muted mb-0' style={{marginTop: '4px'}}>{row.cedula && row.cedula}</small>
             </div>

@@ -102,7 +102,7 @@ const DataTableList = function({
   const [value, setValue] = useState('')
 
   useEffect(() => {
-    setNewDataTable(dataTable.reverse())
+    setNewDataTable(dataTable)
   }, [dataTable])
 
 
@@ -142,7 +142,7 @@ const DataTableList = function({
             className="react-dataTable"
             defaultSortField="invoiceId"
             paginationComponentOptions={paginationComponentOptions}
-            paginationRowsPerPageOptions={[10, 25, 50, 100]}
+            paginationRowsPerPageOptions={[25]}
             data={newDataTable}
             noDataComponent="No hay registros para mostrar"
             progressPending={loadingTable}

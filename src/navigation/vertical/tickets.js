@@ -20,6 +20,12 @@ export default [
         navLink: Url.dashboardInboxCreate,
       },
       {
+        id: 'ticketBeneficiary',
+        title: 'Beneficiarios',
+        icon: <Circle size={12} />,
+        navLink: Url.ticketBeneficiaries,
+      },
+      {
         id: 'ticketImport',
         title: 'Importar',
         icon: <Circle size={12} />,

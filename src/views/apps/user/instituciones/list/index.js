@@ -11,22 +11,30 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { getOrganizations } from '../../../../../services/zammad/organization'
 import { sweetAlertError } from '../../../../../@core/components/sweetAlert'
+import { strapiGetInstitutions } from '../../../../../services/strapi/institutions'
 
-const Instituciones = function() {
+const Instituciones = function () {
   const dispatch = useDispatch()
 
-  const [ organizationState, setOrganizationState ] = useState([])
-  const [ loadingOrganization, setLoadingOrganization ] = useState(true)
+  const [organizationState, setOrganizationState] = useState([])
+  console.log(organizationState)
+  const [loadingOrganization, setLoadingOrganization] = useState(true)
 
   useEffect(() => {
     // dispatch(getAllOrganizationsActions())
-    getOrganizations()
+    // getOrganizations()
+    //   .then(res => setOrganizationState(res.data))
+    //   .catch(err => {
+    //     console.log(err)
+    //     sweetAlertError()
+    //   })
+    //   .finally(() => setLoadingOrganization(false))
+
+    strapiGetInstitutions()
       .then(res => setOrganizationState(res.data))
-      .catch(err => {
-        console.log(err)
-        sweetAlertError()
-      })
+      .catch(() => sweetAlertError())
       .finally(() => setLoadingOrganization(false))
+
   }, [])
 
   // const organizationState = useSelector(
@@ -43,7 +51,7 @@ const Instituciones = function() {
   return (
     <DataTableList
       columnsTable={columns}
-      dataTable={organizationState}
+      dataTable={organizationState.data}
       dataTableTitle="Instituciones"
       searchTable={searchTable}
       showButtonAddInstitution

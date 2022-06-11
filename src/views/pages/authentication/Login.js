@@ -28,8 +28,10 @@ import {
 import LogoAuth from '../../../@core/components/logo-auth'
 
 import '@styles/base/pages/page-auth.scss'
+import { strapiAuthLogin } from '../../../services/strapi/auth'
+import { AuthContext } from '../../../contexts/auth/authProvider'
 
-const ToastContent = function({ name }) {
+const ToastContent = function ({ name }) {
   return <>
     <div className="toastify-header">
       <div className="title-wrapper">
@@ -45,8 +47,11 @@ const ToastContent = function({ name }) {
   </>
 }
 
-const Login = function(props) {
+const Login = function (props) {
   const ability = useContext(AbilityContext)
+
+  const { addAuthFN } = useContext(AuthContext)
+
   const dispatch = useDispatch()
   const history = useHistory()
   const [email, setEmail] = useState('')
@@ -57,9 +62,8 @@ const Login = function(props) {
 
   const { register, errors, handleSubmit } = useForm()
 
-  console.log('la variable: ', process.env.REACT_APP_API_URL)
+  const onSubmit = async (data) => {
 
-  const onSubmit = (data) => {
     if (isObjEmpty(errors)) {
       const parseToBase = window.btoa(
         unescape(
@@ -67,23 +71,18 @@ const Login = function(props) {
         ),
       )
       setLoadingLogin(true)
-      const request = axios
-        .get(`${process.env.REACT_APP_API_URL}users/me`, {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            Authorization: `Basic ${parseToBase}`,
-          },
-        })
-        .then((res) => {
+      console.log(data)
+      strapiAuthLogin({ identifier: data.loginEmail, password: data.loginPassword })
+        .then(res => {
           const data = {
             id: 1,
-            fullName: `${res.data.firstname} ${res.data.lastname}`,
-            username: res.data.firstname,
+            fullName: `${res.data.user.firstname} ${res.data.user.lastname}`,
+            username: res.data.user.username,
             password: 'admin',
-            cedula: res.data.cedula,
+            cedula: res.data.user.cedula,
             avatar: require('@src/assets/images/portrait/small/avatar-s-11.jpg')
               .default,
-            email: res.data.email,
+            email: res.data.user.email,
             role: 'admin',
             ability: [
               {
@@ -95,10 +94,16 @@ const Login = function(props) {
               eCommerceCartItemsCount: 5,
             },
             zammadUser: res.data,
-            accessToken: parseToBase,
-            refreshToken: parseToBase,
+            strapiUser: res.data,
+            accessToken: res.data.jwt,
+            refreshToken: res.data.jwt,
           }
           dispatch(handleLogin(data))
+          addAuthFN({
+            token: res.data.jwt,
+            logged: true,
+            user: res.data.user,
+          })
           ability.update(data.ability)
           history.push(getHomeRouteForLoggedInUser(data.role))
           toast.success(
@@ -167,7 +172,7 @@ const Login = function(props) {
                   value={password}
                   id="loginPassword"
                   name="loginPassword"
-                  className="input-group-merge"
+                  // className="input-group-merge"
                   onChange={(e) => setPassword(e.target.value)}
                   className={classnames({
                     'is-invalid': errors.loginPassword,

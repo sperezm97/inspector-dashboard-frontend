@@ -34,11 +34,13 @@ import { getProvinceByIdRegion } from '../../../../services/territories/province
 import { getMunicipalityByIdRegionByIdProvince } from '../../../../services/territories/municipality'
 import { getDistrictByIdProvinceByIdMunicipality } from '../../../../services/territories/district'
 import { getInfoCedula } from '../../../../services/cedula'
-import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
 import { getGroups } from '../../../../services/zammad/group'
 import { RequiredInput } from '../../../../@core/components/requiredInput'
+import { strapiGetInstitutions } from '../../../../services/strapi/institutions'
+import { strapiPostUsers } from '../../../../services/strapi/users'
 
 const UserCreate = function({history}) {
   const dispatch = useDispatch()
@@ -47,7 +49,8 @@ const UserCreate = function({history}) {
 
   const [ infoCedulaState, setInfoCedulaState ] = useState(null)
   
-  const [ groupsState, setGroupsState ] = useState([])
+  const [ institutionState, setInstitutionState ] = useState({data: []})
+  console.log(institutionState)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -61,13 +64,16 @@ const UserCreate = function({history}) {
   const [ districtState, setDistrictState ] = useState([])
 
   useEffect(() => {
-    dispatch(getAllOrganizationsActions())
-    dispatch(getAllRolsActions())
+    // dispatch(getAllOrganizationsActions())
+    // dispatch(getAllRolsActions())
     dispatch(getAllRegionsActions())
 
-    getGroups()
-      .then((res) => setGroupsState(res.data))
-      .catch((err) => console.log(err))
+    // getGroups()
+    //   .then((res) => setInstitutionState(res.data))
+    //   .catch((err) => console.log(err))
+
+    strapiGetInstitutions()
+      .then((res) => setInstitutionState(res.data))
   }, [])
 
   const dataTableOrganizations = useSelector(
@@ -145,25 +151,21 @@ const UserCreate = function({history}) {
 
   const onSubmit = async (data) => {
 
-    const objZammad = {
-      cedula: data.cedula,
+    const obj = {
+      username: data.email,
+      email: data.email,
+      confirmed: true,
+      password: data.cPassword,
+      institution: data.institucion,
       firstname: infoCedulaState.names,
       lastname: `${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
-      email: data.email,
-      login: data.email,
+      zone_code: data.region + data.provincia + data.municipio + data.distrito,
+      cedula: data.cedula,
       phone: data.phone,
-      organization: parseInt(data.institucion),
-      role_ids: data.permisos.map((data) => data.value),
-      zone: data.region + data.provincia + data.municipio + data.distrito,
-      password: data.cPassword,
-      note: 'User created from the BackOffice',
-      group_ids: addAllGroupsToUser(groupsState)
     }
 
-    console.log('objZammad', objZammad)
-    
     setLoadingCreate(true)
-    postUser(objZammad)
+    strapiPostUsers(obj)
       .then((res) => {
         sweetAlertGood()
         history.push(Url.user)
@@ -171,11 +173,7 @@ const UserCreate = function({history}) {
       })
       .catch(() => {
         setLoadingCreate(false)
-        sweetAlert({
-          title: 'Error!',
-          text: 'Ocurrió un error al crear el usuario.',
-          type: 'error'
-        })
+        sweetAlertError()
       })
   }
 
@@ -222,7 +220,7 @@ const UserCreate = function({history}) {
           placeholder="Digita la cédula..."
           disabled
           defaultValue={infoCedulaState && `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`}
-          messageError={errors.cedula?.message && 'El Nombre es obligatorio'}
+          messageError={errors.cedula?.message && 'El nombre tiene que venir de la cédula'}
         />
 
         <InputApp
@@ -266,7 +264,10 @@ const UserCreate = function({history}) {
               render={({field}) => <Select 
                 {...field} 
                 onChange={e => setValue('institucion', e.value)}
-                options={optionsZammadIdValueSelect(dataTableOrganizations)}
+                options={institutionState.data.map(data => ({
+                  value: data.id,
+                  label: `${data.attributes.acronym} - ${data.attributes.name}`
+                }))}
                 isLoading={!dataTableOrganizations[0]}
                 defaultValue={defaultValueState}
                 classNamePrefix="select"
@@ -279,7 +280,7 @@ const UserCreate = function({history}) {
           </FormGroup>
         </Col>
 
-        <Col lg="4" md="6" sm="12">
+        {/* <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Permisos<RequiredInput /></Label>
             <Controller
@@ -307,7 +308,7 @@ const UserCreate = function({history}) {
               errors.permisos?.message && errors.permisos?.message
             }</p>
           </FormGroup>
-        </Col>
+        </Col> */}
 
         <Col sm="12">
           <h4 className="mb-1 mt-2">

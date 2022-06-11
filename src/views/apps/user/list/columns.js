@@ -52,6 +52,13 @@ export const columns = [
     },
   },
   {
+    name: 'Correo',
+    minWidth: '260px',
+    selector: 'email',
+    sortable: true,
+    cell: (row) => row.email,
+  },
+  {
     name: 'Teléfono',
     minWidth: '160px',
     selector: 'phone',
@@ -63,24 +70,25 @@ export const columns = [
     minWidth: '235px',
     selector: 'zone',
     sortable: true,
-    cell: (row) => getProvinces(row.zone),
+    cell: (row) => getProvinces(row.zone_code),
   },
   {
     name: 'Municipio',
     minWidth: '235px',
     selector: 'zone',
     sortable: true,
-    cell: (row) => getMunicipality(row.zone),
+    cell: (row) => getMunicipality(row.zone_code),
   },
   {
     name: 'Rol',
     minWidth: '172px',
     selector: 'roles',
     sortable: true,
-    cell: (row) => {
-      const newRols = [...new Set(row.roles)]
-      return newRols.map((rol, index) => getRol(rol, index))
-    } 
+    // cell: (row) => {
+    //   const newRols = [...new Set(row.roles)]
+    //   return newRols.map((rol, index) => getRol(rol, index))
+    // }
+    cell: (row) => <Badge color="light-primary">{row.user_level}</Badge> 
   },
   {
     name: 'Acciones',
