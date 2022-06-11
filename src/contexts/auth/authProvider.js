@@ -9,7 +9,7 @@ const Initial_State = {
   user: null,
 }
 
-export const AuthProvider = ({ children }) => {
+export var AuthProvider = function({ children }) {
 
   const [authState, dispatch] = useReducer(authReducer, Initial_State)
 

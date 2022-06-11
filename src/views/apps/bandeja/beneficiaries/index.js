@@ -11,7 +11,7 @@ import { Row, Col, Label } from 'reactstrap'
 import { columns } from './columns'
 
 // import DataTableList from '../../../../@core/components/table'
-import DataTableList from '../../bandeja/list/table'
+import DataTableList from "../list/table"
 import CardGrid from '../../../../@core/components/card-grid'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getAllUsersActions } from '../../../../redux/actions/zammad/users'
@@ -47,7 +47,7 @@ const UsersList = function() {
     //   })
     //   .finally(() => setUserLoading(false))
 
-    /*more later*/
+    /* more later */
     // dispatch(getAllRolsActions())
     // dispatch(getAllProvincesActions())
     // dispatch(getAllMunicipalitiesActions())
