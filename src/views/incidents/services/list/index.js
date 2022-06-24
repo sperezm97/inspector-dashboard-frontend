@@ -8,6 +8,7 @@ import { getAllServicesActions } from '../../../../redux/actions/incidents/servi
 import Url from '../../../../constants/Url'
 import { getIncidents } from '../../../../services/incidents/service'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
+import { strapiGetServices } from '../../../../services/strapi/services'
 
 const servicios = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const servicios = () => {
   useEffect(() => {
     // dispatch(getAllServicesActions())
 
-    getIncidents()
+    strapiGetServices()
       .then(res => setServicesState(res.data.data))
       .catch(err => {
         console.log(err)

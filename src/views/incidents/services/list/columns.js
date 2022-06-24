@@ -4,10 +4,9 @@ import Url from '../../../../constants/Url'
 export const columns = [
   {
     name: 'Nombre',
-    minWidth: '',
     selector: 'name',
     sortable: true,
-    cell: (row) => row.name,
+    cell: (row) => row.attributes.name,
   },
   {
     name: 'Acciones',

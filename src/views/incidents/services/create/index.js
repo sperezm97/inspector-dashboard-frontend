@@ -19,6 +19,9 @@ import CardGrid from '../../../../@core/components/card-grid'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { getTagsByName, postTags } from '../../../../services/zammad/tags'
 import { postIncidents } from '../../../../services/incidents/service'
+import { strapiPostServices } from '../../../../services/strapi/services'
+import Url from '../../../../constants/Url'
+import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -33,28 +36,44 @@ const servicesCreate = ({ history }) => {
 
   const onSubmit = async (data) => {
     
-    console.log(data)
-    postTags(data)
-      .then(res => {
-        console.log(res)
-        getTagsByName(data?.name)
-          .then(res => {
-            console.log(res?.data[0]?.id)
-            postIncidents({zammadId: res?.data[0]?.id})
-              .then(res => {
-                console.log(res)
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          })
-          .catch(err => {
-            console.log(err)
-          })
+    const obj = {
+      data: {
+        name: data.name,
+        type: 'service'
+      }
+    }
+
+    setLoadingState(true)
+
+    strapiPostServices(obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.services)
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(() => sweetAlertError())
+      .finally(() => setLoadingState(false))
+
+    // postTags(data)
+    //   .then(res => {
+    //     console.log(res)
+    //     getTagsByName(data?.name)
+    //       .then(res => {
+    //         console.log(res?.data[0]?.id)
+    //         postIncidents({zammadId: res?.data[0]?.id})
+    //           .then(res => {
+    //             console.log(res)
+    //           })
+    //           .catch(err => {
+    //             console.log(err)
+    //           })
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
   }
 
   return (

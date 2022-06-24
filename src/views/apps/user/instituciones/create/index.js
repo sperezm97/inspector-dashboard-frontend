@@ -75,6 +75,8 @@ const institutionCreate = ({ history }) => {
       }
     }
     console.log(obj)
+    setLoadingState(true)
+    
     strapiPostInstitutions(obj)
       .then(() => {
         sweetAlertGood()
@@ -82,7 +84,6 @@ const institutionCreate = ({ history }) => {
       })
       .catch(() => sweetAlertError())
       .finally(() => setLoadingState(false))
-    // setLoadingState(true)
     // postOrganization(obj)
     //   .then(response => {
     //     if (response.status === 201) {

@@ -20,7 +20,8 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Url from '../../../../constants/Url'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
 import { getIncidentSubCategoryId } from '../../../../services/incidents/subCategory'
-import { sweetAlertError } from '../../../../@core/components/sweetAlert'
+import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { strapiGetServicesById, strapiPutServices } from '../../../../services/strapi/services'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -35,8 +36,8 @@ const subCategoryEdit = ({ match }) => {
   const [loadingState, setLoadingState] = useState(false)
 
   useEffect(() => {
-    getIncidentSubCategoryId(idParams)
-      .then(({data}) => setDataSubCategory(data))
+    strapiGetServicesById(idParams)
+      .then(res => setDataSubCategory(res.data.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
@@ -48,6 +49,24 @@ const subCategoryEdit = ({ match }) => {
   })
 
   const onSubmit = async (data) => {
+
+    console.log(data)
+    const obj = {
+      data: {
+        name: data.name,
+      }
+    }
+
+    setLoadingState(true)
+
+    strapiPutServices(idParams, obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.subCategory)
+      })
+      .catch(() => sweetAlertError())
+      .finally(() => setLoadingState(false))
+
     // try {
     //   setLoadingState(true)
     //   const response = await zammadAxios.put(
@@ -85,7 +104,7 @@ const subCategoryEdit = ({ match }) => {
             name="name"
             register={register}
             placeholder="Escribe la Sub-Categoría"
-            defaultValue={dataSubCategory.name}
+            defaultValue={dataSubCategory.attributes.name}
             messageError={errors.name?.message && 'La Sub-Categoría es obligatoria'}
           />
         </FormApp>

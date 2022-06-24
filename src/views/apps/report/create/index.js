@@ -46,11 +46,16 @@ import Url from '../../../../constants/Url'
 import { getOrganizations } from '../../../../services/zammad/organization'
 import { getGroups, postGroup } from '../../../../services/zammad/group'
 import { RequiredInput } from '../../../../@core/components/requiredInput'
+import { strapiGetServices, strapiGetServicesById } from '../../../../services/strapi/services'
+import { strapiGetInstitutionsByIdService } from '../../../../services/strapi/institutions'
+import { strapiGetBeneficiariesByCedula, strapiPostBeneficiary, strapiPutBeneficiary } from '../../../../services/strapi/beneficiaries'
+import { strapiGetUserMe } from '../../../../services/strapi/users'
+import { strapiPostTickets } from '../../../../services/strapi/tickets'
 
-const ReportCreate = function({history}) {
+const ReportCreate = function ({ history }) {
   const dispatch = useDispatch()
-  
-  const [ loadingPost, setLoadingPost ] = useState(false)
+
+  const [loadingPost, setLoadingPost] = useState(false)
 
   const initialHierarchies = {
     category: null,
@@ -59,56 +64,68 @@ const ReportCreate = function({history}) {
 
   const [hierarchies, setHierarchies] = useState(initialHierarchies)
 
-  const [ dataTableCategories, setDataTableCategories ] = useState([])
-  const [ dataTableSubCategories, setDataTableSubCategories ] = useState([])
-  const [ dataTableOrganizations, setDataTableOrganizations ] = useState([])
-  console.log('dataTableOrganizations', dataTableOrganizations)
+  const [dataTableCategories, setDataTableCategories] = useState([])
+  const [dataTableSubCategories, setDataTableSubCategories] = useState([])
+  const [dataTableOrganizations, setDataTableOrganizations] = useState([])
+  const [servicesState, setServicesState] = useState([])
+  const [userMeState, setUserMeState] = useState({})
 
-  const [ previewArr, setPreviewArr ] = useState([])
-  
-  const [ infoCedulaState, setInfoCedulaState ] = useState(null)
-  
-  const [ dataOrganizationState, setDataOrganizationState ] = useState([])
-  console.log('dataOrganizationState', dataOrganizationState)
-  const [ dataGroupState, setDataGroupState ] = useState([])
-  console.log('dataGroupState', dataGroupState)
-  
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  const [previewArr, setPreviewArr] = useState([])
+
+  const [infoCedulaState, setInfoCedulaState] = useState(null)
+
+  const [dataOrganizationState, setDataOrganizationState] = useState([])
+  const [dataGroupState, setDataGroupState] = useState([])
+
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
 
   const [incidentValueState, setIncidentValueState] = useState(defaultValueState)
   const [categoryValueState, setCategoryValueState] = useState(defaultValueState)
   const [subCategoryValueState, setSubCategoryValueState] = useState(defaultValueState)
   const [institutionValueState, setInstitutionValueState] = useState(defaultValueState)
-  
-  const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
-  const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
-  const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
-  const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
-  const [ sectionValueState, setSectionValueState ] = useState(defaultValueState)
-  const [ neighborhoodValueState, setNeighborhoodValueState ] = useState(defaultValueState)
-  const [ subNeighborhoodValueState, setSubNeighborhoodValueState ] = useState(defaultValueState)
 
-  const [ provinceState, setProvinceState ] = useState([])
-  const [ municipalityState, setMunicipalityState ] = useState([])
-  const [ districtState, setDistrictState ] = useState([])
-  const [ sectionState, setSectionState ] = useState([])
-  const [ neighborhoodState, setNeighborhoodState ] = useState([])
-  const [ subNeighborhoodState, setSubNeighborhoodState ] = useState([])
+  const [regionValueState, setRegionValueState] = useState(defaultValueState)
+  const [provinceValueState, setProvinceValueState] = useState(defaultValueState)
+  const [municipalityValueState, setMunicipalityValueState] = useState(defaultValueState)
+  const [districtValueState, setDistrictValueState] = useState(defaultValueState)
+  const [sectionValueState, setSectionValueState] = useState(defaultValueState)
+  const [neighborhoodValueState, setNeighborhoodValueState] = useState(defaultValueState)
+  const [subNeighborhoodValueState, setSubNeighborhoodValueState] = useState(defaultValueState)
+
+  const [provinceState, setProvinceState] = useState([])
+  const [municipalityState, setMunicipalityState] = useState([])
+  const [districtState, setDistrictState] = useState([])
+  const [sectionState, setSectionState] = useState([])
+  const [neighborhoodState, setNeighborhoodState] = useState([])
+  const [subNeighborhoodState, setSubNeighborhoodState] = useState([])
 
   useEffect(() => {
-    dispatch(getAllServicesActions())
+    // dispatch(getAllServicesActions())
     dispatch(getAllRegionsActions())
 
-    getOrganizations()
-      .then(res => setDataOrganizationState(res.data))
+    strapiGetUserMe()
+      .then(res => setUserMeState(res.data))
       .catch(err => console.log(err))
 
-    getGroups()
-      .then(res => setDataGroupState(res.data))
+    strapiGetServices()
+      .then(res => {
+        const data = res.data.data.map(data => {
+          return { value: data.id, label: data.attributes.name }
+        })
+        setServicesState(data)
+      })
       .catch(err => console.log(err))
+
+    // getOrganizations()
+    //   .then(res => setDataOrganizationState(res.data))
+    //   .catch(err => console.log(err))
+
+    // getGroups()
+    //   .then(res => setDataGroupState(res.data))
+    //   .catch(err => console.log(err))
   }, [])
 
-  const servicesSelector = useSelector((state) => state?.services?.services)
+  // const servicesSelector = useSelector((state) => state?.services?.services)
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
   const { register, handleSubmit, errors, setValue, control, getValues } = useForm({
@@ -122,7 +139,7 @@ const ReportCreate = function({history}) {
     setValue("categoria", "")
     setValue("subCategoria", "")
     setValue("institucion", "")
-    setHierarchies({...hierarchies, category: e.value})
+    setHierarchies({ ...hierarchies, category: e.value })
     setIncidentValueState(e)
     setCategoryValueState(defaultValueState)
     setSubCategoryValueState(defaultValueState)
@@ -130,9 +147,24 @@ const ReportCreate = function({history}) {
     setDataTableCategories([])
     setDataTableSubCategories([])
     setDataTableOrganizations([])
-    if(!e.value) return
-    getIncidentCategoryByIdService(e.value).then(({data}) => setDataTableCategories(data))
-    getIncidentOrganizationByIdService(e.value).then(({data}) => setDataTableOrganizations(data))
+    if (!e.value) return
+    // getIncidentCategoryByIdService(e.value).then(({ data }) => setDataTableCategories(data))
+    // getIncidentOrganizationByIdService(e.value).then(({ data }) => setDataTableOrganizations(data))
+    strapiGetInstitutionsByIdService(e.value)
+      .then(res => {
+        const data = res.data.data.map(data => {
+          return { value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }
+        })
+        setDataTableOrganizations(data)
+      })
+
+    strapiGetServicesById(e.value)
+      .then(res => {
+        const data = res.data.data.attributes.children.data.map(data => {
+          return { value: data.id, label: data.attributes.name }
+        })
+        setDataTableCategories(data)
+      })
   }
 
   const getSubCategoryByIdServiceByIdCategory = (e) => {
@@ -141,9 +173,16 @@ const ReportCreate = function({history}) {
     setCategoryValueState(e)
     setSubCategoryValueState(defaultValueState)
     setDataTableSubCategories([])
-    if(!e.value) return
-    setHierarchies({...hierarchies, subCategory: e.value})
-    getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({data}) => setDataTableSubCategories(data))
+    if (!e.value) return
+    setHierarchies({ ...hierarchies, subCategory: e.value })
+    // getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({ data }) => setDataTableSubCategories(data))
+    strapiGetServicesById(e.value)
+      .then(res => {
+        const data = res.data.data.attributes.children.data.map(data => {
+          return { value: data.id, label: data.attributes.name }
+        })
+        setDataTableSubCategories(data)
+      })
   }
 
   const handleSubCategory = (e) => {
@@ -153,39 +192,43 @@ const ReportCreate = function({history}) {
 
   const handleSetInstitution = (e) => {
     setInstitutionValueState(e)
-    const findInstitution = dataTableOrganizations.find(data => data.id === e.value)
-    console.log('findInstitution', findInstitution)
-    if(!findInstitution) return
-    const findedGroup = dataGroupState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
-    const findedOrganization = dataOrganizationState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
-    console.log('findedGroup', findedGroup)
-    console.log('findedOrganization', findedOrganization)
-    if(Object.keys(findedGroup)[0]){
-      setValue("institucion", findedGroup.id)
-    }else {
-      postGroup({name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase()})
-        .then(res => setValue("institucion", res.data.id))
-        .catch(err => console.log(err))
-    }if(!Object.keys(findedOrganization)[0]){
-      postGroup({name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase()})
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-    }
+    setValue("institucion", e.value)
+
+    // const findInstitution = dataTableOrganizations.find(data => data.id === e.value)
+    // console.log('findInstitution', findInstitution)
+    // if (!findInstitution) return
+    // const findedGroup = dataGroupState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
+    // const findedOrganization = dataOrganizationState.find(data => data.acronimo.toUpperCase() === findInstitution.acronym.toUpperCase())
+    // console.log('findedGroup', findedGroup)
+    // console.log('findedOrganization', findedOrganization)
+    // if (Object.keys(findedGroup)[0]) {
+    //   setValue("institucion", findedGroup.id)
+    // } else {
+    //   postGroup({ name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase() })
+    //     .then(res => setValue("institucion", res.data.id))
+    //     .catch(err => console.log(err))
+    // } if (!Object.keys(findedOrganization)[0]) {
+    //   postGroup({ name: findInstitution.name, acronimo: findInstitution.acronym.toUpperCase() })
+    //     .then(res => console.log(res))
+    //     .catch(err => console.log(err))
+    // }
   }
 
-  const handleDataCedula = ({target}) => {
+  const handleDataCedula = ({ target }) => {
     setInfoCedulaState(null)
-    if(target.value.length !== 11) return
-    getInfoCedula(target.value)
-      .then(({data}) => setInfoCedulaState(data.payload))
-      .catch(err => {
-        setInfoCedulaState(null)
-        sweetAlert({
-          title: 'Error!',
-          text: 'La Cédula ingresada no es válida',
-          type: 'error'
+    if (target.value.length === 11) {
+      setValue("cedula", target.value)
+      getInfoCedula(target.value)
+        .then(({ data }) => setInfoCedulaState(data.payload))
+        .catch(err => {
+          setInfoCedulaState(null)
+          sweetAlert({
+            title: 'Error!',
+            text: 'La Cédula ingresada no es válida',
+            type: 'error'
+          })
         })
-      })
+    }
   }
 
   const handleGetProvinceByIdRegion = (e) => {
@@ -209,7 +252,7 @@ const ReportCreate = function({history}) {
     setNeighborhoodState([])
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getProvinceByIdRegion(e.value).then(res => setProvinceState(res.data.data))
   }
 
@@ -231,7 +274,7 @@ const ReportCreate = function({history}) {
     setNeighborhoodState([])
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getMunicipalityByIdRegionByIdProvince(regionValueState.value, e.value).then(res => setMunicipalityState(res.data.data))
   }
 
@@ -250,9 +293,9 @@ const ReportCreate = function({history}) {
     setNeighborhoodState([])
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getDistrictByIdProvinceByIdMunicipality(regionValueState.value, provinceValueState.value, e.value)
-    .then(res => setDistrictState(res.data.data))
+      .then(res => setDistrictState(res.data.data))
   }
 
   const handleGetSectionByIdDistrict = (e) => {
@@ -267,9 +310,9 @@ const ReportCreate = function({history}) {
     setNeighborhoodState([])
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getSectionByIdMunicipalityByIdDistrict(regionValueState.value, provinceValueState.value, municipalityValueState.value, e.value)
-    .then(res => setSectionState(res.data.data))
+      .then(res => setSectionState(res.data.data))
   }
 
   const handleGetNeighborhoodByIdSection = (e) => {
@@ -281,11 +324,11 @@ const ReportCreate = function({history}) {
     setNeighborhoodState([])
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getNeighborhoodByIdDistrictByIdSection(
-      regionValueState.value, 
-      provinceValueState.value, 
-      municipalityValueState.value, 
+      regionValueState.value,
+      provinceValueState.value,
+      municipalityValueState.value,
       districtValueState.value,
       e.value
     ).then(res => setNeighborhoodState(res.data.data))
@@ -297,11 +340,11 @@ const ReportCreate = function({history}) {
     setNeighborhoodValueState(e)
     setSubNeighborhoodValueState(defaultValueState)
     setSubNeighborhoodState([])
-    if(!e.value) return
+    if (!e.value) return
     getSubNeighborhoodByIdSectionByIdNeighborhood(
       regionValueState.value,
-      provinceValueState.value, 
-      municipalityValueState.value, 
+      provinceValueState.value,
+      municipalityValueState.value,
       districtValueState.value,
       sectionValueState.value,
       e.value
@@ -314,39 +357,115 @@ const ReportCreate = function({history}) {
   }
 
   const onSubmit = async (data) => {
-    if(!previewArr[0]){
-      return sweetAlert({
-        title: 'Aviso',
-        text: 'Debes agregar al menos una evidencia.',
-        type: 'warning'
-      })
-    }
+
+    // if (!previewArr[0]) {
+    //   return sweetAlert({
+    //     title: 'Aviso',
+    //     text: 'Debes agregar al menos una evidencia.',
+    //     type: 'warning'
+    //   })
+    // }
 
     setLoadingPost(true)
 
-    const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
-    console.log('ticketAsync', ticketAsync)
-    if(ticketAsync.status === 201){
-      
-      postTicketArrTags(ticketAsync?.data?.id, [data.incidente.label, data.categoria.label, data.subCategoria.label])
-        .then(res => console.log('res tags: ', res))
-        .catch(err => console.log('err tags: ', err))
+    let idBeneficiary = null
 
-      sweetAlert({
-        title: 'Ticket creado',
-        text: 'Ticket creado con éxito.',
-        type: 'success'
+    strapiGetBeneficiariesByCedula(infoCedulaState.id)
+      .then(res => {
+        const objBeneficiary = {
+          data: {
+            cedula: infoCedulaState.id,
+            name: `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
+            phone: data.telefono,
+          }
+        }
+        if (!res.data.data[0]) {
+          strapiPostBeneficiary(objBeneficiary)
+            .then(res => {
+              console.log(res)
+              idBeneficiary = res.data.data.id
+            })
+        } else {
+          idBeneficiary = res.data.data[0].id
+          strapiPutBeneficiary(res.data.data[0].id, objBeneficiary)
+            .then(res => console.log("updated user: ", res))
+            .catch(err => console.log(err))
+        }
       })
-      history.push(Url.dashboardInbox)  
+      .catch(err => console.log(err))
 
-    }else{
-      sweetAlert({
-        title: 'Error!',
-        text: 'Ocurrió un error al crear el Ticket.',
-        type: 'error'
-      })
-      setLoadingPost(false)
+    const obj = {
+      data: {
+        title: `${data?.subCategoria.label} en ${data.subBarrio ? data.subBarrio.label : data.barrio.label}`,
+        services: [parseInt(data.incidente.value), parseInt(data.categoria.value), parseInt(data.subCategoria.value)],
+        institution: parseInt(data.institucion),
+        beneficiary: idBeneficiary,
+        address: data.direccion,
+        // "evidence": [
+        //   "string or id",
+        //   "string or id"
+        // ],
+        description: data.descripcion,
+        owner: userMeState.id,
+        // "comments": [
+        //   "string or id",
+        //   "string or id"
+        // ],
+        state: "new",
+        priority: "low",
+        // "blocked": true,
+        // "blocked_comments": true,
+        // "block_reason": "string",
+        // "reports": [
+        //   "string or id",
+        //   "string or id"
+        // ],
+        zone_code: `${data.region}${data.provincia}${data.municipio}${data.distrito}${data.seccion}${data.barrio.value}${data.subBarrio && data.subBarrio.value}`,
+        // "snip_code": "string"
+      }
     }
+
+    strapiPostTickets(obj)
+      .then(res => {
+        sweetAlert({
+          title: 'Ticket creado',
+          text: 'Ticket creado con éxito.',
+          type: 'success'
+        })
+        history.push(Url.dashboardInbox)
+      })
+      .catch(err => {
+        sweetAlert({
+          title: 'Error!',
+          text: 'Ocurrió un error al crear el Ticket.',
+          type: 'error'
+        })
+        setLoadingPost(false)
+      })
+
+    // const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
+    // console.log('ticketAsync', ticketAsync)
+    // if (ticketAsync.status === 201) {
+
+    //   postTicketArrTags(ticketAsync?.data?.id, [data.incidente.label, data.categoria.label, data.subCategoria.label])
+    //     .then(res => console.log('res tags: ', res))
+    //     .catch(err => console.log('err tags: ', err))
+
+    //   sweetAlert({
+    //     title: 'Ticket creado',
+    //     text: 'Ticket creado con éxito.',
+    //     type: 'success'
+    //   })
+    //   history.push(Url.dashboardInbox)
+
+    // } else {
+    //   sweetAlert({
+    //     title: 'Error!',
+    //     text: 'Ocurrió un error al crear el Ticket.',
+    //     type: 'error'
+    //   })
+    //   setLoadingPost(false)
+    // }
   }
 
   return (
@@ -362,19 +481,19 @@ const ReportCreate = function({history}) {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Incidente<RequiredInput /></Label>
-              <Controller
-                control={control}
-                name="incidente"
-                render={({field}) => <Select 
-                  {...field}
-                  onChange={e => getCategoryByIdService(e)}
-                  options={optionsIdValueSelect(servicesSelector)}
-                  isLoading={!servicesSelector[0]}
-                  defaultValue={incidentValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
+            <Controller
+              control={control}
+              name="incidente"
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => getCategoryByIdService(e)}
+                options={servicesState}
+                isLoading={!servicesState[0]}
+                defaultValue={incidentValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
             <p className="text-danger">{
               errors.incidente?.message && errors.incidente?.message
             }</p>
@@ -384,19 +503,19 @@ const ReportCreate = function({history}) {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Categoría<RequiredInput /></Label>
-              <Controller
-                control={control}
-                name="categoria"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
-                  options={optionsIdValueSelect(dataTableCategories)}
-                  isLoading={!dataTableCategories[0]}
-                  value={categoryValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
+            <Controller
+              control={control}
+              name="categoria"
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => getSubCategoryByIdServiceByIdCategory(e)}
+                options={dataTableCategories}
+                isLoading={!dataTableCategories[0]}
+                value={categoryValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
             <p className="text-danger">{
               errors.categoria?.message && errors.categoria?.message
             }</p>
@@ -406,19 +525,19 @@ const ReportCreate = function({history}) {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Sub-Categorías<RequiredInput /></Label>
-              <Controller
-                control={control}
-                name="subCategoria"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => handleSubCategory(e)}
-                  options={optionsIdValueSelect(dataTableSubCategories)}
-                  isLoading={!dataTableSubCategories[0]}
-                  value={subCategoryValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
+            <Controller
+              control={control}
+              name="subCategoria"
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => handleSubCategory(e)}
+                options={dataTableSubCategories}
+                isLoading={!dataTableSubCategories[0]}
+                value={subCategoryValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
             <p className="text-danger">{
               errors.subCategoria?.message && errors.subCategoria?.message
             }</p>
@@ -428,19 +547,19 @@ const ReportCreate = function({history}) {
         <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Institución<RequiredInput /></Label>
-              <Controller
-                control={control}
-                name="institucion"
-                render={({field}) => <Select 
-                  {...field} 
-                  onChange={e => handleSetInstitution(e)}
-                  options={optionsIdValueSelect(dataTableOrganizations)}
-                  isLoading={!dataTableOrganizations[0]}
-                  value={institutionValueState}
-                  classNamePrefix="select"
-                  theme={selectThemeColors}
-                />}
-              />
+            <Controller
+              control={control}
+              name="institucion"
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => handleSetInstitution(e)}
+                options={dataTableOrganizations}
+                isLoading={!dataTableOrganizations[0]}
+                value={institutionValueState}
+                classNamePrefix="select"
+                theme={selectThemeColors}
+              />}
+            />
             <p className="text-danger">{
               errors.institucion?.message && errors.institucion?.message
             }</p>
@@ -460,12 +579,11 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="cedula"
-              render={({field}) => <Cleave
+              render={({ field }) => <Cleave
                 {...field}
                 className="form-control"
                 placeholder="Escribe la Cédula"
-                onChange={e => setValue("cedula", e.target.value)}
-                onBlur={e => handleDataCedula(e)}
+                onChange={e => handleDataCedula(e)}
                 options={{ blocks: [11], numericOnly: true }}
               />}
             />
@@ -492,7 +610,7 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="telefono"
-              render={({field}) => <Cleave
+              render={({ field }) => <Cleave
                 {...field}
                 className="form-control"
                 placeholder="Escribe el Teléfono"
@@ -519,8 +637,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="region"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetProvinceByIdRegion(e)}
                 options={optionsCodeValueSelect(regionSelector)}
                 isLoading={!regionSelector[0]}
@@ -541,8 +659,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="provincia"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetMunicipalityByIdProvince(e)}
                 options={optionsCodeValueSelect(provinceState)}
                 isLoading={!provinceState[0]}
@@ -563,8 +681,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="municipio"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetDistrictByIdMunicipality(e)}
                 options={optionsCodeValueSelect(municipalityState)}
                 isLoading={!municipalityState[0]}
@@ -585,8 +703,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="distrito"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetSectionByIdDistrict(e)}
                 options={optionsCodeValueSelect(districtState)}
                 isLoading={!districtState[0]}
@@ -607,8 +725,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="seccion"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetNeighborhoodByIdSection(e)}
                 options={optionsCodeValueSelect(sectionState)}
                 isLoading={!sectionState[0]}
@@ -629,8 +747,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="barrio"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetSubNeighborhoodByIdNeighborhood(e)}
                 options={optionsCodeValueSelect(neighborhoodState)}
                 isLoading={!neighborhoodState[0]}
@@ -651,8 +769,8 @@ const ReportCreate = function({history}) {
             <Controller
               control={control}
               name="subBarrio"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleSubNeighborhood(e)}
                 options={optionsCodeValueSelect(subNeighborhoodState)}
                 isLoading={!subNeighborhoodState[0]}
@@ -683,9 +801,9 @@ const ReportCreate = function({history}) {
             <span className="align-middle">Evidencias</span>
           </h4>
         </Col>
-        
+
         <Col sm="12">
-          <FileUploader 
+          <FileUploader
             previewArr={previewArr}
             setPreviewArr={setPreviewArr}
           />

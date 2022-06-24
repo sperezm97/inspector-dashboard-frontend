@@ -8,6 +8,7 @@ import { getAllSubCategoriesActions } from '../../../../redux/actions/incidents/
 import Url from '../../../../constants/Url'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 import { getSubCategories } from '../../../../services/incidents/subCategory'
+import { strapiGetSubCategories } from '../../../../services/strapi/services'
 
 const subCategoria = () => {
   const dispatch = useDispatch()
@@ -18,7 +19,7 @@ const subCategoria = () => {
   useEffect(() => {
     // dispatch(getAllSubCategoriesActions())
 
-    getSubCategories()
+    strapiGetSubCategories()
       .then(res => setSubCategoriesState(res.data.data))
       .catch(err => {
         console.log(err)

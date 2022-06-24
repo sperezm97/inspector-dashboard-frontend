@@ -23,13 +23,12 @@ import { getTagsByName, postTags } from '../../../../services/zammad/tags'
 import { getIncidentCategoryByIdService } from '../../../../services/incidents/category'
 import SelectApp from '../../../../@core/components/select'
 import { postSubCategory } from '../../../../services/incidents/subCategory'
+import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { strapiGetCategories, strapiPostServices } from '../../../../services/strapi/services'
+import Url from '../../../../constants/Url'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
-  servicio: yup.object({
-    value: yup.string(),
-    label: yup.string(),
-  }).default(null).nullable().required('El Servicio es obligatorio'),
   categoria: yup.object({
     value: yup.string(),
     label: yup.string(),
@@ -45,11 +44,15 @@ const subCategoryCreate = ({ history }) => {
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
   const [ incidentValueState, setIncidentValueState ] = useState(defaultValueState)
   const [ categoryValueState, setCategoryValueState ] = useState(defaultValueState)
-  console.log(categoryValueState)
 
   useEffect(() => {
-    getIncidents()
-      .then(res => setIncidentsState(res.data.data))
+    strapiGetCategories()
+      .then(res => {
+        const data = res.data.data.map(data => {
+          return {value: data.id, label: data.attributes.name}
+        })
+        setCategoryState(data)
+      })
       .catch(err => console.log(err))
   },[])
 
@@ -57,16 +60,16 @@ const subCategoryCreate = ({ history }) => {
     resolver: yupResolver(schema),
   })
 
-  const handleSetService = (e) => {
-    setValue("servicio", e)
-    setIncidentValueState(e)
-    setValue("categoria", "")
-    setCategoryValueState(defaultValueState)
-    setCategoryState([])
-    getIncidentCategoryByIdService(e.value)
-      .then(res => setCategoryState(res.data))
-      .catch(err => console.log(err))
-  }
+  // const handleSetService = (e) => {
+  //   setValue("servicio", e)
+  //   setIncidentValueState(e)
+  //   setValue("categoria", "")
+  //   setCategoryValueState(defaultValueState)
+  //   setCategoryState([])
+  //   getIncidentCategoryByIdService(e.value)
+  //     .then(res => setCategoryState(res.data))
+  //     .catch(err => console.log(err))
+  // }
 
   const handleSetCategory = (e) => {
     setValue("categoria", e)
@@ -74,28 +77,47 @@ const subCategoryCreate = ({ history }) => {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
-    postTags(data)
-      .then(res => {
-        console.log(res)
-        getTagsByName(data?.name)
-          .then(res => {
-            console.log(res?.data[0]?.id)
-            postSubCategory({categoryId: categoryValueState.value, zammadId: res?.data[0]?.id})
-              .then(res => {
-                console.log(res)
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          })
-          .catch(err => {
-            console.log(err)
-          })
+
+    const obj = {
+      data: {
+        name: data.name,
+        parent: parseInt(data.categoria.value),
+        type: 'subcategory'
+      }
+    }
+
+    setLoadingState(true)
+
+    strapiPostServices(obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.subCategory)
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(() => sweetAlertError())
+      .finally(() => setLoadingState(false))
+
+    // console.log(data)
+    // postTags(data)
+    //   .then(res => {
+    //     console.log(res)
+    //     getTagsByName(data?.name)
+    //       .then(res => {
+    //         console.log(res?.data[0]?.id)
+    //         postSubCategory({categoryId: categoryValueState.value, zammadId: res?.data[0]?.id})
+    //           .then(res => {
+    //             console.log(res)
+    //           })
+    //           .catch(err => {
+    //             console.log(err)
+    //           })
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
   }
 
   return (
@@ -114,23 +136,11 @@ const subCategoryCreate = ({ history }) => {
 
         <Col lg="4" md="6" sm="12">
           <SelectApp 
-            label="Servicio"
-            control={control}
-            name="servicio"
-            onChange={e => handleSetService(e)}
-            optionsRender={optionsZammadIdValueSelect(incidentsState)}
-            value={incidentValueState}
-            error={errors.servicio?.message}
-          />
-        </Col>
-
-        <Col lg="4" md="6" sm="12">
-          <SelectApp 
             label="Categoría"
             control={control}
             name="categoria"
             onChange={e => handleSetCategory(e)}
-            optionsRender={optionsIncidentsZammadIdValueSelect(categoryState)}
+            optionsRender={categoryState}
             value={categoryValueState}
             error={errors.categoria?.message}
           />

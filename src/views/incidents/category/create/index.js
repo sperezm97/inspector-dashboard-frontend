@@ -22,6 +22,9 @@ import { optionsIncidentsZammadIdValueSelect } from '../../../../utility/Utils'
 import { getTagsByName, postTags } from '../../../../services/zammad/tags'
 import { postCategory } from '../../../../services/incidents/category'
 import SelectApp from '../../../../@core/components/select'
+import { strapiGetServices, strapiPostServices } from '../../../../services/strapi/services'
+import Url from '../../../../constants/Url'
+import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sweetAlert'
 
 const schema = yup.object().shape({
   name: yup.string().required().trim(),
@@ -33,17 +36,23 @@ const schema = yup.object().shape({
 
 const categoryCreate = ({ history }) => {
 
-  const [ incidentsState, setIncidentsState ] = useState([])
+  const [incidentsState, setIncidentsState] = useState([])
+  console.log(incidentsState)
   const [loadingState, setLoadingState] = useState(false)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
   const [incidentValueState, setIncidentValueState] = useState(defaultValueState)
 
   useEffect(() => {
-    getIncidents()
-      .then(res => setIncidentsState(res.data.data))
+    strapiGetServices()
+      .then(res => {
+        const data = res.data.data.map(data => {
+          return {value: data.id, label: data.attributes.name}
+        })
+        setIncidentsState(data)
+      })
       .catch(err => console.log(err))
-  },[])
+  }, [])
 
   const { register, handleSubmit, errors, control, setValue } = useForm({
     resolver: yupResolver(schema),
@@ -55,28 +64,47 @@ const categoryCreate = ({ history }) => {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
-    postTags(data)
-      .then(res => {
-        console.log(res)
-        getTagsByName(data?.name)
-          .then(res => {
-            console.log(res?.data[0]?.id)
-            postCategory({serviceId: incidentValueState.value, zammadId: res?.data[0]?.id})
-              .then(res => {
-                console.log(res)
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          })
-          .catch(err => {
-            console.log(err)
-          })
+
+    const obj = {
+      data: {
+        name: data.name,
+        parent: parseInt(data.servicio.value),
+        type: 'category'
+      }
+    }
+
+    setLoadingState(true)
+
+    strapiPostServices(obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.category)
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(() => sweetAlertError())
+      .finally(() => setLoadingState(false))
+
+    // console.log(data)
+    // postTags(data)
+    //   .then(res => {
+    //     console.log(res)
+    //     getTagsByName(data?.name)
+    //       .then(res => {
+    //         console.log(res?.data[0]?.id)
+    //         postCategory({serviceId: incidentValueState.value, zammadId: res?.data[0]?.id})
+    //           .then(res => {
+    //             console.log(res)
+    //           })
+    //           .catch(err => {
+    //             console.log(err)
+    //           })
+    //       })
+    //       .catch(err => {
+    //         console.log(err)
+    //       })
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
   }
 
   return (
@@ -94,12 +122,12 @@ const categoryCreate = ({ history }) => {
         </Col>
 
         <Col lg="4" md="6" sm="12">
-          <SelectApp 
+          <SelectApp
             label="Servicio"
             control={control}
             name="servicio"
             onChange={e => handleSetService(e)}
-            optionsRender={optionsIncidentsZammadIdValueSelect(incidentsState)}
+            optionsRender={incidentsState}
             value={incidentValueState}
             error={errors.servicio?.message}
           />

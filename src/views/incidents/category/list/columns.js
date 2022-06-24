@@ -7,7 +7,7 @@ export const columns = [
     minWidth: '',
     selector: 'name',
     sortable: true,
-    cell: (row) => row.name,
+    cell: (row) => row.attributes.name,
   },
   {
     name: 'Acciones',
