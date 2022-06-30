@@ -3,7 +3,7 @@ import * as Icon from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const CardTransactions = function({ provinces, listTickets, loadingTicket }) {
+const CardTransactions = function({ provinces = [], listTickets = [], loadingTicket }) {
   const renderTransactions = () =>
     provinces.map((state) => {
       const ticketLength =

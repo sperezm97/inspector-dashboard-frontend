@@ -55,7 +55,7 @@ const Avatar = forwardRef((props, ref) => {
           })}
           style={contentStyles}
         >
-          {initials ? getInitials(content) : content}
+          {initials ? getInitials(content).substring(0, 4) : content}
 
           {icon ? icon : null}
           {badgeUp ? (

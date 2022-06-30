@@ -37,129 +37,38 @@ import { getAllUsersActions } from '../../../redux/actions/zammad/users'
 import { getAllTickets } from '../../../services/zammad/ticket'
 import { ticketNewObjectFiltered } from '../../../utility/zammad/filterData'
 import { sweetAlertError } from '../../../@core/components/sweetAlert'
+import { strapiGetInstitutionWithTickets, strapiGetTicketsEnd, strapiGetTicketsNotClose, strapiGetTicketsOpen, strapiGetTicketsPriorityHigh, strapiGetTicketsPriorityLow, strapiGetTicketsPriorityNormal, strapiGetTicketsTotal, strapiGetUsersActive } from '../../../services/strapi/dashboard'
 
-const AnalyticsDashboard = function() {
-  const dispatch = useDispatch()
+const AnalyticsDashboard = function () {
 
   const { colors } = useContext(ThemeColors)
 
-  const [dataTableTicketsTwo, setDataTableTicketsTwo] = useState([])
-  const [loadingTicket, setLoadingTicket] = useState(false)
+  const [totalTickets, setTotalTickets] = useState([])
+  const [openTickets, setOpenTickets] = useState([])
+  const [endTickets, setEndTickets] = useState([])
+  const [notCloseTickets, setNotCloseTickets] = useState([])
+  const [priorityLowTickets, setPriorityLowTickets] = useState([])
+  const [priorityNormalTickets, setPriorityNormalTickets] = useState([])
+  const [priorityHighTickets, setpriorityHighTickets] = useState([])
+  const [institutionWithTickets, setInstitutionWithTickets] = useState([])
+  console.log(institutionWithTickets)
+  const [usersActive, setUsersActive] = useState([])
 
   useEffect(() => {
 
-    // getAllTickets()
-    //   .then(res => {
-    //     setDataTableTicketsTwo(ticketNewObjectFiltered(res.data.assets.Ticket, res.data.assets))
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //     sweetAlertError()
-    //   })
-    //   .finally(() => setLoadingTicket(false))
+    strapiGetTicketsTotal().then(res => setTotalTickets(res.data.data.length))
+    strapiGetTicketsOpen().then(res => setOpenTickets(res.data.data.length))
+    strapiGetTicketsEnd().then(res => setEndTickets(res.data.data.length))
+    strapiGetTicketsNotClose().then(res => setNotCloseTickets(res.data.data.length))
+    strapiGetTicketsPriorityLow().then(res => setPriorityLowTickets(res.data.data.length))
+    strapiGetTicketsPriorityNormal().then(res => setPriorityNormalTickets(res.data.data.length))
+    strapiGetTicketsPriorityHigh().then(res => setpriorityHighTickets(res.data.data.length))
+    strapiGetInstitutionWithTickets().then(res => setInstitutionWithTickets(res.data.data))
+    strapiGetUsersActive().then(res => setUsersActive(res.data.length))
 
-    // dispatch(getAllTicketsActions())
-    // dispatch(
-    //   getTicketsByTwoDateActions(
-    //     dateBeforeDay({ day: 28, f: 'YYYY-MM-DD' }),
-    //     dateToday('YYYY-MM-DD'),
-    //   ),
-    // )
-    // dispatch(getAllOrganizationsActions())
-    // dispatch(getAllProvincesActions())
-    // dispatch(getAllUsersActions())
   }, [])
 
-  // const dataTableTicketsTwo = useSelector(
-  //   (state) => state?.tickets?.listTickets,
-  // )
-
-  // const dataTableTicketsTwo = useSelector(
-  //   (state) => state?.tickets?.ticketsTwoDate?.Ticket,
-  // )
-  const newDataTableTicketsTwo =
-    (dataTableTicketsTwo && Object.values(dataTableTicketsTwo)) || []
-
-  const newUsersState = useSelector((state) => state?.users?.users)
-  // const usersState = useSelector((state) => state?.tickets?.tickets?.User)
-  // const newUsersState = usersState && Object.values(usersState)
-
-  const organizationsState = useSelector(
-    (state) => state?.organizations?.organizations,
-  )
-
-  const provincesState = useSelector((state) => state?.provinces?.allProvinces)
-
-  const [casesDayState, setCasesDayState] = useState({
-    firstDay: 0,
-    secondDay: 0,
-    thirdDay: 0,
-  })
-
-  const [casesWeekState, setCasesWeekState] = useState({
-    firstWeek: 0,
-    secondWeek: 0,
-    thirdWeek: 0,
-    fourthWeek: 0,
-  })
-
-  const infoChart = dataInfoChart(newDataTableTicketsTwo, newUsersState?.length)
-  console.log(infoChart)
-
-  useEffect(() => {
-    const dateDay = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.createDate) === dateToday(),
-    ).length
-    const dateDayOneAgo = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.createDate) === dateBeforeDay({ day: 1 }),
-    ).length
-    const dateDayTwoAgo = newDataTableTicketsTwo.filter(
-      (cases) => formatDate(cases.createDate) === dateBeforeDay({ day: 2 }),
-    ).length
-
-    const dateWeek = newDataTableTicketsTwo.filter(
-      (cases) =>
-        toMs(formatDate(cases.createDate)) >= toMs(dateBeforeDay({ day: 7 })) &&
-        toMs(formatDate(cases.createDate)) <= toMs(dateToday()),
-    ).length
-
-    const dateWeekTwoAgo = newDataTableTicketsTwo.filter(
-      (cases) =>
-        toMs(formatDate(cases.createDate)) >=
-          toMs(dateBeforeDay({ day: 14 })) &&
-        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 8 })),
-    ).length
-
-    const dateWeekThreeAgo = newDataTableTicketsTwo.filter(
-      (cases) =>
-        toMs(formatDate(cases.createDate)) >=
-          toMs(dateBeforeDay({ day: 21 })) &&
-        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 15 })),
-    ).length
-
-    const dateWeekFourAgo = newDataTableTicketsTwo.filter(
-      (cases) =>
-        toMs(formatDate(cases.createDate)) >=
-          toMs(dateBeforeDay({ day: 28 })) &&
-        toMs(formatDate(cases.createDate)) <= toMs(dateBeforeDay({ day: 22 })),
-    ).length
-
-    const objDay = {
-      firstDay: dateDay,
-      secondDay: dateDayOneAgo,
-      thirdDay: dateDayTwoAgo,
-    }
-
-    const objWeek = {
-      firstWeek: dateWeek,
-      secondWeek: dateWeekTwoAgo,
-      thirdWeek: dateWeekThreeAgo,
-      fourthWeek: dateWeekFourAgo,
-    }
-
-    setCasesDayState(objDay)
-    setCasesWeekState(objWeek)
-  }, [newDataTableTicketsTwo[0]])
+  const infoChart = dataInfoChart({ totalTickets, openTickets, endTickets, usersActive })
 
   return (
     <div id="dashboard-analytics">
@@ -168,17 +77,16 @@ const AnalyticsDashboard = function() {
           <Col lg="3" sm="6" key={index}>
             <StatsWithAreaChart
               kFormatter={kFormatter}
-              newDataTableTicketsTwo={newDataTableTicketsTwo}
               dataInfoChart={dataInfoChart}
               series={[{ name: dataInfoChart.title, data: null }]}
-              loadingTicket={loadingTicket}
+              loadingTicket={false}
             />
           </Col>
         ))}
 
-        <Col lg="2" md="6">
-          <Row className="match-height">
-            <Col xs="12">
+        {/* <Col lg="2" md="6">
+          <Row className="match-height"> */}
+        {/* <Col xs="12">
               <TinyChartStats
                 height={70}
                 newDataTableTicketsTwo={newDataTableTicketsTwo}
@@ -197,8 +105,8 @@ const AnalyticsDashboard = function() {
                   },
                 ]}
               />
-            </Col>
-            <Col xs="12">
+            </Col> */}
+        {/* <Col xs="12">
               <TinyChartStats
                 height={70}
                 newDataTableTicketsTwo={newDataTableTicketsTwo}
@@ -218,43 +126,43 @@ const AnalyticsDashboard = function() {
                   },
                 ]}
               />
-            </Col>
-            <Col lg="12" md="6" xs="12">
-              {/* <Earnings
+            </Col> */}
+        {/* <Col lg="12" md="6" xs="12"> */}
+        {/* <Earnings
                 beforeMonth={casesWeekState.secondWeek}
                 thisMonth={casesWeekState.firstWeek}
                 success={colors.success.main}
               /> */}
-            </Col>
+        {/* </Col>
           </Row>
-        </Col>
+        </Col> */}
 
         <Col lg="4" md="6" xs="12">
           <GoalOverview
-            dataTableTickets={newDataTableTicketsTwo}
+            endTickets={endTickets}
+            notCloseTickets={notCloseTickets}
             success={colors.success.main}
-            loadingTicket={loadingTicket}
+            loadingTicket={false}
           />
         </Col>
-        <Col lg="6" md="6" xs="12">
+        <Col lg="8" md="8" xs="12">
           <CardBrowserStates
-            organizations={organizationsState}
-            listTickets={newDataTableTicketsTwo}
-            loadingTicket={loadingTicket}
+            institutionWithTickets={institutionWithTickets}
+            loadingTicket={true}
           />
         </Col>
-        <Col lg="4" md="6" xs="12">
+        {/* <Col lg="4" md="6" xs="12">
           <CardTransactions
-            provinces={provincesState}
-            listTickets={newDataTableTicketsTwo}
-            loadingTicket={loadingTicket}
+            loadingTicket={true}
           />
-        </Col>
-        <Col lg="8" xs="12">
-          <AvgSessions 
-            colors={colors} 
-            listTickets={newDataTableTicketsTwo} 
-            loadingTicket={loadingTicket}  
+        </Col> */}
+        <Col lg="12" xs="12">
+          <AvgSessions
+            priorityLowTickets={priorityLowTickets}
+            priorityNormalTickets={priorityNormalTickets}
+            priorityHighTickets={priorityHighTickets}
+            colors={colors}
+            loadingTicket={true}
           />
         </Col>
       </Row>

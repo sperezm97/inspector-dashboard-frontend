@@ -12,37 +12,7 @@ import {
 } from 'reactstrap'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const CardBrowserState = function({ organizations, listTickets, loadingTicket }) {
-  const renderStates = () =>
-    organizations.map((state) => {
-      const ticketLength =
-        listTickets.filter((ticket) => ticket.institutionId === state.id)
-          .length || 0
-
-      return (
-        <div key={state.id} className="browser-states">
-          <div className="flex-grow-1">
-            <Media>
-              {/* <img
-                className="rounded mr-1"
-                src={require('@src/assets/images/icons/1.png').default}
-                height="30"
-                alt={state.acronimo}
-              /> */}
-              <h6 className="align-self-center text-primary mb-0">
-                {state.acronimo}
-              </h6>
-            </Media>
-            <small>{state.name}</small>
-          </div>
-          <div>
-            <div className="font-weight-bold text-body-heading mx-1">
-              {loadingTicket ? <LoadingData size='sm' /> : ticketLength}
-            </div>
-          </div>
-        </div>
-      )
-    })
+const CardBrowserState = function ({ institutionWithTickets, loadingTicket }) {
 
   return (
     <Card className="card-browser-states">
@@ -56,7 +26,29 @@ const CardBrowserState = function({ organizations, listTickets, loadingTicket })
       </CardHeader>
       <CardBody>
         <div className="overflow-auto" style={{ height: '310px' }}>
-          {renderStates()}
+          {institutionWithTickets.map(data => (
+            <div key={data.id} className="browser-states">
+              <div className="flex-grow-1">
+                <Media>
+                  {/* <img
+                className="rounded mr-1"
+                src={require('@src/assets/images/icons/1.png').default}
+                height="30"
+                alt={state.acronimo}
+              /> */}
+                  <h6 className="align-self-center text-primary mb-0">
+                    {data.attributes.acronym}
+                  </h6>
+                </Media>
+                <small>{data.attributes.name}</small>
+              </div>
+              <div>
+                <div className="font-weight-bold text-body-heading mx-1">
+                  {data.attributes.tickets.data.length}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </CardBody>
     </Card>

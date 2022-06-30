@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Select from 'react-select'
 import Cleave from 'cleave.js/react'
 
-import { Col, FormGroup, Label , Button } from 'reactstrap'
+import { Col, FormGroup, Label, Button } from 'reactstrap'
 import { Plus } from 'react-feather'
 
 import FormApp from '../../../../../@core/components/form'
@@ -23,7 +23,9 @@ import { sweetAlertError, sweetAlertGood } from '../../../../../@core/components
 import { schemaYup } from './schemaYup'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
-import { getGroups, putGroup } from '../../../../../services/zammad/group'
+import { strapiGetInstitutionById, strapiPutInstitutions } from '../../../../../services/strapi/institutions'
+import { strapiGetServices } from '../../../../../services/strapi/services'
+import { strapiGetUsers } from '../../../../../services/strapi/users'
 
 const institutionCreate = ({ history, match }) => {
   const idParams = match.params.id
@@ -31,31 +33,59 @@ const institutionCreate = ({ history, match }) => {
   const dispatch = useDispatch()
 
   const [dataInstitution, setDataInstitution] = useState([])
+  console.log("dataInstitution", dataInstitution)
   const [dataGroups, setDataGroups] = useState([])
-  console.log('dataGroups', dataGroups)
-
-  const [allGroups, setAllGroups] = useState([])
+  const [dataServices, setDataServices] = useState([])
+  console.log('dataServices', dataServices)
+  const [dataUsers, setDataUsers] = useState([])
 
   const [loadingState, setLoadingState] = useState(false)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
-  const [ servicesValueState, setServicesValueState ] = useState(defaultValueState)
-  const [ managerValueState, setManagerValueState ] = useState(defaultValueState)
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
+  const [servicesValueState, setServicesValueState] = useState(defaultValueState)
+  console.log("servicesValueState", servicesValueState)
+  const [managerValueState, setManagerValueState] = useState(defaultValueState)
 
   useEffect(() => {
-    dispatch(getAllServicesActions())
-    dispatch(getAllUsersActions())
+    // dispatch(getAllServicesActions())
+    // dispatch(getAllUsersActions())
 
-    getOrganizationById(idParams)
-      .then(res => setDataInstitution(res.data))
+    // getOrganizationById(idParams)
+    //   .then(res => setDataInstitution(res.data))
+    //   .catch(err => {
+    //     console.log(err)
+    //     sweetAlertError()
+    //   })
+
+    // getGroups()
+    //   .then(res => setAllGroups(res.data))
+    //   .catch(err => console.log(err))
+
+    strapiGetInstitutionById(idParams)
+      .then(res => setDataInstitution(res.data.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
       })
 
-    getGroups()
-      .then(res => setAllGroups(res.data))
+    strapiGetUsers()
+      .then(res => {
+        let newData = res.data.map((data) => {
+          return { value: data.id, label: `${data.firstname} ${data.lastname}` }
+        })
+        setDataUsers(newData)
+      })
       .catch(err => console.log(err))
+
+    strapiGetServices()
+      .then(res => {
+        let newData = res.data.data.map((data) => {
+          return { value: data.id, label: data.attributes.name }
+        })
+        setDataServices(newData)
+      })
+      .catch(err => console.logZ(err))
+
   }, [])
 
   const servicesSelector = useSelector((state) => state?.services?.services)
@@ -66,69 +96,78 @@ const institutionCreate = ({ history, match }) => {
   })
 
   useEffect(() => {
-    if(servicesSelector[0] && Object.keys(dataInstitution)[0]){
-      filterSelectServices(dataInstitution.service)
-      setValue("phonenumber", dataInstitution.phonenumber || '')
+    if (dataServices[0] && Object.keys(dataInstitution)[0]) {
+      filterSelectServices(dataServices.find(data => data.value === dataInstitution?.attributes?.services?.data[0]?.id))
+      setValue("phonenumber", dataInstitution?.attributes?.phone)
     }
-  }, [servicesSelector, dataInstitution])
+  }, [dataServices, dataInstitution])
 
   useEffect(() => {
-    if(usersSelector[0] && Object.keys(dataInstitution)[0]){
+    if (usersSelector[0] && Object.keys(dataInstitution)[0]) {
       filterSelectManager(dataInstitution.manager)
     }
   }, [usersSelector, dataInstitution])
 
   useEffect(() => {
-    if(allGroups[0] && Object.keys(dataInstitution)[0]){
-      setDataGroups(allGroups.find(group => group?.acronimo?.toUpperCase() === dataInstitution?.acronimo?.toUpperCase()))
+    if (dataUsers[0] && Object.keys(dataInstitution)[0]) {
+      const newData = dataUsers.find(data => data.value === dataInstitution.id)
+      filterSelectManager(newData)
     }
-  }, [allGroups, dataInstitution])
-  
-  const filterSelectServices = (id) => {
-    if(!id) return
-    const optionFiltered = servicesSelector.find(option => option.id === id)
-    setServicesValueState({value: optionFiltered.id, label: optionFiltered.name})
-    setValue('servicio', id)
+  }, [dataUsers, dataInstitution])
+
+  const filterSelectServices = (e) => {
+    if (!e?.value) return
+    setServicesValueState(e)
+    setValue('servicio', e.value)
   }
 
-  const filterSelectManager = (id) => {
-    if(!id) return
-    const optionFiltered = usersSelector.find(option => option.id === id)
-    setManagerValueState({value: optionFiltered.id, label: `${optionFiltered.firstname} ${optionFiltered.lastname}`})
-    setValue('encargado', id)
+  const filterSelectManager = (e) => {
+    if (!e?.value) return
+    const optionFiltered = dataUsers.find(option => option.value === e.value)
+    setManagerValueState(optionFiltered)
+    setValue('encargado', optionFiltered?.value)
   }
 
   const onSubmit = async (data) => {
-    const objZammad = {
-      name: data.name,
-      acronimo: data.acronimo.toUpperCase(),
-      service: data.servicio,
-      phonenumber: data.phonenumber,
-      address: data.address,
-      email: data.email,
-      domain: data.website,
-      manager: data.encargado,
+
+    const obj = {
+      data: {
+        name: data.name,
+        acronym: data.acronimo.toUpperCase(),
+        email: data.email,
+        address: data.address,
+        phone: data.phonenumber,
+        website: data.website,
+        services: [String(data.servicio)],
+        owner: String(data.encargado),
+      }
     }
-    console.log(objZammad)
+
     setLoadingState(true)
-    putOrganization(idParams, objZammad)
-      .then(response => {
-        if (response.status === 200) {
-          putGroup(dataGroups.id, {name: objZammad.name, acronimo: objZammad.acronimo})
-            .then(() => {
-              sweetAlertGood()
-              history.push(Url.institution)
-            })
-            .catch(() => {
-              sweetAlertError()
-              setLoadingState(false)
-            })
-        }
+    // putOrganization(idParams, objZammad)
+    //   .then(response => {
+    //     if (response.status === 200) {
+    //       putGroup(dataGroups.id, { name: objZammad.name, acronimo: objZammad.acronimo })
+    //         .then(() => {
+    //           sweetAlertGood()
+    //           history.push(Url.institution)
+    //         })
+    //         .catch(() => {
+    //           sweetAlertError()
+    //           setLoadingState(false)
+    //         })
+    //     }
+    //   })
+
+    strapiPutInstitutions(idParams, obj)
+      .then(() => {
+        sweetAlertGood()
+        history.push(Url.institution)
       })
       .catch((err) => {
         console.log(err.message)
         sweetAlertError()
-        setLoadingState(false)      
+        setLoadingState(false)
       })
   }
 
@@ -153,7 +192,7 @@ const institutionCreate = ({ history, match }) => {
           register={register}
           placeholder="Escribe la Institución"
           messageError={errors.name?.message && errors.name?.message}
-          defaultValue={dataInstitution && dataInstitution?.name}
+          defaultValue={dataInstitution && dataInstitution?.attributes?.name}
         />
 
         <InputApp
@@ -164,7 +203,7 @@ const institutionCreate = ({ history, match }) => {
           messageError={
             errors.acronimo?.message && 'El Acrónimo es obligatorio'
           }
-          defaultValue={dataInstitution && dataInstitution?.acronimo}
+          defaultValue={dataInstitution && dataInstitution?.attributes?.acronym}
         />
         <Col lg="4" md="6" sm="12">
           <FormGroup>
@@ -172,12 +211,12 @@ const institutionCreate = ({ history, match }) => {
             <Controller
               control={control}
               name="servicio"
-              render={({field}) => <Select 
-                {...field} 
-                onChange={e => filterSelectServices(e.value)}
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => filterSelectServices(e)}
                 value={servicesValueState}
-                options={optionsZammadIdValueSelect(servicesSelector)}
-                isLoading={!servicesSelector[0]}
+                options={dataServices}
+                isLoading={!dataServices[0]}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -194,12 +233,12 @@ const institutionCreate = ({ history, match }) => {
             <Controller
               control={control}
               name="phonenumber"
-              render={({field}) => <Cleave
+              render={({ field }) => <Cleave
                 {...field}
                 className="form-control"
                 placeholder="Escribe el Teléfono"
                 onChange={e => setValue("phonenumber", e.target.value)}
-                value={dataInstitution && dataInstitution?.phonenumber}
+                value={dataInstitution && dataInstitution?.attributes?.phone}
                 options={{ blocks: [10], numericOnly: true }}
               />}
             />
@@ -217,7 +256,7 @@ const institutionCreate = ({ history, match }) => {
           messageError={
             errors.address?.message && errors.address?.message
           }
-          defaultValue={dataInstitution && dataInstitution?.address}
+          defaultValue={dataInstitution && dataInstitution?.attributes?.address}
         />
 
         <InputApp
@@ -228,7 +267,7 @@ const institutionCreate = ({ history, match }) => {
           messageError={
             errors.email?.message && errors.email?.message
           }
-          defaultValue={dataInstitution && dataInstitution?.email}
+          defaultValue={dataInstitution && dataInstitution?.attributes?.email}
         />
 
         <InputApp
@@ -239,7 +278,7 @@ const institutionCreate = ({ history, match }) => {
           messageError={
             errors.website?.message && errors.website?.message
           }
-          defaultValue={dataInstitution && dataInstitution?.domain}
+          defaultValue={dataInstitution && dataInstitution?.attributes?.website}
         />
 
         <Col lg="4" md="6" sm="12">
@@ -248,15 +287,12 @@ const institutionCreate = ({ history, match }) => {
             <Controller
               control={control}
               name="encargado"
-              render={({field}) => <Select 
-                {...field} 
-                onChange={e => filterSelectManager(e.value)}
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => filterSelectManager(e)}
                 value={managerValueState}
-                options={usersSelector.map(data => ({
-                  value: data.id,
-                  label: `${data.firstname} ${data.lastname}`
-                }))}
-                isLoading={!usersSelector[0]}
+                options={dataUsers}
+                isLoading={!dataUsers[0]}
                 classNamePrefix="select"
                 theme={selectThemeColors}
               />}
@@ -271,10 +307,10 @@ const institutionCreate = ({ history, match }) => {
           <FormGroup>
             <Label />
             <div>
-              <Button.Ripple 
-                outline 
+              <Button.Ripple
+                outline
                 color='primary'
-                onClick={() => history.push(Url.userCreate)}  
+                onClick={() => history.push(Url.userCreate)}
               >
                 <Plus size={14} />
                 <span className='align-middle ml-25'>Añadir Usuario</span>

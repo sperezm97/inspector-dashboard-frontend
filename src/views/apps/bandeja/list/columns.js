@@ -17,21 +17,23 @@ import {
   rowInstitution,
 } from '../../../../@core/components/table/commonColumns'
 import { formatDate, selectThemeColors } from '../../../../utility/Utils'
-import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
+import { statusTicketsArray, statusTicketsObj } from '../../../../constants/Status/statusTickets'
 import { putUpdateStatusTicket } from '../../../../services/zammad/ticket'
 import Url from '../../../../constants/Url'
 
 import { sweetAlert, sweetAlertGood } from '../../../../@core/components/sweetAlert'
+import { strapiPutStateTicket } from '../../../../services/strapi/tickets'
 
 
 const handleChangeStatus = (e, ticket) => {
   console.log(e)
   console.log(ticket)
   const dataObj = {
-    id: ticket,
-    state_id: e.value
+    data: {
+      state: e.value
+    }
   }
-  putUpdateStatusTicket(dataObj)
+  strapiPutStateTicket(ticket, dataObj)
     .then(res => sweetAlertGood())
     .catch((err) => {
       sweetAlert({
@@ -49,7 +51,7 @@ export const columns = [
     minWidth: '260px',
     selector: 'title',
     sortable: true,
-    cell: (row) => row.attributes.title,
+    cell: (row) => row?.attributes?.title,
   },
   {
     name: 'ESTADO',
@@ -64,10 +66,10 @@ export const columns = [
           theme={selectThemeColors}
           className="react-select"
           classNamePrefix="select"
-          defaultValue={statusTicketsArray[row.attributes.state - 1]}
-          onChange={(e) => handleChangeStatus(e, row.attributes.id)}
+          defaultValue={statusTicketsObj[row?.attributes?.state] || {}}
+          onChange={(e) => handleChangeStatus(e, row.id)}
           options={statusTicketsArray.map((dataMap) => ({
-            value: dataMap.id,
+            value: dataMap.value,
             label: dataMap.label,
           }))}
         />
@@ -80,68 +82,68 @@ export const columns = [
     minWidth: '260px',
     selector: 'address',
     sortable: true,
-    cell: (row) => row.attributes.address,
+    cell: (row) => row?.attributes?.address,
   },
   {
     name: 'FECHA SLA',
     minWidth: '150px',
     selector: 'createDate',
     sortable: true,
-    cell: (row) => formatDate(row.attributes.createdAt),
+    cell: (row) => formatDate(row?.attributes?.createdAt),
   },
-  // {
-  //   name: 'Oficial',
-  //   minWidth: '400px',
-  //   selector: 'ownerFirstName',
-  //   sortable: true,
-  //   cell: (row) => {
-  //     const userInfo = {
-  //       id: row.ownerId,
-  //       firstName: row.ownerFirstName,
-  //       lastName: row.ownerLastName,
-  //       cedula: row.ownerCedula,
-  //     }
+  {
+    name: 'Oficial',
+    minWidth: '400px',
+    selector: 'ownerFirstName',
+    sortable: true,
+    cell: (row) => {
+      const userInfo = {
+        id: row?.attributes?.owner?.data?.id,
+        firstName: row?.attributes?.owner?.data?.attributes?.firstname,
+        lastName: row?.attributes?.owner?.data?.attributes?.lastname,
+        cedula: row?.attributes?.owner?.data?.attributes?.cedula,
+      }
 
-  //     return rowClient(userInfo)
-  //   },
-  // },
-  // {
-  //   name: 'INSTITUCIÓN',
-  //   minWidth: '400px',
-  //   selector: 'institutionName',
-  //   sortable: true,
-  //   cell: (row) => {
-  //     const institutionInfo = {
-  //       id: row.institutionId,
-  //       acronym: row.institutionAcronym,
-  //       name: row.institutionName
-  //     }
+      return rowClient(userInfo)
+    },
+  },
+  {
+    name: 'INSTITUCIÓN',
+    minWidth: '400px',
+    selector: 'institutionName',
+    sortable: true,
+    cell: (row) => {
+      const institutionInfo = {
+        id: row?.attributes?.institution?.data?.id,
+        acronym: row?.attributes?.institution?.data?.attributes?.acronym,
+        name: row?.attributes?.institution?.data?.attributes?.name
+      }
       
-  //     return rowInstitution(institutionInfo)
-  //   }
-  // },
-  // {
-  //   name: 'Cliente',
-  //   minWidth: '400px',
-  //   selector: 'customerFirstName',
-  //   sortable: true,
-  //   cell: (row) => {
-  //     const userInfo = {
-  //       id: row.customerId,
-  //       firstName: row.customerFirstName,
-  //       lastName: row.customerLastName,
-  //       cedula: row.customerCedula,
-  //     }
+      return rowInstitution(institutionInfo)
+    }
+  },
+  {
+    name: 'Cliente',
+    minWidth: '400px',
+    selector: 'customerFirstName',
+    sortable: true,
+    cell: (row) => {
+      const userInfo = {
+        id: row?.attributes?.beneficiary?.data?.id,
+        firstName: row?.attributes?.beneficiary?.data?.attributes?.name,
+        lastName: "",
+        cedula: row?.attributes?.beneficiary?.data?.attributes?.cedula,
+      }
 
-  //     return rowClient(userInfo)
-  //   },
-  // },
+      return rowClient(userInfo)
+    },
+  },
   {
     name: 'PRIORIDAD',
     minWidth: '150px',
     selector: 'priority',
     sortable: true,
-    cell: (row) => statusPriority(row.attributes.priority),
+    cell: (row) => statusPriority(row?.attributes?.priority),
   },
   {
     name: 'Acciones',

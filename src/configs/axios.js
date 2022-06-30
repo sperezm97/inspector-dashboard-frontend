@@ -18,7 +18,7 @@ export const incidentsAxios = axios.create({
 })
 
 export const strapiAxios = axios.create({
-  baseURL: process.env.REACT_APP_API_STRAPI
+  baseURL: `${process.env.REACT_APP_API_STRAPI}/api/`
 })
 
 strapiAxios.interceptors.request.use((config) => {
@@ -28,6 +28,7 @@ strapiAxios.interceptors.request.use((config) => {
     jwt = token
   }
   config.headers.Authorization = `Bearer ${jwt}`
+  console.log("config", config)
   return config;
 },(error) => 
   // Do something with request error

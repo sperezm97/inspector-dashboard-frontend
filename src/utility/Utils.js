@@ -200,7 +200,7 @@ export const addAllGroupsToUser = (groupsState) => {
   return newGroup
 }
 
-export const destructZone = (zoneId) => {
+export const destructZone = (zoneId = "") => {
   let zone = {}
 
   if(zoneId.length >= 2) {

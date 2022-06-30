@@ -15,7 +15,7 @@ import { filterByStatusTickets } from '../../../utility/Utils'
 import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 import LoadingData from '../../../@core/components/spinner/loadingData'
 
-const GoalOverview = function({ success, dataTableTickets, loadingTicket }) {
+const GoalOverview = function({notCloseTickets, endTickets, success, loadingTicket }) {
   const options = {
     chart: {
       sparkline: {
@@ -78,13 +78,8 @@ const GoalOverview = function({ success, dataTableTickets, loadingTicket }) {
     },
   }
 
-  const ticketsClosed =
-    filterByStatusTickets(dataTableTickets, statusTicketsObj.closed.idN)
-      .length || '0'
-  const ticketsNoClosed =
-    dataTableTickets.filter(
-      (tickets) => tickets.status !== statusTicketsObj.closed.idN,
-    ).length || '0'
+  const ticketsClosed =  endTickets || '0'
+  const ticketsNoClosed = notCloseTickets || '0'
   const series = parseInt((ticketsClosed * 100) / ticketsNoClosed) || '0'
 
   return (

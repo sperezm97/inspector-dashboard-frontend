@@ -4,41 +4,36 @@ import { CheckCircle, Users, FileText, BookOpen } from 'react-feather'
 import { filterByStatusTickets } from '../../../utility/Utils'
 import { statusTicketsObj } from '../../../constants/Status/statusTickets'
 
-export const dataInfoChart = (tickets, reporteros) => {
+export const dataInfoChart = ({totalTickets, openTickets, endTickets, usersActive}) => {
   const { colors } = useContext(ThemeColors)
-
-  console.log('tickets', tickets)
 
   return [
     {
       icon: <FileText size={21} />,
       color: 'danger',
       colorHEX: colors.danger.main,
-      quantity: tickets?.length || '0',
+      quantity: totalTickets || '0',
       title: 'Total de Casos',
     },
     {
       icon: <BookOpen size={21} />,
       color: 'warning',
       colorHEX: colors.warning.main,
-      quantity:
-        tickets.filter((ticket) => ticket.status !== statusTicketsObj.closed.idN).length || '0',
+      quantity: openTickets || '0',
       title: 'Casos Abiertos',
     },
     {
       icon: <CheckCircle size={21} />,
       color: 'secondary',
       colorHEX: colors.secondary.main,
-      quantity:
-        filterByStatusTickets(tickets, statusTicketsObj.closed.idN).length ||
-        '0',
+      quantity: endTickets || '0',
       title: 'Casos Finalizados',
     },
     {
       icon: <Users size={21} />,
       color: 'primary',
       colorHEX: colors.primary.main,
-      quantity: reporteros || '0',
+      quantity: usersActive || '0',
       title: 'Reporteros Activos',
     },
   ]

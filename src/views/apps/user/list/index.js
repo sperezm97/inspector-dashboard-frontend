@@ -116,9 +116,9 @@ const UsersList = function() {
   }
 
   const filterZone = (value, positionToFind = 0) => {
-    const data = userState.filter((users) => users.zone !== null)
+    const data = userState.filter((users) => users.zone_code !== null)
     const dataValidated = data.filter(
-      (users) => users.zone.substr(2, positionToFind) === value,
+      (users) => users.zone_code.substr(2, positionToFind) === value,
     )
     setDataTable(dataValidated)
   }
@@ -149,8 +149,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={provinciaState}
-              isLoading={[]}
-              options={optionsCodeValueSelectNoData([])}
+              isLoading={!provincesSelector[0]}
+              options={optionsCodeValueSelectNoData(provincesSelector)}
               onChange={handleChangeProvinces}
             />
           </Col>
@@ -162,8 +162,8 @@ const UsersList = function() {
               className="react-select"
               classNamePrefix="select"
               value={municipioState}
-              isLoading={[]}
-              options={optionsCodeValueSelectNoData([])}
+              isLoading={!municipalitiesSelector[0]}
+              options={optionsCodeValueSelectNoData(municipalitiesSelector)}
               onChange={handleChangeMunicipalities}
             />
           </Col>

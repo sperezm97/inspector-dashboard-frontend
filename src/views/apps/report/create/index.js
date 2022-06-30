@@ -132,8 +132,6 @@ const ReportCreate = function ({ history }) {
     resolver: yupResolver(schemaYup),
   })
 
-  console.log(getValues())
-
   const getCategoryByIdService = (e) => {
     setValue("incidente", e)
     setValue("categoria", "")
@@ -370,62 +368,39 @@ const ReportCreate = function ({ history }) {
 
     let idBeneficiary = null
 
-    strapiGetBeneficiariesByCedula(infoCedulaState.id)
-      .then(res => {
-        const objBeneficiary = {
-          data: {
-            cedula: infoCedulaState.id,
-            name: `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
-            phone: data.telefono,
-          }
+    
+    const handlePostTicket = (idBeneficiaryFn) => {
+      const obj = {
+        data: {
+          title: `${data?.subCategoria.label} en ${data.subBarrio ? data.subBarrio.label : data.barrio.label}`,
+          services: [parseInt(data.incidente.value), parseInt(data.categoria.value), parseInt(data.subCategoria.value)],
+          institution: parseInt(data.institucion),
+          beneficiary: idBeneficiaryFn,
+          address: data.direccion,
+          // "evidence": [
+          //   "string or id",
+          //   "string or id"
+          // ],
+          description: data.descripcion,
+          owner: userMeState.id,
+          // "comments": [
+          //   "string or id",
+          //   "string or id"
+          // ],
+          state: "new",
+          priority: "low",
+          // "blocked": true,
+          // "blocked_comments": true,
+          // "block_reason": "string",
+          // "reports": [
+          //   "string or id",
+          //   "string or id"
+          // ],
+          zone_code: `${data.region}${data.provincia}${data.municipio}${data.distrito}${data.seccion}${data.barrio.value}${data.subBarrio && data.subBarrio.value}`,
+          // "snip_code": "string"
         }
-        if (!res.data.data[0]) {
-          strapiPostBeneficiary(objBeneficiary)
-            .then(res => {
-              console.log(res)
-              idBeneficiary = res.data.data.id
-            })
-        } else {
-          idBeneficiary = res.data.data[0].id
-          strapiPutBeneficiary(res.data.data[0].id, objBeneficiary)
-            .then(res => console.log("updated user: ", res))
-            .catch(err => console.log(err))
-        }
-      })
-      .catch(err => console.log(err))
-
-    const obj = {
-      data: {
-        title: `${data?.subCategoria.label} en ${data.subBarrio ? data.subBarrio.label : data.barrio.label}`,
-        services: [parseInt(data.incidente.value), parseInt(data.categoria.value), parseInt(data.subCategoria.value)],
-        institution: parseInt(data.institucion),
-        beneficiary: idBeneficiary,
-        address: data.direccion,
-        // "evidence": [
-        //   "string or id",
-        //   "string or id"
-        // ],
-        description: data.descripcion,
-        owner: userMeState.id,
-        // "comments": [
-        //   "string or id",
-        //   "string or id"
-        // ],
-        state: "new",
-        priority: "low",
-        // "blocked": true,
-        // "blocked_comments": true,
-        // "block_reason": "string",
-        // "reports": [
-        //   "string or id",
-        //   "string or id"
-        // ],
-        zone_code: `${data.region}${data.provincia}${data.municipio}${data.distrito}${data.seccion}${data.barrio.value}${data.subBarrio && data.subBarrio.value}`,
-        // "snip_code": "string"
       }
-    }
-
-    strapiPostTickets(obj)
+      strapiPostTickets(obj)
       .then(res => {
         sweetAlert({
           title: 'Ticket creado',
@@ -442,6 +417,36 @@ const ReportCreate = function ({ history }) {
         })
         setLoadingPost(false)
       })
+    }
+
+    strapiGetBeneficiariesByCedula(infoCedulaState.id)
+      .then(res => {
+        const objBeneficiary = {
+          data: {
+            cedula: infoCedulaState.id,
+            name: `${infoCedulaState.names} ${infoCedulaState.firstSurname} ${infoCedulaState.secondSurname}`,
+            phone: data.telefono,
+          }
+        }
+        if (!res.data.data[0]) {
+          strapiPostBeneficiary(objBeneficiary)
+            .then(res => {
+              console.log(res)
+              idBeneficiary = res.data.data.id
+              handlePostTicket(res.data.data.id)
+            })
+        } else {
+          idBeneficiary = res.data.data[0].id
+          strapiPutBeneficiary(res.data.data[0].id, objBeneficiary)
+            .then(res => {
+              console.log("updated user: ", res)
+              handlePostTicket(res.data.data.id)
+            })
+            .catch(err => console.log(err))
+        }
+      })
+      .catch(err => console.log(err))
+
 
     // const ticketAsync = await postTicketValidateUser(data, infoCedulaState, previewArr)
     // console.log('ticketAsync', ticketAsync)

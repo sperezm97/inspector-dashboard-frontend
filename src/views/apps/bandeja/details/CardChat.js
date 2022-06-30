@@ -14,6 +14,7 @@ import '@styles/base/pages/app-chat-list.scss'
 import { formatDate } from '../../../../utility/Utils'
 import { getTicketArticleAttachment } from '../../../../services/zammad/ticketArticles'
 import { sweetAlert } from '../../../../@core/components/sweetAlert'
+import { strapiPostComments } from '../../../../services/strapi/comments'
 
 const data = {
   chat: {
@@ -81,6 +82,7 @@ const data = {
 }
 
 const CardChat = function({
+  dataTicket,
   dataTicketArticles, 
   dataTicketId, 
   dataUserMe, 
@@ -96,7 +98,8 @@ const CardChat = function({
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
 
-  const [modal, setModal] = useState(null)
+  const [modal, setModal] = useState(false)
+  console.log("dataTicket", dataTicket)
 
   const [dataImage, setDataImage] = useState(null)
   const [dataImageBase, setDataImageBase] = useState(null)
@@ -107,16 +110,18 @@ const CardChat = function({
     }
   }, [dataImage])
 
-  const toggleModal = (id, idArticleTicket) => {
-    console.log(idArticleTicket)
-    if (modal !== id) {
-      setModal(id)
-      setDataImage(null)
-      getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
-        .then(res => setDataImage(res))
-    } else {
-      setModal(null)
-    }
+  const toggleModal = () => {
+    // console.log(idArticleTicket)
+    // if (modal !== id) {
+    //   setModal(id)
+    //   setDataImage(null)
+    //   getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
+    //     .then(res => setDataImage(res))
+    // } else {
+    //   setModal(null)
+    // }
+      setModal(!modal)
+
   }
 
   //* * Formats chat data based on sender
@@ -127,37 +132,37 @@ const CardChat = function({
     }
 
     const formattedChatLog = []
-    let chatMessageSenderId = dataTicketArticles[0] ? dataUserMe.id : undefined
+    let chatMessageSenderId = dataTicket?.attributes?.comments?.data[0] ? dataUserMe.id : undefined
     let msgGroup = {
       senderId: chatMessageSenderId,
       messages: [],
     }
-    dataTicketArticles.forEach((msg, index) => {
-      if (chatMessageSenderId === msg.created_by_id) {
+    dataTicket?.attributes?.comments?.data?.forEach((msg, index) => {
+      if (chatMessageSenderId === msg?.attributes?.owner?.data?.id) {
         msgGroup.messages.push({
           id: msg.id,
-          from: msg.from,
-          msg: msg.body,
-          attachments: msg.attachments,
-          time: formatDate(msg.created_at),
+          from: `${msg?.attributes?.owner?.data?.attributes?.firstname} ${msg?.attributes?.owner?.data?.attributes?.lastname} - ${msg?.attributes?.owner?.data?.attributes?.cedula}`,
+          msg: msg?.attributes?.message,
+          attachments: msg?.attributes?.attachments?.data || [],
+          time: formatDate(msg?.attributes?.createdAt),
         })
       } else {
-        chatMessageSenderId = msg.created_by_id
+        chatMessageSenderId = msg?.attributes?.owner?.data?.id
         formattedChatLog.push(msgGroup)
         msgGroup = {
-          senderId: msg.created_by_id,
+          senderId: msg?.attributes?.owner?.data?.id,
           messages: [
             {
               id: msg.id,
-              from: msg.from,
-              msg: msg.body,
-              attachments: msg.attachments,
-              time: formatDate(msg.created_at),
+              from: `${msg?.attributes?.owner?.data?.attributes?.firstname} ${msg?.attributes?.owner?.data?.attributes?.lastname} - ${msg?.attributes?.owner?.data?.attributes?.cedula}`,
+              msg: msg?.attributes?.message,
+              attachments: msg?.attributes?.attachments?.data || [],
+              time: formatDate(msg?.attributes?.createdAt),
             },
           ],
         }
       }
-      if (index === dataTicketArticles.length - 1) formattedChatLog.push(msgGroup)
+      if (index === dataTicket?.attributes?.comments?.data?.length - 1) formattedChatLog.push(msgGroup)
     })
     return formattedChatLog
   }
@@ -207,44 +212,47 @@ const CardChat = function({
                 <div className="col-12">
                   <div className="chat-content">
                     <p className="mb-1">{chat.msg}</p>
-                    {chat.attachments[0] &&
+                    {chat?.attachments[0] &&
                       <>
                         <Button.Ripple 
                           size="sm" 
                           // className='round'
                           color="primary" 
                           id={`toggler${chat.id}`} 
-                          outline={item.senderId !== dataUserMe.id}
+                          outline={item.senderId === dataUserMe.id}
                         >
                           Mostrar adjuntos
                         </Button.Ripple >
                         <UncontrolledCollapse toggler={`toggler${chat.id}`}>
                           <div className="mt-1 bg-white px-1 rounded">
-                            {chat.attachments.map((att) => (
+                            {chat.attachments.map((att) => {
+                              console.log("att", att)
+                              console.log("process", process.env.REACT_APP_API_STRAPI)
+                            return (
                               <div 
                                 key={att.id}
                                 className="py-1"
                               >
-                                {/* <Share2 size={17} /> */}
+                                {/* <Share2 size={17} />  */}
                                 <h6 
                                   // color='flat-primary' 
                                   style={{cursor: 'pointer'}}
                                   className="text-primary mb-0"
                                   onClick={() => toggleModal(att.id, chat.id)} 
                                 >
-                                  {att.filename}
+                                  {att?.attributes?.name}
                                 </h6>
                                 <Modal
-                                  isOpen={modal === att.id}
-                                  toggle={() => toggleModal(att.id, chat.id)}
+                                  isOpen={modal}
+                                  toggle={() => toggleModal()}
                                   className="modal-dialog-centered modal-lg"
                                 >
                                   <ModalHeader toggle={() => toggleModal(att.id, chat.id)}>
-                                    {att.filename}
+                                    {att?.attributes?.name}
                                   </ModalHeader>
                                   <ModalBody>
-                                    {dataImage ?
-                                      dataImage.headers['content-type'].includes('video')
+                                    {att?.attributes?.mime ?
+                                      att?.attributes?.mime.includes('video')
                                         ? 
                                         <div key={index}>
                                           <video 
@@ -253,7 +261,7 @@ const CardChat = function({
                                             width="100%"
                                             controls
                                           >
-                                            <source src={`data:video/mp4;base64,${dataImageBase}`} type="video/mp4"/>
+                                            <source src={`${process.env.REACT_APP_API_STRAPI}${att?.attributes?.url}`} type="video/mp4"/>
                                           </video>
                                         </div>
                                         :
@@ -262,7 +270,7 @@ const CardChat = function({
                                               key={index}
                                               className="rounded" 
                                               width="100%"
-                                              src={`data:image/jpeg;base64,${dataImageBase}`}
+                                              src={`${process.env.REACT_APP_API_STRAPI}${att?.attributes?.url}`}
                                               alt="Adjunto de prueba" 
                                             />
                                           </div>
@@ -271,7 +279,7 @@ const CardChat = function({
                                   </ModalBody>
                                 </Modal>
                               </div>
-                            ))}
+                            )})}
                           </div>
                         </UncontrolledCollapse>
                       </>
@@ -316,14 +324,29 @@ const CardChat = function({
     }
 
     if (msg.trim().length) {
-      const dataObj = {
-        ticket_id: dataTicketId,
-        subject: null,
-        body: msg,
-        type: 'note',
-        attachments: previewArr
+      const obj = {
+        data: {
+          message: msg,
+          ticket: dataTicket.id,
+          owner: dataUserMe.id,
+          // attachments: [
+          //   string or id,
+          //   string or id
+          // ],
+          internal: true,
+          content_type: "text/plain"
+        }
+
+        // ticket_id: dataTicketId,
+        // subject: null,
+        // body: msg,
+        // type: 'note',
+        // attachments: previewArr
       }
-      handlePostTicketArticles(dataObj)
+
+      // strapiPostComments()
+
+      handlePostTicketArticles(obj)
     }
   }
 

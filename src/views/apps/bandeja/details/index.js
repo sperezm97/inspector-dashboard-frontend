@@ -18,6 +18,9 @@ import { sweetAlertError, sweetAlertGood } from '../../../../@core/components/sw
 import { getTicketsTags } from '../../../../services/zammad/ticketTags'
 import { destructZone } from '../../../../utility/Utils'
 import { getDistrictByIdentifier, getMunicipalityByIdentifier, getNeighborhoodByIdentifier, getProvinceByIdentifier, getRegionByIdentifier, getSectionByIdentifier, getSubNeighborhoodByIdentifier } from '../../../../services/territories/identifier'
+import { strapiGetTicketsById } from '../../../../services/strapi/tickets'
+import { strapiGetUserMe } from '../../../../services/strapi/users'
+import { strapiPostComments } from '../../../../services/strapi/comments'
 
 const InvoicePreview = function() {
 
@@ -31,23 +34,28 @@ const InvoicePreview = function() {
   const [dataUserCustomer, setDataUserCustomer] = useState(null)
 
   const [zonesState, setZonesState] = useState(null)
-  console.log("zonesState", zonesState)
   
   const [msg, setMsg] = useState('')
   const [ previewArr, setPreviewArr ] = useState([])
   const [ previewUpload, setPreviewUpload ] = useState([])
 
   const [loadingPost, setLoadingPost] = useState(false)
+  const [executeGet, setExecuteGet] = useState(true)
 
   const handleGetTicketArticles = () => {
-    getTicketArticles(id)
-      .then(res => setDataTicketArticles(res.data))
-      .catch(err => console.log(err.response))
+    // getTicketArticles(id)
+    //   .then(res => setDataTicketArticles(res.data))
+    //   .catch(err => console.log(err.response))
+
+    strapiGetTicketsById(id)
+    .then(res => setDataTicket(res.data.data))
+    .catch(err => console.log(err))
   }
 
   const handlePostTicketArticles = (dataObj) => {
+    setExecuteGet(false)
     setLoadingPost(true)
-    postTicketArticles(dataObj)
+    strapiPostComments(dataObj)
       .then(res => {
         handleGetTicketArticles()
         sweetAlertGood()
@@ -61,14 +69,16 @@ const InvoicePreview = function() {
   }
 
   useEffect(() => {
+    //
+    //
 
     handleGetTicketArticles()
 
-    getTicketById(id)
-      .then(res => setDataTicket(res.data))
-      .catch(err => console.log(err.response))
+    // getTicketById(id)
+    //   .then(res => setDataTicket(res.data))
+    //   .catch(err => console.log(err.response))
 
-    getUserMe()
+    strapiGetUserMe()
       .then(res => setDataUserMe(res.data))
       .catch(err => console.log(err.response))
 
@@ -78,7 +88,7 @@ const InvoicePreview = function() {
   }, [])
 
   useEffect(() => {
-    if(dataTicket){
+    if(dataTicket && executeGet){
       getUserById(dataTicket.owner_id)
         .then(res => setDataUserOwner(res.data))
         .catch(err => console.log(err.response))
@@ -87,7 +97,7 @@ const InvoicePreview = function() {
         .then(res => setDataUserCustomer(res.data))
         .catch(err => console.log(err.response))
 
-      const zones = destructZone(dataTicket?.zone)
+      const zones = destructZone(dataTicket?.attributes?.zone_code)
       console.log("zones", zones)
       getRegionByIdentifier(zones?.region)
         .then(res => {
@@ -127,18 +137,19 @@ const InvoicePreview = function() {
     }
   }, [dataTicket])
 
-  return (dataTicketArticles && dataUserMe && dataTicket) ? (
+  return (dataTicket) ? (
     <div className="invoice-preview-wrapper">
       <Row className="invoice-preview">
         <Col sm={12}>
-          {dataUserCustomer &&
+          {dataTicket &&
             <CardContact 
-              dataUserCustomer={dataUserCustomer}
+              dataTicket={dataTicket}
             />
           }
         </Col>
         <Col xl={7} md={7} sm={12}>
           <CardChat 
+            dataTicket={dataTicket}
             dataTicketArticles={dataTicketArticles}
             dataTicketId={id}
             dataUserMe={dataUserMe}
@@ -155,8 +166,6 @@ const InvoicePreview = function() {
         <Col xl={5} md={5} sm={12}>
           <CardProfile
             dataTicket={dataTicket}
-            dataUserOwner={dataUserOwner}
-            dataTicketTags={dataTicketTags.tags}
             zonesState={zonesState}
           />
           {/* <CardUserInfo /> */}

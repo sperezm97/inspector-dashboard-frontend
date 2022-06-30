@@ -8,7 +8,7 @@ export const statusTickets = (status) => {
     const changeColorLabel = () => {
         switch (status) {
             // case statusTicketsObj.new.id:
-            case 1:
+            case 'new':
                 return statusTicketsObj.new
 
             // case statusTicketsObj.open.id:
@@ -61,13 +61,13 @@ export const statusTickets = (status) => {
 
 export const statusPriority = (statusId) => {
     switch (statusId) {
-        case 1:
+        case 'low':
             return <Badge color="light-success">Baja</Badge>
 
         case 'normal':
             return <Badge color="light-warning">Normal</Badge>
 
-        case 3:
+        case 'high':
             return <Badge color="light-danger">Alta</Badge>
 
         default:

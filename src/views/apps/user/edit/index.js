@@ -39,8 +39,10 @@ import { schemaYup } from './schemaYup'
 import Url from '../../../../constants/Url'
 import { getGroups } from '../../../../services/zammad/group'
 import ComponentSpinner from '../../../../@core/components/spinner/Loading-spinner'
+import { strapiGetUserById, strapiPutUser } from '../../../../services/strapi/users'
+import { strapiGetInstitutions } from '../../../../services/strapi/institutions'
 
-const UserCreate = function({history, match}) {
+const UserCreate = function ({ history, match }) {
 
   const idParams = match.params.id
 
@@ -49,37 +51,51 @@ const UserCreate = function({history, match}) {
   const [loadingCreate, setLoadingCreate] = useState(false)
 
   // const [ infoCedulaState, setInfoCedulaState ] = useState(null)
-  const [ infoCedulaState2, setInfoCedulaState2 ] = useState(null)
-  const [ dataInfoUser, setDataInfoUser ] = useState([])
-  
-  const [ groupsState, setGroupsState ] = useState([])
+  const [infoCedulaState2, setInfoCedulaState2] = useState(null)
+  const [dataInfoUser, setDataInfoUser] = useState([])
+  const [dataInstitutions, setDataInstitutions] = useState([])
+  console.log(dataInstitutions)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  const [groupsState, setGroupsState] = useState([])
 
-  const [ institutionValueState, setInstitutionValueState ] = useState(defaultValueState)
-  const [ permisosValueState, setPermisosValueState ] = useState(null)
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
 
-  const [ regionValueState, setRegionValueState ] = useState(defaultValueState)
-  const [ provinceValueState, setProvinceValueState ] = useState(defaultValueState)
-  const [ municipalityValueState, setMunicipalityValueState ] = useState(defaultValueState)
-  const [ districtValueState, setDistrictValueState ] = useState(defaultValueState)
+  const [institutionValueState, setInstitutionValueState] = useState(defaultValueState)
+  const [permisosValueState, setPermisosValueState] = useState(null)
+
+  const [regionValueState, setRegionValueState] = useState(defaultValueState)
+  const [provinceValueState, setProvinceValueState] = useState(defaultValueState)
+  const [municipalityValueState, setMunicipalityValueState] = useState(defaultValueState)
+  const [districtValueState, setDistrictValueState] = useState(defaultValueState)
 
   // const [ regionState, setRegionState ] = useState([])
-  const [ provinceState, setProvinceState ] = useState([])
-  const [ municipalityState, setMunicipalityState ] = useState([])
-  const [ districtState, setDistrictState ] = useState([])
+  const [provinceState, setProvinceState] = useState([])
+  const [municipalityState, setMunicipalityState] = useState([])
+  const [districtState, setDistrictState] = useState([])
 
-  const [ executeState, setExecuteState ] = useState(true)
+  const [executeState, setExecuteState] = useState(true)
 
   useEffect(() => {
-    dispatch(getAllOrganizationsActions())
-    dispatch(getAllRolsActions())
+    // dispatch(getAllOrganizationsActions())
+    // dispatch(getAllRolsActions())
     dispatch(getAllRegionsActions())
 
-    getUserById(idParams)
+    strapiGetUserById(idParams)
       .then((res) => setDataInfoUser(res.data))
       .catch((err) => sweetAlertError())
-      
+
+    strapiGetInstitutions()
+      .then((res) => {
+        let newData = res.data.data.map(data => {
+          return { value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }
+        })
+        setDataInstitutions(newData)
+      })
+
+    // getUserById(idParams)
+    // .then((res) => setDataInfoUser(res.data))
+    // .catch((err) => sweetAlertError())
+
     getGroups()
       .then((res) => setGroupsState(res.data))
       .catch((err) => console.log(err))
@@ -92,75 +108,81 @@ const UserCreate = function({history, match}) {
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
   useEffect(() => {
-    if(dataTableOrganizations[0] && Object.keys(dataInfoUser)[0]){
+    if (dataTableOrganizations[0] && Object.keys(dataInfoUser)[0]) {
       filterSelectInstitution(dataInfoUser.organization_id)
     }
-    if(Object.keys(dataInfoUser)[0]){
+    if (Object.keys(dataInfoUser)[0]) {
       const newRols = [...new Set(dataInfoUser?.role_ids)]
       const newRolsNames = [...new Set(dataInfoUser?.roles)]
       setValue('permisos', newRols.map((data) => data))
       setValue('phone', dataInfoUser?.phone)
-      setValue('region', dataInfoUser?.zone?.substr(0, 2))
-      setValue('provincia', dataInfoUser?.zone?.substr(2, 2))
-      setValue('municipio', dataInfoUser?.zone?.substr(4, 2))
-      setValue('distrito', dataInfoUser?.zone?.substr(6, 2))
+      setValue('region', dataInfoUser?.zone_code?.substr(0, 2))
+      setValue('provincia', dataInfoUser?.zone_code?.substr(2, 2))
+      setValue('municipio', dataInfoUser?.zone_code?.substr(4, 2))
+      setValue('distrito', dataInfoUser?.zone_code?.substr(6, 2))
       filterSelectsTerritories()
       setInfoCedulaState2(`${dataInfoUser?.firstname} ${dataInfoUser?.lastname}`)
-      setPermisosValueState(newRolsNames.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
+      setPermisosValueState(newRolsNames.map((data, index) => ({ value: dataInfoUser.role_ids[index], label: data })))
     }
   }, [dataTableOrganizations, dataInfoUser])
 
-  console.log(dataInfoUser?.zone?.length)
+  useEffect(() => {
+    let newData = dataInstitutions.filter((data) => data.value === dataInfoUser?.institution?.id)
+    setInstitutionValueState(newData)
+    setValue('institucion', String(newData.value))
+  },[dataInstitutions, dataInfoUser])
+
+  console.log(dataInfoUser?.zone_code?.length)
 
   useEffect(() => {
-    if(regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone?.length >= 2){
-      const regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
-      setRegionValueState({value: regionValue?.code, label: regionValue?.name})      
+    if (regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone_code?.length >= 2) {
+      const regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone_code.substr(0, 2))
+      setRegionValueState({ value: regionValue?.code, label: regionValue?.name })
     }
 
-    if(provinceState[0] && executeState && dataInfoUser?.zone?.length >= 4){
-      const provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone.substr(2, 2))
-      setProvinceValueState({value: provinceValue?.code, label: provinceValue?.name})
+    if (provinceState[0] && executeState && dataInfoUser?.zone_code?.length >= 4) {
+      const provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone_code.substr(2, 2))
+      setProvinceValueState({ value: provinceValue?.code, label: provinceValue?.name })
     }
 
-    if(municipalityState[0] && executeState && dataInfoUser?.zone?.length >= 6){
-      const municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone.substr(4, 2))
-      setMunicipalityValueState({value: municipalityValue?.code, label: municipalityValue?.name})      
+    if (municipalityState[0] && executeState && dataInfoUser?.zone_code?.length >= 6) {
+      const municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone_code.substr(4, 2))
+      setMunicipalityValueState({ value: municipalityValue?.code, label: municipalityValue?.name })
     }
 
-    if(districtState[0] && executeState && dataInfoUser?.zone?.length >= 8){
-      const districtValue = districtState.find(data => data.code === dataInfoUser?.zone.substr(6, 2))
-      setDistrictValueState({value: districtValue?.code, label: districtValue?.name})      
+    if (districtState[0] && executeState && dataInfoUser?.zone_code?.length >= 8) {
+      const districtValue = districtState.find(data => data.code === dataInfoUser?.zone_code.substr(6, 2))
+      setDistrictValueState({ value: districtValue?.code, label: districtValue?.name })
     }
 
-    if(regionSelector[0] && provinceState[0] && municipalityState[0] && districtState[0]){
+    if (regionSelector[0] && provinceState[0] && municipalityState[0] && districtState[0]) {
       setExecuteState(false)
     }
 
-  },[dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
+  }, [dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
 
   const filterSelectsTerritories = () => {
-    getProvinceByIdRegion(dataInfoUser?.zone?.substr(0, 2))
+    getProvinceByIdRegion(dataInfoUser?.zone_code?.substr(0, 2))
       .then(res => {
-        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone?.substr(0, 2)))
-        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2))
+        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone_code?.substr(0, 2)))
+        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone_code?.substr(0, 2), dataInfoUser?.zone_code?.substr(2, 2))
           .then(res => {
-            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone?.substr(2, 2)))
-            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2), dataInfoUser?.zone?.substr(4, 2))
+            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone_code?.substr(2, 2)))
+            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone_code?.substr(0, 2), dataInfoUser?.zone_code?.substr(2, 2), dataInfoUser?.zone_code?.substr(4, 2))
               .then(res => {
-                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone?.substr(4, 2)))
+                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone_code?.substr(4, 2)))
               })
           })
       })
   }
 
-  const filterSelectInstitution = (id) => {
-    if(!id) return
-    const optionFiltered = dataTableOrganizations.find(option => option.id === id)
-    setInstitutionValueState({value: optionFiltered.id, label: `${optionFiltered.name}`})
-    setValue('institucion', id)
+  const filterSelectInstitution = (e) => {
+    if (!e.value) return
+    // const optionFiltered = dataInstitutions.find(option => option.value === id)
+    setInstitutionValueState(e)
+    setValue('institucion', e.value)
   }
-  
+
   const { register, handleSubmit, errors, control, setError, setValue, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
@@ -198,7 +220,7 @@ const UserCreate = function({history, match}) {
     setMunicipalityState([])
     setDistrictValueState(defaultValueState)
     setDistrictState([])
-    if(!e.value) return
+    if (!e.value) return
     getProvinceByIdRegion(e.value).then(res => setProvinceState(res.data.data))
   }
 
@@ -211,7 +233,7 @@ const UserCreate = function({history, match}) {
     setMunicipalityState([])
     setDistrictValueState(defaultValueState)
     setDistrictState([])
-    if(!e.value) return
+    if (!e.value) return
     getMunicipalityByIdRegionByIdProvince(regionValueState.value, e.value).then(res => setMunicipalityState(res.data.data))
   }
 
@@ -221,9 +243,9 @@ const UserCreate = function({history, match}) {
     setMunicipalityValueState(e)
     setDistrictValueState(defaultValueState)
     setDistrictState([])
-    if(!e.value) return
+    if (!e.value) return
     getDistrictByIdProvinceByIdMunicipality(regionValueState.value, provinceValueState.value, e.value)
-    .then(res => setDistrictState(res.data.data))
+      .then(res => setDistrictState(res.data.data))
   }
 
   const handleSetDistrict = (e) => {
@@ -233,33 +255,35 @@ const UserCreate = function({history, match}) {
 
   const onSubmit = async (data) => {
 
-    if(!permisosValueState[0]){
-      return sweetAlert({
-        title: 'Aviso',
-        text: 'Debes seleccionar al menos 1 Permiso',
-        type: 'warning'
-      })
-    }
+    // if(!permisosValueState[0]){
+    //   return sweetAlert({
+    //     title: 'Aviso',
+    //     text: 'Debes seleccionar al menos 1 Permiso',
+    //     type: 'warning'
+    //   })
+    // }
 
-    let objZammad = {
-      id: idParams,
+    let obj = {
+      username: dataInfoUser.username,
+      user_level: dataInfoUser.user_level,
+      firstname: dataInfoUser.firstname,
+      cedula: dataInfoUser.cedula,
       email: data.email,
-      login: data.email,
       phone: data.phone,
-      organization: parseInt(data.institucion),
-      role_ids: permisosValueState.map((data) => data.value),
-      zone: data.region + data.provincia + data.municipio + data.distrito,
-      group_ids: addAllGroupsToUser(groupsState)
+      institution: parseInt(data.institucion),
+      // role_ids: permisosValueState.map((data) => data.value),
+      zone_code: data.region + data.provincia + data.municipio + data.distrito,
     }
 
-    if(data.cPassword){
-      objZammad = {...objZammad, password: data.cPassword}
+    if (data.cPassword) {
+      obj = { ...obj, password: data.cPassword }
     }
 
-    console.log('objZammad', objZammad)
-    
+    console.log('obj', obj)
+
     setLoadingCreate(true)
-    putUser(objZammad)
+
+    strapiPutUser(idParams, obj)
       .then((res) => {
         sweetAlertGood()
         history.push(Url.user)
@@ -340,7 +364,7 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="phone"
-              render={({field}) => <Cleave
+              render={({ field }) => <Cleave
                 {...field}
                 className="form-control"
                 placeholder="Escribe el Teléfono"
@@ -361,11 +385,11 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="institucion"
-              render={({field}) => <Select 
-                {...field} 
-                onChange={e => filterSelectInstitution(e.value)}
-                options={optionsZammadIdValueSelect(dataTableOrganizations)}
-                isLoading={!dataTableOrganizations[0]}
+              render={({ field }) => <Select
+                {...field}
+                onChange={e => filterSelectInstitution(e)}
+                options={dataInstitutions}
+                isLoading={!dataInstitutions[0]}
                 value={institutionValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
@@ -377,7 +401,7 @@ const UserCreate = function({history, match}) {
           </FormGroup>
         </Col>
 
-        <Col lg="4" md="6" sm="12">
+        {/* <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Permisos</Label>
             <Controller
@@ -405,7 +429,7 @@ const UserCreate = function({history, match}) {
               errors.permisos?.message && errors.permisos?.message
             }</p>
           </FormGroup>
-        </Col>
+        </Col> */}
 
         <Col sm="12">
           <h4 className="mb-1 mt-2">
@@ -420,8 +444,8 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="region"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetProvinceByIdRegion(e)}
                 options={optionsCodeValueSelect(regionSelector)}
                 isLoading={!regionSelector[0]}
@@ -442,8 +466,8 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="provincia"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetMunicipalityByIdProvince(e)}
                 options={optionsCodeValueSelect(provinceState)}
                 isLoading={!provinceState[0]}
@@ -464,8 +488,8 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="municipio"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleGetDistrictByIdMunicipality(e)}
                 options={optionsCodeValueSelect(municipalityState)}
                 isLoading={!municipalityState[0]}
@@ -486,8 +510,8 @@ const UserCreate = function({history, match}) {
             <Controller
               control={control}
               name="distrito"
-              render={({field}) => <Select 
-                {...field} 
+              render={({ field }) => <Select
+                {...field}
                 onChange={e => handleSetDistrict(e)}
                 options={optionsCodeValueSelect(districtState)}
                 isLoading={!districtState[0]}
@@ -513,6 +537,7 @@ const UserCreate = function({history, match}) {
           type="password"
           label="Contraseña"
           name="password"
+          autocomplete="off"
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={
@@ -524,6 +549,7 @@ const UserCreate = function({history, match}) {
           type="password"
           label="Confirmar Contraseña"
           name="cPassword"
+          autocomplete="off"
           register={register}
           placeholder="Escribe la Contraseña"
           messageError={

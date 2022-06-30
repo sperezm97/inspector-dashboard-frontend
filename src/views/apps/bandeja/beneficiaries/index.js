@@ -141,7 +141,7 @@ const UsersList = function() {
 
   return (
     <>
-      <CardGrid cardHeaderTitle="Búsqueda con filtro">
+      {/* <CardGrid cardHeaderTitle="Búsqueda con filtro">
         <Row>
           <Col className="my-md-0 my-1" md="4">
             <Label>Provincia</Label>
@@ -188,13 +188,13 @@ const UsersList = function() {
             />
           </Col>
         </Row>
-      </CardGrid>
+      </CardGrid> */}
 
       <DataTableList
         columnsTable={columns}
         dataTable={dataTable.data}
         searchTable={searchTable}
-        showButtonAddUser
+        // showButtonAddUser
         loadingTable={userLoading}
       />
     </>
