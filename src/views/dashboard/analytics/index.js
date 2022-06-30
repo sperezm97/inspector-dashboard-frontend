@@ -148,7 +148,7 @@ const AnalyticsDashboard = function () {
         <Col lg="8" md="8" xs="12">
           <CardBrowserStates
             institutionWithTickets={institutionWithTickets}
-            loadingTicket={true}
+            loadingTicket
           />
         </Col>
         {/* <Col lg="4" md="6" xs="12">
@@ -162,7 +162,7 @@ const AnalyticsDashboard = function () {
             priorityNormalTickets={priorityNormalTickets}
             priorityHighTickets={priorityHighTickets}
             colors={colors}
-            loadingTicket={true}
+            loadingTicket
           />
         </Col>
       </Row>
