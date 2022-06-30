@@ -46,9 +46,7 @@ const categoryCreate = ({ history }) => {
   useEffect(() => {
     strapiGetServices()
       .then(res => {
-        const data = res.data.data.map(data => {
-          return {value: data.id, label: data.attributes.name}
-        })
+        const data = res.data.data.map(data => ({value: data.id, label: data.attributes.name}))
         setIncidentsState(data)
       })
       .catch(err => console.log(err))

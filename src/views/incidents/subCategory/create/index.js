@@ -48,9 +48,7 @@ const subCategoryCreate = ({ history }) => {
   useEffect(() => {
     strapiGetCategories()
       .then(res => {
-        const data = res.data.data.map(data => {
-          return {value: data.id, label: data.attributes.name}
-        })
+        const data = res.data.data.map(data => ({value: data.id, label: data.attributes.name}))
         setCategoryState(data)
       })
       .catch(err => console.log(err))

@@ -109,9 +109,7 @@ const ReportCreate = function ({ history }) {
 
     strapiGetServices()
       .then(res => {
-        const data = res.data.data.map(data => {
-          return { value: data.id, label: data.attributes.name }
-        })
+        const data = res.data.data.map(data => ({ value: data.id, label: data.attributes.name }))
         setServicesState(data)
       })
       .catch(err => console.log(err))
@@ -150,17 +148,13 @@ const ReportCreate = function ({ history }) {
     // getIncidentOrganizationByIdService(e.value).then(({ data }) => setDataTableOrganizations(data))
     strapiGetInstitutionsByIdService(e.value)
       .then(res => {
-        const data = res.data.data.map(data => {
-          return { value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }
-        })
+        const data = res.data.data.map(data => ({ value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }))
         setDataTableOrganizations(data)
       })
 
     strapiGetServicesById(e.value)
       .then(res => {
-        const data = res.data.data.attributes.children.data.map(data => {
-          return { value: data.id, label: data.attributes.name }
-        })
+        const data = res.data.data.attributes.children.data.map(data => ({ value: data.id, label: data.attributes.name }))
         setDataTableCategories(data)
       })
   }
@@ -176,9 +170,7 @@ const ReportCreate = function ({ history }) {
     // getIncidentSubCategoryByIdServiceByIdCategory(hierarchies, e.value).then(({ data }) => setDataTableSubCategories(data))
     strapiGetServicesById(e.value)
       .then(res => {
-        const data = res.data.data.attributes.children.data.map(data => {
-          return { value: data.id, label: data.attributes.name }
-        })
+        const data = res.data.data.attributes.children.data.map(data => ({ value: data.id, label: data.attributes.name }))
         setDataTableSubCategories(data)
       })
   }
