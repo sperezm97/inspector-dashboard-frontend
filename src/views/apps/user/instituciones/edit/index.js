@@ -70,18 +70,14 @@ const institutionCreate = ({ history, match }) => {
 
     strapiGetUsers()
       .then(res => {
-        let newData = res.data.map((data) => {
-          return { value: data.id, label: `${data.firstname} ${data.lastname}` }
-        })
+        const newData = res.data.map((data) => ({ value: data.id, label: `${data.firstname} ${data.lastname}` }))
         setDataUsers(newData)
       })
       .catch(err => console.log(err))
 
     strapiGetServices()
       .then(res => {
-        let newData = res.data.data.map((data) => {
-          return { value: data.id, label: data.attributes.name }
-        })
+        const newData = res.data.data.map((data) => ({ value: data.id, label: data.attributes.name }))
         setDataServices(newData)
       })
       .catch(err => console.logZ(err))

@@ -86,9 +86,7 @@ const UserCreate = function ({ history, match }) {
 
     strapiGetInstitutions()
       .then((res) => {
-        let newData = res.data.data.map(data => {
-          return { value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }
-        })
+        const newData = res.data.data.map(data => ({ value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }))
         setDataInstitutions(newData)
       })
 
@@ -127,7 +125,7 @@ const UserCreate = function ({ history, match }) {
   }, [dataTableOrganizations, dataInfoUser])
 
   useEffect(() => {
-    let newData = dataInstitutions.filter((data) => data.value === dataInfoUser?.institution?.id)
+    const newData = dataInstitutions.filter((data) => data.value === dataInfoUser?.institution?.id)
     setInstitutionValueState(newData)
     setValue('institucion', String(newData.value))
   },[dataInstitutions, dataInfoUser])
