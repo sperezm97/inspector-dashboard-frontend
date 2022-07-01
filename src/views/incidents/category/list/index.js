@@ -15,33 +15,29 @@ const categoria = () => {
 
   const [categoriesState, setCategoriesState] = useState([])
   const [loadingCategories, setLoadingCategories] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllCategoriesActions())
-    strapiGetCategories()
+    strapiGetCategories({valueSearch})
       .then(res => setCategoriesState(res.data.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
       })
       .finally(() => setLoadingCategories(false))
-  }, [])
+  }, [valueSearch])
 
   // const categoriesState = useSelector(
   //   (state) => state?.categories?.categories,
   // )
 
-  const searchTable = (data, queryLowered) =>
-    data.filter((data) =>
-      (data.name || '').toLowerCase().includes(queryLowered),
-    )
-
   return (
     <DataTableList
       columnsTable={columns}
+      setValueSearch={setValueSearch}
       dataTable={categoriesState}
       dataTableTitle="Categorías"
-      searchTable={searchTable}
       showButton
       labelButton="Añadir Nueva Categoría"
       urlButton={Url.categoryCreate}

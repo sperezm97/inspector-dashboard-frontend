@@ -37,6 +37,8 @@ const UsersList = function() {
   const [ userState, setUserState ] = useState([])
   console.log(userState)
   const [ userLoading, setUserLoading ] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
+
 
   useEffect(() => {
     // dispatch(getAllUsersActions())
@@ -52,92 +54,92 @@ const UsersList = function() {
     // dispatch(getAllProvincesActions())
     // dispatch(getAllMunicipalitiesActions())
 
-    strapiGetBeneficiaries()
+    strapiGetBeneficiaries({valueSearch})
       .then(res => setUserState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setUserLoading(false))
 
-  }, [dispatch])
+  }, [dispatch, valueSearch])
 
   // const userState = useSelector((state) => state?.users?.users)
 
-  const provincesSelector = useSelector(
-    (state) => state?.provinces?.allProvinces,
-  )
-  const municipalitiesSelector = useSelector(
-    (state) => state?.municipalities?.allMunicipalities,
-  )
-  const rolSelector = useSelector((state) => state?.rols?.rols)
+  // const provincesSelector = useSelector(
+  //   (state) => state?.provinces?.allProvinces,
+  // )
+  // const municipalitiesSelector = useSelector(
+  //   (state) => state?.municipalities?.allMunicipalities,
+  // )
+  // const rolSelector = useSelector((state) => state?.rols?.rols)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  // const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
-  const [provinciaState, setProvinciaState] = useState(defaultValueState)
-  const [municipioState, setMunicipioState] = useState(defaultValueState)
-  const [rolState, setRolState] = useState(defaultValueState)
+  // const [provinciaState, setProvinciaState] = useState(defaultValueState)
+  // const [municipioState, setMunicipioState] = useState(defaultValueState)
+  // const [rolState, setRolState] = useState(defaultValueState)
 
-  const [dataTable, setDataTable] = useState([])
+  // const [dataTable, setDataTable] = useState([])
 
-  useEffect(() => {
-    setDataTable(userState)
-  }, [userState])
+  // useEffect(() => {
+  //   setDataTable(userState)
+  // }, [userState])
 
-  const handleChangeProvinces = ({ value, label }) => {
-    if (value) {
-      setProvinciaState({ value, label })
-      setMunicipioState(defaultValueState)
-      filterZone(value, 2)
-    } else {
-      setProvinciaState(defaultValueState)
-      setMunicipioState(defaultValueState)
-      setDataTable(userState)
-    }
-    setRolState(defaultValueState)
-  }
+  // const handleChangeProvinces = ({ value, label }) => {
+  //   if (value) {
+  //     setProvinciaState({ value, label })
+  //     setMunicipioState(defaultValueState)
+  //     filterZone(value, 2)
+  //   } else {
+  //     setProvinciaState(defaultValueState)
+  //     setMunicipioState(defaultValueState)
+  //     setDataTable(userState)
+  //   }
+  //   setRolState(defaultValueState)
+  // }
 
-  const handleChangeMunicipalities = ({ value, label }) => {
-    if (value) {
-      setMunicipioState({ value, label })
-      filterZone(provinciaState.value + value, 4)
-    } else {
-      setMunicipioState(defaultValueState)
-      filterZone(provinciaState.value, 2)
-    }
-    setRolState(defaultValueState)
-  }
+  // const handleChangeMunicipalities = ({ value, label }) => {
+  //   if (value) {
+  //     setMunicipioState({ value, label })
+  //     filterZone(provinciaState.value + value, 4)
+  //   } else {
+  //     setMunicipioState(defaultValueState)
+  //     filterZone(provinciaState.value, 2)
+  //   }
+  //   setRolState(defaultValueState)
+  // }
 
-  const handleChangeRols = ({ value, label }) => {
-    if (value) {
-      setRolState({ value, label })
-      filterRols(value)
-    } else {
-      setRolState(defaultValueState)
-      setDataTable(userState)
-    }
-    setProvinciaState(defaultValueState)
-    setMunicipioState(defaultValueState)
-  }
+  // const handleChangeRols = ({ value, label }) => {
+  //   if (value) {
+  //     setRolState({ value, label })
+  //     filterRols(value)
+  //   } else {
+  //     setRolState(defaultValueState)
+  //     setDataTable(userState)
+  //   }
+  //   setProvinciaState(defaultValueState)
+  //   setMunicipioState(defaultValueState)
+  // }
 
-  const filterZone = (value, positionToFind = 0) => {
-    const data = userState.filter((users) => users.zone !== null)
-    const dataValidated = data.filter(
-      (users) => users.zone.substr(2, positionToFind) === value,
-    )
-    setDataTable(dataValidated)
-  }
+  // const filterZone = (value, positionToFind = 0) => {
+  //   const data = userState.filter((users) => users.zone !== null)
+  //   const dataValidated = data.filter(
+  //     (users) => users.zone.substr(2, positionToFind) === value,
+  //   )
+  //   setDataTable(dataValidated)
+  // }
 
-  const filterRols = (value) => {
-    const data = userState.filter((rols) => rols.role_ids[0] === value)
-    setDataTable(data)
-  }
+  // const filterRols = (value) => {
+  //   const data = userState.filter((rols) => rols.role_ids[0] === value)
+  //   setDataTable(data)
+  // }
 
-  const searchTable = (data, queryLowered) =>
-    data.filter(
-      (data) =>
-        (data.firstname || '').toLowerCase().includes(queryLowered) ||
-        (data.lastname || '').toLowerCase().includes(queryLowered) ||
-        (data.phone || '').toLowerCase().includes(queryLowered) ||
-        (data.cedula || '').toLowerCase().includes(queryLowered),
-    )
+  // const searchTable = (data, queryLowered) =>
+  //   data.filter(
+  //     (data) =>
+  //       (data.firstname || '').toLowerCase().includes(queryLowered) ||
+  //       (data.lastname || '').toLowerCase().includes(queryLowered) ||
+  //       (data.phone || '').toLowerCase().includes(queryLowered) ||
+  //       (data.cedula || '').toLowerCase().includes(queryLowered),
+  //   )
 
   return (
     <>
@@ -192,9 +194,8 @@ const UsersList = function() {
 
       <DataTableList
         columnsTable={columns}
-        dataTable={dataTable.data}
-        searchTable={searchTable}
-        // showButtonAddUser
+        setValueSearch={setValueSearch}
+        dataTable={userState.data}
         loadingTable={userLoading}
       />
     </>

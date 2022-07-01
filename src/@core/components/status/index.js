@@ -12,31 +12,27 @@ export const statusTickets = (status) => {
                 return statusTicketsObj.new
 
             // case statusTicketsObj.open.id:
-            case 2:
+            case 'open':
                 return statusTicketsObj.open
 
             // case statusTicketsObj.pendingReminder.id:
-            case 3:
+            case "pending_reminder":
                 return statusTicketsObj.pendingReminder
 
             // case statusTicketsObj.closed.id:
-            case 4:
+            case "closed":
                 return statusTicketsObj.closed
 
             // case statusTicketsObj.merged.id:
-            case 5:
+            case "merged":
                 return statusTicketsObj.merged
 
             // case statusTicketsObj.inProgress.id:
-            case 6:
+            case "removed":
                 return statusTicketsObj.inProgress
-
-            // case statusTicketsObj.pendingClose.id:
-            case 7:
-                return statusTicketsObj.pendingClose
             
             default: 
-                return statusTicketsObj.undefined
+                return null
         }
     }
 
@@ -46,7 +42,7 @@ export const statusTickets = (status) => {
         borderRadius: '2px',
         display: 'inline-block',
         marginRight: '7px',
-        background: changeColorLabel().color
+        background: changeColorLabel()?.color
     }
 
     return (
@@ -54,7 +50,7 @@ export const statusTickets = (status) => {
             <span 
                 style={sytleStatus}    
             />
-            <span className="text-truncate">{changeColorLabel().label}</span>
+            <span className="text-truncate">{changeColorLabel()?.label}</span>
         </>
     )
 }

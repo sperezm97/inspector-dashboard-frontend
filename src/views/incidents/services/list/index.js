@@ -16,32 +16,33 @@ const servicios = () => {
   const [servicesState, setServicesState] = useState([])
   console.log(servicesState)
   const [loadingServices, setLoadingServices] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllServicesActions())
 
-    strapiGetServices()
+    strapiGetServices({valueSearch})
       .then(res => setServicesState(res.data.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
       })
       .finally(() => setLoadingServices(false))
-  }, [])
+  }, [valueSearch])
 
   // const servicesState = useSelector((state) => state?.services?.services)
 
-  const searchTable = (data, queryLowered) =>
-    data.filter((data) =>
-      (data.name || '').toLowerCase().includes(queryLowered),
-    )
+  // const searchTable = (data, queryLowered) =>
+  //   data.filter((data) =>
+  //     (data.name || '').toLowerCase().includes(queryLowered),
+  //   )
 
   return (
     <DataTableList
       columnsTable={columns}
+      setValueSearch={setValueSearch}
       dataTable={servicesState}
       dataTableTitle="Servicios"
-      searchTable={searchTable}
       showButton
       labelButton="Añadir Nuevo Servicio"
       urlButton={Url.servicesCreate}

@@ -15,11 +15,12 @@ const subCategoria = () => {
 
   const [subCategoriesState, setSubCategoriesState] = useState([])
   const [loadingSubCategories, setLoadingSubCategories] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllSubCategoriesActions())
 
-    strapiGetSubCategories()
+    strapiGetSubCategories({valueSearch})
       .then(res => setSubCategoriesState(res.data.data))
       .catch(err => {
         console.log(err)
@@ -27,23 +28,23 @@ const subCategoria = () => {
       })
       .finally(() => setLoadingSubCategories(false))
 
-  }, [])
+  }, [valueSearch])
 
   // const subCategoriesState = useSelector(
   //   (state) => state?.subCategories?.subCategories,
   // )
 
-  const searchTable = (data, queryLowered) =>
-    data.filter((data) =>
-      (data.name || '').toLowerCase().includes(queryLowered),
-    )
+  // const searchTable = (data, queryLowered) =>
+  //   data.filter((data) =>
+  //     (data.name || '').toLowerCase().includes(queryLowered),
+  //   )
 
   return (
     <DataTableList
       columnsTable={columns}
+      setValueSearch={setValueSearch}
       dataTable={subCategoriesState}
       dataTableTitle="Sub-Categorías"
-      searchTable={searchTable}
       showButton
       labelButton="Añadir Nueva Sub-Categoría"
       urlButton={Url.subCategoryCreate}

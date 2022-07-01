@@ -32,13 +32,15 @@ const Bandeja = function() {
   const dispatch = useDispatch()
 
   const [ dataTableTickets, setDataTableTickets ] = useState([])
-  console.log(dataTableTickets)
   const [loadingTicket, setLoadingTicket] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
+  const [valueZone, setValueZone] = useState("")
+  console.log(valueZone)
 
   useEffect(() => {
-    strapiGetTickets()
+    strapiGetTickets({valueSearch, valueZone})
       .then(res => setDataTableTickets(res.data))
-      .catch(err => sweetAlertError())
+      .catch(() => sweetAlertError())
       .finally(() => setLoadingTicket(false))
 
     // dispatch(getAllTicketsActions())
@@ -53,93 +55,78 @@ const Bandeja = function() {
     //     sweetAlertError()
     //   })
     //   .finally(() => setLoadingTicket(false))
-
-    // dispatch(getAllRegionsActions())
-
-  }, [dispatch])
+  }, [valueSearch, valueZone])
+  
+  useEffect(() => {
+    dispatch(getAllRegionsActions())
+  },[dispatch])
 
   // const dataTableTickets = useSelector((state) => state?.tickets?.listTickets)
 
   const regionsSelector = useSelector((state) => state?.regions?.regions)
   const provincesSelector = useSelector((state) => state?.provinces?.provinces)
-  const municipalitiesSelector = useSelector(
-    (state) => state?.municipalities?.municipalities,
-  )
+  const municipalitiesSelector = useSelector((state) => state?.municipalities?.municipalities)
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
-
   const [regionState, setRegionState] = useState(defaultValueState)
   const [provinciaState, setProvinciaState] = useState(defaultValueState)
   const [municipioState, setMunicipioState] = useState(defaultValueState)
 
-  const [dataTable, setDataTable] = useState([])
+  // const [dataTable, setDataTable] = useState([])
+  // console.log(dataTable)
 
-  useEffect(() => {
-    setDataTable(dataTableTickets)
-  }, [dataTableTickets])
+  // useEffect(() => {
+  //   setDataTable(dataTableTickets)
+  // }, [dataTableTickets])
 
-  const handleChangeRegions = ({ value, label }) => {
-    if (value) {
-      setRegionState({ value, label })
+  const handleChangeRegions = (e) => {
+    if(e.value) {
+      setRegionState(e)
+      setValueZone(e.value)
       setProvinciaState(defaultValueState)
       setMunicipioState(defaultValueState)
-      filterTickets(value, 2)
+      // filterTickets(value, 2)
     } else {
       setRegionState(defaultValueState)
       setProvinciaState(defaultValueState)
       setMunicipioState(defaultValueState)
-      setDataTable(dataTableTickets)
+      setValueZone("")
+      // setDataTable(dataTableTickets)
     }
 
-    dispatch(getProvincesByRegionActions(value))
+    dispatch(getProvincesByRegionActions(e.value))
   }
 
-  const handleChangeProvinces = ({ value, label }) => {
-    if (value) {
-      setProvinciaState({ value, label })
-      filterTickets(regionState.value + value, 4)
+  const handleChangeProvinces = (e) => {
+    if (e.value) {
+      setProvinciaState(e)
+      setValueZone(regionState.value + e.value)
+      // filterTickets(regionState.value + value, 4)
     } else {
       setProvinciaState(defaultValueState)
       setMunicipioState(defaultValueState)
-      filterTickets(regionState.value, 2)
+      setValueZone(regionState.value)
+      // filterTickets(regionState.value, 2)
     }
 
-    dispatch(
-      getMunicipalitiesByprovincesByRegionsActions(regionState.value, value),
-    )
+    dispatch(getMunicipalitiesByprovincesByRegionsActions(regionState.value, e.value),)
   }
 
-  const handleChangeMunicipalities = ({ value, label }) => {
-    if (value) {
-      setMunicipioState({ value, label })
-      filterTickets(regionState.value + provinciaState.value + value, 6)
+  const handleChangeMunicipalities = (e) => {
+    if (e.value) {
+      setMunicipioState(e)
+      setValueZone(regionState.value + provinciaState.value + e.value)
+      // filterTickets(regionState.value + provinciaState.value + value, 6)
     } else {
       setMunicipioState(defaultValueState)
-      filterTickets(regionState.value + provinciaState.value, 4)
+      setValueZone(regionState.value + provinciaState.value)
+      // filterTickets(regionState.value + provinciaState.value, 4)
     }
   }
 
-  const filterTickets = (value, positionToFind = 0) => {
-    const data = dataTableTickets.filter(
-      (tickets) => tickets.zone.substr(0, positionToFind) === value,
-    )
-    setDataTable(data)
-  }
-
-  const searchTable = (data, queryLowered) =>
-    data.filter(
-      (data) =>
-        (data.title || '').toLowerCase().includes(queryLowered) ||
-        (data.address || '').toLowerCase().includes(queryLowered) ||
-        (data.ownerFirstName || '').toLowerCase().includes(queryLowered) ||
-        (data.ownerLastName || '').toLowerCase().includes(queryLowered) ||
-        (data.ownerCedula || '').toLowerCase().includes(queryLowered) ||
-        (data.customerFirstName || '').toLowerCase().includes(queryLowered) ||
-        (data.customerLastName || '').toLowerCase().includes(queryLowered) ||
-        (data.customerCedula || '').toLowerCase().includes(queryLowered) ||
-        (data.institutionName || '').toLowerCase().includes(queryLowered) ||
-        (data.institutionAcronym || '').toLowerCase().includes(queryLowered),
-    )
+  // const filterTickets = (value, positionToFind = 0) => {
+  //   return console.log(dataTableTickets)
+  // }
 
   return (
     <>
@@ -155,7 +142,7 @@ const Bandeja = function() {
               value={regionState}
               isLoading={!regionsSelector[0]}
               options={optionsCodeValueSelectNoData(regionsSelector)}
-              onChange={handleChangeRegions}
+              onChange={(e) => handleChangeRegions(e)}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
                   inputValue,
@@ -174,7 +161,7 @@ const Bandeja = function() {
               value={provinciaState}
               isLoading={!provincesSelector[0]}
               options={optionsCodeValueSelectNoData(provincesSelector)}
-              onChange={handleChangeProvinces}
+              onChange={(e) => handleChangeProvinces(e)}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
                   inputValue,
@@ -193,7 +180,7 @@ const Bandeja = function() {
               value={municipioState}
               isLoading={!municipalitiesSelector[0]}
               options={optionsCodeValueSelectNoData(municipalitiesSelector)}
-              onChange={handleChangeMunicipalities}
+              onChange={(e) => handleChangeMunicipalities(e)}
               noOptionsMessage={({ inputValue }) =>
                 noOptionsMessageSelect(
                   inputValue,
@@ -205,11 +192,11 @@ const Bandeja = function() {
         </Row>
       </CardGrid>
 
-      {dataTable && (
+      {dataTableTickets && (
         <DataTableList
           columnsTable={columns}
-          dataTable={dataTable.data}
-          searchTable={searchTable}
+          setValueSearch={setValueSearch}
+          dataTable={dataTableTickets.data}
           showButtonAddReport
           loadingTable={loadingTicket}
         />

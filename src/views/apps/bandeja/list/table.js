@@ -14,9 +14,10 @@ import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 const CustomHeader = function({
-  handleFilter,
-  value,
-  newDataTable,
+  // handleFilter,
+  // value,
+  setValueSearch,
+  dataTable,
   showButtonAddUser,
   showButtonAddInstitution,
   showButtonAddReport,
@@ -32,7 +33,7 @@ const CustomHeader = function({
         <Col lg="6" className="d-flex align-items-center px-0 px-lg-1">
           <Row>
             <Col sm="12" md="6">
-              <ExportButtons newDataTable={newDataTable} />
+              <ExportButtons dataTable={dataTable} />
             </Col>
             <Col sm="12" md="6">
               {/* import button */}
@@ -49,8 +50,8 @@ const CustomHeader = function({
               id="search-invoice"
               className="ml-50 mr-2 w-100"
               type="text"
-              value={value}
-              onChange={(e) => handleFilter(e.target.value)}
+              // value={value}
+              onChange={(e) => setValueSearch(e.target.value)}
               placeholder="Escribe..."
             />
           </div>
@@ -88,7 +89,8 @@ const CustomHeader = function({
 const DataTableList = function({
   columnsTable,
   dataTable,
-  searchTable,
+  setValueSearch,
+  // searchTable,
   showButtonAddUser = false,
   showButtonAddInstitution = false,
   showButtonAddReport = false,
@@ -98,23 +100,23 @@ const DataTableList = function({
   dataTableTitle = '',
   loadingTable=true
 }) {
-  const [newDataTable, setNewDataTable] = useState([])
-  const [value, setValue] = useState('')
+  // const [newDataTable, setNewDataTable] = useState([])
+  // const [value, setValue] = useState('')
 
-  useEffect(() => {
-    setNewDataTable(dataTable)
-  }, [dataTable])
+  // useEffect(() => {
+  //   setNewDataTable(dataTable)
+  // }, [dataTable])
 
 
-  const handleFilter = (val) => {
-    setValue(val)
+  // const handleFilter = (val) => {
+  //   setValue(val)
 
-    const queryLowered = val.toLowerCase()
+  //   const queryLowered = val.toLowerCase()
 
-    const filteredData = searchTable(dataTable, queryLowered)
+    // const filteredData = searchTable(dataTable, queryLowered)
 
-    setNewDataTable(filteredData)
-  }
+  //   setNewDataTable(filteredData)
+  // }
 
   const paginationComponentOptions = {
     rowsPerPageText: 'Filas por página',
@@ -143,15 +145,16 @@ const DataTableList = function({
             defaultSortField="invoiceId"
             paginationComponentOptions={paginationComponentOptions}
             paginationRowsPerPageOptions={[10]}
-            data={newDataTable}
+            data={dataTable}
             noDataComponent="No hay registros para mostrar"
             progressPending={loadingTable}
             progressComponent="Cargando..."
             subHeaderComponent={
               <CustomHeader
-                value={value}
-                newDataTable={newDataTable}
-                handleFilter={handleFilter}
+                // value={value}
+                dataTable={dataTable}
+                setValueSearch={setValueSearch}
+                // handleFilter={handleFilter}
                 showButtonAddUser={showButtonAddUser}
                 showButtonAddInstitution={showButtonAddInstitution}
                 showButtonAddReport={showButtonAddReport}

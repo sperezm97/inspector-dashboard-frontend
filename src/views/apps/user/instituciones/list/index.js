@@ -14,11 +14,12 @@ import { sweetAlertError } from '../../../../../@core/components/sweetAlert'
 import { strapiGetInstitutions } from '../../../../../services/strapi/institutions'
 
 const Instituciones = function () {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const [organizationState, setOrganizationState] = useState([])
   console.log(organizationState)
   const [loadingOrganization, setLoadingOrganization] = useState(true)
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllOrganizationsActions())
@@ -30,30 +31,30 @@ const Instituciones = function () {
     //   })
     //   .finally(() => setLoadingOrganization(false))
 
-    strapiGetInstitutions()
+    strapiGetInstitutions({valueSearch})
       .then(res => setOrganizationState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setLoadingOrganization(false))
 
-  }, [])
+  }, [valueSearch])
 
   // const organizationState = useSelector(
   //   (state) => state?.organizations?.organizations,
   // )
 
-  const searchTable = (data, queryLowered) =>
-    data.filter(
-      (data) =>
-        (data.acronimo || '').toLowerCase().includes(queryLowered) ||
-        (data.name || '').toLowerCase().includes(queryLowered),
-    )
+  // const searchTable = (data, queryLowered) =>
+  //   data.filter(
+  //     (data) =>
+  //       (data.acronimo || '').toLowerCase().includes(queryLowered) ||
+  //       (data.name || '').toLowerCase().includes(queryLowered),
+  //   )
 
   return (
     <DataTableList
       columnsTable={columns}
+      setValueSearch={setValueSearch}
       dataTable={organizationState.data}
       dataTableTitle="Instituciones"
-      searchTable={searchTable}
       showButtonAddInstitution
       loadingTable={loadingOrganization}
     />

@@ -18,30 +18,34 @@ export const strapiApi = {
     usersActive: "users"
   },
   beneficiaries: {
-    beneficiary: 'beneficiaries',
+    beneficiary: ({valueSearch=""}) => `beneficiaries?filters[cedula][$containsi]=${valueSearch}`,
+    beneficiaryPost: `beneficiaries`,
     beneficiaryId: (id) => `beneficiaries/${id}`,
     beneficiaryByCedula: (id) => `beneficiaries?filters[cedula][$eq]=${id}`,
   },
   users: {
     userMe: 'users/me',
-    user: 'users',
+    user: ({valueSearch="", valueZone=""}) => `users?filters[cedula][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,
+    userPost: 'users',
     userId: (id) => `users/${id}?populate[institution][fields]=name&populate[institution][fields]=acronym`,
   },
   tickets: {
-    ticket: `tickets${ticketPopulate}`,
+    ticket: ({valueSearch="", valueZone=""}) => `tickets${ticketPopulate}&filters[title][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,
+    ticketPost: `tickets`,
     ticketId: (id) => `tickets/${id}${ticketPopulate}${ticketComments}${ticketOwner}`,
   },
   institutions: {
-    institution: 'institutions',
+    institution: ({valueSearch=""}) => `institutions?filters[name][$containsi]=${valueSearch}`,
+    institutionPost: `institutions`,
     institutionId: (id) => `institutions/${id}?populate[services][fields][0]=name&populate[services][fields][1]=type&populate[services][fields][2]=id&populate[owner][fields][0]=firstname&populate[owner][fields][1]=lastname&populate[owner][fields][2]=cedula`,
     institutionByIdService: (idService) => `institutions?fields[0]=name&fields[1]=acronym&populate[services][fields][0]=name&populate[services][fields][1]=type&populate[services][fields][2]=id&filters[services][id][$eq]=${idService}`,
   },
   services: {
     all: 'services',
     serviceId: (id) => `services/${id}?fields[0]=name&fields[1]=type&populate[children][fields][0]=name&populate[children][fields][1]=type&populate[parent][fields][0]=name&populate[parent][fields][1]=type&sort[0]=publishedAt:asc`,
-    service: 'services?filters[type][$eq]=service',
-    category: 'services?filters[type][$eq]=category',
-    subCategory: 'services?filters[type][$eq]=subcategory',
+    service: ({valueSearch}) => `services?filters[type][$eq]=service&filters[name][$containsi]=${valueSearch}`,
+    category: ({valueSearch}) => `services?filters[type][$eq]=category&filters[name][$containsi]=${valueSearch}`,
+    subCategory: ({valueSearch}) => `services?filters[type][$eq]=subcategory&filters[name][$containsi]=${valueSearch}`,
   },
   comments: {
     comment: 'comments'
