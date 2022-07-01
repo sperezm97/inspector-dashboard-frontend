@@ -219,7 +219,7 @@ const CardChat = function({
                           // className='round'
                           color="primary" 
                           id={`toggler${chat.id}`} 
-                          outline={item.senderId === dataUserMe.id}
+                          outline={item.senderId !== dataUserMe.id}
                         >
                           Mostrar adjuntos
                         </Button.Ripple >

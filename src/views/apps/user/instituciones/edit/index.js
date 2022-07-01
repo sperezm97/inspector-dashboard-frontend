@@ -45,6 +45,7 @@ const institutionCreate = ({ history, match }) => {
   const [servicesValueState, setServicesValueState] = useState(defaultValueState)
   console.log("servicesValueState", servicesValueState)
   const [managerValueState, setManagerValueState] = useState(defaultValueState)
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllServicesActions())
@@ -68,21 +69,21 @@ const institutionCreate = ({ history, match }) => {
         sweetAlertError()
       })
 
-    strapiGetUsers()
+    strapiGetUsers({valueSearch})
       .then(res => {
         const newData = res.data.map((data) => ({ value: data.id, label: `${data.firstname} ${data.lastname}` }))
         setDataUsers(newData)
       })
       .catch(err => console.log(err))
 
-    strapiGetServices()
+    strapiGetServices({valueSearch})
       .then(res => {
         const newData = res.data.data.map((data) => ({ value: data.id, label: data.attributes.name }))
         setDataServices(newData)
       })
-      .catch(err => console.logZ(err))
+      .catch(err => console.log(err))
 
-  }, [])
+  }, [valueSearch])
 
   const servicesSelector = useSelector((state) => state?.services?.services)
   const usersSelector = useSelector((state) => state?.users?.users)

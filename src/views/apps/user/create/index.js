@@ -62,6 +62,7 @@ const UserCreate = function({history}) {
   const [ provinceState, setProvinceState ] = useState([])
   const [ municipalityState, setMunicipalityState ] = useState([])
   const [ districtState, setDistrictState ] = useState([])
+  const [ valueSearch, setValueSearch ] = useState("")
 
   useEffect(() => {
     // dispatch(getAllOrganizationsActions())
@@ -72,9 +73,9 @@ const UserCreate = function({history}) {
     //   .then((res) => setInstitutionState(res.data))
     //   .catch((err) => console.log(err))
 
-    strapiGetInstitutions()
+    strapiGetInstitutions({valueSearch})
       .then((res) => setInstitutionState(res.data))
-  }, [])
+  }, [valueSearch])
 
   const dataTableOrganizations = useSelector(
     (state) => state?.organizations?.organizations,

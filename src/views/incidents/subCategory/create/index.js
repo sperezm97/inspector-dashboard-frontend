@@ -40,19 +40,20 @@ const subCategoryCreate = ({ history }) => {
   const [ incidentsState, setIncidentsState ] = useState([])
   const [ categoryState, setCategoryState ] = useState([])
   const [ loadingState, setLoadingState ] = useState(false)
+  const [ valueSearch, setValueSearch ] = useState("")
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
   const [ incidentValueState, setIncidentValueState ] = useState(defaultValueState)
   const [ categoryValueState, setCategoryValueState ] = useState(defaultValueState)
 
   useEffect(() => {
-    strapiGetCategories()
+    strapiGetCategories({valueSearch})
       .then(res => {
         const data = res.data.data.map(data => ({value: data.id, label: data.attributes.name}))
         setCategoryState(data)
       })
       .catch(err => console.log(err))
-  },[])
+  },[valueSearch])
 
   const { register, handleSubmit, errors, control, setValue } = useForm({
     resolver: yupResolver(schema),

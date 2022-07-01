@@ -50,4 +50,7 @@ export const strapiApi = {
   comments: {
     comment: 'comments'
   },
+  uploads: {
+    upload: "upload"
+  }
 }

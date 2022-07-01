@@ -51,6 +51,8 @@ import { strapiGetInstitutionsByIdService } from '../../../../services/strapi/in
 import { strapiGetBeneficiariesByCedula, strapiPostBeneficiary, strapiPutBeneficiary } from '../../../../services/strapi/beneficiaries'
 import { strapiGetUserMe } from '../../../../services/strapi/users'
 import { strapiPostTickets } from '../../../../services/strapi/tickets'
+import { strapiPostUploads } from '../../../../services/strapi/uploads'
+import { strapiPostComments } from '../../../../services/strapi/comments'
 
 const ReportCreate = function ({ history }) {
   const dispatch = useDispatch()
@@ -71,6 +73,7 @@ const ReportCreate = function ({ history }) {
   const [userMeState, setUserMeState] = useState({})
 
   const [previewArr, setPreviewArr] = useState([])
+  console.log(previewArr)
 
   const [infoCedulaState, setInfoCedulaState] = useState(null)
 
@@ -98,6 +101,7 @@ const ReportCreate = function ({ history }) {
   const [sectionState, setSectionState] = useState([])
   const [neighborhoodState, setNeighborhoodState] = useState([])
   const [subNeighborhoodState, setSubNeighborhoodState] = useState([])
+  const [valueSearch, setValueSearch] = useState("")
 
   useEffect(() => {
     // dispatch(getAllServicesActions())
@@ -107,7 +111,7 @@ const ReportCreate = function ({ history }) {
       .then(res => setUserMeState(res.data))
       .catch(err => console.log(err))
 
-    strapiGetServices()
+    strapiGetServices({ valueSearch })
       .then(res => {
         const data = res.data.data.map(data => ({ value: data.id, label: data.attributes.name }))
         setServicesState(data)
@@ -348,67 +352,96 @@ const ReportCreate = function ({ history }) {
 
   const onSubmit = async (data) => {
 
-    // if (!previewArr[0]) {
-    //   return sweetAlert({
-    //     title: 'Aviso',
-    //     text: 'Debes agregar al menos una evidencia.',
-    //     type: 'warning'
-    //   })
-    // }
+    if (!previewArr[0]) {
+      return sweetAlert({
+        title: 'Aviso',
+        text: 'Debes agregar al menos una evidencia.',
+        type: 'warning'
+      })
+    }
 
     setLoadingPost(true)
 
     let idBeneficiary = null
 
-    
+
     const handlePostTicket = (idBeneficiaryFn) => {
-      const obj = {
-        data: {
-          title: `${data?.subCategoria.label} en ${data.subBarrio ? data.subBarrio.label : data.barrio.label}`,
-          services: [parseInt(data.incidente.value), parseInt(data.categoria.value), parseInt(data.subCategoria.value)],
-          institution: parseInt(data.institucion),
-          beneficiary: idBeneficiaryFn,
-          address: data.direccion,
-          // "evidence": [
-          //   "string or id",
-          //   "string or id"
-          // ],
-          description: data.descripcion,
-          owner: userMeState.id,
-          // "comments": [
-          //   "string or id",
-          //   "string or id"
-          // ],
-          state: "new",
-          priority: "low",
-          // "blocked": true,
-          // "blocked_comments": true,
-          // "block_reason": "string",
-          // "reports": [
-          //   "string or id",
-          //   "string or id"
-          // ],
-          zone_code: `${data.region}${data.provincia}${data.municipio}${data.distrito}${data.seccion}${data.barrio.value}${data.subBarrio && data.subBarrio.value}`,
-          // "snip_code": "string"
-        }
+
+      const formData = new FormData();
+      // console.log("previewArr[0]", previewArr[0].files)
+      // formData.append("files", previewArr[0].files)
+
+      for (let i = 0; i < previewArr.length; i++) {
+        formData.append("files", previewArr[i].files)
       }
-      strapiPostTickets(obj)
-      .then(res => {
-        sweetAlert({
-          title: 'Ticket creado',
-          text: 'Ticket creado con éxito.',
-          type: 'success'
+
+      strapiPostUploads(formData)
+        .then(res => {
+
+          let arrIdImage = res.data.map(item => item.id)
+          console.log("arrIdImage", arrIdImage)
+
+          const objComment = {
+            data: {
+              message: data.descripcion,
+              // ticket: dataTicket.id,
+              owner: userMeState.id,
+              attachments: arrIdImage,
+              internal: true,
+              content_type: "text/plain"
+            }
+          }
+
+          strapiPostComments(objComment)
+            .then((res) => {
+              console.log("el comentario: ", res)
+              const obj = {
+                data: {
+                  title: `${data?.subCategoria.label} en ${data.subBarrio ? data.subBarrio.label : data.barrio.label}`,
+                  services: [parseInt(data.incidente.value), parseInt(data.categoria.value), parseInt(data.subCategoria.value)],
+                  institution: parseInt(data.institucion),
+                  beneficiary: idBeneficiaryFn,
+                  address: data.direccion,
+                  evidence: arrIdImage,
+                  // description: data.descripcion,
+                  owner: userMeState.id,
+                  comments: res.data.data.id,
+                  state: "new",
+                  priority: "low",
+                  // "blocked": true,
+                  // "blocked_comments": true,
+                  // "block_reason": "string",
+                  // "reports": [
+                  //   "string or id",
+                  //   "string or id"
+                  // ],
+                  zone_code: `${data.region}${data.provincia}${data.municipio}${data.distrito}${data.seccion}${data.barrio.value}${data.subBarrio !== null ? data.subBarrio.value : ""}`,
+                  // "snip_code": "string"
+                }
+              }
+              strapiPostTickets(obj)
+                .then(res => {
+                  sweetAlert({
+                    title: 'Ticket creado',
+                    text: 'Ticket creado con éxito.',
+                    type: 'success'
+                  })
+                  history.push(Url.dashboardInbox)
+                })
+                .catch(err => {
+                  sweetAlert({
+                    title: 'Error!',
+                    text: 'Ocurrió un error al crear el Ticket.',
+                    type: 'error'
+                  })
+                  setLoadingPost(false)
+                })
+            })
+            .catch(err => console.log(err))
+
         })
-        history.push(Url.dashboardInbox)
-      })
-      .catch(err => {
-        sweetAlert({
-          title: 'Error!',
-          text: 'Ocurrió un error al crear el Ticket.',
-          type: 'error'
-        })
-        setLoadingPost(false)
-      })
+        .catch(err => console.log(err))
+        .finally(() => setLoadingPost(false))
     }
 
     strapiGetBeneficiariesByCedula(infoCedulaState.id)

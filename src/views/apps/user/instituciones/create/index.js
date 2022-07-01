@@ -38,21 +38,22 @@ const institutionCreate = ({ history }) => {
   const [ userState, setUserState ] = useState([])
   const [ serviceState, setServiceState ] = useState({data: []})
   console.log(serviceState)
+  const [valueSearch, setValueSearch] = useState("")
 
   const defaultValueState = { value: '', label: 'Sin Seleccionar' }
 
   useEffect(() => {
     dispatch(getAllServicesActions())
     // dispatch(getAllUsersActions())
-    strapiGetUsers()
+    strapiGetUsers({valueSearch})
     .then(res => setUserState(res.data))
     .catch(() => sweetAlertError())
 
-    strapiGetServices()
+    strapiGetServices({valueSearch})
     .then(res => setServiceState(res.data))
     .catch(() => sweetAlertError())
 
-  }, [])
+  }, [valueSearch])
 
   // const usersSelector = useSelector((state) => state?.users?.users)
   // const servicesSelector = useSelector((state) => state?.services?.services)

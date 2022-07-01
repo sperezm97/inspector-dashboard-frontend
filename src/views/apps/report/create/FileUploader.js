@@ -7,9 +7,9 @@ import { Label } from 'reactstrap'
 import { sweetAlertError } from '../../../../@core/components/sweetAlert'
 import { RequiredInput } from '../../../../@core/components/requiredInput'
 
-const FileUploader = function({previewArr, setPreviewArr}) {
+const FileUploader = function ({ previewArr, setPreviewArr }) {
 
-  const [ previewUpload, setPreviewUpload ] = useState([])
+  const [previewUpload, setPreviewUpload] = useState([])
 
   const uppy = new Uppy({
     meta: { type: 'avatar' },
@@ -31,20 +31,16 @@ const FileUploader = function({previewArr, setPreviewArr}) {
     reader.onloadend = () => {
       const arr = previewArr
       const previewArray = previewUpload
-      if(file.type.includes('video')){
+      if (file.type.includes('video')) {
         arr.push({
-          filename: file.name,
-          data: reader.result.split(',')[1],
-          "mime-type": file.type,
+          files: file.data
         })
-        previewArray.push({data: reader.result})
-      }else {
+        previewArray.push({ data: reader.result })
+      } else {
         arr.push({
-          filename: file.name,
-          data: reader.result.split(',')[1],
-          "mime-type": file.type,
+          files: file.data
         })
-        previewArray.push({data: reader.result})
+        previewArray.push({ data: reader.result })
       }
       setPreviewArr([...arr])
       setPreviewUpload([...previewArray])
@@ -65,8 +61,8 @@ const FileUploader = function({previewArr, setPreviewArr}) {
 
   const renderDeleteAttachments = (id) => (
     <div className="d-flex flex-row-reverse">
-      <div style={{marginBottom: '-10px', marginRight: '-5px', zIndex: '1'}}>
-        <span onClick={() => handleDeleteAttachments(id)} style={{cursor: 'pointer', background: 'red', borderRadius: '50%', padding: '2px'}}>
+      <div style={{ marginBottom: '-10px', marginRight: '-5px', zIndex: '1' }}>
+        <span onClick={() => handleDeleteAttachments(id)} style={{ cursor: 'pointer', background: 'red', borderRadius: '50%', padding: '2px' }}>
           <X size={16} color="white" />
         </span>
       </div>
@@ -78,41 +74,41 @@ const FileUploader = function({previewArr, setPreviewArr}) {
       <Label>Cargar pruebas<RequiredInput /></Label>
       <DragDrop
         uppy={uppy}
-        // note={previewArr[0] && `${previewArr.length} Adjunto${previewArr.length > 1 ? 's' : ''}`}
+      // note={previewArr[0] && `${previewArr.length} Adjunto${previewArr.length > 1 ? 's' : ''}`}
       />
-        <div className="d-flex flex-wrap">
-          {previewUpload[0] &&
-            previewUpload.map((src, index) => {
-              if(src?.data.includes('video')){
-                return (
-                  <div key={index} className="mt-2 mr-1">
-                    {renderDeleteAttachments(index)}
-                    <video 
-                      key={index} 
-                      className="rounded"
-                      width="200"
-                      controls
-                    >
-                      <source src={src.data} type="video/mp4"/>
-                    </video>
-                  </div>
-                )
-              }
-                return (
-                  <div key={index} className="mt-2 mr-1">
-                    {renderDeleteAttachments(index)}
-                    <img 
-                      key={index} 
-                      style={{width: '200px'}}
-                      className="rounded" 
-                      src={src.data} 
-                      alt="Adjunto de prueba" 
-                    />
-                  </div>
-                ) 
-            })
-          }
-        </div>
+      <div className="d-flex flex-wrap">
+        {previewUpload[0] &&
+          previewUpload.map((src, index) => {
+            if (src?.data.includes('video')) {
+              return (
+                <div key={index} className="mt-2 mr-1">
+                  {renderDeleteAttachments(index)}
+                  <video
+                    key={index}
+                    className="rounded"
+                    width="200"
+                    controls
+                  >
+                    <source src={src.data} type="video/mp4" />
+                  </video>
+                </div>
+              )
+            }
+            return (
+              <div key={index} className="mt-2 mr-1">
+                {renderDeleteAttachments(index)}
+                <img
+                  key={index}
+                  style={{ width: '200px' }}
+                  className="rounded"
+                  src={src.data}
+                  alt="Adjunto de prueba"
+                />
+              </div>
+            )
+          })
+        }
+      </div>
     </div>
   )
 }

@@ -21,8 +21,9 @@ import { getDistrictByIdentifier, getMunicipalityByIdentifier, getNeighborhoodBy
 import { strapiGetTicketsById } from '../../../../services/strapi/tickets'
 import { strapiGetUserMe } from '../../../../services/strapi/users'
 import { strapiPostComments } from '../../../../services/strapi/comments'
+import { strapiPostUploads } from '../../../../services/strapi/uploads'
 
-const InvoicePreview = function() {
+const InvoicePreview = function () {
 
   const { id } = useParams()
 
@@ -34,10 +35,10 @@ const InvoicePreview = function() {
   const [dataUserCustomer, setDataUserCustomer] = useState(null)
 
   const [zonesState, setZonesState] = useState(null)
-  
+
   const [msg, setMsg] = useState('')
-  const [ previewArr, setPreviewArr ] = useState([])
-  const [ previewUpload, setPreviewUpload ] = useState([])
+  const [previewArr, setPreviewArr] = useState([])
+  const [previewUpload, setPreviewUpload] = useState([])
 
   const [loadingPost, setLoadingPost] = useState(false)
   const [executeGet, setExecuteGet] = useState(true)
@@ -48,24 +49,66 @@ const InvoicePreview = function() {
     //   .catch(err => console.log(err.response))
 
     strapiGetTicketsById(id)
-    .then(res => setDataTicket(res.data.data))
-    .catch(err => console.log(err))
+      .then(res => setDataTicket(res.data.data))
+      .catch(err => console.log(err))
   }
 
   const handlePostTicketArticles = (dataObj) => {
     setExecuteGet(false)
     setLoadingPost(true)
-    strapiPostComments(dataObj)
-      .then(res => {
-        handleGetTicketArticles()
-        sweetAlertGood()
-        setMsg('')
-        setPreviewArr([])
-        setPreviewUpload([])
-        console.log(res)
-      })
-      .catch(err => sweetAlertError())
-      .finally(() => setLoadingPost(false))
+
+    if (previewArr[0]) {
+      const formData = new FormData();
+
+      for (let i = 0; i < previewArr.length; i++) {
+        formData.append("files", previewArr[i].files)
+      }
+
+      strapiPostUploads(formData)
+        .then(res => {
+          let arrIdImage = res.data.map(item => item.id)
+          console.log("arrIdImage", arrIdImage)
+
+          const objComment = {
+            data: {
+              message: dataObj.data.message,
+              ticket: dataTicket.id,
+              owner: dataObj.data.owner,
+              attachments: arrIdImage,
+              internal: true,
+              content_type: "text/plain"
+            }
+          }
+
+          strapiPostComments(objComment)
+            .then(res => {
+              handleGetTicketArticles()
+              sweetAlertGood()
+              setMsg('')
+              setPreviewArr([])
+              setPreviewUpload([])
+              console.log(res)
+            })
+            .catch(() => sweetAlertError())
+
+        })
+        .catch(() => sweetAlertError())
+        .finally(() => setLoadingPost(false))
+
+    } else {
+      strapiPostComments(dataObj)
+        .then(res => {
+          handleGetTicketArticles()
+          sweetAlertGood()
+          setMsg('')
+          setPreviewArr([])
+          setPreviewUpload([])
+          console.log(res)
+        })
+        .catch(() => sweetAlertError())
+        .finally(() => setLoadingPost(false))
+    }
+
   }
 
   useEffect(() => {
@@ -88,7 +131,7 @@ const InvoicePreview = function() {
   }, [])
 
   useEffect(() => {
-    if(dataTicket && executeGet){
+    if (dataTicket && executeGet) {
       getUserById(dataTicket.owner_id)
         .then(res => setDataUserOwner(res.data))
         .catch(err => console.log(err.response))
@@ -101,31 +144,31 @@ const InvoicePreview = function() {
       console.log("zones", zones)
       getRegionByIdentifier(zones?.region)
         .then(res => {
-          setZonesState({region: res.data.data.name})
-          
+          setZonesState({ region: res.data.data.name })
+
           getProvinceByIdentifier(zones?.province)
             .then(res => {
-              setZonesState((zonesState) => ({...zonesState, province: res.data.data.name}))
-              
+              setZonesState((zonesState) => ({ ...zonesState, province: res.data.data.name }))
+
               getMunicipalityByIdentifier(zones?.municipality)
                 .then(res => {
-                  setZonesState((zonesState) => ({...zonesState, municipality: res.data.data.name}))
-                  
+                  setZonesState((zonesState) => ({ ...zonesState, municipality: res.data.data.name }))
+
                   getDistrictByIdentifier(zones?.district)
                     .then(res => {
-                      setZonesState((zonesState) => ({...zonesState, district: res.data.data.name}))
-                      
+                      setZonesState((zonesState) => ({ ...zonesState, district: res.data.data.name }))
+
                       getSectionByIdentifier(zones?.section)
                         .then(res => {
-                          setZonesState((zonesState) => ({...zonesState, section: res.data.data.name}))
-                      
+                          setZonesState((zonesState) => ({ ...zonesState, section: res.data.data.name }))
+
                           getNeighborhoodByIdentifier(zones?.neighborhood)
                             .then(res => {
-                              setZonesState((zonesState) => ({...zonesState, neighborhood: res.data.data.name}))
-                              
+                              setZonesState((zonesState) => ({ ...zonesState, neighborhood: res.data.data.name }))
+
                               getSubNeighborhoodByIdentifier(zones?.subNeighborhood)
                                 .then(res => {
-                                  setZonesState((zonesState) => ({...zonesState, subNeighborhood: res.data.data.name}))
+                                  setZonesState((zonesState) => ({ ...zonesState, subNeighborhood: res.data.data.name }))
                                 })
                             })
                         })
@@ -142,13 +185,13 @@ const InvoicePreview = function() {
       <Row className="invoice-preview">
         <Col sm={12}>
           {dataTicket &&
-            <CardContact 
+            <CardContact
               dataTicket={dataTicket}
             />
           }
         </Col>
         <Col xl={7} md={7} sm={12}>
-          <CardChat 
+          <CardChat
             dataTicket={dataTicket}
             dataTicketArticles={dataTicketArticles}
             dataTicketId={id}
@@ -159,7 +202,7 @@ const InvoicePreview = function() {
             setMsg={setMsg}
             previewArr={previewArr}
             setPreviewArr={setPreviewArr}
-            previewUpload={previewUpload} 
+            previewUpload={previewUpload}
             setPreviewUpload={setPreviewUpload}
           />
         </Col>
