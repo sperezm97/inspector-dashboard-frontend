@@ -66,7 +66,7 @@ const InvoicePreview = function () {
 
       strapiPostUploads(formData)
         .then(res => {
-          let arrIdImage = res.data.map(item => item.id)
+          const arrIdImage = res.data.map(item => item.id)
           console.log("arrIdImage", arrIdImage)
 
           const objComment = {
