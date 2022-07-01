@@ -28,6 +28,7 @@ export const strapiApi = {
     user: ({valueSearch="", valueZone=""}) => `users?filters[cedula][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,
     userPost: 'users',
     userId: (id) => `users/${id}?populate[institution][fields]=name&populate[institution][fields]=acronym`,
+    userImport: "users/import"
   },
   tickets: {
     ticket: ({valueSearch="", valueZone=""}) => `tickets${ticketPopulate}&filters[title][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,

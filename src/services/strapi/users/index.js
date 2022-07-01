@@ -10,3 +10,5 @@ export const strapiGetUserById = async (id) => await strapiAxios.get(strapiApi.u
 export const strapiPutUser = async (id, data) => await strapiAxios.put(`${strapiApi.users.userPost}/${id}`, data)
 
 export const strapiPostUsers = async (data) => await strapiAxios.post(strapiApi.users.userPost, data)
+
+export const strapiImportUsers = async (data) => await strapiAxios.post(strapiApi.users.userImport, data)

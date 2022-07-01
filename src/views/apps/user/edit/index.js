@@ -55,6 +55,7 @@ const UserCreate = function ({ history, match }) {
   const [dataInfoUser, setDataInfoUser] = useState([])
   const [dataInstitutions, setDataInstitutions] = useState([])
   console.log(dataInstitutions)
+  const [valueSearch, setValueSearch] = useState("")
 
   const [groupsState, setGroupsState] = useState([])
 
@@ -84,7 +85,7 @@ const UserCreate = function ({ history, match }) {
       .then((res) => setDataInfoUser(res.data))
       .catch((err) => sweetAlertError())
 
-    strapiGetInstitutions()
+    strapiGetInstitutions({valueSearch})
       .then((res) => {
         const newData = res.data.data.map(data => ({ value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }))
         setDataInstitutions(newData)
@@ -94,9 +95,9 @@ const UserCreate = function ({ history, match }) {
     // .then((res) => setDataInfoUser(res.data))
     // .catch((err) => sweetAlertError())
 
-    getGroups()
-      .then((res) => setGroupsState(res.data))
-      .catch((err) => console.log(err))
+    // getGroups()
+    //   .then((res) => setGroupsState(res.data))
+    //   .catch((err) => console.log(err))
   }, [])
 
   const dataTableOrganizations = useSelector(

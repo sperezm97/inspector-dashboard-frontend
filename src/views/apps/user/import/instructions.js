@@ -13,9 +13,9 @@ export var Instructions = function() {
         {
             itemHeader: "Antes de importar, asegúrese de los siguientes apartados:",
             itemText: [
-                "La cédula es sin guiones y sin caracteres especiales.",
+                "La institución es el ID.",
                 "El zona_id es el código de la zona del usuario.",
-                "La institución solo debe agregarse el acrónimo.",
+                "La cédula es sin guiones y sin caracteres especiales.",
             ],
         },
     ]

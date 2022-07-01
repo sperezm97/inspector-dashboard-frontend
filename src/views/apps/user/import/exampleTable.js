@@ -9,21 +9,23 @@ export var ExampleTable = function() {
             <Table className="table-hover-animation" responsive>
                 <thead>
                     <tr>
-                        <th>cedula</th>
                         <th>correo</th>
                         <th>institucion</th>
+                        <th>nombre</th>
+                        <th>apellido</th>
                         <th>zona_id</th>
-                        {/* <th>roles</th> */}
+                        <th>cedula</th>
                         <th>telefono</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>00000000000</td>
                         <td>ejemplo@correo.com</td>
-                        <td>ogtic</td>
-                        <td>010101</td>
-                        {/* <td>1,2,3</td> */}
+                        <td>1</td>
+                        <td>José Eduardo</td>
+                        <td>Álvarez Lerebours</td>
+                        <td>011801</td>
+                        <td>00000000000</td>
                         <td>8092201111</td>
                     </tr>
                 </tbody>

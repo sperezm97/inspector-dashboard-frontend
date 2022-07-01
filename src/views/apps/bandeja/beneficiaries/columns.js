@@ -35,14 +35,4 @@ export const columns = [
     sortable: true,
     cell: (row) => row.attributes.phone,
   },
-  {
-    name: 'Acciones',
-    minWidth: '50px',
-    cell: (row) => {
-      const url = {
-        edit: Url.userEdit,
-      }
-      return rowActions(row.id, url)
-    },
-  },
 ]

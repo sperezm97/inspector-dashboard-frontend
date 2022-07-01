@@ -12,27 +12,27 @@ export const getRol = (rol, index) => (
   </span>
 )
 
-export const getProvinces = (id) => {
-  const provincesSelector = useSelector(
-    (state) => state?.provinces?.allProvinces,
-  )
-  const validatedId = id || ''
+// export const getProvinces = (id) => {
+//   const provincesSelector = useSelector(
+//     (state) => state?.provinces?.allProvinces,
+//   )
+//   const validatedId = id || ''
 
-  return provincesSelector.find(
-    (obj) => obj.identifier.substr(2, 2) === validatedId.substr(2, 2),
-  )?.name
-}
+//   return provincesSelector.find(
+//     (obj) => obj.identifier.substr(2, 2) === validatedId.substr(2, 2),
+//   )?.name
+// }
 
-export const getMunicipality = (id) => {
-  const municipalitiesSelector = useSelector(
-    (state) => state?.municipalities?.allMunicipalities,
-  )
-  const validatedId = id || ''
+// export const getMunicipality = (id) => {
+//   const municipalitiesSelector = useSelector(
+//     (state) => state?.municipalities?.allMunicipalities,
+//   )
+//   const validatedId = id || ''
 
-  return municipalitiesSelector.find(
-    (obj) => obj.identifier === validatedId.substr(0, 6),
-  )?.name
-}
+//   return municipalitiesSelector.find(
+//     (obj) => obj.identifier === validatedId.substr(0, 6),
+//   )?.name
+// }
 
 export const columns = [
   {
@@ -64,20 +64,6 @@ export const columns = [
     selector: 'phone',
     sortable: true,
     cell: (row) => row.phone,
-  },
-  {
-    name: 'Provincia',
-    minWidth: '235px',
-    selector: 'zone',
-    sortable: true,
-    cell: (row) => getProvinces(row.zone_code),
-  },
-  {
-    name: 'Municipio',
-    minWidth: '235px',
-    selector: 'zone',
-    sortable: true,
-    cell: (row) => getMunicipality(row.zone_code),
   },
   {
     name: 'Rol',

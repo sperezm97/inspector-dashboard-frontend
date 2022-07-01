@@ -24,13 +24,20 @@ export const strapiAxios = axios.create({
 strapiAxios.interceptors.request.use((config) => {
   const { token } = JSON.parse(localStorage.getItem('user')) || []
   let jwt = ""
-  if(token){
+  if (token) {
     jwt = token
   }
   config.headers.Authorization = `Bearer ${jwt}`
-  console.log("config", config)
   return config;
-},(error) => 
-  // Do something with request error
-   console.log("error: ", error)
+}, (error) => console.log("error ============> ", error))
+
+strapiAxios.interceptors.response.use(
+  response => response,
+  error => {
+    console.log("error response ============> ", error)
+    if(error.response.status === 403){
+      localStorage.clear()
+      window.location.href = '/';
+    }
+  }
 )

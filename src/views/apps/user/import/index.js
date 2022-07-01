@@ -19,15 +19,16 @@ import {
 import { Instructions } from './instructions'
 import { ExampleTable } from './exampleTable'
 import { DropFile } from './dropFile'
-import { sweetAlert } from '../../../../@core/components/sweetAlert'
+import { sweetAlert, sweetAlertError } from '../../../../@core/components/sweetAlert'
 import Url from '../../../../constants/Url'
 import { postUserImport } from '../../../../services/zammad/userImport'
 import { getOrganizations } from '../../../../services/zammad/organization'
 import { getGroups } from '../../../../services/zammad/group'
 import { postTicketImportOG } from '../../../../services/zammad/ticketImport'
+import { strapiImportUsers } from '../../../../services/strapi/users'
 
 
-const ErrorToast = function() {
+const ErrorToast = function () {
   return <>
     <div className="toastify-header">
       <div className="title-wrapper">
@@ -44,15 +45,15 @@ const ErrorToast = function() {
   </>
 }
 
-const Import = function({history}) {
+const Import = function ({ history }) {
 
   const [tableData, setTableData] = useState([])
+  console.log("tableData", tableData)
 
   const [name, setName] = useState('')
   const [loadingImport, setLoadingImport] = useState(false)
 
   const [usersCreated, setUsersCreated] = useState(0)
-  console.log('usersCreated', usersCreated)
 
   const uppy = new Uppy({
     restrictions: { maxNumberOfFiles: 1 },
@@ -85,15 +86,17 @@ const Import = function({history}) {
 
   const onSubmit = async () => {
 
-    const validateArrCSV = tableData.every(data => 
-      data?.cedula?.length > 0 && 
-      data?.correo?.length > 0 && 
+    const validateArrCSV = tableData.every(data =>
+      data?.correo?.length > 0 &&
       data?.institucion?.length > 0 &&
+      data?.nombre?.length > 0 &&
+      data?.apellido?.length > 0 &&
       data?.zona_id?.length > 0 &&
+      data?.cedula?.length > 0 &&
       data?.telefono?.length > 0
     )
 
-    if(!validateArrCSV) {
+    if (!validateArrCSV) {
       return sweetAlert({
         title: 'Aviso',
         text: 'Si desea importar todos los usuarios proporciona todos los campos de validación necesarios.',
@@ -105,10 +108,10 @@ const Import = function({history}) {
       acc[data.correo.toLowerCase()] = ++acc[data.correo.toLowerCase()] || 0
       return acc
     }, {})
-    
-    const validateDataNoRepet = tableData.filter( (data) => searchOnTable[data.correo])
 
-    if(validateDataNoRepet[0]) {
+    const validateDataNoRepet = tableData.filter((data) => searchOnTable[data.correo])
+
+    if (validateDataNoRepet[0]) {
       return sweetAlert({
         title: 'Aviso',
         text: 'Si desea importar, verifique que los correos no se repitan.',
@@ -116,51 +119,87 @@ const Import = function({history}) {
       })
     }
 
-    console.log('validateDataNoRepet', validateDataNoRepet)
+    const newDataTable = tableData.map(data => {
+      return {
+        email: data.correo,
+        username: data.correo,
+        institution: data.institucion,
+        firstname: data.nombre.toUpperCase(),
+        lastname: data.apellido.toUpperCase(),
+        zone_code: data.zona_id,
+        cedula: data.cedula,
+        password: data.cedula,
+        phone: data.telefono,
+        provider: "local",
+        confirmed: true,
+      }
+    })
+
+    // return console.log("newDataTable", newDataTable)
 
     setLoadingImport(true)
 
-    let organizationData = []
-    let groupData = []
-    
-    organizationData = await (await getOrganizations()).data
-    groupData = await (await getGroups()).data
-
-    const arrTablaDataFilter = tableData.map(item => item.institucion)
-    const newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
-    console.log('newArrTablaDataFilter', newArrTablaDataFilter)
-    const postAllOG = await Promise.all(
-      newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
-    ).then(res => console.log('res', res))
-    .catch(err => console.log('err', err))
-
-    for(let i = 0; i <= tableData.length - 1; i++){
-      console.log(i)
-      const postAllUser = await postUserImport(tableData[i])
-      if(postAllUser?.status === 200 || postAllUser?.status === 201){
-        console.log("ok")
-        setUsersCreated(i + 1)
-      }else {
-        console.log("no ok", i + 1)
-        sweetAlert({
-          title: 'Algunos Usuarios No creados',
-          text: `Se produjo un error al crear el usuario ${i + 1} del archivo CSV, verifíquelo o inténtelo de nuevo sin los usuarios anteriores a este`,
-          type: 'warning'
-        })
-        setTableData([])
-        setUsersCreated(0)
-        setLoadingImport(false)
-        break
-      }
-      if(i === tableData.length - 1){
+    strapiImportUsers(newDataTable)
+      .then(res => {
+        console.log(res)
         sweetAlert({
           title: 'Usuarios Importados',
           text: 'Los Usuarios se importaron con éxito, recuerde que la contraseña de los usuarios es su propia cédula.',
           type: 'success'
         })
         history.push(Url.user)
-      }
-    }
+      })
+      .catch(err => {
+        console.log(err)
+        sweetAlertError()
+      })
+      .finally(() => setLoadingImport(true))
+
+
+    // console.log('validateDataNoRepet', validateDataNoRepet)
+
+
+    // let organizationData = []
+    // let groupData = []
+
+    // organizationData = await (await getOrganizations()).data
+    // groupData = await (await getGroups()).data
+
+    // const arrTablaDataFilter = tableData.map(item => item.institucion)
+    // const newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
+    // console.log('newArrTablaDataFilter', newArrTablaDataFilter)
+    // const postAllOG = await Promise.all(
+    //   newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
+    // ).then(res => console.log('res', res))
+    // .catch(err => console.log('err', err))
+
+    // for(let i = 0; i <= tableData.length - 1; i++){
+    //   console.log(i)
+    //   const postAllUser = await postUserImport(tableData[i])
+    //   if(postAllUser?.status === 200 || postAllUser?.status === 201){
+    //     console.log("ok")
+    //     setUsersCreated(i + 1)
+    //   }else {
+    //     console.log("no ok", i + 1)
+    //     sweetAlert({
+    //       title: 'Algunos Usuarios No creados',
+    //       text: `Se produjo un error al crear el usuario ${i + 1} del archivo CSV, verifíquelo o inténtelo de nuevo sin los usuarios anteriores a este`,
+    //       type: 'warning'
+    //     })
+    //     setTableData([])
+    //     setUsersCreated(0)
+    //     setLoadingImport(false)
+    //     break
+    //   }
+    //   if(i === tableData.length - 1){
+    //     sweetAlert({
+    //       title: 'Usuarios Importados',
+    //       text: 'Los Usuarios se importaron con éxito, recuerde que la contraseña de los usuarios es su propia cédula.',
+    //       type: 'success'
+    //     })
+    //     history.push(Url.user)
+    //   }
+    // }
   }
 
   return (
@@ -186,10 +225,10 @@ const Import = function({history}) {
                         className="mb-1 mb-sm-0 mr-0 mr-sm-1"
                         disabled={loadingImport}
                         onClick={onSubmit}
-                        >
+                      >
                         {loadingImport && <Spinner color='white' size='sm' />}
                         <span className={`${loadingImport && 'ml-50'}`}>
-                          {loadingImport ? `Importados: ${usersCreated} de ${tableData.length}...` : 'Importar'}
+                          {loadingImport ? "Importando..." : 'Importar'}
                         </span>
                       </Button>
                     </Col>
