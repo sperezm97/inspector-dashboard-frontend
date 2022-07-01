@@ -119,8 +119,7 @@ const Import = function ({ history }) {
       })
     }
 
-    const newDataTable = tableData.map(data => {
-      return {
+    const newDataTable = tableData.map(data => ({
         email: data.correo,
         username: data.correo,
         institution: data.institucion,
@@ -132,8 +131,7 @@ const Import = function ({ history }) {
         phone: data.telefono,
         provider: "local",
         confirmed: true,
-      }
-    })
+      }))
 
     // return console.log("newDataTable", newDataTable)
 
