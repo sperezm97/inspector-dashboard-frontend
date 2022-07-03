@@ -398,7 +398,7 @@ const UserCreate = function({history}) {
                 {...field} 
                 onChange={e => filterSelectInstitution(e.value)}
                 options={dataInstitutions}
-                isDisabled={true}
+                isDisabled
                 isLoading={!dataInstitutions[0]}
                 value={institutionValueState}
                 classNamePrefix="select"

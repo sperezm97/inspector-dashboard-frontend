@@ -102,9 +102,7 @@ const Import = function ({ history }) {
     // dispatch(getAllUsersActions())
 
     strapiGetUsers({ valueSearch, valueZone })
-      .then(res => setUsersState(res.data.map(data => {
-        return { value: data.id, label: `${data.firstname} ${data.lastname}` }
-      })))
+      .then(res => setUsersState(res.data.map(data => ({ value: data.id, label: `${data.firstname} ${data.lastname}` }))))
 
   }, [])
 
