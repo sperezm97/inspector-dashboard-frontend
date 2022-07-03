@@ -138,30 +138,39 @@ const Import = function ({ history }) {
     }
   })
 
-  const handleDownloadCsv = (data) => {
-    const objAddCsv = {
-      priority_id: data.prioridad,
-      state_id: data.estado,
-      owner_id: data.encargado,
-    }
+  // const handleDownloadCsv = (data) => {
+  //   const objAddCsv = {
+  //     priority: data.prioridad,
+  //     state: data.estado,
+  //     owner: data.encargado,
+  //   }
 
-    const newArrCsv = []
+  //   const newDataTable = tableData.map(data => {
+  //     return { 
+  //       ...objAddCsv, 
+  //       title: data.titulo,
+  //       address: data.direccion,        
+  //       description: data.descripcion,        
+  //       services: data.incidente.split('/').map(Number) || "",
+  //       beneficiary: data.beneficiario,        
+  //       institution: data.institucion,        
+  //       zone_code: data.reporte_zona_id,        
+  //     }
+  //   })
 
-    tableData.map((dataCsv) => newArrCsv.push(Object.assign(dataCsv, objAddCsv)))
-
-    downloadCSV(newArrCsv)
-  }
+  //   downloadCSV(newDataTable)
+  // }
 
   const onSubmit = async (data) => {
 
     const validateArrCSV = tableData.every(data =>
-      data?.title?.length > 0 &&
-      data?.address?.length > 0 &&
-      data?.description?.length > 0 &&
-      data?.services?.length > 0 &&
-      data?.beneficiary?.length > 0 &&
-      data?.institution?.length > 0 &&
-      data?.zone_code?.length > 0
+      data?.titulo?.length > 0 &&
+      data?.direccion?.length > 0 &&
+      data?.descripcion?.length > 0 &&
+      data?.incidente?.length > 0 &&
+      data?.beneficiario?.length > 0 &&
+      data?.institucion?.length > 0 &&
+      data?.reporte_zona_id?.length > 0
     )
 
     if (!validateArrCSV) {
@@ -179,7 +188,16 @@ const Import = function ({ history }) {
     }
 
     const newDataTable = tableData.map(data => {
-      return { ...data, ...objAddCsv, services: data.services.split('/').map(Number) || "" }
+      return { 
+        ...objAddCsv, 
+        title: data.titulo,
+        address: data.direccion,        
+        description: data.descripcion,        
+        services: data.incidente.split('/').map(Number) || "",
+        beneficiary: data.beneficiario,        
+        institution: data.institucion,        
+        zone_code: data.reporte_zona_id,        
+      }
     })
 
     setLoadingImport(true)
@@ -335,7 +353,7 @@ const Import = function ({ history }) {
                             {loadingImport ? "Importando..." : 'Importar'}
                           </span>
                         </Button>
-                        <Button
+                        {/* <Button
                           color="primary"
                           className="mb-1 mb-sm-0 mr-0 mr-sm-1"
                           disabled={loadingImport}
@@ -343,7 +361,7 @@ const Import = function ({ history }) {
                           outline
                         >
                           Descargar Ejemplo
-                        </Button>
+                        </Button> */}
                       </Col>
                     </Row>
                   </Form>

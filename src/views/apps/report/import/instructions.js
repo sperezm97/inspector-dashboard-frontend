@@ -14,19 +14,13 @@ export var Instructions = function() {
             itemHeader: "Antes de importar, asegúrese de los siguientes apartados:",
             itemText: [
                 "Los incidentes son separados por comas (,).",
-                "La institución solo debe agregarse el acrónimo.",
-                "El ciudadano_id es la cédula del ciudadano. Sin guiones y sin caracteres especiales.",
+                "El beneficiario es sólo el ID.",
+                "La institución es sólo el ID.",
                 "El reporte_zona_id es el código de la zona del reporte.",
             ],
         },
         {
-            itemHeader: "Según las opciones configuradas de validación de sus tickets, el ticket no se importará si no provee:",
-            itemText: [
-                "El acrónimo de la institución (institucion)",
-                "La cédula del cuidadano (ciudadano_id)",
-                "El Id de la zona (reporte_zona_id)",
-                "La dirección (reporte_direccion)",
-            ],
+            itemHeader: "Según las opciones configuradas de validación de sus tickets, el ticket no se importará si no provee toda la información",
         },
     ]
 
@@ -40,7 +34,7 @@ export var Instructions = function() {
                     <p className="mb-0">
                         {index + 1}. {data.itemHeader} 
                     </p>
-                    {data.itemText.map((dataText, index) => (
+                    {data?.itemText?.map((dataText, index) => (
                         <div key={index} className="ml-1">
                             <p className="mb-0">
                                 - {dataText}
