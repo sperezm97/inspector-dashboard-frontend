@@ -102,9 +102,7 @@ const Import = function ({ history }) {
     // dispatch(getAllUsersActions())
 
     strapiGetUsers({ valueSearch, valueZone })
-      .then(res => setUsersState(res.data.map(data => {
-        return { value: data.id, label: `${data.firstname} ${data.lastname}` }
-      })))
+      .then(res => setUsersState(res.data.map(data => ({ value: data.id, label: `${data.firstname} ${data.lastname}` }))))
 
   }, [])
 
@@ -178,9 +176,7 @@ const Import = function ({ history }) {
       owner: data.encargado,
     }
 
-    const newDataTable = tableData.map(data => {
-      return { ...data, ...objAddCsv, services: data.services.split('/').map(Number) || "" }
-    })
+    const newDataTable = tableData.map(data => ({ ...data, ...objAddCsv, services: data.services.split('/').map(Number) || "" }))
 
     setLoadingImport(true)
 
