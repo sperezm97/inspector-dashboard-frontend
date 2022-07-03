@@ -8,3 +8,5 @@ export const strapiGetTicketsById = async (id) => await strapiAxios.get(strapiAp
 export const strapiPostTickets = async (data) => await strapiAxios.post(strapiApi.tickets.ticketPost, data)
 
 export const strapiPutStateTicket = async (id, data) => await strapiAxios.put(strapiApi.tickets.ticketId(id), data)
+
+export const strapiImportTickets = async (data) => await strapiAxios.post(strapiApi.tickets.ticketImport, data)

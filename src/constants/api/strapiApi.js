@@ -24,7 +24,7 @@ export const strapiApi = {
     beneficiaryByCedula: (id) => `beneficiaries?filters[cedula][$eq]=${id}`,
   },
   users: {
-    userMe: 'users/me',
+    userMe: 'users/me?populate[institution][fields]=name&populate[institution][fields]=acronym',
     user: ({valueSearch="", valueZone=""}) => `users?filters[cedula][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,
     userPost: 'users',
     userId: (id) => `users/${id}?populate[institution][fields]=name&populate[institution][fields]=acronym`,
@@ -34,6 +34,7 @@ export const strapiApi = {
     ticket: ({valueSearch="", valueZone=""}) => `tickets${ticketPopulate}&filters[title][$containsi]=${valueSearch}&filters[zone_code][$startsWith]=${valueZone}`,
     ticketPost: `tickets`,
     ticketId: (id) => `tickets/${id}${ticketPopulate}${ticketComments}${ticketOwner}`,
+    ticketImport: "tickets/import",
   },
   institutions: {
     institution: ({valueSearch=""}) => `institutions?filters[name][$containsi]=${valueSearch}`,

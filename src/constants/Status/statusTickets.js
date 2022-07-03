@@ -20,7 +20,7 @@ export const statusTicketsObj = {
     label: 'Abierto',
     color: '#5ECB08',
   },
-  pendingReminder: {
+  pending_reminder: {
     idN: 3,
     id: 'pending_reminder',
     value: 'pending_reminder',

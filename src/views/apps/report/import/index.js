@@ -40,9 +40,13 @@ import Url from '../../../../constants/Url'
 import { getOrganizations } from '../../../../services/zammad/organization'
 import { getGroups } from '../../../../services/zammad/group'
 import { postTicketArrTags } from '../../../../services/zammad/ticketTags'
+import { strapiGetUsers } from '../../../../services/strapi/users'
+import { statusTicketsArray } from '../../../../constants/Status/statusTickets'
+import { statusPriorityArray } from '../../../../constants/Status/statusPriority'
+import { strapiImportTickets } from '../../../../services/strapi/tickets'
 
 
-const ErrorToast = function() {
+const ErrorToast = function () {
   return <>
     <div className="toastify-header">
       <div className="title-wrapper">
@@ -59,41 +63,50 @@ const ErrorToast = function() {
   </>
 }
 
-const Import = function({history}) {
+const Import = function ({ history }) {
 
   const dispatch = useDispatch()
 
   const [tableData, setTableData] = useState([])
   console.log(tableData)
+  const [usersState, setUsersState] = useState([])
   // const [filteredData, setFilteredData] = useState([])
   // const [valueI, setValueI] = useState('')
   const [name, setName] = useState('')
   const [loadingImport, setLoadingImport] = useState(false)
 
+  const [valueSearch, setValueSearch] = useState("")
+  const [valueZone, setValueZone] = useState("")
+
   const [ticketPriorities, setTicketPriorities] = useState([])
   const [ticketStates, setTicketStates] = useState([])
 
-  const [ticketsCreated, setTicketsCreated] = useState(0)
-  console.log('ticketsCreated', ticketsCreated)
-  
+  // const [ticketsCreated, setTicketsCreated] = useState(0)
+  // console.log('ticketsCreated', ticketsCreated)
+
   const usersSelector = useSelector((state) => state?.users?.users)
 
-  const defaultValueState = {value: '', label: 'Sin Seleccionar'}
+  const defaultValueState = { value: '', label: 'Sin Seleccionar' }
 
   const { handleSubmit, errors, setValue, control } = useForm({
     resolver: yupResolver(schemaYup),
   })
 
   useEffect(() => {
-  
-    getTicketPriorities()
-      .then(res => setTicketPriorities(res.data))
-    getTicketStates()
-      .then(res => setTicketStates(res.data))
 
-    dispatch(getAllUsersActions())
-  
-    }, [])
+    // getTicketPriorities()
+    //   .then(res => setTicketPriorities(res.data))
+    // getTicketStates()
+    //   .then(res => setTicketStates(res.data))
+
+    // dispatch(getAllUsersActions())
+
+    strapiGetUsers({ valueSearch, valueZone })
+      .then(res => setUsersState(res.data.map(data => {
+        return { value: data.id, label: `${data.firstname} ${data.lastname}` }
+      })))
+
+  }, [])
 
   const uppy = new Uppy({
     restrictions: { maxNumberOfFiles: 1 },
@@ -135,78 +148,97 @@ const Import = function({history}) {
     const newArrCsv = []
 
     tableData.map((dataCsv) => newArrCsv.push(Object.assign(dataCsv, objAddCsv)))
-  
+
     downloadCSV(newArrCsv)
   }
 
   const onSubmit = async (data) => {
 
-    const validateArrCSV = tableData.every(data => 
-      data?.ciudadano_id?.length > 0 && 
-      data?.reporte_zona_id?.length > 0 &&
-      data?.reporte_direccion?.length > 0 &&
-      data?.institucion?.length > 0
+    const validateArrCSV = tableData.every(data =>
+      data?.title?.length > 0 &&
+      data?.address?.length > 0 &&
+      data?.description?.length > 0 &&
+      data?.services?.length > 0 &&
+      data?.beneficiary?.length > 0 &&
+      data?.institution?.length > 0 &&
+      data?.zone_code?.length > 0
     )
 
-    if(!validateArrCSV) {
+    if (!validateArrCSV) {
       return sweetAlert({
         title: 'Aviso',
         text: 'Si desea importar todos los tickets proporciona todos los campos de validación necesarios.',
         type: 'warning'
       })
     }
-    
+
     const objAddCsv = {
-      priority_id: data.prioridad,
-      state_id: data.estado,
-      owner_id: data.encargado,
+      priority: data.prioridad,
+      state: data.estado,
+      owner: data.encargado,
     }
+
+    const newDataTable = tableData.map(data => {
+      return { ...data, ...objAddCsv, services: data.services.split('/').map(Number) || "" }
+    })
 
     setLoadingImport(true)
 
-    let organizationData = []
-    let groupData = []
-    
-    organizationData = await (await getOrganizations()).data
-    groupData = await (await getGroups()).data
-
-    const arrTablaDataFilter = tableData.map(item => item.institucion)
-    const newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
-    console.log('newArrTablaDataFilter', newArrTablaDataFilter)
-    const postAllOG = await Promise.all(
-      newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
-    ).then(res => console.log('res', res))
-    .catch(err => console.log('err', err))
-
-    for(let i = 0; i <= tableData.length - 1; i++){
-      console.log(i)
-      const postAllTicket = await postTicketImport(tableData[i], objAddCsv)
-      if(postAllTicket?.status === 201){
-        console.log("ok")
-        const arrIncidente = tableData[i]?.incidente?.split(',') || ""
-        postTicketArrTags(postAllTicket?.data?.id, arrIncidente)
-        setTicketsCreated(i + 1)
-      }else {
-        console.log("no ok", i + 1)
-        sweetAlert({
-          title: 'Algunos Tickets No creados',
-          text: `Se produjo un error al crear el ticket ${i + 1} del archivo CSV, verifíquelo o inténtelo de nuevo sin los tickets anteriores a este`,
-          type: 'warning'
-        })
-        setTableData([])
-        setTicketsCreated(0)
-        setLoadingImport(false)
-        break
-      }
-      if(i === tableData.length - 1){
+    strapiImportTickets(newDataTable)
+      .then(() => {
         sweetAlert({
           title: 'Tickets Importados',
           text: 'Los Tickets se importaron con éxito.',
           type: 'success'
         })
         history.push(Url.dashboardInbox)
-      }
-    }
+      })
+      .catch(() => sweetAlertError())
+      .finally(() => setLoadingImport(false))
+
+    // let organizationData = []
+    // let groupData = []
+
+    // organizationData = await (await getOrganizations()).data
+    // groupData = await (await getGroups()).data
+
+    // const arrTablaDataFilter = tableData.map(item => item.institucion)
+    // const newArrTablaDataFilter = arrTablaDataFilter.filter((item, index)=> arrTablaDataFilter.indexOf(item) === index)
+    // console.log('newArrTablaDataFilter', newArrTablaDataFilter)
+    // const postAllOG = await Promise.all(
+    // newArrTablaDataFilter.map(async (dataOG) => await postTicketImportOG(dataOG.toUpperCase()))
+    // ).then(res => console.log('res', res))
+    // .catch(err => console.log('err', err))
+
+    // for(let i = 0; i <= tableData.length - 1; i++){
+    //   console.log(i)
+    //   const postAllTicket = await postTicketImport(tableData[i], objAddCsv)
+    //   if(postAllTicket?.status === 201){
+    //     console.log("ok")
+    //     const arrIncidente = tableData[i]?.incidente?.split(',') || ""
+    //     postTicketArrTags(postAllTicket?.data?.id, arrIncidente)
+    //     setTicketsCreated(i + 1)
+    //   }else {
+    //     console.log("no ok", i + 1)
+    //     sweetAlert({
+    //       title: 'Algunos Tickets No creados',
+    //       text: `Se produjo un error al crear el ticket ${i + 1} del archivo CSV, verifíquelo o inténtelo de nuevo sin los tickets anteriores a este`,
+    //       type: 'warning'
+    //     })
+    //     setTableData([])
+    //     setTicketsCreated(0)
+    //     setLoadingImport(false)
+    //     break
+    //   }
+    //   if(i === tableData.length - 1){
+    //     sweetAlert({
+    //       title: 'Tickets Importados',
+    //       text: 'Los Tickets se importaron con éxito.',
+    //       type: 'success'
+    //     })
+    //     history.push(Url.dashboardInbox)
+    //   }
+    // }
   }
 
   return (
@@ -230,44 +262,42 @@ const Import = function({history}) {
                       <Col lg="4" md="6" sm="12">
                         <FormGroup>
                           <Label>Prioridad</Label>
-                            <Controller
-                              control={control}
-                              name="prioridad"
-                              render={({field}) => <Select 
-                                {...field} 
-                                onChange={e => setValue("prioridad", e.value)}
-                                options={optionsNoteValueSelect(ticketPriorities)}
-                                isLoading={!ticketPriorities[0]}
-                                defaultValue={defaultValueState}
-                                classNamePrefix="select"
-                                theme={selectThemeColors}
-                                />}
-                                />
-                            <p className="text-danger">{
-                              errors.prioridad?.message && errors.prioridad?.message
-                            }</p>
+                          <Controller
+                            control={control}
+                            name="prioridad"
+                            render={({ field }) => <Select
+                              {...field}
+                              onChange={e => setValue("prioridad", e.value)}
+                              options={statusPriorityArray}
+                              defaultValue={defaultValueState}
+                              classNamePrefix="select"
+                              theme={selectThemeColors}
+                            />}
+                          />
+                          <p className="text-danger">{
+                            errors.prioridad?.message && errors.prioridad?.message
+                          }</p>
                         </FormGroup>
                       </Col>
 
                       <Col lg="4" md="6" sm="12">
                         <FormGroup>
                           <Label>Estado</Label>
-                            <Controller
-                              control={control}
-                              name="estado"
-                              render={({field}) => <Select 
-                              {...field} 
-                                onChange={e => setValue("estado", e.value)}
-                                options={optionsNoteValueSelect(ticketStates)}
-                                isLoading={!ticketStates[0]}
-                                defaultValue={defaultValueState}
-                                classNamePrefix="select"
-                                theme={selectThemeColors}
-                                />}
-                                />
-                            <p className="text-danger">{
-                              errors.estado?.message && errors.estado?.message
-                            }</p>
+                          <Controller
+                            control={control}
+                            name="estado"
+                            render={({ field }) => <Select
+                              {...field}
+                              onChange={e => setValue("estado", e.value)}
+                              options={statusTicketsArray}
+                              defaultValue={defaultValueState}
+                              classNamePrefix="select"
+                              theme={selectThemeColors}
+                            />}
+                          />
+                          <p className="text-danger">{
+                            errors.estado?.message && errors.estado?.message
+                          }</p>
                         </FormGroup>
                       </Col>
 
@@ -277,19 +307,16 @@ const Import = function({history}) {
                           <Controller
                             control={control}
                             name="encargado"
-                            render={({field}) => <Select 
-                            {...field} 
+                            render={({ field }) => <Select
+                              {...field}
                               onChange={e => setValue('encargado', e.value)}
-                              options={usersSelector.map(data => ({
-                                value: data.id,
-                                label: `${data.firstname} ${data.lastname}`
-                              }))}
-                              isLoading={!usersSelector[0]}
+                              options={usersState}
+                              isLoading={!usersState[0]}
                               defaultValue={defaultValueState}
                               classNamePrefix="select"
                               theme={selectThemeColors}
-                              />}
-                              />
+                            />}
+                          />
                           <p className="text-danger">{
                             errors.encargado?.message && errors.encargado?.message
                           }</p>
@@ -302,10 +329,10 @@ const Import = function({history}) {
                           color="primary"
                           className="mb-1 mb-sm-0 mr-0 mr-sm-1"
                           disabled={loadingImport}
-                          >
+                        >
                           {loadingImport && <Spinner color='white' size='sm' />}
                           <span className={`${loadingImport && 'ml-50'}`}>
-                            {loadingImport ? `Importados: ${ticketsCreated} de ${tableData.length}...` : 'Importar'}
+                            {loadingImport ? "Importando..." : 'Importar'}
                           </span>
                         </Button>
                         <Button

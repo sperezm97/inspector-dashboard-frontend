@@ -39,6 +39,8 @@ import { schemaYup } from './schemaYup'
 import Url from '../../../constants/Url'
 import { getGroups } from '../../../services/zammad/group'
 import ComponentSpinner from '../../../@core/components/spinner/Loading-spinner'
+import { strapiGetUserById, strapiGetUserMe, strapiPutUser } from '../../../services/strapi/users'
+import { strapiGetInstitutions } from '../../../services/strapi/institutions'
 
 const UserCreate = function({history}) {
 
@@ -49,8 +51,9 @@ const UserCreate = function({history}) {
   // const [ infoCedulaState, setInfoCedulaState ] = useState(null)
   const [ infoCedulaState2, setInfoCedulaState2 ] = useState(null)
   const [ dataInfoUser, setDataInfoUser ] = useState([])
-  
-  const [ groupsState, setGroupsState ] = useState([])
+  const [ dataInfoUserId, setDataInfoUserId ] = useState({})
+  const [dataInstitutions, setDataInstitutions] = useState([])
+  const [valueSearch, setValueSearch] = useState("")
 
   const defaultValueState = {value: '', label: 'Sin Seleccionar'}
 
@@ -70,64 +73,80 @@ const UserCreate = function({history}) {
   const [ executeState, setExecuteState ] = useState(true)
 
   useEffect(() => {
-    dispatch(getAllOrganizationsActions())
-    dispatch(getAllRolsActions())
+    // dispatch(getAllOrganizationsActions())
+    // dispatch(getAllRolsActions())
     dispatch(getAllRegionsActions())
 
-    getUserMe()
+    strapiGetUserMe()
       .then((res) => setDataInfoUser(res.data))
       .catch((err) => sweetAlertError())
-      
-    getGroups()
-      .then((res) => setGroupsState(res.data))
-      .catch((err) => console.log(err))
-  }, [])
 
-  const dataTableOrganizations = useSelector(
-    (state) => state?.organizations?.organizations
-  )
-  const rolSelector = useSelector((state) => state?.rols?.rols)
+      strapiGetInstitutions({valueSearch})
+      .then((res) => {
+        const newData = res.data.data.map(data => ({ value: data.id, label: `${data.attributes.acronym} - ${data.attributes.name}` }))
+        setDataInstitutions(newData)
+      })
+
+    // getUserMe()
+      // .then((res) => setDataInfoUser(res.data))
+      // .catch((err) => sweetAlertError())
+      
+    // getGroups()
+    //   .then((res) => setGroupsState(res.data))
+    //   .catch((err) => console.log(err))
+  }, [])
+  console.log(dataInfoUser?.id)
+  useEffect(() => {
+    if(Object.keys(dataInfoUser)[0]){
+      strapiGetUserById(dataInfoUser?.id)
+        .then(res => setDataInfoUserId(res.data))
+    }
+  }, [dataInfoUser])
+
+  // const dataInstitutions = useSelector(
+  //   (state) => state?.organizations?.organizations
+  // )
+  // const rolSelector = useSelector((state) => state?.rols?.rols)
   const regionSelector = useSelector((state) => state?.regions?.regions)
 
   useEffect(() => {
-    if(dataTableOrganizations[0] && Object.keys(dataInfoUser)[0]){
-      filterSelectInstitution(dataInfoUser.organization_id)
+    if(dataInstitutions[0] && Object.keys(dataInfoUser)[0] && Object.keys(dataInfoUserId)[0]){
+      console.log("dataInfoUserId", dataInfoUserId)
+      filterSelectInstitution(dataInfoUserId?.institution?.id)
     }
     if(Object.keys(dataInfoUser)[0]){
       const newRols = [...new Set(dataInfoUser?.role_ids)]
       const newRolsNames = [...new Set(dataInfoUser?.roles)]
       setValue('permisos', newRols.map((data) => data))
       setValue('phone', dataInfoUser?.phone)
-      setValue('region', dataInfoUser?.zone?.substr(0, 2))
-      setValue('provincia', dataInfoUser?.zone?.substr(2, 2))
-      setValue('municipio', dataInfoUser?.zone?.substr(4, 2))
-      setValue('distrito', dataInfoUser?.zone?.substr(6, 2))
+      setValue('region', dataInfoUser?.zone_code?.substr(0, 2))
+      setValue('provincia', dataInfoUser?.zone_code?.substr(2, 2))
+      setValue('municipio', dataInfoUser?.zone_code?.substr(4, 2))
+      setValue('distrito', dataInfoUser?.zone_code?.substr(6, 2))
       filterSelectsTerritories()
       setInfoCedulaState2(`${dataInfoUser?.firstname} ${dataInfoUser?.lastname}`)
       setPermisosValueState(newRolsNames.map((data, index) => ({value: dataInfoUser.role_ids[index], label: data})))
     }
-  }, [dataTableOrganizations, dataInfoUser])
-
-  console.log(dataInfoUser?.zone?.length)
+  }, [dataInstitutions, dataInfoUser, dataInfoUserId])
 
   useEffect(() => {
-    if(regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone?.length >= 2){
-      const regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone.substr(0, 2))
+    if(regionSelector[0] && Object.keys(dataInfoUser)[0] && executeState && dataInfoUser?.zone_code?.length >= 2){
+      const regionValue = regionSelector.find(data => data.code === dataInfoUser?.zone_code.substr(0, 2))
       setRegionValueState({value: regionValue?.code, label: regionValue?.name})      
     }
 
-    if(provinceState[0] && executeState && dataInfoUser?.zone?.length >= 4){
-      const provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone.substr(2, 2))
+    if(provinceState[0] && executeState && dataInfoUser?.zone_code?.length >= 4){
+      const provinceValue = provinceState.find(data => data.code === dataInfoUser?.zone_code.substr(2, 2))
       setProvinceValueState({value: provinceValue?.code, label: provinceValue?.name})
     }
 
-    if(municipalityState[0] && executeState && dataInfoUser?.zone?.length >= 6){
-      const municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone.substr(4, 2))
+    if(municipalityState[0] && executeState && dataInfoUser?.zone_code?.length >= 6){
+      const municipalityValue = municipalityState.find(data => data.code === dataInfoUser?.zone_code.substr(4, 2))
       setMunicipalityValueState({value: municipalityValue?.code, label: municipalityValue?.name})      
     }
 
-    if(districtState[0] && executeState && dataInfoUser?.zone?.length >= 8){
-      const districtValue = districtState.find(data => data.code === dataInfoUser?.zone.substr(6, 2))
+    if(districtState[0] && executeState && dataInfoUser?.zone_code?.length >= 8){
+      const districtValue = districtState.find(data => data.code === dataInfoUser?.zone_code.substr(6, 2))
       setDistrictValueState({value: districtValue?.code, label: districtValue?.name})      
     }
 
@@ -138,15 +157,15 @@ const UserCreate = function({history}) {
   },[dataInfoUser, regionSelector, provinceState, municipalityState, districtState])
 
   const filterSelectsTerritories = () => {
-    getProvinceByIdRegion(dataInfoUser?.zone?.substr(0, 2))
+    getProvinceByIdRegion(dataInfoUser?.zone_code?.substr(0, 2))
       .then(res => {
-        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone?.substr(0, 2)))
-        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2))
+        setProvinceState(res.data.data.filter(data => data.regionCode === dataInfoUser?.zone_code?.substr(0, 2)))
+        getMunicipalityByIdRegionByIdProvince(dataInfoUser?.zone_code?.substr(0, 2), dataInfoUser?.zone_code?.substr(2, 2))
           .then(res => {
-            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone?.substr(2, 2)))
-            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone?.substr(0, 2), dataInfoUser?.zone?.substr(2, 2), dataInfoUser?.zone?.substr(4, 2))
+            setMunicipalityState(res.data.data.filter(data => data.provinceCode === dataInfoUser?.zone_code?.substr(2, 2)))
+            getDistrictByIdProvinceByIdMunicipality(dataInfoUser?.zone_code?.substr(0, 2), dataInfoUser?.zone_code?.substr(2, 2), dataInfoUser?.zone_code?.substr(4, 2))
               .then(res => {
-                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone?.substr(4, 2)))
+                setDistrictState(res.data.data.filter(data => data.municipalityCode === dataInfoUser?.zone_code?.substr(4, 2)))
               })
           })
       })
@@ -154,15 +173,15 @@ const UserCreate = function({history}) {
 
   const filterSelectInstitution = (id) => {
     if(!id) return
-    const optionFiltered = dataTableOrganizations.find(option => option.id === id)
-    setInstitutionValueState({value: optionFiltered.id, label: `${optionFiltered.name}`})
+    const optionFiltered = dataInstitutions.find(option => option.value === id)
+    console.log("optionFiltered", optionFiltered)
+    setInstitutionValueState({value: optionFiltered.value, label: `${optionFiltered.label}`})
     setValue('institucion', id)
   }
   
   const { register, handleSubmit, errors, control, setError, setValue, getValues } = useForm({
     resolver: yupResolver(schemaYup),
   })
-  console.log(getValues())
 
   // const handleDataCedula = ({target}) => {
   //   setInfoCedulaState(null)
@@ -231,48 +250,62 @@ const UserCreate = function({history}) {
 
   const onSubmit = async (data) => {
 
-    if(!permisosValueState[0]){
-      return sweetAlert({
-        title: 'Aviso',
-        text: 'Debes seleccionar al menos 1 Permiso',
-        type: 'warning'
-      })
-    }
+    // if(!permisosValueState[0]){
+    //   return sweetAlert({
+    //     title: 'Aviso',
+    //     text: 'Debes seleccionar al menos 1 Permiso',
+    //     type: 'warning'
+    //   })
+    // }
 
-    let objZammad = {
-      id: dataInfoUser.id,
+    let obj = {
       email: data.email,
-      login: data.email,
+      username: data.email,
       phone: data.phone,
-      organization: parseInt(data.institucion),
-      role_ids: permisosValueState.map((data) => data.value),
-      zone: data.region + data.provincia + data.municipio + data.distrito,
-      group_ids: addAllGroupsToUser(groupsState)
+      // organization: parseInt(data.institucion),
+      // role_ids: permisosValueState.map((data) => data.value),
+      zone_code: data.region + data.provincia + data.municipio + data.distrito,
+      // group_ids: addAllGroupsToUser(groupsState)
     }
 
     if(data.cPassword){
-      objZammad = {...objZammad, password: data.cPassword}
+      obj = {...obj, password: data.cPassword}
     }
 
-    console.log('objZammad', objZammad)
-    
+    console.log('obj', obj)
+
     setLoadingCreate(true)
-    putUser(objZammad)
-      .then((res) => {
-        sweetAlertGood()
-        getUserMe()
-          .then((res) => setDataInfoUser(res.data))
-          .catch((err) => sweetAlertError())
-        console.log(res)
+
+    strapiPutUser(dataInfoUser.id, obj)
+    .then((res) => {
+      console.log(res)
+      sweetAlertGood()
+    })
+    .catch(() => {
+      sweetAlert({
+        title: 'Error!',
+        text: 'Ocurrió un error al editar el usuario.',
+        type: 'error'
       })
-      .catch(() => {
-        sweetAlert({
-          title: 'Error!',
-          text: 'Ocurrió un error al editar el usuario.',
-          type: 'error'
-        })
-      })
-      .finally(() => setLoadingCreate(false))
+    })
+    .finally(() => setLoadingCreate(false))
+
+    // putUser(objZammad)
+    //   .then((res) => {
+    //     sweetAlertGood()
+    //     getUserMe()
+    //       .then((res) => setDataInfoUser(res.data))
+    //       .catch((err) => sweetAlertError())
+    //     console.log(res)
+    //   })
+    //   .catch(() => {
+    //     sweetAlert({
+    //       title: 'Error!',
+    //       text: 'Ocurrió un error al editar el usuario.',
+    //       type: 'error'
+    //     })
+    //   })
+    //   .finally(() => setLoadingCreate(false))
   }
 
   return Object.keys(dataInfoUser)[0] ? (
@@ -364,8 +397,9 @@ const UserCreate = function({history}) {
               render={({field}) => <Select 
                 {...field} 
                 onChange={e => filterSelectInstitution(e.value)}
-                options={optionsZammadIdValueSelect(dataTableOrganizations)}
-                isLoading={!dataTableOrganizations[0]}
+                options={dataInstitutions}
+                isDisabled={true}
+                isLoading={!dataInstitutions[0]}
                 value={institutionValueState}
                 classNamePrefix="select"
                 theme={selectThemeColors}
@@ -377,7 +411,7 @@ const UserCreate = function({history}) {
           </FormGroup>
         </Col>
 
-        <Col lg="4" md="6" sm="12">
+        {/* <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Permisos</Label>
             <Controller
@@ -405,7 +439,7 @@ const UserCreate = function({history}) {
               errors.permisos?.message && errors.permisos?.message
             }</p>
           </FormGroup>
-        </Col>
+        </Col> */}
 
         <Col sm="12">
           <h4 className="mb-1 mt-2">

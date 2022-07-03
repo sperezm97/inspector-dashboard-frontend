@@ -56,15 +56,15 @@ const AnalyticsDashboard = function () {
 
   useEffect(() => {
 
-    strapiGetTicketsTotal().then(res => setTotalTickets(res.data.data.length))
-    strapiGetTicketsOpen().then(res => setOpenTickets(res.data.data.length))
-    strapiGetTicketsEnd().then(res => setEndTickets(res.data.data.length))
-    strapiGetTicketsNotClose().then(res => setNotCloseTickets(res.data.data.length))
-    strapiGetTicketsPriorityLow().then(res => setPriorityLowTickets(res.data.data.length))
-    strapiGetTicketsPriorityNormal().then(res => setPriorityNormalTickets(res.data.data.length))
-    strapiGetTicketsPriorityHigh().then(res => setpriorityHighTickets(res.data.data.length))
-    strapiGetInstitutionWithTickets().then(res => setInstitutionWithTickets(res.data.data))
-    strapiGetUsersActive().then(res => setUsersActive(res.data.length))
+    strapiGetTicketsTotal().then(res => setTotalTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsOpen().then(res => setOpenTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsEnd().then(res => setEndTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsNotClose().then(res => setNotCloseTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsPriorityLow().then(res => setPriorityLowTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsPriorityNormal().then(res => setPriorityNormalTickets(res?.data?.meta?.pagination?.total))
+    strapiGetTicketsPriorityHigh().then(res => setpriorityHighTickets(res?.data?.meta?.pagination?.total))
+    strapiGetInstitutionWithTickets().then(res => setInstitutionWithTickets(res?.data?.data))
+    strapiGetUsersActive().then(res => setUsersActive(res?.data?.length))
 
   }, [])
 
