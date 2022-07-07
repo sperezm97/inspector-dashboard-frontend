@@ -185,8 +185,7 @@ const Import = function ({ history }) {
       owner: data.encargado,
     }
 
-    const newDataTable = tableData.map(data => {
-      return { 
+    const newDataTable = tableData.map(data => ({ 
         ...objAddCsv, 
         title: data.titulo,
         address: data.direccion,        
@@ -195,8 +194,7 @@ const Import = function ({ history }) {
         beneficiary: data.beneficiario,        
         institution: data.institucion,        
         zone_code: data.reporte_zona_id,        
-      }
-    })
+      }))
 
     setLoadingImport(true)
 
