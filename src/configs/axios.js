@@ -18,7 +18,7 @@ export const incidentsAxios = axios.create({
 })
 
 export const strapiAxios = axios.create({
-  baseURL: `${process.env.REACT_APP_API_STRAPI}/api/`
+  baseURL: process.env.REACT_APP_API_STRAPI,
 })
 
 strapiAxios.interceptors.request.use((config) => {
