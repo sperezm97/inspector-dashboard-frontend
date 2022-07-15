@@ -5,6 +5,7 @@ import { ChevronDown } from 'react-feather'
 import DataTable from 'react-data-table-component'
 import { Label, Input, Row, Col, Card, CardHeader, CardTitle } from 'reactstrap'
 
+import ReactPaginate from 'react-paginate'
 import { ExportButtons } from '../../../../@core/components/export-buttons'
 import { ButtonRipple } from '../../../../@core/components/button'
 import Url from '../../../../constants/Url'
@@ -12,7 +13,6 @@ import Url from '../../../../constants/Url'
 // ** Styles
 import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import ReactPaginate from 'react-paginate'
 
 const CustomHeader = function({
   // handleFilter,
@@ -192,7 +192,7 @@ const DataTableList = function({
             // sortIcon={<ChevronDown />}
             className="react-dataTable"
             // defaultSortField="invoiceId"
-            paginationServer={dataTable?.data ? true : false}
+            paginationServer={!!dataTable?.data}
             paginationComponentOptions={paginationComponentOptions}
             paginationRowsPerPageOptions={[10]}
             paginationPerPage={10}

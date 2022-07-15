@@ -227,8 +227,7 @@ const CardChat = function({
                         </Button.Ripple >
                         <UncontrolledCollapse toggler={`toggler${chat.id}`}>
                           <div className="mt-1 bg-white px-1 rounded">
-                            {chat.attachments.map((att) => {
-                            return (
+                            {chat.attachments.map((att) => (
                               <div 
                                 key={att.id}
                                 className="py-1"
@@ -243,7 +242,7 @@ const CardChat = function({
                                   {att?.attributes?.name}
                                 </h6>
                                 <Modal
-                                  isOpen={modal === att.id ? true : false}
+                                  isOpen={modal === att.id}
                                   toggle={() => toggleModal(att.id, chat.id)}
                                   className="modal-dialog-centered modal-lg"
                                 >
@@ -279,7 +278,7 @@ const CardChat = function({
                                   </ModalBody>
                                 </Modal>
                               </div>
-                            )})}
+                            ))}
                           </div>
                         </UncontrolledCollapse>
                       </>
