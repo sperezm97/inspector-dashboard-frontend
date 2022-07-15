@@ -9,5 +9,5 @@ const App = function() {
     </AuthProvider>
   )
 }
-
+ 
 export default App
