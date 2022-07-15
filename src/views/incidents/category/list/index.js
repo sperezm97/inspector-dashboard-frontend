@@ -16,17 +16,18 @@ const categoria = () => {
   const [categoriesState, setCategoriesState] = useState([])
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
+  const [ pageNumber, setPageNumber ] = useState(1)
 
   useEffect(() => {
     // dispatch(getAllCategoriesActions())
-    strapiGetCategories({valueSearch})
-      .then(res => setCategoriesState(res.data.data))
+    strapiGetCategories({valueSearch, pageNumber})
+      .then(res => setCategoriesState(res.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
       })
       .finally(() => setLoadingCategories(false))
-  }, [valueSearch])
+  }, [valueSearch, pageNumber])
 
   // const categoriesState = useSelector(
   //   (state) => state?.categories?.categories,
@@ -36,6 +37,7 @@ const categoria = () => {
     <DataTableList
       columnsTable={columns}
       setValueSearch={setValueSearch}
+      setPageNumber={setPageNumber}
       dataTable={categoriesState}
       dataTableTitle="Categorías"
       showButton

@@ -45,9 +45,9 @@ const institutionCreate = ({ history }) => {
   useEffect(() => {
     dispatch(getAllServicesActions())
     // dispatch(getAllUsersActions())
-    strapiGetUsers({valueSearch})
-    .then(res => setUserState(res.data))
-    .catch(() => sweetAlertError())
+    // strapiGetUsers({valueSearch})
+    // .then(res => setUserState(res.data))
+    // .catch(() => sweetAlertError())
 
     strapiGetServices({valueSearch})
     .then(res => setServiceState(res.data))
@@ -215,7 +215,7 @@ const institutionCreate = ({ history }) => {
           }
         />
 
-        <Col lg="4" md="6" sm="12">
+        {/* <Col lg="4" md="6" sm="12">
           <FormGroup>
             <Label>Encargado<RequiredInput /></Label>
             <Controller
@@ -254,7 +254,7 @@ const institutionCreate = ({ history }) => {
               </Button.Ripple>
             </div>
           </FormGroup>
-        </Col>
+        </Col> */}
 
       </FormApp>
     </CardGrid>

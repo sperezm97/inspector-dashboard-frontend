@@ -14,7 +14,7 @@ import {
 
 import { downloadCSV } from '../../../utility/Utils'
 
-export const ExportButtons = ({newDataTable}) => {
+export const ExportButtons = ({dataTable}) => {
 
     return (
         <UncontrolledButtonDropdown>
@@ -29,7 +29,7 @@ export const ExportButtons = ({newDataTable}) => {
                 </DropdownItem> */}
                 <DropdownItem
                     className="w-100"
-                    onClick={() => downloadCSV(newDataTable)}
+                    onClick={() => downloadCSV(dataTable)}
                 >
                     <FileText size={15} />
                     <span className="align-middle ml-50">CSV</span>

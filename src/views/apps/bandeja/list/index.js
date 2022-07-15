@@ -35,10 +35,11 @@ const Bandeja = function() {
   const [loadingTicket, setLoadingTicket] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
   const [valueZone, setValueZone] = useState("")
+  const [ pageNumber, setPageNumber ] = useState(1)
   console.log(valueZone)
 
   useEffect(() => {
-    strapiGetTickets({valueSearch, valueZone})
+    strapiGetTickets({valueSearch, valueZone, pageNumber})
       .then(res => setDataTableTickets(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setLoadingTicket(false))
@@ -55,7 +56,7 @@ const Bandeja = function() {
     //     sweetAlertError()
     //   })
     //   .finally(() => setLoadingTicket(false))
-  }, [valueSearch, valueZone])
+  }, [valueSearch, valueZone, pageNumber])
   
   useEffect(() => {
     dispatch(getAllRegionsActions())
@@ -196,7 +197,8 @@ const Bandeja = function() {
         <DataTableList
           columnsTable={columns}
           setValueSearch={setValueSearch}
-          dataTable={dataTableTickets.data}
+          setPageNumber={setPageNumber}
+          dataTable={dataTableTickets}
           showButtonAddReport
           loadingTable={loadingTicket}
         />

@@ -17,6 +17,6 @@ export const schemaYup = yup.object().shape({
     .email('El Correo Electrónico no es válido'),
   website: yup.string().trim()
     .required('El Sitio Web es obligatorio'),
-  encargado: yup.number()
-    .required('El Encargado es obligatorio'),
+  // encargado: yup.number()
+  //   .required('El Encargado es obligatorio'),
 })

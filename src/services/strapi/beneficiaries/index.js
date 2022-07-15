@@ -1,7 +1,7 @@
 import { strapiAxios } from '../../../configs/axios'
 import { strapiApi } from '../../../constants/api/strapiApi'
 
-export const strapiGetBeneficiaries = async ({valueSearch}) => await strapiAxios.get(strapiApi.beneficiaries.beneficiary({valueSearch}))
+export const strapiGetBeneficiaries = async ({valueSearch, pageNumber}) => await strapiAxios.get(strapiApi.beneficiaries.beneficiary({valueSearch, pageNumber}))
 
 export const strapiPostBeneficiary = async (data) => await strapiAxios.post(strapiApi.beneficiaries.beneficiaryPost, data)
 

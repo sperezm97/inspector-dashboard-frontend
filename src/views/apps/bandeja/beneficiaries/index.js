@@ -38,7 +38,7 @@ const UsersList = function() {
   console.log(userState)
   const [ userLoading, setUserLoading ] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
-
+  const [ pageNumber, setPageNumber ] = useState(1)
 
   useEffect(() => {
     // dispatch(getAllUsersActions())
@@ -54,12 +54,12 @@ const UsersList = function() {
     // dispatch(getAllProvincesActions())
     // dispatch(getAllMunicipalitiesActions())
 
-    strapiGetBeneficiaries({valueSearch})
+    strapiGetBeneficiaries({valueSearch, pageNumber})
       .then(res => setUserState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setUserLoading(false))
 
-  }, [dispatch, valueSearch])
+  }, [dispatch, valueSearch, pageNumber])
 
   // const userState = useSelector((state) => state?.users?.users)
 
@@ -195,7 +195,8 @@ const UsersList = function() {
       <DataTableList
         columnsTable={columns}
         setValueSearch={setValueSearch}
-        dataTable={userState.data}
+        setPageNumber={setPageNumber}
+        dataTable={userState}
         loadingTable={userLoading}
       />
     </>

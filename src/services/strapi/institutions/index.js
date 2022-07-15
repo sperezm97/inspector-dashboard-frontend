@@ -1,7 +1,7 @@
 import { strapiAxios } from '../../../configs/axios'
 import { strapiApi } from '../../../constants/api/strapiApi'
 
-export const strapiGetInstitutions = async ({valueSearch}) => await strapiAxios.get(strapiApi.institutions.institution({valueSearch}))
+export const strapiGetInstitutions = async ({valueSearch, pageNumber}) => await strapiAxios.get(strapiApi.institutions.institution({valueSearch, pageNumber}))
 
 export const strapiGetInstitutionById = async (id) => await strapiAxios.get(strapiApi.institutions.institutionId(id))
 

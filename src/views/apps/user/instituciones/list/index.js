@@ -20,6 +20,7 @@ const Instituciones = function () {
   console.log(organizationState)
   const [loadingOrganization, setLoadingOrganization] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
+  const [ pageNumber, setPageNumber ] = useState(1)
 
   useEffect(() => {
     // dispatch(getAllOrganizationsActions())
@@ -31,12 +32,12 @@ const Instituciones = function () {
     //   })
     //   .finally(() => setLoadingOrganization(false))
 
-    strapiGetInstitutions({valueSearch})
+    strapiGetInstitutions({valueSearch, pageNumber})
       .then(res => setOrganizationState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setLoadingOrganization(false))
 
-  }, [valueSearch])
+  }, [valueSearch, pageNumber])
 
   // const organizationState = useSelector(
   //   (state) => state?.organizations?.organizations,
@@ -53,7 +54,8 @@ const Instituciones = function () {
     <DataTableList
       columnsTable={columns}
       setValueSearch={setValueSearch}
-      dataTable={organizationState.data}
+      setPageNumber={setPageNumber}
+      dataTable={organizationState}
       dataTableTitle="Instituciones"
       showButtonAddInstitution
       loadingTable={loadingOrganization}

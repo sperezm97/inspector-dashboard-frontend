@@ -40,6 +40,8 @@ const UsersList = function() {
   const [ userLoading, setUserLoading ] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
   const [valueZone, setValueZone] = useState("")
+  const [ pageNumber, setPageNumber ] = useState(1)
+
   console.log(valueZone)
 
   useEffect(() => {
@@ -53,12 +55,12 @@ const UsersList = function() {
     // dispatch(getAllRolsActions())
     // dispatch(getAllProvincesActions())
 
-    strapiGetUsers({valueSearch, valueZone})
+    strapiGetUsers({valueSearch, valueZone, pageNumber})
       .then(res => setUserState(res.data))
       .catch(() => sweetAlertError())
       .finally(() => setUserLoading(false))
 
-  }, [valueSearch, valueZone])
+  }, [valueSearch, valueZone, pageNumber])
 
   useEffect(() => {
     dispatch(getAllRegionsActions())
@@ -221,6 +223,7 @@ const UsersList = function() {
       <DataTableList
         columnsTable={columns}
         setValueSearch={setValueSearch}
+        setPageNumber={setPageNumber}
         dataTable={userState}
         showButtonAddUser
         loadingTable={userLoading}

@@ -98,29 +98,31 @@ const CardChat = function({
   const [chatRef, setChatRef] = useState(null)
   const [chatData, setChatData] = useState(data)
 
-  const [modal, setModal] = useState(false)
-  console.log("dataTicket", dataTicket)
+  const [modal, setModal] = useState(null)
+  console.log("modal", modal)
 
-  const [dataImage, setDataImage] = useState(null)
-  const [dataImageBase, setDataImageBase] = useState(null)
+  // const [dataImage, setDataImage] = useState(null)
+  // const [dataImageBase, setDataImageBase] = useState(null)
 
-  useEffect(() => {
-    if(dataImage?.status === 200){
-      setDataImageBase(Buffer.from(dataImage?.data, 'binary').toString('base64'))
-    }
-  }, [dataImage])
+  // useEffect(() => {
+  //   if(dataImage?.status === 200){
+  //     setDataImageBase(Buffer.from(dataImage?.data, 'binary').toString('base64'))
+  //   }
+  // }, [dataImage])
 
-  const toggleModal = () => {
+  const toggleModal = (id) => {
+    // console.log("modal 1", ok1)
+    // console.log("modal 2", ok2)
     // console.log(idArticleTicket)
-    // if (modal !== id) {
-    //   setModal(id)
-    //   setDataImage(null)
-    //   getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
-    //     .then(res => setDataImage(res))
-    // } else {
-    //   setModal(null)
-    // }
-      setModal(!modal)
+    if (id) {
+      setModal(id)
+      // setDataImage(null)
+      // getTicketArticleAttachment(dataTicketId, idArticleTicket, id)
+      //   .then(res => setDataImage(res))
+    } else {
+      setModal(null)
+    }
+      // setModal(!modal)
 
   }
 
@@ -132,7 +134,7 @@ const CardChat = function({
     }
 
     const formattedChatLog = []
-    let chatMessageSenderId = dataTicket?.attributes?.comments?.data[0] ? dataUserMe.id : undefined
+    let chatMessageSenderId = dataTicket?.attributes?.comments?.data[0] ? dataUserMe?.id : undefined
     let msgGroup = {
       senderId: chatMessageSenderId,
       messages: [],
@@ -173,7 +175,7 @@ const CardChat = function({
         <div
           key={index}
           className={classnames('chat', {
-            'chat-left ': item.senderId !== dataUserMe.id,
+            'chat-left ': item.senderId !== dataUserMe?.id,
           })}
         >
           {/* <div className="chat-avatar header-profile-sidebar adove">
@@ -197,12 +199,12 @@ const CardChat = function({
 
           <div
             className={classnames('chat-body', {
-              'chat-body below': item.senderId !== dataUserMe.id,
+              'chat-body below': item.senderId !== dataUserMe?.id,
             })}
           >
             {item.messages.map((chat) => (
               <div key={chat.msg} className="row d-flex">
-                {item.senderId !== dataUserMe.id &&
+                {item.senderId !== dataUserMe?.id &&
                   <div className="col-12" style={{marginBottom: '5px'}}>
                     <span className="font-weight-bolder align-text-top">
                       {chat.from}
@@ -219,15 +221,13 @@ const CardChat = function({
                           // className='round'
                           color="primary" 
                           id={`toggler${chat.id}`} 
-                          outline={item.senderId !== dataUserMe.id}
+                          outline={item.senderId !== dataUserMe?.id}
                         >
                           Mostrar adjuntos
                         </Button.Ripple >
                         <UncontrolledCollapse toggler={`toggler${chat.id}`}>
                           <div className="mt-1 bg-white px-1 rounded">
                             {chat.attachments.map((att) => {
-                              console.log("att", att)
-                              console.log("process", process.env.REACT_APP_API_STRAPI)
                             return (
                               <div 
                                 key={att.id}
@@ -243,11 +243,11 @@ const CardChat = function({
                                   {att?.attributes?.name}
                                 </h6>
                                 <Modal
-                                  isOpen={modal}
-                                  toggle={() => toggleModal()}
+                                  isOpen={modal === att.id ? true : false}
+                                  toggle={() => toggleModal(att.id, chat.id)}
                                   className="modal-dialog-centered modal-lg"
                                 >
-                                  <ModalHeader toggle={() => toggleModal(att.id, chat.id)}>
+                                  <ModalHeader toggle={() => toggleModal()}>
                                     {att?.attributes?.name}
                                   </ModalHeader>
                                   <ModalBody>
@@ -261,7 +261,7 @@ const CardChat = function({
                                             width="100%"
                                             controls
                                           >
-                                            <source src={`${process.env.REACT_APP_API_STRAPI}${att?.attributes?.url}`} type="video/mp4"/>
+                                            <source src={att?.attributes?.url} type="video/mp4"/>
                                           </video>
                                         </div>
                                         :
@@ -270,7 +270,7 @@ const CardChat = function({
                                               key={index}
                                               className="rounded" 
                                               width="100%"
-                                              src={`${process.env.REACT_APP_API_STRAPI}${att?.attributes?.url}`}
+                                              src={att?.attributes?.url}
                                               alt="Adjunto de prueba" 
                                             />
                                           </div>
@@ -287,7 +287,7 @@ const CardChat = function({
                     <div className='mt-1'>
                       <p
                         className={classnames('text-muted', {
-                          'position-left': item.senderId !== dataUserMe.id,
+                          'position-left': item.senderId !== dataUserMe?.id,
                         })}
                         >
                         {chat.time}
@@ -328,7 +328,7 @@ const CardChat = function({
         data: {
           message: msg,
           ticket: dataTicket.id,
-          owner: dataUserMe.id,
+          owner: dataUserMe?.id,
           // attachments: [
           //   string or id,
           //   string or id

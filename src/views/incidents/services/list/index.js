@@ -17,18 +17,19 @@ const servicios = () => {
   console.log(servicesState)
   const [loadingServices, setLoadingServices] = useState(true)
   const [valueSearch, setValueSearch] = useState("")
+  const [ pageNumber, setPageNumber ] = useState(1)
 
   useEffect(() => {
     // dispatch(getAllServicesActions())
 
-    strapiGetServices({valueSearch})
-      .then(res => setServicesState(res.data.data))
+    strapiGetServices({valueSearch, pageNumber})
+      .then(res => setServicesState(res.data))
       .catch(err => {
         console.log(err)
         sweetAlertError()
       })
       .finally(() => setLoadingServices(false))
-  }, [valueSearch])
+  }, [valueSearch, pageNumber])
 
   // const servicesState = useSelector((state) => state?.services?.services)
 
@@ -41,6 +42,7 @@ const servicios = () => {
     <DataTableList
       columnsTable={columns}
       setValueSearch={setValueSearch}
+      setPageNumber={setPageNumber}
       dataTable={servicesState}
       dataTableTitle="Servicios"
       showButton

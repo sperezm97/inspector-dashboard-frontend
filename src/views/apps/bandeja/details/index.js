@@ -125,20 +125,20 @@ const InvoicePreview = function () {
       .then(res => setDataUserMe(res.data))
       .catch(err => console.log(err.response))
 
-    getTicketsTags(id)
-      .then(res => setDataTicketTags(res.data))
-      .catch(err => console.log(err.response))
+    // getTicketsTags(id)
+    //   .then(res => setDataTicketTags(res.data))
+    //   .catch(err => console.log(err.response))
   }, [])
 
   useEffect(() => {
     if (dataTicket && executeGet) {
-      getUserById(dataTicket.owner_id)
-        .then(res => setDataUserOwner(res.data))
-        .catch(err => console.log(err.response))
+      // getUserById(dataTicket.owner_id)
+      //   .then(res => setDataUserOwner(res.data))
+      //   .catch(err => console.log(err.response))
 
-      getUserById(dataTicket.customer_id)
-        .then(res => setDataUserCustomer(res.data))
-        .catch(err => console.log(err.response))
+      // getUserById(dataTicket.customer_id)
+      //   .then(res => setDataUserCustomer(res.data))
+      //   .catch(err => console.log(err.response))
 
       const zones = destructZone(dataTicket?.attributes?.zone_code)
       console.log("zones", zones)

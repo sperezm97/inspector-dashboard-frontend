@@ -1,7 +1,7 @@
 import { strapiAxios } from '../../../configs/axios'
 import { strapiApi } from '../../../constants/api/strapiApi'
 
-export const strapiGetTickets = async ({valueSearch, valueZone}) => await strapiAxios.get(strapiApi.tickets.ticket({valueSearch, valueZone}))
+export const strapiGetTickets = async ({valueSearch, valueZone, pageNumber}) => await strapiAxios.get(strapiApi.tickets.ticket({valueSearch, valueZone, pageNumber}))
 
 export const strapiGetTicketsById = async (id) => await strapiAxios.get(strapiApi.tickets.ticketId(id))
 

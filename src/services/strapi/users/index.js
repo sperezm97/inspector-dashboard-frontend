@@ -3,7 +3,7 @@ import { strapiApi } from '../../../constants/api/strapiApi'
 
 export const strapiGetUserMe = async () => await strapiAxios.get(strapiApi.users.userMe)
 
-export const strapiGetUsers = async ({valueSearch, valueZone}) => await strapiAxios.get(strapiApi.users.user({valueSearch, valueZone}))
+export const strapiGetUsers = async ({valueSearch, valueZone, pageNumber}) => await strapiAxios.get(strapiApi.users.user({valueSearch, valueZone, pageNumber}))
 
 export const strapiGetUserById = async (id) => await strapiAxios.get(strapiApi.users.userId(id))
 

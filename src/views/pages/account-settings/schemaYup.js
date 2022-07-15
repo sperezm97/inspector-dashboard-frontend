@@ -12,7 +12,7 @@ export const schemaYup = yup.object().shape({
   phone: yup.string()
     .required('El Teléfono es obligatorio')
     .length(10, 'Debe tener exactamente 10 dígitos'),
-  institucion: yup.string().required('La Institución es obligatoria'),
+  // institucion: yup.string().required('La Institución es obligatoria'),
   // permisos: yup.array()
   //   .min(1, 'Debes seleccionar al menos 1 Permiso')
   //   .required('El Permiso es obligatorio'),

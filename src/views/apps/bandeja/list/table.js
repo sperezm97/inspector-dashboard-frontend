@@ -12,6 +12,7 @@ import Url from '../../../../constants/Url'
 // ** Styles
 import '@styles/react/apps/app-invoice.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import ReactPaginate from 'react-paginate'
 
 const CustomHeader = function({
   // handleFilter,
@@ -31,14 +32,14 @@ const CustomHeader = function({
     <div className="invoice-list-table-header w-100 py-2">
       <Row>
         <Col lg="6" className="d-flex align-items-center px-0 px-lg-1">
-          <Row>
+          {/* <Row>
             <Col sm="12" md="6">
               <ExportButtons dataTable={dataTable} />
             </Col>
             <Col sm="12" md="6">
-              {/* import button */}
+              import button
             </Col>
-          </Row>
+          </Row> */}
         </Col>
         <Col
           lg="6"
@@ -90,6 +91,7 @@ const DataTableList = function({
   columnsTable,
   dataTable,
   setValueSearch,
+  setPageNumber,
   // searchTable,
   showButtonAddUser = false,
   showButtonAddInstitution = false,
@@ -100,6 +102,41 @@ const DataTableList = function({
   dataTableTitle = '',
   loadingTable=true
 }) {
+
+  console.log("dataTable", dataTable)
+
+  const [currentPage, setCurrentPage] = useState(0)
+  console.log(currentPage)
+  
+  const handlePagination = (page) => {
+    setCurrentPage(page.selected)
+  }
+
+  // const CustomPagination = function() {
+  //   return <ReactPaginate
+  //       previousLabel=""
+  //       nextLabel=""
+  //       forcePage={currentPage}
+  //       onPageChange={(page) => handlePagination(page)}
+  //       pageCount={dataTable?.meta?.pagination?.pageCount}
+  //       breakLabel="..."
+  //       pageRangeDisplayed={2}
+  //       marginPagesDisplayed={2}
+  //       activeClassName="active"
+  //       pageClassName="page-item"
+  //       breakClassName="page-item"
+  //       breakLinkClassName="page-link"
+  //       nextLinkClassName="page-link"
+  //       nextClassName="page-item next"
+  //       previousClassName="page-item prev"
+  //       previousLinkClassName="page-link"
+  //       pageLinkClassName="page-link"
+  //       breakClassName="page-item"
+  //       breakLinkClassName="page-link"
+  //       containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pr-1 mt-1"
+  //     />
+  // }
+
   // const [newDataTable, setNewDataTable] = useState([])
   // const [value, setValue] = useState('')
 
@@ -125,6 +162,18 @@ const DataTableList = function({
     // selectAllRowsItemText: 'Todos',
   }
 
+  const handlePerRowsChange = (newPerPage, page) => {
+    console.log("newPerPage", newPerPage)
+    console.log("page", page)
+  };
+
+  const handlePageChange = page => {
+		console.log("handlePageChange ", page);
+    if(dataTable?.meta?.pagination?.total){
+      setPageNumber(page)
+    }
+	};
+
   return (
     <div className="invoice-list-wrapper">
       <Card>
@@ -140,14 +189,20 @@ const DataTableList = function({
             subHeader
             columns={columnsTable}
             responsive
-            sortIcon={<ChevronDown />}
+            // sortIcon={<ChevronDown />}
             className="react-dataTable"
-            defaultSortField="invoiceId"
+            // defaultSortField="invoiceId"
+            paginationServer={dataTable?.data ? true : false}
             paginationComponentOptions={paginationComponentOptions}
             paginationRowsPerPageOptions={[10]}
-            data={dataTable}
+            paginationPerPage={10}
+            data={dataTable?.data ? dataTable?.data : dataTable}
             noDataComponent="No hay registros para mostrar"
             progressPending={loadingTable}
+            onChangeRowsPerPage={handlePerRowsChange}
+            paginationTotalRows={dataTable?.meta?.pagination?.total}
+            onChangePage={handlePageChange}
+            // paginationComponent={dataTable.data ? CustomPagination : null}
             progressComponent="Cargando..."
             subHeaderComponent={
               <CustomHeader
