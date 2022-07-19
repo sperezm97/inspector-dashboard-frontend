@@ -116,10 +116,10 @@ jobs:
           region: ${{ secrets.GCP_REGION }}
           env_vars: |
             NODE_ENV=${{ env.NODE_ENV }},
-            REACT_APP_API_STRAPI=${{ secrets.REACT_APP_API_STRAPI }}
-            REACT_APP_API_INCIDENTS=${{ secrets.REACT_APP_API_INCIDENTS}}
-            REACT_APP_API_TERRITORIES=${{ secrets.REACT_APP_API_TERRITORIES}}
-            REACT_APP_API_CEDULA=${{ secrets.REACT_APP_API_CEDULA}}
+            REACT_APP_API_STRAPI=${{ secrets.REACT_APP_API_STRAPI }},
+            REACT_APP_API_INCIDENTS=${{ secrets.REACT_APP_API_INCIDENTS}},
+            REACT_APP_API_TERRITORIES=${{ secrets.REACT_APP_API_TERRITORIES}},
+            REACT_APP_API_CEDULA=${{ secrets.REACT_APP_API_CEDULA}},
             REACT_APP_API_CEDULA_KEY={{ secrets.REACT_APP_API_CEDULA_KEY}}
 
       - name: Set up Cloud SDK
