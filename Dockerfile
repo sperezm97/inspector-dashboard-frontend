@@ -29,10 +29,6 @@ ENV SKIP_PREFLIGHT_CHECK ${SKIP_PREFLIGHT_CHECK:-true}
 ARG DISABLE_ESLINT_PLUGIN
 ENV DISABLE_ESLINT_PLUGIN ${DISABLE_ESLINT_PLUGIN:-true}
 
-# App specific build time variables (not always needed)
-ARG REACT_APP_API_STRAPI
-ARG REACT_APP_API_STRAPI ${REACT_APP_API_STRAPI:-http://localhost}
-
 WORKDIR /app
 # build app for production with minification
 COPY . .
